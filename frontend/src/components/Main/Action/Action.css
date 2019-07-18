@@ -3,7 +3,6 @@
     width: 45%;
     height: 100px;
     background-color: #2988f3;
-    padding: 22px;
     text-align: center;
     color: white;
     margin: 10px;
@@ -23,9 +22,17 @@
     box-shadow: 0 0 0 0 #fff;
 }
 
-.action p {
+.action a {
+    color: inherit;
     margin: 0;
-    padding: 0;
-    height: 54px;
+    padding: 22px;
+    width: 100%;
+    display: inline-block;
+    height: 100%;
     line-height: 54px;
+    text-decoration: none;
+}
+
+.action a:focus {
+    outline: none;
 }

@@ -1,18 +1,58 @@
 import React, { Component } from 'react';
 import './App.css';
+import { User, Language, Translation, Literal } from '../types';
 import Header from '../components/Header/Header';
 import Main from '../components/Main/Main';
+import Translate from '../components/Translate/Translate';
 
-class App extends Component {
+interface AppProps {
+  user: User
+  translations: Translation[]
+  literals: Literal[]
+  languages: Language[]
+}
+
+interface AppState {
+  path: string
+}
+
+class App extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    let path:string = window.location.pathname.replace(/\/$/, '');
+    this.state = { path };
+  }
+
   render() {
-    const user: { admin: boolean } = { admin: true };
-    const actions: string[] = user.admin
-                                ? ["Translate", "Add new literals", "Add new languages", "Create a new user"]
-                                : ["Translate"];
+    const actions: [string, string][] = this.props.user.admin
+                                ? [['translate', 'Translate'],  // [id, text]
+                                   ['literal', 'Add new literals'],
+                                   ['language', 'Add new languages'],
+                                   ['user', 'Create a new user']]
+                                : [['translate', 'Translate']];
+
+    let body: JSX.Element = <div></div>;
+    switch ( this.state.path ) {
+      case '/':
+        body = <Main actions={actions} />;
+        break;
+      case '/translate':
+        body = <Translate
+                  user={this.props.user}
+                  translations={this.props.translations}
+                  literals={this.props.literals}
+                  languages={this.props.languages}
+                />
+        break;
+      default:
+        body = <Main actions={actions} />;
+        break;
+    }
+
     return (
       <div className="App">
         <Header title="Translations" />
-        <Main actions={actions} />
+        {body}
       </div>
     );
   }

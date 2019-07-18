@@ -3,12 +3,14 @@ import Action from './Action/Action'
 import './Main.css';
 
 interface MainProps {
-    actions:string[]
+    actions: [string, string][]
 }
 
-const main: React.FC<MainProps> = (props) => {
-    const actions: JSX.Element[] = props.actions.map((action: string, index: number): JSX.Element => {
-        return <Action actionName={action} key={index} />
+const main: React.FC<MainProps> = (props: MainProps) => {
+    const actions: JSX.Element[] = props.actions.map((action: [string, string]): JSX.Element => {
+        let text, id: string;
+        [id, text] = action;
+        return <Action actionId={id} actionText={text} key={id} />
     });
     return (
         <main>

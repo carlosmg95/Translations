@@ -5,11 +5,11 @@ interface HeaderProps {
   title: string
 }
 
-const header: React.FC<HeaderProps> = (props) => {
+const header: React.FC<HeaderProps> = (props: HeaderProps) => {
     return (
         <header className="main-header">
           <div>
-            <a href="../../public/index.html" className="main-header__title">{props.title}</a>
+            <a href="../../" className="main-header__title">{props.title}</a>
           </div>
 
           <nav className="main-nav">

@@ -2,13 +2,14 @@ import React from 'react';
 import './Action.css';
 
 interface ActionProps {
-    actionName: string
+    actionText: string,
+    actionId: string
 }
 
-const action: React.FC<ActionProps> = (props) => {
+const action: React.FC<ActionProps> = (props: ActionProps) => {
     return (
         <article className="action">
-            <p>{props.actionName}</p>
+            <a href={'/' + props.actionId}>{props.actionText}</a>
         </article>
     );
 };
