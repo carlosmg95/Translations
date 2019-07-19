@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { User, Language, Translation, Literal } from '../types';
+import { User, Language, Translation, Literal, Project } from '../types';
 import Header from '../components/Header/Header';
 import Main from '../components/Main/Main';
 import Translate from '../components/Translate/Translate';
@@ -10,18 +10,30 @@ interface AppProps {
   translations: Translation[];
   literals: Literal[];
   languages: Language[];
+  projects: Project[];
 }
 
 interface AppState {
   path: string;
+  projects: Project[];
+  selectedProject: number;
 }
 
 class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     let path: string = window.location.pathname.replace(/\/$/, '');
-    this.state = { path };
+    const projects: Project[] = this.props.projects.filter(
+      (project: Project) =>
+        this.props.user.allowProjects.indexOf(project.id) !== -1,
+    );
+
+    this.state = { path, projects, selectedProject: projects[0].id };
   }
+
+  selectProject = (event: any): void => {
+    this.setState({ selectedProject: event.target.value });
+  };
 
   render() {
     const actions: [string, string][] = this.props.user.admin
@@ -36,7 +48,13 @@ class App extends Component<AppProps, AppState> {
     let body: JSX.Element = <div></div>;
     switch (this.state.path) {
       case '/':
-        body = <Main actions={actions} />;
+        body = (
+          <Main
+            actions={actions}
+            projects={this.state.projects}
+            selectProject={this.selectProject}
+          />
+        );
         break;
       case '/translate':
         body = (
@@ -49,7 +67,13 @@ class App extends Component<AppProps, AppState> {
         );
         break;
       default:
-        body = <Main actions={actions} />;
+        body = (
+          <Main
+            actions={actions}
+            projects={this.state.projects}
+            selectProject={this.selectProject}
+          />
+        );
         break;
     }
 
