@@ -7,7 +7,7 @@ import { User, Language, Translation, Literal, Project } from './types';
 
 const user: User = {
   admin: true,
-  allowLanguages: [1, 2],
+  allowLanguages: [1, 2, 3],
   allowProjects: [1, 2],
 };
 const projects: Project[] = [
@@ -19,7 +19,7 @@ const projects: Project[] = [
   {
     id: 2,
     name: 'digicraft',
-    languages: [1, 2],
+    languages: [1, 2, 3],
   },
 ];
 const literals: Literal[] = [
@@ -63,6 +63,13 @@ const translations: Translation[] = [
     project_id: 1,
     translation: 'Impresora',
   },
+  {
+    id: 2,
+    lang_id: 1,
+    lit_id: 2,
+    project_id: 2,
+    translation: 'Impresora',
+  },
 ];
 const languages: Language[] = [
   {
@@ -74,6 +81,11 @@ const languages: Language[] = [
     id: 2,
     name: 'English',
     iso: 'en',
+  },
+  {
+    id: 3,
+    name: 'French',
+    iso: 'fr',
   },
 ];
 

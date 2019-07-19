@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import './Translate.css';
 import TranslateRow from './TranslateRow/TranslateRow';
-import { User, Language, Translation, Literal, Row } from '../../types';
+import {
+  User,
+  Language,
+  Translation,
+  Literal,
+  Row,
+  Project,
+} from '../../types';
 
 interface TranslateState {
   languageId: number;
   languageName: string;
+  translations: Translation[];
+  literals: Literal[];
+  languages: Language[];
   rows: Row[];
 }
 
@@ -14,20 +24,56 @@ interface TranslateProps {
   translations: Translation[];
   literals: Literal[];
   languages: Language[];
+  projects: Project[];
 }
 
 class Translate extends Component<TranslateProps, TranslateState> {
   constructor(props: TranslateProps) {
     super(props);
-    this.state = { languageId: 0, languageName: '', rows: [] };
+    const projectName: string = window.location.pathname.replace(
+      /^\/translate\/(.*)$/,
+      '$1',
+    );
+    const project: Project | undefined = this.props.projects.find(
+      (project: Project) => project.name === projectName,
+    );
+    const languages: Language[] = this.props.languages.filter(
+      (language: Language) => {
+        if (project) return project.languages.indexOf(language.id) !== -1;
+        return false;
+      },
+    );
+
+    const translations: Translation[] = this.props.translations.filter(
+      (translation: Translation) => {
+        if (project) return translation.project_id === project.id;
+        return false;
+      },
+    );
+
+    const literals: Literal[] = this.props.literals.filter(
+      (literal: Literal) => {
+        if (project) return literal.project_id === project.id;
+        return false;
+      },
+    );
+
+    this.state = {
+      languageId: 0,
+      languageName: '',
+      rows: [],
+      languages,
+      literals,
+      translations,
+    };
   }
 
   selectLanguage = (id: number, name: string): void => {
-    const translations = this.props.translations.filter(
+    const translations = this.state.translations.filter(
       (translation: Translation) => translation.lang_id === id,
     );
 
-    let rows: Row[] = this.props.literals.map((literal: Literal) => {
+    let rows: Row[] = this.state.literals.map((literal: Literal) => {
       let row: Row = {
         literal: literal.literal,
         as_in: literal.as_in,
@@ -54,7 +100,7 @@ class Translate extends Component<TranslateProps, TranslateState> {
   render() {
     let languages: JSX.Element = (
       <>
-        {this.props.languages
+        {this.state.languages
           .filter(
             (language: Language) =>
               this.props.user.allowLanguages.indexOf(language.id) !== -1,
