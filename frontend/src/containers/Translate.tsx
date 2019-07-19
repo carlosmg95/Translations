@@ -6,11 +6,7 @@ import Main from '../components/Main/Main';
 class Translate extends Component {
   render() {
     const user: { admin: boolean } = { admin: true };
-    return (
-      <div className="Translate">
-        Prueba
-      </div>
-    );
+    return <div className="Translate">Prueba</div>;
   }
 }
 

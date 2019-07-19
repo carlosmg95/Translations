@@ -1,38 +1,38 @@
 .action {
-    display: inline-block;
-    width: 45%;
-    height: 100px;
-    background-color: #2988f3;
-    text-align: center;
-    color: white;
-    margin: 10px;
-    font-size: 32px;
-    font-weight: bold;
-    border-radius: 20px;
-    border: solid #0a5ebd 0.5px;
-    box-shadow: 4px 17px 43px -15px #0a5ebd;
-    vertical-align: middle;
-    cursor: pointer;
+  display: inline-block;
+  width: 45%;
+  height: 100px;
+  background-color: #2988f3;
+  text-align: center;
+  color: white;
+  margin: 10px;
+  font-size: 32px;
+  font-weight: bold;
+  border-radius: 20px;
+  border: solid #0a5ebd 0.5px;
+  box-shadow: 4px 17px 43px -15px #0a5ebd;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .action:hover,
 .action:active {
-    background-color: white;
-    color: #2988f3;
-    box-shadow: 0 0 0 0 #fff;
+  background-color: white;
+  color: #2988f3;
+  box-shadow: 0 0 0 0 #fff;
 }
 
 .action a {
-    color: inherit;
-    margin: 0;
-    padding: 22px;
-    width: 100%;
-    display: inline-block;
-    height: 100%;
-    line-height: 54px;
-    text-decoration: none;
+  color: inherit;
+  margin: 0;
+  padding: 22px;
+  width: 100%;
+  display: inline-block;
+  height: 100%;
+  line-height: 54px;
+  text-decoration: none;
 }
 
 .action a:focus {
-    outline: none;
+  outline: none;
 }

@@ -6,43 +6,47 @@ import Main from '../components/Main/Main';
 import Translate from '../components/Translate/Translate';
 
 interface AppProps {
-  user: User
-  translations: Translation[]
-  literals: Literal[]
-  languages: Language[]
+  user: User;
+  translations: Translation[];
+  literals: Literal[];
+  languages: Language[];
 }
 
 interface AppState {
-  path: string
+  path: string;
 }
 
 class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
-    let path:string = window.location.pathname.replace(/\/$/, '');
+    let path: string = window.location.pathname.replace(/\/$/, '');
     this.state = { path };
   }
 
   render() {
     const actions: [string, string][] = this.props.user.admin
-                                ? [['translate', 'Translate'],  // [id, text]
-                                   ['literal', 'Add new literals'],
-                                   ['language', 'Add new languages'],
-                                   ['user', 'Create a new user']]
-                                : [['translate', 'Translate']];
+      ? [
+          ['translate', 'Translate'], // [id, text]
+          ['literal', 'Add new literals'],
+          ['language', 'Add new languages'],
+          ['user', 'Create a new user'],
+        ]
+      : [['translate', 'Translate']];
 
     let body: JSX.Element = <div></div>;
-    switch ( this.state.path ) {
+    switch (this.state.path) {
       case '/':
         body = <Main actions={actions} />;
         break;
       case '/translate':
-        body = <Translate
-                  user={this.props.user}
-                  translations={this.props.translations}
-                  literals={this.props.literals}
-                  languages={this.props.languages}
-                />
+        body = (
+          <Translate
+            user={this.props.user}
+            translations={this.props.translations}
+            literals={this.props.literals}
+            languages={this.props.languages}
+          />
+        );
         break;
       default:
         body = <Main actions={actions} />;
