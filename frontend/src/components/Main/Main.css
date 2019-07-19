@@ -1,4 +1,4 @@
-#overview {
+.overview {
   background: radial-gradient(
       circle at 50% 50%,
       rgba(200, 200, 200, 0.3) 60%,
@@ -12,7 +12,7 @@
   position: relative;
 }
 
-#overview h1 {
+.overview h1 {
   color: #0e4f1f;
   font-family: sans-serif;
   font-size: 30px;

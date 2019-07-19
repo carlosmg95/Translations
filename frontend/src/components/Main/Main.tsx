@@ -16,7 +16,7 @@ const main: React.FC<MainProps> = (props: MainProps) => {
   );
   return (
     <main>
-      <section id="overview">
+      <section className="overview">
         <h1>Add your translations</h1>
       </section>
       <section id="actions">
