@@ -62,61 +62,70 @@ class Translate extends Component<TranslateProps, TranslateState> {
   };
 
   render() {
-    let languages: JSX.Element[] = this.props.languages
-      .filter(
-        (language: Language) =>
-          this.props.user.allowLanguages.indexOf(language.id) !== -1,
-      )
-      .map(
-        (language: Language): JSX.Element => {
-          return (
-            <div
-              className="language"
-              key={language.id}
-              onClick={() => this.selectLanguage(language.id, language.name)}
-            >
-              <p>{language.name}</p>
-            </div>
-          );
-        },
-      );
+    let languages: JSX.Element = (
+      <>
+        {this.props.languages
+          .filter(
+            (language: Language) =>
+              this.props.user.allowLanguages.indexOf(language.id) !== -1,
+          )
+          .map(
+            (language: Language): JSX.Element => {
+              return (
+                <div
+                  className="language"
+                  key={language.id}
+                  onClick={() =>
+                    this.selectLanguage(language.id, language.name)
+                  }
+                >
+                  <p>{language.name}</p>
+                </div>
+              );
+            },
+          )}
+      </>
+    );
 
-    let body: JSX.Element[];
+    let body: JSX.Element;
     if (this.state.languageId === 0) {
       body = languages;
     } else {
-      body = this.state.translateRows.map((translateRow, index) => {
-        return (
-          <Row
-            key={index}
-            translateRow={translateRow}
-            changed={this.changeValue}
-          />
-        );
-      });
+      body = (
+        <>
+          {this.state.translateRows.map((translateRow, index) => {
+            return (
+              <Row
+                key={index}
+                translateRow={translateRow}
+                changed={this.changeValue}
+              />
+            );
+          })}
+        </>
+      );
 
-      body = [
-        <table key="table" className="literals__table">
-          <thead>
-            <tr>
-              <th>Literal</th>
-              <th>As in</th>
-              <th>Translate</th>
-            </tr>
-          </thead>
-          <tbody>{body}</tbody>
-        </table>,
-        <button
-          className="btn-cancel"
-          key="btn-cancel"
-          onClick={() => this.selectLanguage(0, '')}
-        >
-          Cancel
-        </button>,
-        <button className="btn-save" key="btn-save">
-          Save
-        </button>,
-      ];
+      body = (
+        <>
+          <table className="literals__table">
+            <thead>
+              <tr>
+                <th>Literal</th>
+                <th>As in</th>
+                <th>Translate</th>
+              </tr>
+            </thead>
+            <tbody>{body}</tbody>
+          </table>
+          <button
+            className="btn-cancel"
+            onClick={() => this.selectLanguage(0, '')}
+          >
+            Cancel
+          </button>
+          <button className="btn-save">Save</button>
+        </>
+      );
     }
 
     return (
