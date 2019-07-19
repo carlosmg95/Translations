@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import './Translate.css';
-import Row from './Row/Row';
-import {
-  User,
-  Language,
-  Translation,
-  Literal,
-  TranslateRow,
-} from '../../types';
+import TranslateRow from './TranslateRow/TranslateRow';
+import { User, Language, Translation, Literal, Row } from '../../types';
 
 interface TranslateState {
   languageId: number;
   languageName: string;
-  translateRows: TranslateRow[];
+  rows: Row[];
 }
 
 interface TranslateProps {
@@ -25,7 +19,7 @@ interface TranslateProps {
 class Translate extends Component<TranslateProps, TranslateState> {
   constructor(props: TranslateProps) {
     super(props);
-    this.state = { languageId: 0, languageName: '', translateRows: [] };
+    this.state = { languageId: 0, languageName: '', rows: [] };
   }
 
   selectLanguage = (id: number, name: string): void => {
@@ -33,32 +27,28 @@ class Translate extends Component<TranslateProps, TranslateState> {
       (translation: Translation) => translation.lang_id === id,
     );
 
-    let translateRows: TranslateRow[] = this.props.literals.map(
-      (literal: Literal) => {
-        let translateRow: TranslateRow = {
-          literal: literal.literal,
-          as_in: literal.as_in,
-          translation: '',
-        };
-        let translation: Translation | undefined = translations.find(
-          (translation: Translation) => translation.lit_id === literal.id,
-        );
-        translateRow.translation = translation ? translation.translation : '';
-        return translateRow;
-      },
-    );
+    let rows: Row[] = this.props.literals.map((literal: Literal) => {
+      let row: Row = {
+        literal: literal.literal,
+        as_in: literal.as_in,
+        translation: '',
+      };
+      let translation: Translation | undefined = translations.find(
+        (translation: Translation) => translation.lit_id === literal.id,
+      );
+      row.translation = translation ? translation.translation : '';
+      return row;
+    });
 
-    this.setState({ languageId: id, languageName: name, translateRows });
+    this.setState({ languageId: id, languageName: name, rows });
   };
 
   changeValue = (event: any, literal: string): void => {
-    let translateRows: TranslateRow[] = this.state.translateRows;
-    let changedRow: TranslateRow | undefined = translateRows.find(
-      row => row.literal === literal,
-    );
+    let rows: Row[] = this.state.rows;
+    let changedRow: Row | undefined = rows.find(row => row.literal === literal);
     if (changedRow) changedRow.translation = event.target.value;
 
-    this.setState({ translateRows });
+    this.setState({ rows });
   };
 
   render() {
@@ -93,13 +83,9 @@ class Translate extends Component<TranslateProps, TranslateState> {
     } else {
       body = (
         <>
-          {this.state.translateRows.map((translateRow, index) => {
+          {this.state.rows.map((row, index) => {
             return (
-              <Row
-                key={index}
-                translateRow={translateRow}
-                changed={this.changeValue}
-              />
+              <TranslateRow key={index} row={row} changed={this.changeValue} />
             );
           })}
         </>

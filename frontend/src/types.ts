@@ -22,7 +22,7 @@ export type Literal = {
   as_in: string
 }
 
-export type TranslateRow = {
+export type Row = {
   literal: string,
   as_in: string,
   translation: string
