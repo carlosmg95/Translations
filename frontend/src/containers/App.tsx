@@ -16,65 +16,66 @@ interface AppProps {
 interface AppState {
   path: string;
   projects: Project[];
-  selectedProject: number;
+  selectedProject: Project | undefined;
 }
 
 class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
-    let path: string = window.location.pathname.replace(/\/$/, '');
+
+    const path: string = window.location.pathname.replace(/\/$/, '');
+
     const projects: Project[] = this.props.projects.filter(
       (project: Project) =>
         this.props.user.allowProjects.indexOf(project.id) !== -1,
     );
 
-    this.state = { path, projects, selectedProject: projects[0].id };
+    const selectedProject: Project = projects[0];
+
+    this.state = { path, projects, selectedProject };
   }
 
   selectProject = (event: any): void => {
-    this.setState({ selectedProject: event.target.value });
+    const projectId: number = +event.target.value;
+    const selectedProject: Project | undefined = this.props.projects.find(
+      (project: Project) => project.id === projectId,
+    );
+
+    this.setState({ selectedProject });
   };
 
   render() {
+    const projectName: string = this.state.selectedProject
+      ? this.state.selectedProject.name
+      : '';
     const actions: [string, string][] = this.props.user.admin
       ? [
-          ['translate', 'Translate'], // [id, text]
+          ['translate/' + projectName, 'Translate'], // [id, text]
           ['literal', 'Add new literals'],
           ['language', 'Add new languages'],
           ['user', 'Create a new user'],
         ]
-      : [['translate', 'Translate']];
+      : [['translate/' + projectName, 'Translate']];
 
     let body: JSX.Element = <div></div>;
-    switch (this.state.path) {
-      case '/':
-        body = (
-          <Main
-            actions={actions}
-            projects={this.state.projects}
-            selectProject={this.selectProject}
-          />
-        );
-        break;
-      case '/translate':
-        body = (
-          <Translate
-            user={this.props.user}
-            translations={this.props.translations}
-            literals={this.props.literals}
-            languages={this.props.languages}
-          />
-        );
-        break;
-      default:
-        body = (
-          <Main
-            actions={actions}
-            projects={this.state.projects}
-            selectProject={this.selectProject}
-          />
-        );
-        break;
+    if (this.state.path.match(/\/translate.*/)) {
+      body = (
+        <Translate
+          user={this.props.user}
+          translations={this.props.translations}
+          literals={this.props.literals}
+          languages={this.props.languages}
+          projects={this.state.projects}
+        />
+      );
+    } else {
+      body = (
+        <Main
+          actions={actions}
+          projects={this.state.projects}
+          selectProject={this.selectProject}
+        />
+      );
     }
 
     return (
