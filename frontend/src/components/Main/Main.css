@@ -33,3 +33,27 @@
   margin: auto;
   text-align: center;
 }
+
+.projects {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+.select__project {
+  text-align: center;
+}
+
+.select__project select {
+  padding: 20px 15px;
+  width: 200px;
+  margin: auto;
+  display: inline-block;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #2988f3;
+}
+
+.select__project select:focus {
+  outline: none;
+}
