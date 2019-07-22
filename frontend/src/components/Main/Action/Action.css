@@ -1,6 +1,6 @@
 .action {
-  display: inline-block;
-  width: 45%;
+  flex: 1 2 45%;
+  min-width: 432px;
   height: 100px;
   background-color: #2988f3;
   text-align: center;
@@ -13,6 +13,10 @@
   box-shadow: 4px 17px 43px -15px #0a5ebd;
   vertical-align: middle;
   cursor: pointer;
+}
+
+.action:first-of-type {
+  flex: 2 1 100%;
 }
 
 .action:hover,

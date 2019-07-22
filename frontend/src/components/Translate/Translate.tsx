@@ -53,7 +53,7 @@ class Translate extends Component<TranslateProps, TranslateState> {
 
   render() {
     let languages: JSX.Element = (
-      <>
+      <div className="languages__list">
         {this.props.languages
           .filter(
             (language: Language) =>
@@ -74,7 +74,7 @@ class Translate extends Component<TranslateProps, TranslateState> {
               );
             },
           )}
-      </>
+      </div>
     );
 
     let body: JSX.Element;
@@ -117,7 +117,7 @@ class Translate extends Component<TranslateProps, TranslateState> {
     return (
       <div className="languages">
         <h1>{this.state.languageName}</h1>
-        <div>{body}</div>
+        {body}
       </div>
     );
   }
