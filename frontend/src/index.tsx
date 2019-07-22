@@ -6,10 +6,42 @@ import * as serviceWorker from './serviceWorker';
 import { User, Language, Translation, Literal, Project } from './types';
 
 const user: User = {
+  id: 1,
   admin: true,
+  name: 'admin',
   allowLanguages: [1, 2, 3],
   allowProjects: [1, 2],
 };
+const users: User[] = [
+  {
+    id: 1,
+    admin: true,
+    name: 'admin',
+    allowLanguages: [1, 2, 3],
+    allowProjects: [1, 2],
+  },
+  {
+    id: 2,
+    admin: false,
+    name: 'carlos',
+    allowLanguages: [1, 2],
+    allowProjects: [1, 2],
+  },
+  {
+    id: 3,
+    admin: false,
+    name: 'otro',
+    allowLanguages: [1, 3],
+    allowProjects: [2],
+  },
+  {
+    id: 4,
+    admin: false,
+    name: 'Max',
+    allowLanguages: [2, 3],
+    allowProjects: [1],
+  },
+];
 const projects: Project[] = [
   {
     id: 1,
@@ -87,11 +119,27 @@ const languages: Language[] = [
     name: 'French',
     iso: 'fr',
   },
+  {
+    id: 4,
+    name: 'Italian',
+    iso: 'it',
+  },
+  {
+    id: 5,
+    name: 'German',
+    iso: 'gr',
+  },
+  {
+    id: 6,
+    name: 'Russian',
+    iso: 'rs',
+  },
 ];
 
 ReactDOM.render(
   <App
     user={user}
+    users={users}
     literals={literals}
     translations={translations}
     languages={languages}

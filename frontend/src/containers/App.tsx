@@ -4,9 +4,11 @@ import { User, Language, Translation, Literal, Project } from '../types';
 import Header from '../components/Header/Header';
 import Main from '../components/Main/Main';
 import Translate from '../components/Translate/Translate';
+import NewProject from '../components/NewProject/NewProject';
 
 interface AppProps {
   user: User;
+  users: User[];
   translations: Translation[];
   literals: Literal[];
   languages: Language[];
@@ -51,6 +53,7 @@ class App extends Component<AppProps, AppState> {
     const actions: [string, string][] = this.props.user.admin
       ? [
           ['translate/' + projectName, 'Translate'], // [id, text]
+          ['project', 'Create a new project'],
           ['literal', 'Add new literals'],
           ['language', 'Add new languages'],
           ['user', 'Create a new user'],
@@ -67,6 +70,10 @@ class App extends Component<AppProps, AppState> {
           languages={this.props.languages}
           projects={this.state.projects}
         />
+      );
+    } else if (this.state.path.match(/\/project.*/)) {
+      body = (
+        <NewProject users={this.props.users} languages={this.props.languages} />
       );
     } else {
       body = (
