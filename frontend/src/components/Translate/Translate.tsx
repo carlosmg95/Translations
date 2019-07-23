@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import './Translate.css';
 import TranslateRow from './TranslateRow/TranslateRow';
 import {
@@ -10,15 +10,6 @@ import {
   Project,
 } from '../../types';
 
-interface TranslateState {
-  languageId: number;
-  languageName: string;
-  translations: Translation[];
-  literals: Literal[];
-  languages: Language[];
-  rows: Row[];
-}
-
 interface TranslateProps {
   user: User;
   translations: Translation[];
@@ -27,146 +18,142 @@ interface TranslateProps {
   projects: Project[];
 }
 
-class Translate extends Component<TranslateProps, TranslateState> {
-  constructor(props: TranslateProps) {
-    super(props);
-    const projectName: string = window.location.pathname.replace(
-      /^\/translate\/(.*)$/,
-      '$1',
-    );
-    const project: Project | undefined = this.props.projects.find(
-      (project: Project) => project.name === projectName,
-    );
-    const languages: Language[] = this.props.languages.filter(
-      (language: Language) => {
-        if (project) return project.languages.indexOf(language.id) !== -1;
-        return false;
-      },
-    );
+const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
+  const projectName: string = window.location.pathname.replace(
+    /^\/translate\/(.*)$/,
+    '$1',
+  );
+  const project: Project = props.projects.find(
+    (project: Project) => project.name === projectName,
+  ) as Project;
+  const languages: Language[] = props.languages.filter((language: Language) => {
+    if (project) return project.languages.indexOf(language.id) !== -1;
+    return false;
+  });
 
-    const translations: Translation[] = this.props.translations.filter(
-      (translation: Translation) => {
-        if (project) return translation.project_id === project.id;
-        return false;
-      },
-    );
+  const translations: Translation[] = props.translations.filter(
+    (translation: Translation) => {
+      if (project) return translation.project_id === project.id;
+      return false;
+    },
+  );
 
-    const literals: Literal[] = this.props.literals.filter(
-      (literal: Literal) => {
-        if (project) return literal.project_id === project.id;
-        return false;
-      },
-    );
+  const literals: Literal[] = props.literals.filter((literal: Literal) => {
+    if (project) return literal.project_id === project.id;
+    return false;
+  });
 
-    this.state = {
-      languageId: 0,
-      languageName: '',
-      rows: [],
-      languages,
-      literals,
-      translations,
-    };
-  }
+  const [languageIdState, setLanguageIdState]: [
+    number,
+    Dispatch<SetStateAction<number>>,
+  ] = useState(0);
 
-  selectLanguage = (id: number, name: string): void => {
-    const translations = this.state.translations.filter(
+  const [languageNameState, setLanguageNameState]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const [rowsState, setRowsState]: [
+    Row[],
+    Dispatch<SetStateAction<Row[]>>,
+  ] = useState([{ literal: '', as_in: '', translation: '' }]);
+
+  const selectLanguage = (id: number, name: string): void => {
+    const languageTranslations = translations.filter(
       (translation: Translation) => translation.lang_id === id,
     );
 
-    let rows: Row[] = this.state.literals.map((literal: Literal) => {
+    let rows: Row[] = literals.map((literal: Literal) => {
       let row: Row = {
         literal: literal.literal,
         as_in: literal.as_in,
         translation: '',
       };
-      let translation: Translation | undefined = translations.find(
+      let translation: Translation = languageTranslations.find(
         (translation: Translation) => translation.lit_id === literal.id,
-      );
+      ) as Translation;
       row.translation = translation ? translation.translation : '';
       return row;
     });
 
-    this.setState({ languageId: id, languageName: name, rows });
+    setLanguageIdState(id);
+    setLanguageNameState(name);
+    setRowsState(rows);
   };
 
-  changeValue = (event: any, literal: string): void => {
-    let rows: Row[] = this.state.rows;
-    let changedRow: Row | undefined = rows.find(row => row.literal === literal);
-    if (changedRow) changedRow.translation = event.target.value;
+  const changeValue = (event: any, literal: string): void => {
+    let rows: Row[] = rowsState;
 
-    this.setState({ rows });
+    rows = rows.map((row: Row) => {
+      if (row.literal === literal) row.translation = event.target.value;
+      return row;
+    });
+
+    setRowsState(rows);
   };
 
-  render() {
-    let languages: JSX.Element = (
+  let languagesBody: JSX.Element = ( // List of the languages
+    <>
+      {languages
+        .filter(
+          (language: Language) =>
+            props.user.allowLanguages.indexOf(language.id) !== -1,
+        )
+        .map(
+          (language: Language): JSX.Element => {
+            return (
+              <div
+                className="language"
+                key={language.id}
+                onClick={() => selectLanguage(language.id, language.name)}
+              >
+                <p>{language.name}</p>
+              </div>
+            );
+          },
+        )}
+    </>
+  );
+
+  let body: JSX.Element;
+  if (languageIdState === 0) {
+    // Show when there isn't a selected language
+    body = languagesBody;
+  } else {
+    body = (
       <>
-        {this.state.languages
-          .filter(
-            (language: Language) =>
-              this.props.user.allowLanguages.indexOf(language.id) !== -1,
-          )
-          .map(
-            (language: Language): JSX.Element => {
-              return (
-                <div
-                  className="language"
-                  key={language.id}
-                  onClick={() =>
-                    this.selectLanguage(language.id, language.name)
-                  }
-                >
-                  <p>{language.name}</p>
-                </div>
-              );
-            },
-          )}
+        {rowsState.map((row: Row, index: number) => {
+          return <TranslateRow key={index} row={row} changed={changeValue} />;
+        })}
       </>
     );
 
-    let body: JSX.Element;
-    if (this.state.languageId === 0) {
-      body = languages;
-    } else {
-      body = (
-        <>
-          {this.state.rows.map((row, index) => {
-            return (
-              <TranslateRow key={index} row={row} changed={this.changeValue} />
-            );
-          })}
-        </>
-      );
-
-      body = (
-        <>
-          <table className="literals__table">
-            <thead>
-              <tr>
-                <th>Literal</th>
-                <th>As in</th>
-                <th>Translate</th>
-              </tr>
-            </thead>
-            <tbody>{body}</tbody>
-          </table>
-          <button
-            className="btn-cancel"
-            onClick={() => this.selectLanguage(0, '')}
-          >
-            Cancel
-          </button>
-          <button className="btn-save">Save</button>
-        </>
-      );
-    }
-
-    return (
-      <div className="languages">
-        <h1>{this.state.languageName}</h1>
-        <div>{body}</div>
-      </div>
+    body = (
+      <>
+        <table className="literals__table">
+          <thead>
+            <tr>
+              <th>Literal</th>
+              <th>As in</th>
+              <th>Translate</th>
+            </tr>
+          </thead>
+          <tbody>{body}</tbody>
+        </table>
+        <button className="btn-cancel" onClick={() => selectLanguage(0, '')}>
+          Cancel
+        </button>
+        <button className="btn-save">Save</button>
+      </>
     );
   }
-}
+
+  return (
+    <div className="languages">
+      <h1>{languageNameState}</h1>
+      <div>{body}</div>
+    </div>
+  );
+};
 
 export default Translate;
