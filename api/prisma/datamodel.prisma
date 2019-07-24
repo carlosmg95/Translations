@@ -1,0 +1,40 @@
+type User {
+  id: ID! @id
+  name: String! @unique
+  admin: Boolean! @default(value: false)
+  projects: [Project!]!
+  languages: [Language!]!
+}
+
+type Project {
+  id: ID! @id
+  name: String! @unique
+  users: [User!]!
+  languages: [Language!]!
+  translations: [Translation!]!
+  literals: [Literal!]!
+}
+
+type Language {
+  id: ID! @id
+  name: String!
+  iso: String! @unique
+  projects: [Project!]!
+  users: [User!]!
+  translations: [Translation!]!
+}
+
+type Translation {
+  id: ID! @id
+  language: Language!
+  literal: Literal!
+  project: Project!
+  translation: String!
+}
+
+type Literal {
+  id: ID! @id
+  project: Project!
+  literal: String!
+  as_in: String!
+}
