@@ -1,23 +1,23 @@
 export type User = {
     admin: boolean,
-    allowLanguages: number[]
+    allowLanguages: string[]
 };
 
 export type Language = {
-    id: number,
+    id: string,
     name: string,
     iso: string
 };
 
 export type Translation = {
-    id: number,
-    lang_id: number,
-    lit_id: number,
+    id: string,
+    lang_id: string,
+    lit_id: string,
     translation: string
 };
 
 export type Literal = {
-    id: number,
+    id: string,
     literal: string,
     as_in: string
 }
