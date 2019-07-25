@@ -1,0 +1,72 @@
+.new-project {
+  margin-top: 56px;
+  width: 100%;
+  padding: 22px;
+  display: flex;
+  flex-flow: row wrap;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.new-project h1 {
+  flex: 1 0 100%;
+  font-size: 3em;
+  color: #2988f3;
+  font-family: sans-serif;
+}
+
+.form-project {
+  flex: 1 0 50%;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+.form-group {
+  flex: 1 0 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
+  padding: 22px;
+}
+
+label.form-item {
+  margin-right: 22px;
+}
+
+button {
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button.btn-save {
+  background-color: green;
+  border: solid 1px green;
+}
+
+button:focus {
+  outline: none;
+}
+
+button.btn-save:hover,
+button.btn-save:active {
+  background-color: #90ee90;
+}
+
+button.btn-cancel {
+  background-color: red;
+  border: solid 1px red;
+}
+
+button.btn-cancel:hover,
+button.btn-cancel:active {
+  background-color: salmon;
+}

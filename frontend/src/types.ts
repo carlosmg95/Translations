@@ -1,5 +1,7 @@
 export type User = {
+  id: number,
   admin: boolean,
+  name: string,
   allowLanguages: number[],
   allowProjects: number[]
 };
