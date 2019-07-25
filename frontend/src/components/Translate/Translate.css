@@ -11,9 +11,17 @@
   font-family: sans-serif;
 }
 
+.languages__list {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+
 .language {
-  display: inline-block;
-  width: 30%;
+  flex: 0 3 30%;
+  min-width: 260px;
   height: 100px;
   background-color: #2988f3;
   text-align: center;
