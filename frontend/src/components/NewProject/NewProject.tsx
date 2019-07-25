@@ -5,6 +5,11 @@ import { User, Language } from '../../types';
 interface NewProjectProps {
   users: User[];
   languages: Language[];
+  createProject(
+    name: string,
+    users: string[],
+    languages: string[],
+  ): Promise<string>;
 }
 
 const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
@@ -12,13 +17,15 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState('');
+
   const [usersState, setUsersState]: [
-    Set<number>,
-    Dispatch<SetStateAction<Set<number>>>,
+    Set<string>,
+    Dispatch<SetStateAction<Set<string>>>,
   ] = useState(new Set());
+
   const [languagesState, setLanguagesState]: [
-    Set<number>,
-    Dispatch<SetStateAction<Set<number>>>,
+    Set<string>,
+    Dispatch<SetStateAction<Set<string>>>,
   ] = useState(new Set());
 
   const changeForm = (event: any) => {
@@ -95,7 +102,24 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
         >
           Cancel
         </button>
-        <button type="button" className="btn-save">
+        <button
+          type="button"
+          className="btn-save"
+          onClick={() => {
+            props
+              .createProject(
+                nameState,
+                Array.from(usersState),
+                Array.from(languagesState),
+              )
+              .then(() => {
+                window.location.href = '/';
+              })
+              .catch(e => {
+                alert('Ha ocurrido un error!');
+              });
+          }}
+        >
           Save
         </button>
       </form>

@@ -5,6 +5,8 @@ import Header from '../components/Header/Header';
 import Main from '../components/Main/Main';
 import Translate from '../components/Translate/Translate';
 import NewProject from '../components/NewProject/NewProject';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
 interface AppProps {
   user: User;
@@ -36,6 +38,20 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     setSeletectedProjectState(selectedProject);
   };
 
+  const CREATE_PROJECT = gql`
+    mutation CreateProject($project: ProjectCreateInput!) {
+      createProject(data: $project) {
+        name
+        users {
+          name
+        }
+        languages {
+          name
+        }
+      }
+    }
+  `;
+
   const projectName: string = selectedProjectState
     ? selectedProjectState.name
     : '';
@@ -61,7 +77,46 @@ const App: React.FC<AppProps> = (props: AppProps) => {
       />
     );
   } else if (path.match(/\/project.*/)) {
-    body = <NewProject users={props.users} languages={props.languages} />;
+    body = (
+      <Mutation mutation={CREATE_PROJECT}>
+        {(createProject: any) => (
+          <NewProject
+            users={props.users}
+            languages={props.languages}
+            createProject={(
+              name: string,
+              users: string[],
+              languages: string[],
+            ) => {
+              const connectUsers: { id: string }[] = users.map(
+                (userId: string) => {
+                  return { id: userId };
+                },
+              );
+              const connectLanguages: { id: string }[] = languages.map(
+                (languageId: string) => {
+                  return { id: languageId };
+                },
+              );
+
+              return createProject({
+                variables: {
+                  project: {
+                    name: name,
+                    users: {
+                      connect: connectUsers,
+                    },
+                    languages: {
+                      connect: connectLanguages,
+                    },
+                  },
+                },
+              });
+            }}
+          />
+        )}
+      </Mutation>
+    );
   } else {
     body = (
       <Main
