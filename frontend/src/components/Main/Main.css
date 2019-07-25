@@ -32,6 +32,9 @@
   width: 80%;
   margin: auto;
   text-align: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
 
 .projects {

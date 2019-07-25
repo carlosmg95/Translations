@@ -92,59 +92,74 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     setRowsState(rows);
   };
 
-  let languagesBody: JSX.Element = ( // List of the languages
-    <>
-      {languages
-        .filter(
-          (language: Language) =>
-            props.user.allowLanguages.indexOf(language.id) !== -1,
-        )
-        .map(
-          (language: Language): JSX.Element => {
-            return (
-              <div
-                className="language"
-                key={language.id}
-                onClick={() => selectLanguage(language.id, language.name)}
-              >
-                <p>{language.name}</p>
-              </div>
-            );
-          },
-        )}
-    </>
-  );
-
-  let body: JSX.Element;
-  if (languageIdState === 0) {
-    // Show when there isn't a selected language
-    body = languagesBody;
-  } else {
-    body = (
-      <>
-        {rowsState.map((row: Row, index: number) => {
-          return <TranslateRow key={index} row={row} changed={changeValue} />;
-        })}
-      </>
+  render() {
+    let languages: JSX.Element = (
+      <div className="languages__list">
+        {this.props.languages
+          .filter(
+            (language: Language) =>
+              this.props.user.allowLanguages.indexOf(language.id) !== -1,
+          )
+          .map(
+            (language: Language): JSX.Element => {
+              return (
+                <div
+                  className="language"
+                  key={language.id}
+                  onClick={() =>
+                    this.selectLanguage(language.id, language.name)
+                  }
+                >
+                  <p>{language.name}</p>
+                </div>
+              );
+            },
+          )}
+      </div>
     );
 
-    body = (
-      <>
-        <table className="literals__table">
-          <thead>
-            <tr>
-              <th>Literal</th>
-              <th>As in</th>
-              <th>Translate</th>
-            </tr>
-          </thead>
-          <tbody>{body}</tbody>
-        </table>
-        <button className="btn-cancel" onClick={() => selectLanguage(0, '')}>
-          Cancel
-        </button>
-        <button className="btn-save">Save</button>
-      </>
+    let body: JSX.Element;
+    if (this.state.languageId === 0) {
+      body = languages;
+    } else {
+      body = (
+        <>
+          {this.state.rows.map((row, index) => {
+            return (
+              <TranslateRow key={index} row={row} changed={this.changeValue} />
+            );
+          })}
+        </>
+      );
+
+      body = (
+        <>
+          <table className="literals__table">
+            <thead>
+              <tr>
+                <th>Literal</th>
+                <th>As in</th>
+                <th>Translate</th>
+              </tr>
+            </thead>
+            <tbody>{body}</tbody>
+          </table>
+          <button
+            className="btn-cancel"
+            onClick={() => this.selectLanguage(0, '')}
+          >
+            Cancel
+          </button>
+          <button className="btn-save">Save</button>
+        </>
+      );
+    }
+
+    return (
+      <div className="languages">
+        <h1>{this.state.languageName}</h1>
+        {body}
+      </div>
     );
   }
 
