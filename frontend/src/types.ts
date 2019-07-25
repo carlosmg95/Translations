@@ -1,34 +1,34 @@
 export type User = {
-  id: number,
+  id: string,
   admin: boolean,
   name: string,
-  allowLanguages: number[],
-  allowProjects: number[]
+  allowLanguages: string[],
+  allowProjects: string[]
 };
 
 export type Project = {
-  id: number,
+  id: string,
   name: string,
   languages: number[]
 };
 
 export type Language = {
-  id: number,
+  id: string,
   name: string,
   iso: string
 };
 
 export type Translation = {
-  id: number,
-  lang_id: number,
-  lit_id: number,
-  project_id: number,
+  id: string,
+  lang_id: string,
+  lit_id: string,
+  project_id: string,
   translation: string
 };
 
 export type Literal = {
-  id: number,
-  project_id: number,
+  id: string,
+  project_id: string,
   literal: string,
   as_in: string
 }
