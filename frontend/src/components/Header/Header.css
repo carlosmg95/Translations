@@ -1,58 +1,58 @@
 .main-header {
-    width: 100%;
-    background: #2edf5d;
-    padding: 8px 16px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
+  width: 100%;
+  background: #2edf5d;
+  padding: 8px 16px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
 }
 
 .main-header > div {
-    display: inline-block;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .main-header__title {
-    color: #0e4f1f;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 22px;
-    height: 40px;
-    display: inline-block;
+  color: #0e4f1f;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 22px;
+  height: 40px;
+  display: inline-block;
 }
 
 .main-nav {
-    display: inline-block;
-    text-align: right;
-    width: calc(100% - 155px);
-    vertical-align: middle;
-    top: 0;
-    left: 0;
+  display: inline-block;
+  text-align: right;
+  width: calc(100% - 155px);
+  vertical-align: middle;
+  top: 0;
+  left: 0;
 }
 
 .main-nav__items {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .main-nav__item {
-    display: inline-block;
-    margin: 0 16px;
+  display: inline-block;
+  margin: 0 16px;
 }
 
 .main-nav__item a {
-    text-decoration: none;
-    color: #0e4f1f;
-    font-weight: bold;
-    padding: 3px 0;
+  text-decoration: none;
+  color: #0e4f1f;
+  font-weight: bold;
+  padding: 3px 0;
 }
 
 .main-nav__item a:hover,
 .main-nav__item a:active {
-    color: white;
-    border-bottom: 5px solid white;
+  color: white;
+  border-bottom: 5px solid white;
 }
 
 .main-nav__item-push a {
@@ -64,7 +64,7 @@
 
 .main-nav__item-push a:hover,
 .main-nav__item-push a:active {
-    color: #24292e;
-    background: white;
-    border: none;
+  color: #24292e;
+  background: white;
+  border: none;
 }

@@ -1,59 +1,40 @@
-.languages {
+.new-project {
   margin-top: 56px;
   width: 100%;
   padding: 22px;
+  display: flex;
+  flex-flow: row wrap;
   text-align: center;
+  align-content: center;
+  justify-content: center;
 }
 
-.languages h1 {
+.new-project h1 {
+  flex: 1 0 100%;
   font-size: 3em;
   color: #2988f3;
   font-family: sans-serif;
 }
 
-.languages__list {
-  width: 100%;
+.form-project {
+  flex: 1 0 50%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
-  align-content: flex-start;
+  align-content: space-between;
+  justify-content: space-between;
 }
 
-.language {
-  flex: 0 3 30%;
-  min-width: 260px;
-  height: 100px;
-  background-color: #2988f3;
-  text-align: center;
-  color: white;
-  margin: 10px;
-  font-weight: bold;
-  border-radius: 20px;
-  border: solid #0a5ebd 0.5px;
-  box-shadow: 4px 17px 43px -15px #0a5ebd;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
-.language:hover,
-.language:active {
-  background-color: white;
-  color: #2988f3;
-  box-shadow: 0 0 0 0 #fff;
-}
-
-.language p {
-  margin: 0;
+.form-group {
+  flex: 1 0 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
   padding: 22px;
-  width: 100%;
-  display: inline-block;
-  height: 100%;
-  font-size: 3em;
 }
 
-.literals__table {
-  width: 80%;
-  margin: auto;
+label.form-item {
+  margin-right: 22px;
 }
 
 button {
