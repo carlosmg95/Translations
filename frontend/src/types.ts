@@ -9,7 +9,7 @@ export type User = {
 export type Project = {
   id: string,
   name: string,
-  languages: number[]
+  languages: string[]
 };
 
 export type Language = {

@@ -28,7 +28,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
   ] = useState(projects[0]);
 
   const selectProject = (event: any): void => {
-    const projectId: number = +event.target.value;
+    const projectId: string = event.target.value;
     const selectedProject: Project = props.projects.find(
       (project: Project) => project.id === projectId,
     ) as Project;
@@ -36,7 +36,9 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     setSeletectedProjectState(selectedProject);
   };
 
-  const projectName: string = selectedProjectState.name;
+  const projectName: string = selectedProjectState
+    ? selectedProjectState.name
+    : '';
   const actions: [string, string][] = props.user.admin
     ? [
         ['translate/' + projectName, 'Translate'], // [id, text]

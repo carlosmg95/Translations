@@ -10,7 +10,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 
-import { User, Language, Translation, Literal } from './types';
+import { User, Language, Translation, Literal, Project } from './types';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4466',
@@ -79,7 +79,7 @@ client
       user.allowLanguages = user.languages.map(
         (language: Language) => language.id,
       );
-      //user.allowProjects = user.projects.map((project: Project) => project.id);;
+      user.allowProjects = user.projects.map((project: Project) => project.id);
       delete user.languages;
       delete user.projects;
       return user;
@@ -89,6 +89,13 @@ client
       literal.project_id = literal.project.id;
       delete literal.project;
       return literal;
+    });
+
+    projects = projects.map((project: any) => {
+      project.languages = project.languages.map(
+        (language: Language) => language.id,
+      );
+      return project;
     });
 
     translations = translations.map((translation: any) => {
@@ -101,14 +108,14 @@ client
       return translation;
     });
 
-    console.log({ users, literals, translations, languages, projects });
-
     const user: User = users.find((user: User) => user.admin) as User;
 
     ReactDOM.render(
       <ApolloProvider client={client}>
         <App
           user={user}
+          users={users}
+          projects={projects}
           literals={literals}
           translations={translations}
           languages={languages}

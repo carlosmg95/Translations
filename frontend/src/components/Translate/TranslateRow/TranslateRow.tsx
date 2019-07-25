@@ -8,7 +8,6 @@ interface RowProps {
 }
 
 const row: React.FC<RowProps> = (props: RowProps) => {
-  console.log({ props });
   return (
     <tr className="literal__row">
       <td>{props.row.literal}</td>
