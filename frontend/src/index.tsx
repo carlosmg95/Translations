@@ -41,6 +41,12 @@ client
           name
           languages {
             id
+            name
+            iso
+            code
+          }
+          literals {
+            id
           }
         }
         languages(where: {}) {
@@ -89,13 +95,6 @@ client
       literal.project_id = literal.project.id;
       delete literal.project;
       return literal;
-    });
-
-    projects = projects.map((project: any) => {
-      project.languages = project.languages.map(
-        (language: Language) => language.id,
-      );
-      return project;
     });
 
     translations = translations.map((translation: any) => {

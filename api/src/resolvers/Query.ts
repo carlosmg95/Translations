@@ -6,10 +6,13 @@ const Query = {
     );
   },
   projects(parent, { where }, { prisma }, info) {
-    return prisma.query.projects(where, '{ id name languages { id } }');
+    return prisma.query.projects(
+      where,
+      '{ id name languages { id name iso code } literals { id } }',
+    );
   },
   languages(parent, { where }, { prisma }, info) {
-    return prisma.query.languages(where, '{ id name iso }');
+    return prisma.query.languages(where, '{ id name iso code }');
   },
   literals(parent, { where }, { prisma }, info) {
     return prisma.query.literals(where, '{ id project { id } as_in literal }');

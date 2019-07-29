@@ -27,7 +27,12 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     (project: Project) => project.name === projectName,
   ) as Project;
   const languages: Language[] = props.languages.filter((language: Language) => {
-    if (project) return project.languages.indexOf(language.id) !== -1;
+    if (project)
+      return (
+        project.languages
+          .map((language: Language) => language.id)
+          .indexOf(language.id) !== -1
+      );
     return false;
   });
 

@@ -9,13 +9,15 @@ export type User = {
 export type Project = {
   id: string,
   name: string,
-  languages: string[]
+  languages: Language[],
+  literals: Literal[]
 };
 
 export type Language = {
   id: string,
   name: string,
-  iso: string
+  iso: string,
+  code: string
 };
 
 export type Translation = {

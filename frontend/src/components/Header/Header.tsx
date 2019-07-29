@@ -21,7 +21,7 @@ const header: React.FC<HeaderProps> = (props: HeaderProps) => {
       <nav className="main-nav">
         <ul className="main-nav__items">
           <li className="main-nav__item">
-            <a href="">Dashboard</a>
+            <a href="/dashboard">Dashboard</a>
           </li>
           <li className="main-nav__item">
             <a href="">{props.user.name}</a>

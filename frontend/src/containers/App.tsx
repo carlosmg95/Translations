@@ -3,6 +3,7 @@ import './App.css';
 import { User, Language, Translation, Literal, Project } from '../types';
 import Header from '../components/Header/Header';
 import Main from '../components/Main/Main';
+import Dashboard from '../components/Dashboard/Dashboard';
 import Translate from '../components/Translate/Translate';
 import NewProject from '../components/NewProject/NewProject';
 import { Mutation } from 'react-apollo';
@@ -118,13 +119,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
       </Mutation>
     );
   } else {
-    body = (
-      <Main
-        actions={actions}
-        projects={projects}
-        selectProject={selectProject}
-      />
-    );
+    body = <Dashboard projects={projects} />;
   }
 
   return (

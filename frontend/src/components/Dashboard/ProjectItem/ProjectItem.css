@@ -1,0 +1,45 @@
+.project__item {
+  background-color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  flex: 1 1 20%;
+  padding: 10px;
+  height: auto;
+  margin: 1px;
+  min-width: 295px;
+  max-width: 350px;
+}
+
+.project__item-title {
+  cursor: pointer;
+}
+
+.languages-flag__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.language-flag__item {
+  background-color: #eee;
+  border-radius: 20px;
+  border-bottom: 2px solid #ddd;
+  padding: 7px 10px;
+  list-style: none;
+  margin: 2px;
+  cursor: pointer;
+  display: flex;
+  flex-flow: row wrap;
+  width: auto;
+}
+
+.language-flag__item:hover,
+.language-flag__item:active {
+  border-bottom-style: none;
+  margin-top: 4px;
+}
+
+.flag {
+  margin-right: 5px;
+}
