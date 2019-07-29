@@ -129,7 +129,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   return (
     <div className="App">
-      <Header title="Translations" />
+      <Header title="Translations" user={props.user} />
       {body}
     </div>
   );
