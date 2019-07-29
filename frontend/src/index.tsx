@@ -13,7 +13,7 @@ import gql from 'graphql-tag';
 import { User, Language, Translation, Literal, Project } from './types';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4466',
+  uri: 'http://localhost:4000',
 });
 
 const client = new ApolloClient({
