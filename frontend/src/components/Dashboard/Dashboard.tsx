@@ -13,8 +13,9 @@ const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
       <h1>Projects</h1>
       <div className="projects-list">
         {props.projects.map(project => (
-          <ProjectItem key={project.id} project={project} />
+          <ProjectItem key={project.id} project={project} new={false} />
         ))}
+        <ProjectItem key={0} new={true} />
       </div>
     </div>
   );
