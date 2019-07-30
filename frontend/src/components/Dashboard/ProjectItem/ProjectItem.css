@@ -19,6 +19,11 @@
   font-size: 1.5rem;
 }
 
+.project__item-title:hover,
+.project__item-title:active {
+  color: #aaa;
+}
+
 .languages-flag__list {
   display: flex;
   margin: 0;
