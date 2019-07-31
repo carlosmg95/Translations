@@ -5,13 +5,14 @@ import Flag from 'react-world-flags';
 
 interface ProjectLanguageRowProps {
   language: Language;
+  allowed: boolean;
 }
 
 const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   props: ProjectLanguageRowProps,
 ) => {
   return (
-    <div className="projectLanguageRow">
+    <div className={'projectLanguageRow ' + (props.allowed ? '' : 'disabled')}>
       <div className="language-project">
         <div>
           <Flag className="flag" code={props.language.code} height="18" />
@@ -19,10 +20,14 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
         </div>
       </div>
       <div className="add-literal">
-        <button type="button">+ Add literal</button>
+        <button type="button" disabled={!props.allowed}>
+          + Add literal
+        </button>
       </div>
       <div className="translate">
-        <button type="button">Translate</button>
+        <button type="button" disabled={!props.allowed}>
+          Translate
+        </button>
       </div>
     </div>
   );

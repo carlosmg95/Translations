@@ -126,9 +126,15 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     const selectedProject: Project = props.projects.find(
       project => project.name === projectName,
     );
-    body = <ProjectDashboard project={selectedProject} />;
+    body = <ProjectDashboard project={selectedProject} user={props.user} />;
   } else {
-    body = <Dashboard projects={projects} selectProject={selectProject} />;
+    body = (
+      <Dashboard
+        projects={projects}
+        selectProject={selectProject}
+        user={props.user}
+      />
+    );
   }
 
   return (

@@ -15,13 +15,13 @@
 
 .project__item-title {
   cursor: pointer;
-  color: #888;
+  color: #419176;
   font-size: 1.5rem;
 }
 
 .project__item-title:hover,
 .project__item-title:active {
-  color: #aaa;
+  color: #3bc798;
 }
 
 .languages-flag__list {
@@ -45,10 +45,21 @@
   width: auto;
 }
 
-.language-flag__item:hover,
-.language-flag__item:active {
+.language-flag__item.disabled {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+}
+
+.language-flag__item:hover:not(.disabled),
+.language-flag__item:active:not(.disabled) {
   border-bottom-style: none;
   margin-top: 4px;
+}
+
+.language-flag__item.disabled:hover,
+.language-flag__item.disabled:active {
+  margin-top: 2px;
+  border-bottom-style: solid;
 }
 
 .flag {

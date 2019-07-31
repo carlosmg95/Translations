@@ -1,11 +1,12 @@
 import React from 'react';
 import './ProjectItem.css';
-import { Project, Language } from '../../../types';
+import { Project, Language, User } from '../../../types';
 import Flag from 'react-world-flags';
 
 interface ProjectItemProps {
   project?: Project;
   new: boolean;
+  user: User;
   choose(id: string): void;
 }
 
@@ -27,10 +28,14 @@ const project: React.FC<ProjectItemProps> = (props: ProjectItemProps) => {
           <p>Languages:</p>
           <ul className="languages-flag__list">
             {props.project.languages.map((language: Language) => {
+              const allowed: boolean =
+                props.user.allowLanguages.indexOf(language.id) !== -1;
               return (
                 <li
                   key={project.name + language.iso}
-                  className="language-flag__item"
+                  className={
+                    'language-flag__item ' + (allowed ? '' : 'disabled')
+                  }
                   onClick={() => {
                     window.location.href = `/project/${props.project &&
                       props.project.name}/translate/${language.iso}`;

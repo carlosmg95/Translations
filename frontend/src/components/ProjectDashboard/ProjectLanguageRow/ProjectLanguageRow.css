@@ -7,11 +7,15 @@
   flex-flow: row nowrap;
 }
 
+.projectLanguageRow.disabled {
+  filter: grayscale(60%);
+}
+
 .language-project {
   flex: 3 3;
   display: flex;
   flex-flow: row wrap;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .language-project > div {
@@ -49,4 +53,11 @@
 .translate > button:active {
   border-color: #3ea985;
   color: #3ea985;
+}
+
+.add-literal > button:disabled,
+.translate > button:disabled {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
 }

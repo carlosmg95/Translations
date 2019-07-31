@@ -1,11 +1,12 @@
 import React from 'react';
 import './Dashboard.css';
 import ProjectItem from './ProjectItem/ProjectItem';
-import { Project } from '../../types';
+import { Project, User } from '../../types';
 
 interface DashboardProps {
   projects: Project[];
   selectProject(id: string): void;
+  user: User;
 }
 
 const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
@@ -19,9 +20,15 @@ const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
             project={project}
             new={false}
             choose={props.selectProject}
+            user={props.user}
           />
         ))}
-        <ProjectItem key={0} new={true} choose={props.selectProject} />
+        <ProjectItem
+          key={0}
+          new={true}
+          choose={props.selectProject}
+          user={props.user}
+        />
       </div>
     </div>
   );
