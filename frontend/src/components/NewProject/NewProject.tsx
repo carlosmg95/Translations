@@ -1,10 +1,16 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import './NewProject.css';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { User, Language } from '../../types';
 
 interface NewProjectProps {
   users: User[];
   languages: Language[];
+  createProject(
+    name: string,
+    users: string[],
+    languages: string[],
+  ): Promise<string>;
 }
 
 const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
@@ -12,14 +18,21 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState('');
+
   const [usersState, setUsersState]: [
-    Set<number>,
-    Dispatch<SetStateAction<Set<number>>>,
+    Set<string>,
+    Dispatch<SetStateAction<Set<string>>>,
   ] = useState(new Set());
+
   const [languagesState, setLanguagesState]: [
-    Set<number>,
-    Dispatch<SetStateAction<Set<number>>>,
+    Set<string>,
+    Dispatch<SetStateAction<Set<string>>>,
   ] = useState(new Set());
+
+  const [errorMessageState, setErrorMessageState]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
 
   const changeForm = (event: any) => {
     if (event.target.className.match(/.*project-name.*/)) {
@@ -73,6 +86,11 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
   return (
     <div className="new-project">
       <h1>Create a new project</h1>
+      {errorMessageState ? (
+        <ErrorMessage>{errorMessageState}</ErrorMessage>
+      ) : (
+        ''
+      )}
       <form onChange={changeForm} className="project-form">
         <div className="form-group">
           <label className="form-item">Name: </label>
@@ -95,7 +113,37 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
         >
           Cancel
         </button>
-        <button type="button" className="btn-save">
+        <button
+          type="button"
+          className="btn-save"
+          onClick={() => {
+            if (usersState.size === 0) {
+              setErrorMessageState('You must select one user at least');
+              return;
+            }
+            if (languagesState.size === 0) {
+              setErrorMessageState('You must select one language at least');
+              return;
+            }
+            props
+              .createProject(
+                nameState,
+                Array.from(usersState),
+                Array.from(languagesState),
+              )
+              .then(() => {
+                window.location.href = '/';
+              })
+              .catch(e => {
+                const field = e.message.replace(/.*\s(\w+)$/, '$1');
+                if (field === 'name') {
+                  setErrorMessageState(
+                    'The name must be filled and it cannot be repeated',
+                  );
+                }
+              });
+          }}
+        >
           Save
         </button>
       </form>
