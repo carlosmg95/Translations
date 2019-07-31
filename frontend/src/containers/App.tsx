@@ -1,12 +1,12 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User, Language, Translation, Literal, Project } from '../types';
 import Header from '../components/Header/Header';
-import Main from '../components/Main/Main';
-import Dashboard from '../components/Dashboard/Dashboard';
-import ProjectDashboard from '../components/ProjectDashboard/ProjectDashboard';
+import Dashboard from './Dashboard/Dashboard';
+import ProjectDashboard from './ProjectDashboard/ProjectDashboard';
 import Translate from '../components/Translate/Translate';
-import NewProject from '../components/NewProject/NewProject';
+import NewProject from './NewProject/NewProject';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -26,19 +26,6 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     (project: Project) => props.user.allowProjects.indexOf(project.id) !== -1,
   );
 
-  const [selectedProjectState, setSeletectedProjectState]: [
-    Project,
-    Dispatch<SetStateAction<Project>>,
-  ] = useState(projects[0]);
-
-  const selectProject = (projectId: string): void => {
-    const selectedProject: Project = props.projects.find(
-      (project: Project) => project.id === projectId,
-    );
-
-    setSeletectedProjectState(selectedProject);
-  };
-
   const CREATE_PROJECT = gql`
     mutation CreateProject($project: ProjectCreateInput!) {
       createProject(data: $project) {
@@ -52,19 +39,6 @@ const App: React.FC<AppProps> = (props: AppProps) => {
       }
     }
   `;
-
-  /*const projectName: string = selectedProjectState
-    ? selectedProjectState.name
-    : '';
-  const actions: [string, string][] = props.user.admin
-    ? [
-        ['translate/' + projectName, 'Translate'], // [id, text]
-        ['project', 'Create a new project'],
-        ['literal', 'Add new literals'],
-        ['language', 'Add new languages'],
-        ['user', 'Create a new user'],
-      ]
-    : [['translate/' + projectName, 'Translate']];*/
 
   let body: JSX.Element = <div></div>;
   if (path.match(/^\/translate.*/)) {
@@ -118,29 +92,16 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         )}
       </Mutation>
     );
-  } else if (path.match(/^\/project.*/)) {
-    const projectName: string = path.replace(
-      /^\/project\/(\w+)\/{0,1}.*/,
-      '$1',
-    );
-    const selectedProject: Project = props.projects.find(
-      project => project.name === projectName,
-    );
-    body = <ProjectDashboard project={selectedProject} user={props.user} />;
-  } else {
-    body = (
-      <Dashboard
-        projects={projects}
-        selectProject={selectProject}
-        user={props.user}
-      />
-    );
   }
 
   return (
     <div className="App">
       <Header title="Translations" user={props.user} />
-      {body}
+      <Switch>
+        <Route exact path="/" render={Dashboard} />
+        <Route path="/dashboard" render={Dashboard} />
+        <Route path="/project/:projectName" render={ProjectDashboard} />
+      </Switch>
     </div>
   );
 };

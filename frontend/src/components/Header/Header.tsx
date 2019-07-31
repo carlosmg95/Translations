@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import { User } from '../../types';
 import Logo from '../../images/favicon-bitbloq.svg';
@@ -13,18 +14,18 @@ const header: React.FC<HeaderProps> = (props: HeaderProps) => {
     <header className="main-header">
       <div className="logo">
         <img src={Logo} alt="logo" />
-        <a href="../../" className="main-header__title">
+        <Link to="../../" className="main-header__title">
           {props.title}
-        </a>
+        </Link>
       </div>
 
       <nav className="main-nav">
         <ul className="main-nav__items">
           <li className="main-nav__item">
-            <a href="/dashboard">Dashboard</a>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
           <li className="main-nav__item">
-            <a href="">{props.user.name}</a>
+            <Link to="">{props.user.name}</Link>
           </li>
         </ul>
       </nav>

@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
-import { Project, Language } from '../../../types';
+import { Project, Language } from '../../types';
 import Flag from 'react-world-flags';
 
 interface ProjectLanguageRowProps {
+  projectName: string;
   language: Language;
   allowed: boolean;
 }
@@ -25,9 +27,17 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
         </button>
       </div>
       <div className="translate">
-        <button type="button" disabled={!props.allowed}>
-          Translate
-        </button>
+        <Link
+          to={
+            props.allowed
+              ? `${props.projectName}/translate/${props.language.iso}`
+              : '#'
+          }
+        >
+          <button type="button" disabled={!props.allowed}>
+            Translate
+          </button>
+        </Link>
       </div>
     </div>
   );

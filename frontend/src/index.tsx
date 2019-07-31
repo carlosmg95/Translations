@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
@@ -11,6 +12,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 
 import { User, Language, Translation, Literal, Project } from './types';
+import UserContext from './context/user-context';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000',
@@ -111,14 +113,18 @@ client
 
     ReactDOM.render(
       <ApolloProvider client={client}>
-        <App
-          user={user}
-          users={users}
-          projects={projects}
-          literals={literals}
-          translations={translations}
-          languages={languages}
-        />
+        <BrowserRouter>
+          <UserContext.Provider value={{ user }}>
+            <App
+              user={user}
+              users={users}
+              projects={projects}
+              literals={literals}
+              translations={translations}
+              languages={languages}
+            />
+          </UserContext.Provider>
+        </BrowserRouter>
       </ApolloProvider>,
       document.getElementById('root'),
     );
