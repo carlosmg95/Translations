@@ -1,27 +1,31 @@
 const Query = {
+  user(parent, { where }, { prisma }, info) {
+    console.info('[info] Query: user');
+    return prisma.query.user(where, info);
+  },
   users(parent, { where }, { prisma }, info) {
-    return prisma.query.users(
-      where,
-      '{ id name admin projects { id } languages { id } }',
-    );
+    console.info('[info] Query: users');
+    return prisma.query.users(where, info);
+  },
+  project(parent, { where }, { prisma }, info) {
+    console.info('[info] Query: project');
+    return prisma.query.project(where, info);
   },
   projects(parent, { where }, { prisma }, info) {
-    return prisma.query.projects(
-      where,
-      '{ id name languages { id name iso code } literals { id } }',
-    );
+    console.info('[info] Query: projects');
+    return prisma.query.projects(where, info);
   },
   languages(parent, { where }, { prisma }, info) {
-    return prisma.query.languages(where, '{ id name iso code }');
+    console.info('[info] Query: languages');
+    return prisma.query.languages(where, info);
   },
   literals(parent, { where }, { prisma }, info) {
-    return prisma.query.literals(where, '{ id project { id } as_in literal }');
+    console.info('[info] Query: literals');
+    return prisma.query.literals(where, info);
   },
   translations(parent, { where }, { prisma }, info) {
-    return prisma.query.translations(
-      where,
-      '{ id language { id } literal { id } project { id } translation }',
-    );
+    console.info('[info] Query: translations');
+    return prisma.query.translations(where, info);
   },
 };
 

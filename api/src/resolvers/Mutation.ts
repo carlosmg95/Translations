@@ -1,9 +1,7 @@
 const Mutation = {
   async createProject(parent, { data }, { prisma }, info) {
-    return await prisma.mutation.createProject(
-      { data },
-      '{ name users { name } languages { name } }',
-    );
+    console.info('[info] Mutation: createProject');
+    return await prisma.mutation.createProject({ data }, info);
   },
 };
 
