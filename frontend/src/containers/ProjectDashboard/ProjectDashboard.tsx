@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectDashboard.css';
+import Dashboard, {
+  DashboardBody,
+  DashboardHeader,
+} from '../../components/Dashboard/Dashboard';
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
 import { Project, Language, User } from '../../types';
 import UserContext from '../../context/user-context';
@@ -35,22 +39,20 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
   `;
 
   return (
-    <Query query={PROJECT}>
-      {({ data, loading }) => {
-        if (loading) {
-          return <></>;
-        } else {
-          return (
-            <div className="projectDashboard">
-              <h1>
-                <small className="breadcrumb">
-                  <Link to="/dashboard">dashboard/</Link>
-                </small>
-                {data.project.name}
-              </h1>
+    <Dashboard>
+      <DashboardHeader
+        title={projectName}
+        links={[{ to: '/dashboard', text: 'dashboard' }]}
+      />
+      <Query query={PROJECT}>
+        {({ data, loading }) => {
+          if (loading) {
+            return <></>;
+          } else {
+            return (
               <UserContext.Consumer>
                 {({ user }) => (
-                  <div className="languages-list">
+                  <DashboardBody>
                     {data.project.languages.map((language: Language) => {
                       const allowed: boolean =
                         user.allowLanguages.indexOf(language.id) !== -1;
@@ -63,14 +65,14 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
                         />
                       );
                     })}
-                  </div>
+                  </DashboardBody>
                 )}
               </UserContext.Consumer>
-            </div>
-          );
-        }
-      }}
-    </Query>
+            );
+          }
+        }}
+      </Query>
+    </Dashboard>
   );
 };
 

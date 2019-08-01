@@ -34,9 +34,3 @@ export type Literal = {
   literal: string,
   as_in: string
 }
-
-export type Row = {
-  literal: string,
-  as_in: string,
-  translation: string
-}

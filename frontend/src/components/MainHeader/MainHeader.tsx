@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css';
+import './MainHeader.css';
 import { User } from '../../types';
 import Logo from '../../images/favicon-bitbloq.svg';
 

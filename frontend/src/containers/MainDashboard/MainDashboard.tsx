@@ -1,5 +1,5 @@
 import React from 'react';
-import './Dashboard.css';
+import './MainDashboard.css';
 import ProjectItem from '../../components/ProjectItem/ProjectItem';
 import { Project, User, Language } from '../../types';
 import UserContext from '../../context/user-context';
@@ -10,7 +10,7 @@ interface DashboardProps {}
 
 const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
   return (
-    <div className="dashboard">
+    <div className="MainDashboard">
       <h1>Dashboard</h1>
       <div className="projects-list">
         <UserContext.Consumer>

@@ -1,25 +1,88 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import './Translate.css';
 import TranslateRow from './TranslateRow/TranslateRow';
-import {
-  User,
-  Language,
-  Translation,
-  Literal,
-  Row,
-  Project,
-} from '../../types';
+import Dashboard, {
+  DashboardBody,
+  DashboardHeader,
+} from '../../components/Dashboard/Dashboard';
+import { User, Language, Translation, Literal, Project } from '../../types';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 interface TranslateProps {
-  user: User;
-  translations: Translation[];
-  literals: Literal[];
-  languages: Language[];
-  projects: Project[];
+  [propName: string]: any;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
-  const projectName: string = window.location.pathname.replace(
+  const { languageIso, projectName } = props.match.params;
+  const PROJECT = gql`
+    {
+      project(where: {
+        name:"${projectName}"
+      }) {
+        id
+        name
+        translations(where: {
+          language:{
+            iso:"${languageIso}"
+          }
+        }) {
+          translation
+          language {
+            name
+          }
+          literal {
+            id
+            literal
+          }
+        }
+        literals {
+          id
+          literal
+          as_in
+        }
+      }
+    }
+  `;
+
+  return (
+    <Dashboard>
+      <DashboardHeader
+        title={languageIso}
+        links={[
+          { to: '/dashboard', text: 'dashboard' },
+          { to: `/project/${projectName}`, text: projectName },
+        ]}
+      />
+      <Query query={PROJECT}>
+        {({ data, loading }) => {
+          if (loading) {
+            return <div></div>;
+          } else {
+            const { literals, translations } = data.project;
+            return (
+              <DashboardBody>
+                {literals.map((literal: Literal) => {
+                  const translation = translations.find(
+                    translation => translation.literal.id === literal.id,
+                  );
+                  return (
+                    <TranslateRow
+                      key={literal.id}
+                      as_in={literal.as_in}
+                      literal={literal.literal}
+                      translation={translation && translation.translation}
+                    />
+                  );
+                })}
+              </DashboardBody>
+            );
+          }
+        }}
+      </Query>
+    </Dashboard>
+  );
+  /*const projectName: string = window.location.pathname.replace(
     /^\/translate\/(.*)$/,
     '$1',
   );
@@ -158,7 +221,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
       <h1>{languageNameState}</h1>
       <div>{body}</div>
     </div>
-  );
+  );*/
+  //
 };
 
 export default Translate;

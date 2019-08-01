@@ -2,10 +2,10 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User, Language, Translation, Literal, Project } from '../types';
-import Header from '../components/Header/Header';
-import Dashboard from './Dashboard/Dashboard';
+import MainHeader from '../components/MainHeader/MainHeader';
+import MainDashboard from './MainDashboard/MainDashboard';
 import ProjectDashboard from './ProjectDashboard/ProjectDashboard';
-import Translate from '../components/Translate/Translate';
+import Translate from './Translate/Translate';
 import NewProject from './NewProject/NewProject';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -42,7 +42,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   let body: JSX.Element = <div></div>;
   if (path.match(/^\/translate.*/)) {
-    body = (
+    /*body = (
       <Translate
         user={props.user}
         translations={props.translations}
@@ -50,7 +50,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         languages={props.languages}
         projects={projects}
       />
-    );
+    );*/
   } else if (path.match(/^\/newproject.*/)) {
     body = (
       <Mutation mutation={CREATE_PROJECT}>
@@ -96,11 +96,16 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   return (
     <div className="App">
-      <Header title="Translations" user={props.user} />
+      <MainHeader title="Translations" user={props.user} />
       <Switch>
-        <Route exact path="/" render={Dashboard} />
-        <Route path="/dashboard" render={Dashboard} />
-        <Route path="/project/:projectName" render={ProjectDashboard} />
+        <Route exact path="/" render={MainDashboard} />
+        <Route exact path="/dashboard" render={MainDashboard} />
+        <Route exact path="/project/:projectName" render={ProjectDashboard} />
+        <Route
+          exact
+          path="/project/:projectName/translate/:languageIso"
+          render={Translate}
+        />
       </Switch>
     </div>
   );

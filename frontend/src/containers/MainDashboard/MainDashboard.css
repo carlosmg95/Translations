@@ -1,4 +1,4 @@
-.dashboard {
+.MainDashboard {
   margin-top: 100px;
   height: calc(100vh - 100px);
   width: 100vw;
@@ -9,7 +9,7 @@
   align-content: flex-start;
 }
 
-.dashboard h1 {
+.MainDashboard h1 {
   width: 80%;
   color: #666;
 }
