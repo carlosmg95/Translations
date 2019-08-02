@@ -5,6 +5,7 @@ import Dashboard, {
   DashboardBody,
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
+import Translations from '../../components/Translations/Translations';
 import { User, Language, Translation, Literal, Project } from '../../types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -27,8 +28,10 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             iso:"${languageIso}"
           }
         }) {
+          id
           translation
           language {
+            id
             name
           }
           literal {
@@ -46,183 +49,49 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   `;
 
   return (
-    <Dashboard>
-      <DashboardHeader
-        title={languageIso}
-        links={[
-          { to: '/dashboard', text: 'dashboard' },
-          { to: `/project/${projectName}`, text: projectName },
-        ]}
-      />
-      <Query query={PROJECT}>
-        {({ data, loading }) => {
-          if (loading) {
-            return <div></div>;
-          } else {
-            const { literals, translations } = data.project;
-            return (
+    <Query query={PROJECT}>
+      {({ data, loading }) => {
+        if (loading) {
+          return <div></div>;
+        } else {
+          console.dir(data);
+          const { literals, translations } = data.project;
+          const lt = literals.map((literal: Literal) => {
+            const translation: Translation = translations.find(
+              translation => translation.literal.id === literal.id,
+            );
+            const translationText = translation ? translation.translation : '';
+            const translationId = translation ? translation.id : '0';
+            return {
+              translationId,
+              literalId: literal.id,
+              translation: translationText,
+              as_in: literal.as_in,
+              literal: literal.literal,
+            };
+          });
+          return (
+            <Dashboard>
+              <DashboardHeader
+                title={translations[0].language.name}
+                links={[
+                  { to: '/dashboard', text: 'dashboard' },
+                  { to: `/project/${projectName}`, text: projectName },
+                ]}
+              />
               <DashboardBody>
-                {literals.map((literal: Literal) => {
-                  const translation = translations.find(
-                    translation => translation.literal.id === literal.id,
-                  );
-                  return (
-                    <TranslateRow
-                      key={literal.id}
-                      as_in={literal.as_in}
-                      literal={literal.literal}
-                      translation={translation && translation.translation}
-                    />
-                  );
-                })}
+                <Translations
+                  projectName={projectName}
+                  languageId={translations[0].language.id}
+                  translations={lt}
+                />
               </DashboardBody>
-            );
-          }
-        }}
-      </Query>
-    </Dashboard>
+            </Dashboard>
+          );
+        }
+      }}
+    </Query>
   );
-  /*const projectName: string = window.location.pathname.replace(
-    /^\/translate\/(.*)$/,
-    '$1',
-  );
-  const project: Project = props.projects.find(
-    (project: Project) => project.name === projectName,
-  ) as Project;
-  const languages: Language[] = props.languages.filter((language: Language) => {
-    if (project)
-      return (
-        project.languages
-          .map((language: Language) => language.id)
-          .indexOf(language.id) !== -1
-      );
-    return false;
-  });
-
-  const translations: Translation[] = props.translations.filter(
-    (translation: Translation) => {
-      if (project) return translation.project_id === project.id;
-      return false;
-    },
-  );
-
-  const literals: Literal[] = props.literals.filter((literal: Literal) => {
-    if (project) return literal.project_id === project.id;
-    return false;
-  });
-
-  const [languageIdState, setLanguageIdState]: [
-    string,
-    Dispatch<SetStateAction<string>>,
-  ] = useState('0');
-
-  const [languageNameState, setLanguageNameState]: [
-    string,
-    Dispatch<SetStateAction<string>>,
-  ] = useState('');
-
-  const [rowsState, setRowsState]: [
-    Row[],
-    Dispatch<SetStateAction<Row[]>>,
-  ] = useState([{ literal: '', as_in: '', translation: '' }]);
-
-  const selectLanguage = (id: string, name: string): void => {
-    const languageTranslations = translations.filter(
-      (translation: Translation) => translation.lang_id === id,
-    );
-
-    let rows: Row[] = literals.map((literal: Literal) => {
-      let row: Row = {
-        literal: literal.literal,
-        as_in: literal.as_in,
-        translation: '',
-      };
-      let translation: Translation = languageTranslations.find(
-        (translation: Translation) => translation.lit_id === literal.id,
-      ) as Translation;
-      row.translation = translation ? translation.translation : '';
-      return row;
-    });
-
-    setLanguageIdState(id);
-    setLanguageNameState(name);
-    setRowsState(rows);
-  };
-
-  const changeValue = (event: any, literal: string): void => {
-    let rows: Row[] = rowsState;
-
-    rows = rows.map((row: Row) => {
-      if (row.literal === literal) row.translation = event.target.value;
-      return row;
-    });
-
-    setRowsState(rows);
-  };
-
-  let languagesBody: JSX.Element = ( // List of the languages
-    <div className="languages__list">
-      {languages
-        .filter(
-          (language: Language) =>
-            props.user.allowLanguages.indexOf(language.id) !== -1,
-        )
-        .map(
-          (language: Language): JSX.Element => {
-            return (
-              <div
-                className="language"
-                key={language.id}
-                onClick={() => selectLanguage(language.id, language.name)}
-              >
-                <p>{language.name}</p>
-              </div>
-            );
-          },
-        )}
-    </div>
-  );
-
-  let body: JSX.Element;
-  if (languageIdState === '0') {
-    // Show when there isn't a selected language
-    body = languagesBody;
-  } else {
-    body = (
-      <>
-        {rowsState.map((row: Row, index: number) => {
-          return <TranslateRow key={index} row={row} changed={changeValue} />;
-        })}
-      </>
-    );
-
-    body = (
-      <>
-        <table className="literals__table">
-          <thead>
-            <tr>
-              <th>Literal</th>
-              <th>As in</th>
-              <th>Translate</th>
-            </tr>
-          </thead>
-          <tbody>{body}</tbody>
-        </table>
-        <button className="btn-cancel" onClick={() => selectLanguage('0', '')}>
-          Cancel
-        </button>
-        <button className="btn-save">Save</button>
-      </>
-    );
-  }
-
-  return (
-    <div className="languages">
-      <h1>{languageNameState}</h1>
-      <div>{body}</div>
-    </div>
-  );*/
-  //
 };
 
 export default Translate;

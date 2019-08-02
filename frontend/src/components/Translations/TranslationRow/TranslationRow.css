@@ -1,0 +1,16 @@
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  max-width: 100%;
+  min-width: 100%;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  resize: none;
+  border: 0.5px dotted #419277;
+}
+
+textarea:focus {
+  background-color: rgba(56, 226, 169, 0.1);
+}
