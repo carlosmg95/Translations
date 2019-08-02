@@ -24,7 +24,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         id
         name
         translations(where: {
-          language:{
+          language: {
             iso:"${languageIso}"
           }
         }) {
@@ -45,6 +45,12 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           as_in
         }
       }
+      language(where: {
+        iso:"${languageIso}"
+      }) {
+        id
+        name
+      }
     }
   `;
 
@@ -54,7 +60,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         if (loading) {
           return <div></div>;
         } else {
-          console.dir(data);
           const { literals, translations } = data.project;
           const lt = literals.map((literal: Literal) => {
             const translation: Translation = translations.find(
@@ -73,7 +78,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           return (
             <Dashboard>
               <DashboardHeader
-                title={translations[0].language.name}
+                title={data.language.name}
                 links={[
                   { to: '/dashboard', text: 'dashboard' },
                   { to: `/project/${projectName}`, text: projectName },
@@ -82,7 +87,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
               <DashboardBody>
                 <Translations
                   projectName={projectName}
-                  languageId={translations[0].language.id}
+                  languageId={data.language.id}
                   translations={lt}
                 />
               </DashboardBody>
