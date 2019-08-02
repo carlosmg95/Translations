@@ -5,7 +5,6 @@ const Mutation = {
   },
   async upsertTranslation(parent, { where, create, update }, { prisma }, info) {
     console.info('[info] Mutation: upsertTranslation');
-    console.log({ where, create, update })
     return await prisma.mutation.upsertTranslation({ where, create, update }, info);
   }
 };

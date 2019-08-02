@@ -1,3 +1,12 @@
+.ErrorMessage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
 .error {
   background-color: #f25442;
   width: 40%;
@@ -6,6 +15,7 @@
   border-bottom-width: 5px;
   border-radius: 20px;
   margin: 10px;
+  text-align: center;
 }
 
 .error h2 {
