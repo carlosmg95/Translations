@@ -1,6 +1,5 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import './Translate.css';
-import TranslateRow from './TranslateRow/TranslateRow';
 import Dashboard, {
   DashboardBody,
   DashboardHeader,
