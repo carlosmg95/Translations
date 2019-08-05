@@ -1,6 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import './NewProject.css';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { User, Language } from '../../types';
 
 interface NewProjectProps {

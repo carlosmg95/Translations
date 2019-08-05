@@ -9,13 +9,15 @@ export type User = {
 export type Project = {
   id: string,
   name: string,
-  languages: string[]
+  languages: Language[],
+  literals: Literal[]
 };
 
 export type Language = {
   id: string,
   name: string,
-  iso: string
+  iso: string,
+  code: string
 };
 
 export type Translation = {
@@ -31,10 +33,4 @@ export type Literal = {
   project_id: string,
   literal: string,
   as_in: string
-}
-
-export type Row = {
-  literal: string,
-  as_in: string,
-  translation: string
 }

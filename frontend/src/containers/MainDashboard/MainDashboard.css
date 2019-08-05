@@ -1,0 +1,24 @@
+.MainDashboard {
+  margin-top: 100px;
+  height: calc(100vh - 100px);
+  width: 100vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.MainDashboard h1 {
+  width: 80%;
+  color: #666;
+}
+
+.projects-list {
+  border-top: 1px solid #055038;
+  display: flex;
+  width: 80%;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+}

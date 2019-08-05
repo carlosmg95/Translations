@@ -19,6 +19,7 @@ type Language {
   id: ID! @id
   name: String!
   iso: String! @unique
+  code: String!
   projects: [Project!]!
   users: [User!]!
   translations: [Translation!]!

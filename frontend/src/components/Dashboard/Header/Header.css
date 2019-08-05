@@ -1,0 +1,17 @@
+.breadcrumb a {
+  color: #999;
+  cursor: pointer;
+  margin: 0;
+  margin-bottom: 1px;
+}
+
+.breadcrumb a span:hover,
+.breadcrumb a span:active {
+  border-bottom: 1px solid #999;
+  margin: 0;
+}
+
+.HeaderDashboard__title {
+  width: 80%;
+  color: #666;
+}
