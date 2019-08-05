@@ -24,7 +24,7 @@ const translationRow: React.FC<TranslationRowProps> = (
             props.blur(props.translationId, props.literalId, props.translation);
           }}
           onChange={event => {
-            props.change(event, props.translationId);
+            props.change(event, props.literalId);
           }}
           value={props.translation}
         />

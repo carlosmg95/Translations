@@ -15,9 +15,11 @@ const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
 ) => {
   const translationsMap: Map<string, string> = new Map();
+
   props.translations.forEach((translation: LiteralTranslation) => {
-    translationsMap.set(translation.translationId, translation.translation);
+    translationsMap.set(translation.literalId, translation.translation);
   });
+
   const [rowsState, setRowsState]: [
     Map<string, string>,
     Dispatch<SetStateAction<Map<string, string>>>,
@@ -28,9 +30,9 @@ const Translations: React.FC<TranslationsProps> = (
     Dispatch<SetStateAction<Map<string, string>>>,
   ] = useState(translationsMap);
 
-  const changeValue = (event: any, translationId: string): void => {
+  const changeValue = (event: any, literalId: string): void => {
     let rows: Map<string, string> = new Map(rowsState);
-    rows.set(translationId, event.target.value);
+    rows.set(literalId, event.target.value);
     setRowsState(rows);
   };
 
@@ -54,7 +56,7 @@ const Translations: React.FC<TranslationsProps> = (
   ): void => {
     if (
       translationText &&
-      translationText !== lastSavedDataState.get(translationId)
+      translationText !== lastSavedDataState.get(literalId)
     ) {
       upsert({
         variables: {
@@ -86,7 +88,7 @@ const Translations: React.FC<TranslationsProps> = (
       });
     }
     let rows: Map<string, string> = new Map(lastSavedDataState);
-    rows.set(translationId, translationText);
+    rows.set(literalId, translationText);
     setLastSavedDataState(rows);
   };
 
@@ -105,7 +107,7 @@ const Translations: React.FC<TranslationsProps> = (
               translationId={translation.translationId}
               literal={translation.literal}
               as_in={translation.as_in}
-              translation={rowsState.get(translation.translationId)}
+              translation={rowsState.get(translation.literalId)}
               change={changeValue}
               blur={(translationId, literalId, translationText) => {
                 upsertTranslations(
