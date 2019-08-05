@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import React from 'react';
 import './Translate.css';
 import Dashboard, {
   DashboardBody,
@@ -67,7 +67,9 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
                 user.allowLanguages.indexOf(data.language.id) === -1 ||
                 user.allowProjects.indexOf(data.project.id) === -1
               ) {
-                return <ErrorMessage code={401} message="You shouldn't be here!" />;
+                return (
+                  <ErrorMessage code={401} message="You shouldn't be here!" />
+                );
               }
               const { literals, translations } = data.project;
               const lt = literals.map((literal: Literal) => {

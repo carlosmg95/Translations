@@ -7,7 +7,7 @@ interface TranslationRowProps {
   literal: string;
   as_in: string;
   translation: string | undefined;
-  change(event: any, literal: string): void;
+  change(event: any, translationId: string): void;
   blur(translationId: string, literalId: string, translationText: string): void;
 }
 
@@ -24,7 +24,7 @@ const translationRow: React.FC<TranslationRowProps> = (
             props.blur(props.translationId, props.literalId, props.translation);
           }}
           onChange={event => {
-            props.change(event, props.literal);
+            props.change(event, props.translationId);
           }}
           value={props.translation}
         />

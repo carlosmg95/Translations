@@ -14,19 +14,23 @@ interface TranslationsProps {
 const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
 ) => {
+  const translationsMap: Map<string, string> = new Map();
+  props.translations.forEach((translation: LiteralTranslation) => {
+    translationsMap.set(translation.translationId, translation.translation);
+  });
   const [rowsState, setRowsState]: [
-    LiteralTranslation[],
-    Dispatch<SetStateAction<LiteralTranslation[]>>,
-  ] = useState(props.translations);
+    Map<string, string>,
+    Dispatch<SetStateAction<Map<string, string>>>,
+  ] = useState(translationsMap);
 
-  const changeValue = (event: any, literal: string): void => {
-    let rows: LiteralTranslation[] = rowsState;
+  const [lastSavedDataState, setLastSavedDataState]: [
+    Map<string, string>,
+    Dispatch<SetStateAction<Map<string, string>>>,
+  ] = useState(translationsMap);
 
-    rows = rows.map((row: LiteralTranslation) => {
-      if (row.literal === literal) row.translation = event.target.value;
-      return row;
-    });
-
+  const changeValue = (event: any, translationId: string): void => {
+    let rows: Map<string, string> = new Map(rowsState);
+    rows.set(translationId, event.target.value);
     setRowsState(rows);
   };
 
@@ -48,7 +52,10 @@ const Translations: React.FC<TranslationsProps> = (
     translationText,
     upsert,
   ): void => {
-    if (translationText) {
+    if (
+      translationText &&
+      translationText !== lastSavedDataState.get(translationId)
+    ) {
       upsert({
         variables: {
           where: {
@@ -78,6 +85,9 @@ const Translations: React.FC<TranslationsProps> = (
         },
       });
     }
+    let rows: Map<string, string> = new Map(lastSavedDataState);
+    rows.set(translationId, translationText);
+    setLastSavedDataState(rows);
   };
 
   return (
@@ -87,7 +97,7 @@ const Translations: React.FC<TranslationsProps> = (
         <p className="translation-row__item as-in">As in</p>
         <p className="translation-row__item translation-text">Translation</p>
       </div>
-      {rowsState.map((translation: LiteralTranslation) => (
+      {props.translations.map((translation: LiteralTranslation) => (
         <Mutation key={translation.literalId} mutation={UPSERT_TRANSLATIONS}>
           {upsert => (
             <TranslationRow
@@ -95,7 +105,7 @@ const Translations: React.FC<TranslationsProps> = (
               translationId={translation.translationId}
               literal={translation.literal}
               as_in={translation.as_in}
-              translation={translation.translation}
+              translation={rowsState.get(translation.translationId)}
               change={changeValue}
               blur={(translationId, literalId, translationText) => {
                 upsertTranslations(
