@@ -32,3 +32,22 @@
 .translation-row__item.literal {
   flex-basis: 20%;
 }
+
+@media (max-width: 600px) {
+  .translation-row {
+    flex-flow: row wrap;
+  }
+  .translation-row__item {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+  .translation-row__item.literal::before {
+    content: 'Literal: '
+  }
+  .translation-row__item.as-in::before {
+    content: 'As in: '
+  }
+  .translation-row.header {
+    display: none;
+  }
+}
