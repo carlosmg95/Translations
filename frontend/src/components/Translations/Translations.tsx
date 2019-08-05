@@ -53,12 +53,40 @@ const Translations: React.FC<TranslationsProps> = (
     setNewLiteralState(newLiteralState);
   };
 
-  const addNewLiteral = (): void => {
+  const addNewLiteral = (createTranslation): void => {
     const { literal, as_in, translation } = newLiteralState;
 
     if (literal && as_in && !literal.match(/\s|\.|\//gi)) {
-      // CREATE
-      console.log('entra');
+      createTranslation({
+        variables: {
+          translation: {
+            translation: newLiteralState.translation,
+            project: {
+              connect: {
+                name: props.projectName,
+              },
+            },
+            language: {
+              connect: {
+                id: props.languageId,
+              },
+            },
+            literal: {
+              create: {
+                literal: newLiteralState.literal,
+                as_in: newLiteralState.as_in,
+                project: {
+                  connect: {
+                    name: props.projectName,
+                  },
+                },
+              },
+            },
+          },
+        },
+      }).then(() => {
+        window.location.reload();
+      });
     }
   };
 
@@ -161,36 +189,7 @@ const Translations: React.FC<TranslationsProps> = (
           return (
             <NewLiteralRow
               addNewLiteral={() => {
-                createTranslation({
-                  variables: {
-                    translation: {
-                      translation: newLiteralState.translation,
-                      project: {
-                        connect: {
-                          name: props.projectName,
-                        },
-                      },
-                      language: {
-                        connect: {
-                          id: props.languageId,
-                        },
-                      },
-                      literal: {
-                        create: {
-                          literal: newLiteralState.literal,
-                          as_in: newLiteralState.as_in,
-                          project: {
-                            connect: {
-                              name: props.projectName,
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                }).then(() => {
-                  window.location.reload();
-                });
+                addNewLiteral(createTranslation)
               }}
               changeLiteral={changeLiteral}
             />
