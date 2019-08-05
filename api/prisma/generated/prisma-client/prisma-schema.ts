@@ -384,6 +384,7 @@ input LanguageWhereUniqueInput {
 type Literal {
   id: ID!
   project: Project!
+  translations: Translation!
   literal: String!
   as_in: String!
 }
@@ -397,6 +398,7 @@ type LiteralConnection {
 input LiteralCreateInput {
   id: ID
   project: ProjectCreateOneWithoutLiteralsInput!
+  translations: TranslationCreateOneWithoutLiteralInput!
   literal: String!
   as_in: String!
 }
@@ -406,13 +408,21 @@ input LiteralCreateManyWithoutProjectInput {
   connect: [LiteralWhereUniqueInput!]
 }
 
-input LiteralCreateOneInput {
-  create: LiteralCreateInput
+input LiteralCreateOneWithoutTranslationsInput {
+  create: LiteralCreateWithoutTranslationsInput
   connect: LiteralWhereUniqueInput
 }
 
 input LiteralCreateWithoutProjectInput {
   id: ID
+  translations: TranslationCreateOneWithoutLiteralInput!
+  literal: String!
+  as_in: String!
+}
+
+input LiteralCreateWithoutTranslationsInput {
+  id: ID
+  project: ProjectCreateOneWithoutLiteralsInput!
   literal: String!
   as_in: String!
 }
@@ -503,14 +513,9 @@ input LiteralSubscriptionWhereInput {
   NOT: [LiteralSubscriptionWhereInput!]
 }
 
-input LiteralUpdateDataInput {
-  project: ProjectUpdateOneRequiredWithoutLiteralsInput
-  literal: String
-  as_in: String
-}
-
 input LiteralUpdateInput {
   project: ProjectUpdateOneRequiredWithoutLiteralsInput
+  translations: TranslationUpdateOneRequiredWithoutLiteralInput
   literal: String
   as_in: String
 }
@@ -542,14 +547,21 @@ input LiteralUpdateManyWithWhereNestedInput {
   data: LiteralUpdateManyDataInput!
 }
 
-input LiteralUpdateOneRequiredInput {
-  create: LiteralCreateInput
-  update: LiteralUpdateDataInput
-  upsert: LiteralUpsertNestedInput
+input LiteralUpdateOneRequiredWithoutTranslationsInput {
+  create: LiteralCreateWithoutTranslationsInput
+  update: LiteralUpdateWithoutTranslationsDataInput
+  upsert: LiteralUpsertWithoutTranslationsInput
   connect: LiteralWhereUniqueInput
 }
 
 input LiteralUpdateWithoutProjectDataInput {
+  translations: TranslationUpdateOneRequiredWithoutLiteralInput
+  literal: String
+  as_in: String
+}
+
+input LiteralUpdateWithoutTranslationsDataInput {
+  project: ProjectUpdateOneRequiredWithoutLiteralsInput
   literal: String
   as_in: String
 }
@@ -559,9 +571,9 @@ input LiteralUpdateWithWhereUniqueWithoutProjectInput {
   data: LiteralUpdateWithoutProjectDataInput!
 }
 
-input LiteralUpsertNestedInput {
-  update: LiteralUpdateDataInput!
-  create: LiteralCreateInput!
+input LiteralUpsertWithoutTranslationsInput {
+  update: LiteralUpdateWithoutTranslationsDataInput!
+  create: LiteralCreateWithoutTranslationsInput!
 }
 
 input LiteralUpsertWithWhereUniqueWithoutProjectInput {
@@ -586,6 +598,7 @@ input LiteralWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   project: ProjectWhereInput
+  translations: TranslationWhereInput
   literal: String
   literal_not: String
   literal_in: [String!]
@@ -1034,7 +1047,7 @@ type TranslationConnection {
 input TranslationCreateInput {
   id: ID
   language: LanguageCreateOneWithoutTranslationsInput!
-  literal: LiteralCreateOneInput!
+  literal: LiteralCreateOneWithoutTranslationsInput!
   project: ProjectCreateOneWithoutTranslationsInput!
   translation: String!
 }
@@ -1049,9 +1062,21 @@ input TranslationCreateManyWithoutProjectInput {
   connect: [TranslationWhereUniqueInput!]
 }
 
+input TranslationCreateOneWithoutLiteralInput {
+  create: TranslationCreateWithoutLiteralInput
+  connect: TranslationWhereUniqueInput
+}
+
 input TranslationCreateWithoutLanguageInput {
   id: ID
-  literal: LiteralCreateOneInput!
+  literal: LiteralCreateOneWithoutTranslationsInput!
+  project: ProjectCreateOneWithoutTranslationsInput!
+  translation: String!
+}
+
+input TranslationCreateWithoutLiteralInput {
+  id: ID
+  language: LanguageCreateOneWithoutTranslationsInput!
   project: ProjectCreateOneWithoutTranslationsInput!
   translation: String!
 }
@@ -1059,7 +1084,7 @@ input TranslationCreateWithoutLanguageInput {
 input TranslationCreateWithoutProjectInput {
   id: ID
   language: LanguageCreateOneWithoutTranslationsInput!
-  literal: LiteralCreateOneInput!
+  literal: LiteralCreateOneWithoutTranslationsInput!
   translation: String!
 }
 
@@ -1134,7 +1159,7 @@ input TranslationSubscriptionWhereInput {
 
 input TranslationUpdateInput {
   language: LanguageUpdateOneRequiredWithoutTranslationsInput
-  literal: LiteralUpdateOneRequiredInput
+  literal: LiteralUpdateOneRequiredWithoutTranslationsInput
   project: ProjectUpdateOneRequiredWithoutTranslationsInput
   translation: String
 }
@@ -1176,15 +1201,28 @@ input TranslationUpdateManyWithWhereNestedInput {
   data: TranslationUpdateManyDataInput!
 }
 
+input TranslationUpdateOneRequiredWithoutLiteralInput {
+  create: TranslationCreateWithoutLiteralInput
+  update: TranslationUpdateWithoutLiteralDataInput
+  upsert: TranslationUpsertWithoutLiteralInput
+  connect: TranslationWhereUniqueInput
+}
+
 input TranslationUpdateWithoutLanguageDataInput {
-  literal: LiteralUpdateOneRequiredInput
+  literal: LiteralUpdateOneRequiredWithoutTranslationsInput
+  project: ProjectUpdateOneRequiredWithoutTranslationsInput
+  translation: String
+}
+
+input TranslationUpdateWithoutLiteralDataInput {
+  language: LanguageUpdateOneRequiredWithoutTranslationsInput
   project: ProjectUpdateOneRequiredWithoutTranslationsInput
   translation: String
 }
 
 input TranslationUpdateWithoutProjectDataInput {
   language: LanguageUpdateOneRequiredWithoutTranslationsInput
-  literal: LiteralUpdateOneRequiredInput
+  literal: LiteralUpdateOneRequiredWithoutTranslationsInput
   translation: String
 }
 
@@ -1196,6 +1234,11 @@ input TranslationUpdateWithWhereUniqueWithoutLanguageInput {
 input TranslationUpdateWithWhereUniqueWithoutProjectInput {
   where: TranslationWhereUniqueInput!
   data: TranslationUpdateWithoutProjectDataInput!
+}
+
+input TranslationUpsertWithoutLiteralInput {
+  update: TranslationUpdateWithoutLiteralDataInput!
+  create: TranslationCreateWithoutLiteralInput!
 }
 
 input TranslationUpsertWithWhereUniqueWithoutLanguageInput {

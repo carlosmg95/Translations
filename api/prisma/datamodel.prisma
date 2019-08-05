@@ -2,17 +2,17 @@ type User {
   id: ID! @id
   name: String! @unique
   admin: Boolean! @default(value: false)
-  projects: [Project!]!
-  languages: [Language!]!
+  projects: [Project!]! @relation(name: "ProjectToUser", onDelete: SET_NULL)
+  languages: [Language!]! @relation(name: "LanguageToUser", onDelete: SET_NULL)
 }
 
 type Project {
   id: ID! @id
   name: String! @unique
-  users: [User!]!
-  languages: [Language!]!
-  translations: [Translation!]!
-  literals: [Literal!]!
+  users: [User!]! @relation(name: "ProjectToUser", onDelete: SET_NULL)
+  languages: [Language!]! @relation(name: "LanguageToProject", onDelete: SET_NULL)
+  translations: [Translation!]! @relation(name: "TranslationToProject", onDelete: CASCADE)
+  literals: [Literal!]! @relation(name: "LiteralToProject", onDelete: CASCADE)
 }
 
 type Language {
@@ -20,22 +20,23 @@ type Language {
   name: String!
   iso: String! @unique
   code: String!
-  projects: [Project!]!
-  users: [User!]!
-  translations: [Translation!]!
+  projects: [Project!]! @relation(name: "LanguageToProject", onDelete: SET_NULL)
+  users: [User!]! @relation(name: "LanguageToUser", onDelete: SET_NULL)
+  translations: [Translation!]! @relation(name: "TranslationToLanguage", onDelete: CASCADE)
 }
 
 type Translation {
   id: ID! @id
-  language: Language!
-  literal: Literal!
-  project: Project!
+  language: Language! @relation(name: "TranslationToLanguage", onDelete: SET_NULL)
+  literal: Literal! @relation(name: "TranslationToLiteral", onDelete: SET_NULL, link: INLINE)
+  project: Project! @relation(name: "TranslationToProject", onDelete: SET_NULL)
   translation: String!
 }
 
 type Literal {
   id: ID! @id
-  project: Project!
+  project: Project! @relation(name: "LiteralToProject", onDelete: SET_NULL)
+  translations: Translation! @relation(name: "TranslationToLiteral", onDelete: CASCADE)
   literal: String!
   as_in: String!
 }

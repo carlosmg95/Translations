@@ -9,8 +9,11 @@ const Mutation = {
   },
   async upsertTranslation(parent, { where, create, update }, { prisma }, info) {
     console.info('[info] Mutation: upsertTranslation');
-    return await prisma.mutation.upsertTranslation({ where, create, update }, info);
-  }
+    return await prisma.mutation.upsertTranslation(
+      { where, create, update },
+      info,
+    );
+  },
 };
 
 export { Mutation as default };
