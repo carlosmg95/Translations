@@ -42,10 +42,10 @@
     text-align: center;
   }
   .translation-row__item.literal::before {
-    content: 'Literal: '
+    content: 'Literal: ';
   }
   .translation-row__item.as-in::before {
-    content: 'As in: '
+    content: 'As in: ';
   }
   .translation-row.header {
     display: none;

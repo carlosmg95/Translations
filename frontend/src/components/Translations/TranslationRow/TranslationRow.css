@@ -1,4 +1,5 @@
-textarea {
+textarea,
+input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -6,11 +7,13 @@ textarea {
   min-width: 100%;
   background-color: transparent;
   border: none;
+  height: 40px;
   text-align: center;
   resize: none;
   border: 0.5px dotted #419277;
 }
 
-textarea:focus {
+textarea:focus,
+input:focus {
   background-color: rgba(56, 226, 169, 0.1);
 }

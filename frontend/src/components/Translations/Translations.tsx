@@ -1,6 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
+import NewLiteralRow from './NewLiteralRow/NewLiteralRow';
 import { LiteralTranslation } from '../../types';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -20,6 +21,12 @@ const Translations: React.FC<TranslationsProps> = (
     translationsMap.set(translation.literalId, translation.translation);
   });
 
+  type newLiteral = {
+    literal: string;
+    as_in: string;
+    translation: string;
+  };
+
   const [rowsState, setRowsState]: [
     Map<string, string>,
     Dispatch<SetStateAction<Map<string, string>>>,
@@ -30,10 +37,29 @@ const Translations: React.FC<TranslationsProps> = (
     Dispatch<SetStateAction<Map<string, string>>>,
   ] = useState(translationsMap);
 
+  const [newLiteralState, setNewLiteralState]: [
+    newLiteral,
+    Dispatch<SetStateAction<newLiteral>>,
+  ] = useState({ literal: '', as_in: '', translation: '' });
+
   const changeValue = (event: any, literalId: string): void => {
     let rows: Map<string, string> = new Map(rowsState);
     rows.set(literalId, event.target.value);
     setRowsState(rows);
+  };
+
+  const changeLiteral = (event: any, key: string): void => {
+    newLiteralState[key] = event.target.value;
+    setNewLiteralState(newLiteralState);
+  };
+
+  const addNewLiteral = (): void => {
+    const { literal, as_in, translation } = newLiteralState;
+
+    if (literal && as_in && !literal.match(/\s|\.|\//gi)) {
+      // CREATE
+      console.log('entra');
+    }
   };
 
   const UPSERT_TRANSLATIONS = gql`
@@ -44,6 +70,15 @@ const Translations: React.FC<TranslationsProps> = (
     ) {
       upsertTranslation(where: $where, create: $create, update: $update) {
         id
+      }
+    }
+  `;
+
+  const CREATE_TRANSLATION = gql`
+    mutation CreateTranslation($translation: TranslationCreateInput!) {
+      createTranslation(data: $translation) {
+        id
+        translation
       }
     }
   `;
@@ -121,6 +156,47 @@ const Translations: React.FC<TranslationsProps> = (
           )}
         </Mutation>
       ))}
+      <Mutation mutation={CREATE_TRANSLATION}>
+        {createTranslation => {
+          return (
+            <NewLiteralRow
+              addNewLiteral={() => {
+                createTranslation({
+                  variables: {
+                    translation: {
+                      translation: newLiteralState.translation,
+                      project: {
+                        connect: {
+                          name: props.projectName,
+                        },
+                      },
+                      language: {
+                        connect: {
+                          id: props.languageId,
+                        },
+                      },
+                      literal: {
+                        create: {
+                          literal: newLiteralState.literal,
+                          as_in: newLiteralState.as_in,
+                          project: {
+                            connect: {
+                              name: props.projectName,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                }).then(() => {
+                  window.location.reload();
+                });
+              }}
+              changeLiteral={changeLiteral}
+            />
+          );
+        }}
+      </Mutation>
     </div>
   );
 };

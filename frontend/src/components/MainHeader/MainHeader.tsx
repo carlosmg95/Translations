@@ -14,7 +14,7 @@ const header: React.FC<HeaderProps> = (props: HeaderProps) => {
     <header className="main-header">
       <div className="logo">
         <img src={Logo} alt="logo" />
-        <Link to="../../" className="main-header__title">
+        <Link to="/" className="main-header__title">
           {props.title}
         </Link>
       </div>
