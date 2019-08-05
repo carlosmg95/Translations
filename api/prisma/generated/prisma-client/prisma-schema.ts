@@ -658,6 +658,7 @@ type Mutation {
   deleteProject(where: ProjectWhereUniqueInput!): Project
   deleteManyProjects(where: ProjectWhereInput): BatchPayload!
   createTranslation(data: TranslationCreateInput!): Translation!
+  createLiteralTranslation(data: TranslationCreateInput!): Translation!
   updateTranslation(data: TranslationUpdateInput!, where: TranslationWhereUniqueInput!): Translation
   updateManyTranslations(data: TranslationUpdateManyMutationInput!, where: TranslationWhereInput): BatchPayload!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!

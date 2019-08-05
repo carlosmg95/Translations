@@ -3,8 +3,18 @@ const Mutation = {
     console.info('[info] Mutation: createProject');
     return await prisma.mutation.createProject({ data }, info);
   },
-  async createTranslation(parent, { data }, { prisma }, info) {
+  async createLiteralTranslation(parent, { data }, { prisma }, info) {
     console.info('[info] Mutation: createTranslation');
+
+    const literal: string = data.literal.create.literal;
+    const projectName: string = data.project.connect.name;
+    const existeLiteral: boolean = await prisma.exists.Literal({
+      literal,
+      project: { name: projectName },
+    });
+
+    if (existeLiteral) throw new Error('The literal already exists.');
+
     return await prisma.mutation.createTranslation({ data }, info);
   },
   async upsertTranslation(parent, { where, create, update }, { prisma }, info) {
