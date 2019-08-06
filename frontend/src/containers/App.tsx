@@ -1,14 +1,17 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User, Language, Translation, Literal, Project } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
-import MainDashboard from './MainDashboard/MainDashboard';
-import ProjectDashboard from './ProjectDashboard/ProjectDashboard';
-import Translate from './Translate/Translate';
 import NewProject from './NewProject/NewProject';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+
+const MainDashboard = React.lazy(() => import('./MainDashboard/MainDashboard'));
+const ProjectDashboard = React.lazy(() =>
+  import('./ProjectDashboard/ProjectDashboard'),
+);
+const Translate = React.lazy(() => import('./Translate/Translate'));
 
 interface AppProps {
   user: User;
@@ -93,13 +96,41 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     <div className="App">
       <MainHeader title="Translations" user={props.user} />
       <Switch>
-        <Route exact path="/" render={MainDashboard} />
-        <Route exact path="/dashboard" render={MainDashboard} />
-        <Route exact path="/project/:projectName" render={ProjectDashboard} />
+        <Route
+          exact
+          path="/"
+          render={props => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <MainDashboard {...props} />
+            </Suspense>
+          )}
+        />
+        <Route
+          exact
+          path="/dashboard"
+          render={props => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <MainDashboard {...props} />
+            </Suspense>
+          )}
+        />
+        <Route
+          exact
+          path="/project/:projectName"
+          render={props => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProjectDashboard {...props} />
+            </Suspense>
+          )}
+        />
         <Route
           exact
           path="/project/:projectName/translate/:languageIso"
-          render={Translate}
+          render={props => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Translate {...props} />
+            </Suspense>
+          )}
         />
       </Switch>
     </div>
