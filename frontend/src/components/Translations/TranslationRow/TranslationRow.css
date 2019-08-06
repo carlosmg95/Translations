@@ -1,8 +1,5 @@
 textarea,
 input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   max-width: 100%;
   min-width: 100%;
   background-color: transparent;

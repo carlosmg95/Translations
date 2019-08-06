@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translate.css';
 import Dashboard, {
   DashboardBody,
@@ -6,7 +6,14 @@ import Dashboard, {
 } from '../../components/Dashboard/Dashboard';
 import Translations from '../../components/Translations/Translations';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import { User, Language, Translation, Literal, Project } from '../../types';
+import {
+  User,
+  Language,
+  Translation,
+  Literal,
+  Project,
+  LiteralTranslation,
+} from '../../types';
 import UserContext from '../../context/user-context';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -16,7 +23,25 @@ interface TranslateProps {
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
+  enum Filter {
+    all,
+    translated,
+    noTranslated,
+  }
+  const [filterState, setFilterState]: [
+    Filter,
+    Dispatch<SetStateAction<Filter>>,
+  ] = useState(Filter.all);
+
   const { languageIso, projectName } = props.match.params;
+
+  const selectLiterals = (event: any) => {
+    const { value } = event.target;
+    if (value === 'all') setFilterState(Filter.all);
+    else if (value === 'translated') setFilterState(Filter.translated);
+    else if (value === 'no-translated') setFilterState(Filter.noTranslated);
+  };
+
   const PROJECT = gql`
     {
       project(where: {
@@ -72,22 +97,32 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
                 );
               }
               const { literals, translations } = data.project;
-              const lt = literals.map((literal: Literal) => {
-                const translation: Translation = translations.find(
-                  translation => translation.literal.id === literal.id,
-                );
-                const translationText = translation
-                  ? translation.translation
-                  : '';
-                const translationId = translation ? translation.id : '0';
-                return {
-                  translationId,
-                  literalId: literal.id,
-                  translation: translationText,
-                  as_in: literal.as_in,
-                  literal: literal.literal,
-                };
-              });
+              const lt: LiteralTranslation[] = literals
+                .map((literal: Literal) => {
+                  const translation: Translation = translations.find(
+                    translation => translation.literal.id === literal.id,
+                  );
+                  const translationText = translation
+                    ? translation.translation
+                    : '';
+                  const translationId = translation ? translation.id : '0';
+                  return {
+                    translationId,
+                    literalId: literal.id,
+                    translation: translationText,
+                    as_in: literal.as_in,
+                    literal: literal.literal,
+                  };
+                })
+                .filter((literal: LiteralTranslation) => {
+                  if (filterState === Filter.all) {
+                    return true;
+                  } else if (filterState === Filter.translated) {
+                    return literal.translation !== '';
+                  } else if (filterState === Filter.noTranslated) {
+                    return literal.translation === '';
+                  }
+                });
               return (
                 <Dashboard>
                   <DashboardHeader
@@ -102,6 +137,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
                       projectName={projectName}
                       languageId={data.language.id}
                       translations={lt}
+                      selectLiterals={selectLiterals}
                     />
                   </DashboardBody>
                 </Dashboard>
