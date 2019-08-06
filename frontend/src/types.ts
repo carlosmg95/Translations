@@ -34,3 +34,11 @@ export type Literal = {
   literal: string,
   as_in: string
 }
+
+export type LiteralTranslation = {
+  literalId: string;
+  translationId: string;
+  literal: string,
+  as_in: string,
+  translation: string
+}

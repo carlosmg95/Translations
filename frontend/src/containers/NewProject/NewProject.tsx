@@ -87,7 +87,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     <div className="new-project">
       <h1>Create a new project</h1>
       {errorMessageState ? (
-        <ErrorMessage>{errorMessageState}</ErrorMessage>
+        <ErrorMessage code={403} message={errorMessageState} />
       ) : (
         ''
       )}

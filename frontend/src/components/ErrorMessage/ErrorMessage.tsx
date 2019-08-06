@@ -2,15 +2,19 @@ import React from 'react';
 import './ErrorMessage.css';
 
 interface ErrorMessageProps {
-  children: string;
+  code: number;
+  message: string;
 }
 
 const ErrorMessage: React.FC<ErrorMessageProps> = (
   props: ErrorMessageProps,
 ) => {
   return (
-    <div className="error">
-      <h2>{props.children}</h2>
+    <div className="ErrorMessage">
+      <div className="error">
+        <h2>{props.code}</h2>
+        <small>{props.message}</small>
+      </div>
     </div>
   );
 };
