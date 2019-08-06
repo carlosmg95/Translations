@@ -12,19 +12,14 @@ import gql from 'graphql-tag';
 
 interface AppProps {
   user: User;
-  users: User[];
-  translations: Translation[];
-  literals: Literal[];
-  languages: Language[];
-  projects: Project[];
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
   const path: string = window.location.pathname.replace(/\/$/, '');
 
-  const projects: Project[] = props.projects.filter(
+  /*const projects: Project[] = props.projects.filter(
     (project: Project) => props.user.allowProjects.indexOf(project.id) !== -1,
-  );
+  );*/
 
   const CREATE_PROJECT = gql`
     mutation CreateProject($project: ProjectCreateInput!) {
@@ -40,8 +35,8 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     }
   `;
 
-  let body: JSX.Element = <div></div>;
-  if (path.match(/^\/translate.*/)) {
+  /*let body: JSX.Element = <div></div>;
+  if (path.match(/^\/translate.*)) {
     /*body = (
       <Translate
         user={props.user}
@@ -50,9 +45,9 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         languages={props.languages}
         projects={projects}
       />
-    );*/
-  } else if (path.match(/^\/newproject.*/)) {
-    body = (
+    );*
+  } else if (path.match(/^\/newproject.*)) {
+    /*body = (
       <Mutation mutation={CREATE_PROJECT}>
         {(createProject: any) => (
           <NewProject
@@ -91,8 +86,8 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           />
         )}
       </Mutation>
-    );
-  }
+    );*
+  }*/
 
   return (
     <div className="App">

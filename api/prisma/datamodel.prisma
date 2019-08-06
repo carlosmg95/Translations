@@ -28,7 +28,7 @@ type Language {
 type Translation {
   id: ID! @id
   language: Language! @relation(name: "TranslationToLanguage", onDelete: SET_NULL)
-  literal: Literal! @relation(name: "TranslationToLiteral", onDelete: SET_NULL, link: INLINE)
+  literal: Literal! @relation(name: "TranslationToLiteral", onDelete: SET_NULL)
   project: Project! @relation(name: "TranslationToProject", onDelete: SET_NULL)
   translation: String!
 }
@@ -36,7 +36,7 @@ type Translation {
 type Literal {
   id: ID! @id
   project: Project! @relation(name: "LiteralToProject", onDelete: SET_NULL)
-  translations: Translation! @relation(name: "TranslationToLiteral", onDelete: CASCADE)
+  translations: [Translation!]! @relation(name: "TranslationToLiteral", onDelete: CASCADE)
   literal: String!
   as_in: String!
 }

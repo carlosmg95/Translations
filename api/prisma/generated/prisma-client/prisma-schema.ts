@@ -384,7 +384,7 @@ input LanguageWhereUniqueInput {
 type Literal {
   id: ID!
   project: Project!
-  translations: Translation!
+  translations(where: TranslationWhereInput, orderBy: TranslationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Translation!]
   literal: String!
   as_in: String!
 }
@@ -398,7 +398,7 @@ type LiteralConnection {
 input LiteralCreateInput {
   id: ID
   project: ProjectCreateOneWithoutLiteralsInput!
-  translations: TranslationCreateOneWithoutLiteralInput!
+  translations: TranslationCreateManyWithoutLiteralInput
   literal: String!
   as_in: String!
 }
@@ -415,7 +415,7 @@ input LiteralCreateOneWithoutTranslationsInput {
 
 input LiteralCreateWithoutProjectInput {
   id: ID
-  translations: TranslationCreateOneWithoutLiteralInput!
+  translations: TranslationCreateManyWithoutLiteralInput
   literal: String!
   as_in: String!
 }
@@ -515,7 +515,7 @@ input LiteralSubscriptionWhereInput {
 
 input LiteralUpdateInput {
   project: ProjectUpdateOneRequiredWithoutLiteralsInput
-  translations: TranslationUpdateOneRequiredWithoutLiteralInput
+  translations: TranslationUpdateManyWithoutLiteralInput
   literal: String
   as_in: String
 }
@@ -555,7 +555,7 @@ input LiteralUpdateOneRequiredWithoutTranslationsInput {
 }
 
 input LiteralUpdateWithoutProjectDataInput {
-  translations: TranslationUpdateOneRequiredWithoutLiteralInput
+  translations: TranslationUpdateManyWithoutLiteralInput
   literal: String
   as_in: String
 }
@@ -598,7 +598,9 @@ input LiteralWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   project: ProjectWhereInput
-  translations: TranslationWhereInput
+  translations_every: TranslationWhereInput
+  translations_some: TranslationWhereInput
+  translations_none: TranslationWhereInput
   literal: String
   literal_not: String
   literal_in: [String!]
@@ -1058,14 +1060,14 @@ input TranslationCreateManyWithoutLanguageInput {
   connect: [TranslationWhereUniqueInput!]
 }
 
-input TranslationCreateManyWithoutProjectInput {
-  create: [TranslationCreateWithoutProjectInput!]
+input TranslationCreateManyWithoutLiteralInput {
+  create: [TranslationCreateWithoutLiteralInput!]
   connect: [TranslationWhereUniqueInput!]
 }
 
-input TranslationCreateOneWithoutLiteralInput {
-  create: TranslationCreateWithoutLiteralInput
-  connect: TranslationWhereUniqueInput
+input TranslationCreateManyWithoutProjectInput {
+  create: [TranslationCreateWithoutProjectInput!]
+  connect: [TranslationWhereUniqueInput!]
 }
 
 input TranslationCreateWithoutLanguageInput {
@@ -1185,6 +1187,18 @@ input TranslationUpdateManyWithoutLanguageInput {
   updateMany: [TranslationUpdateManyWithWhereNestedInput!]
 }
 
+input TranslationUpdateManyWithoutLiteralInput {
+  create: [TranslationCreateWithoutLiteralInput!]
+  delete: [TranslationWhereUniqueInput!]
+  connect: [TranslationWhereUniqueInput!]
+  set: [TranslationWhereUniqueInput!]
+  disconnect: [TranslationWhereUniqueInput!]
+  update: [TranslationUpdateWithWhereUniqueWithoutLiteralInput!]
+  upsert: [TranslationUpsertWithWhereUniqueWithoutLiteralInput!]
+  deleteMany: [TranslationScalarWhereInput!]
+  updateMany: [TranslationUpdateManyWithWhereNestedInput!]
+}
+
 input TranslationUpdateManyWithoutProjectInput {
   create: [TranslationCreateWithoutProjectInput!]
   delete: [TranslationWhereUniqueInput!]
@@ -1200,13 +1214,6 @@ input TranslationUpdateManyWithoutProjectInput {
 input TranslationUpdateManyWithWhereNestedInput {
   where: TranslationScalarWhereInput!
   data: TranslationUpdateManyDataInput!
-}
-
-input TranslationUpdateOneRequiredWithoutLiteralInput {
-  create: TranslationCreateWithoutLiteralInput
-  update: TranslationUpdateWithoutLiteralDataInput
-  upsert: TranslationUpsertWithoutLiteralInput
-  connect: TranslationWhereUniqueInput
 }
 
 input TranslationUpdateWithoutLanguageDataInput {
@@ -1232,20 +1239,26 @@ input TranslationUpdateWithWhereUniqueWithoutLanguageInput {
   data: TranslationUpdateWithoutLanguageDataInput!
 }
 
+input TranslationUpdateWithWhereUniqueWithoutLiteralInput {
+  where: TranslationWhereUniqueInput!
+  data: TranslationUpdateWithoutLiteralDataInput!
+}
+
 input TranslationUpdateWithWhereUniqueWithoutProjectInput {
   where: TranslationWhereUniqueInput!
   data: TranslationUpdateWithoutProjectDataInput!
-}
-
-input TranslationUpsertWithoutLiteralInput {
-  update: TranslationUpdateWithoutLiteralDataInput!
-  create: TranslationCreateWithoutLiteralInput!
 }
 
 input TranslationUpsertWithWhereUniqueWithoutLanguageInput {
   where: TranslationWhereUniqueInput!
   update: TranslationUpdateWithoutLanguageDataInput!
   create: TranslationCreateWithoutLanguageInput!
+}
+
+input TranslationUpsertWithWhereUniqueWithoutLiteralInput {
+  where: TranslationWhereUniqueInput!
+  update: TranslationUpdateWithoutLiteralDataInput!
+  create: TranslationCreateWithoutLiteralInput!
 }
 
 input TranslationUpsertWithWhereUniqueWithoutProjectInput {

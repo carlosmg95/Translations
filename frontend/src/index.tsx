@@ -27,7 +27,7 @@ client
   .query({
     query: gql`
       {
-        users(where: {}) {
+        user(where: { name: "admin" }) {
           id
           name
           admin
@@ -38,78 +38,18 @@ client
             id
           }
         }
-        projects(where: {}) {
-          id
-          name
-          languages {
-            id
-            name
-            iso
-            code
-          }
-          literals {
-            id
-          }
-        }
-        languages(where: {}) {
-          id
-          name
-          iso
-        }
-        translations(where: {}) {
-          id
-          language {
-            id
-          }
-          literal {
-            id
-          }
-          project {
-            id
-          }
-          translation
-        }
-        literals(where: {}) {
-          id
-          as_in
-          project {
-            id
-          }
-          literal
-        }
       }
     `,
   })
   .then(response => {
-    let { users, literals, translations, languages, projects } = response.data;
+    let { user } = response.data;
 
-    users = users.map((user: any) => {
-      user.allowLanguages = user.languages.map(
-        (language: Language) => language.id,
-      );
-      user.allowProjects = user.projects.map((project: Project) => project.id);
-      delete user.languages;
-      delete user.projects;
-      return user;
-    });
-
-    literals = literals.map((literal: any) => {
-      literal.project_id = literal.project.id;
-      delete literal.project;
-      return literal;
-    });
-
-    translations = translations.map((translation: any) => {
-      translation.project_id = translation.project.id;
-      translation.literal_id = translation.literal.id;
-      translation.lang_id = translation.language.id;
-      delete translation.project;
-      delete translation.literal;
-      delete translation.language;
-      return translation;
-    });
-
-    const user: User = users.find((user: User) => user.admin) as User;
+    user.allowLanguages = user.languages.map(
+      (language: Language) => language.id,
+    );
+    user.allowProjects = user.projects.map((project: Project) => project.id);
+    delete user.languages;
+    delete user.projects;
 
     ReactDOM.render(
       <ApolloProvider client={client}>
@@ -117,11 +57,6 @@ client
           <UserContext.Provider value={{ user }}>
             <App
               user={user}
-              users={users}
-              projects={projects}
-              literals={literals}
-              translations={translations}
-              languages={languages}
             />
           </UserContext.Provider>
         </BrowserRouter>
