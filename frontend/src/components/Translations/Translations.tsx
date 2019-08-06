@@ -53,14 +53,16 @@ const Translations: React.FC<TranslationsProps> = (
     setNewLiteralState(newLiteralState);
   };
 
-  const addNewLiteral = (createTranslation): void => {
-    const { literal, as_in, translation } = newLiteralState;
+  const addNewLiteral = (createTranslation): Promise<string> => {
+    let { literal, as_in, translation } = newLiteralState;
 
-    if (literal && as_in && !literal.match(/\s|\.|\//gi)) {
-      createTranslation({
+    as_in = as_in || literal;
+
+    if (literal && !literal.match(/\s|\.|\//gi)) {
+      return createTranslation({
         variables: {
           translation: {
-            translation: newLiteralState.translation,
+            translation: translation,
             project: {
               connect: {
                 name: props.projectName,
@@ -73,8 +75,8 @@ const Translations: React.FC<TranslationsProps> = (
             },
             literal: {
               create: {
-                literal: newLiteralState.literal,
-                as_in: newLiteralState.as_in,
+                literal: literal,
+                as_in: as_in,
                 project: {
                   connect: {
                     name: props.projectName,
@@ -84,8 +86,10 @@ const Translations: React.FC<TranslationsProps> = (
             },
           },
         },
-      }).then(() => {
-        window.location.reload();
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        reject({ message: 'Empty literal.' });
       });
     }
   };
@@ -104,7 +108,7 @@ const Translations: React.FC<TranslationsProps> = (
 
   const CREATE_TRANSLATION = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
-      createTranslation(data: $translation) {
+      createLiteralTranslation(data: $translation) {
         id
         translation
       }
@@ -188,9 +192,7 @@ const Translations: React.FC<TranslationsProps> = (
         {createTranslation => {
           return (
             <NewLiteralRow
-              addNewLiteral={() => {
-                addNewLiteral(createTranslation)
-              }}
+              addNewLiteral={() => addNewLiteral(createTranslation)}
               changeLiteral={changeLiteral}
             />
           );

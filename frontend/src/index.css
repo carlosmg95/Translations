@@ -24,3 +24,8 @@ a {
 a:focus {
   outline: none;
 }
+
+.error-message-sm {
+  color: red;
+  text-align: center;
+}

@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import './NewLiteralRow.css';
 
 interface NewLiteralRowProps {
-  addNewLiteral(): void;
+  addNewLiteral(): Promise<string>;
   changeLiteral(event: any, key: string): void;
 }
 
-const newLiteralRow: React.FC<NewLiteralRowProps> = (
+const NewLiteralRow: React.FC<NewLiteralRowProps> = (
   props: NewLiteralRowProps,
 ) => {
+  const [errorState, setErrorState]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
   return (
     <div className="new-literal-row">
       <p className="new-literal-row__item literal">
@@ -17,6 +22,11 @@ const newLiteralRow: React.FC<NewLiteralRowProps> = (
           placeholder="new literal"
           onChange={event => props.changeLiteral(event, 'literal')}
         />
+        {errorState ? (
+          <small className="error-message-sm">{errorState}</small>
+        ) : (
+          ''
+        )}
       </p>
       <p className="new-literal-row__item as-in">
         <input
@@ -36,7 +46,19 @@ const newLiteralRow: React.FC<NewLiteralRowProps> = (
           type="button"
           className="create-btn"
           onClick={() => {
-            props.addNewLiteral();
+            props
+              .addNewLiteral()
+              .then(() => {
+                setErrorState('');
+                window.location.reload();
+              })
+              .catch(e => {
+                const errorMessage: string = e.message.replace(
+                  /^.+:\s(.+)$/,
+                  '$1',
+                );
+                setErrorState(errorMessage);
+              });
           }}
         >
           Create
@@ -46,4 +68,4 @@ const newLiteralRow: React.FC<NewLiteralRowProps> = (
   );
 };
 
-export default newLiteralRow;
+export default NewLiteralRow;
