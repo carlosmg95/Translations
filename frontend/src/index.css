@@ -24,3 +24,10 @@ a {
 a:focus {
   outline: none;
 }
+
+[type='checkbox'],
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

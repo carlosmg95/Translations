@@ -9,6 +9,7 @@ interface TranslationsProps {
   projectName: string;
   languageId: string;
   translations: LiteralTranslation[];
+  selectLiterals(event: any): void;
 }
 
 const Translations: React.FC<TranslationsProps> = (
@@ -94,6 +95,11 @@ const Translations: React.FC<TranslationsProps> = (
 
   return (
     <div className="Translations">
+      <select className="select-filter" onChange={props.selectLiterals}>
+        <option value="all">All</option>
+        <option value="translated">Translated</option>
+        <option value="no-translated">No translated</option>
+      </select>
       <div className="translation-row header">
         <p className="translation-row__item literal">Literal</p>
         <p className="translation-row__item as-in">As in</p>

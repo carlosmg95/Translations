@@ -1,7 +1,9 @@
 .Translations {
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-flow: row wrap;
+  position: relative;
 }
 
 .translation-row {
@@ -33,6 +35,14 @@
   flex-basis: 20%;
 }
 
+.select-filter {
+  padding: 5px;
+  text-align: right;
+  right: 0;
+  top: -30px;
+  position: absolute;
+}
+
 @media (max-width: 600px) {
   .translation-row {
     flex-flow: row wrap;
@@ -42,10 +52,10 @@
     text-align: center;
   }
   .translation-row__item.literal::before {
-    content: 'Literal: '
+    content: 'Literal: ';
   }
   .translation-row__item.as-in::before {
-    content: 'As in: '
+    content: 'As in: ';
   }
   .translation-row.header {
     display: none;
