@@ -1,5 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import './NewLiteralRow.css';
+import PillButton from '../../PillButton/PillButton';
 
 interface NewLiteralRowProps {
   addNewLiteral(): Promise<string>;
@@ -42,9 +43,9 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
         />
       </p>
       <p className="new-literal-row__item btn add-literal">
-        <button
-          type="button"
+        <PillButton
           className="create-btn"
+          text="Create"
           onClick={() => {
             props
               .addNewLiteral()
@@ -60,9 +61,7 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
                 setErrorState(errorMessage);
               });
           }}
-        >
-          Create
-        </button>
+        />
       </p>
     </div>
   );

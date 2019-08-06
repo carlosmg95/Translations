@@ -1,0 +1,27 @@
+.PillButton {
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 10px 20px;
+  color: #3ad09e;
+  background-color: white;
+  border: solid 1px #3ad09e;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.PillButton:focus {
+  outline: none;
+}
+
+.PillButton:hover,
+.PillButton:active {
+  border-color: #3ea985;
+  color: #3ea985;
+}
+
+.PillButton:disabled {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
