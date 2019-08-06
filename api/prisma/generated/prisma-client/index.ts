@@ -301,11 +301,10 @@ export type LiteralOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface LiteralUpdateOneRequiredInput {
-  create?: Maybe<LiteralCreateInput>;
-  update?: Maybe<LiteralUpdateDataInput>;
-  upsert?: Maybe<LiteralUpsertNestedInput>;
-  connect?: Maybe<LiteralWhereUniqueInput>;
+export interface LiteralUpdateWithoutTranslationsDataInput {
+  project?: Maybe<ProjectUpdateOneRequiredWithoutLiteralsInput>;
+  literal?: Maybe<String>;
+  as_in?: Maybe<String>;
 }
 
 export type LanguageWhereUniqueInput = AtLeastOne<{
@@ -313,27 +312,9 @@ export type LanguageWhereUniqueInput = AtLeastOne<{
   iso?: Maybe<String>;
 }>;
 
-export interface LanguageUpdateManyWithoutProjectsInput {
-  create?: Maybe<
-    LanguageCreateWithoutProjectsInput[] | LanguageCreateWithoutProjectsInput
-  >;
-  delete?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
-  connect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
-  set?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
-  disconnect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
-  update?: Maybe<
-    | LanguageUpdateWithWhereUniqueWithoutProjectsInput[]
-    | LanguageUpdateWithWhereUniqueWithoutProjectsInput
-  >;
-  upsert?: Maybe<
-    | LanguageUpsertWithWhereUniqueWithoutProjectsInput[]
-    | LanguageUpsertWithWhereUniqueWithoutProjectsInput
-  >;
-  deleteMany?: Maybe<LanguageScalarWhereInput[] | LanguageScalarWhereInput>;
-  updateMany?: Maybe<
-    | LanguageUpdateManyWithWhereNestedInput[]
-    | LanguageUpdateManyWithWhereNestedInput
-  >;
+export interface LanguageUpdateWithWhereUniqueWithoutProjectsInput {
+  where: LanguageWhereUniqueInput;
+  data: LanguageUpdateWithoutProjectsDataInput;
 }
 
 export interface TranslationWhereInput {
@@ -373,9 +354,12 @@ export interface TranslationWhereInput {
   NOT?: Maybe<TranslationWhereInput[] | TranslationWhereInput>;
 }
 
-export interface LanguageUpdateWithWhereUniqueWithoutProjectsInput {
-  where: LanguageWhereUniqueInput;
-  data: LanguageUpdateWithoutProjectsDataInput;
+export interface LanguageUpdateWithoutProjectsDataInput {
+  name?: Maybe<String>;
+  iso?: Maybe<String>;
+  code?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutLanguagesInput>;
+  translations?: Maybe<TranslationUpdateManyWithoutLanguageInput>;
 }
 
 export interface LanguageWhereInput {
@@ -449,54 +433,65 @@ export interface LanguageWhereInput {
   NOT?: Maybe<LanguageWhereInput[] | LanguageWhereInput>;
 }
 
-export interface ProjectUpdateManyWithoutLanguagesInput {
-  create?: Maybe<
-    ProjectCreateWithoutLanguagesInput[] | ProjectCreateWithoutLanguagesInput
-  >;
-  delete?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
-  connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
-  set?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
-  disconnect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
-  update?: Maybe<
-    | ProjectUpdateWithWhereUniqueWithoutLanguagesInput[]
-    | ProjectUpdateWithWhereUniqueWithoutLanguagesInput
-  >;
-  upsert?: Maybe<
-    | ProjectUpsertWithWhereUniqueWithoutLanguagesInput[]
-    | ProjectUpsertWithWhereUniqueWithoutLanguagesInput
-  >;
-  deleteMany?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
-  updateMany?: Maybe<
-    | ProjectUpdateManyWithWhereNestedInput[]
-    | ProjectUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ProjectUpdateOneRequiredWithoutTranslationsInput {
-  create?: Maybe<ProjectCreateWithoutTranslationsInput>;
-  update?: Maybe<ProjectUpdateWithoutTranslationsDataInput>;
-  upsert?: Maybe<ProjectUpsertWithoutTranslationsInput>;
-  connect?: Maybe<ProjectWhereUniqueInput>;
-}
-
-export interface ProjectUpdateWithWhereUniqueWithoutLanguagesInput {
-  where: ProjectWhereUniqueInput;
-  data: ProjectUpdateWithoutLanguagesDataInput;
-}
-
-export interface LanguageUpdateWithoutProjectsDataInput {
-  name?: Maybe<String>;
-  iso?: Maybe<String>;
-  code?: Maybe<String>;
-  users?: Maybe<UserUpdateManyWithoutLanguagesInput>;
-  translations?: Maybe<TranslationUpdateManyWithoutLanguageInput>;
-}
-
 export interface ProjectUpdateWithoutLanguagesDataInput {
   name?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutProjectsInput>;
   translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
   literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+}
+
+export interface ProjectUpsertWithoutLiteralsInput {
+  update: ProjectUpdateWithoutLiteralsDataInput;
+  create: ProjectCreateWithoutLiteralsInput;
+}
+
+export interface UserUpdateManyWithoutProjectsInput {
+  create?: Maybe<
+    UserCreateWithoutProjectsInput[] | UserCreateWithoutProjectsInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutProjectsInput[]
+    | UserUpdateWithWhereUniqueWithoutProjectsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutProjectsInput[]
+    | UserUpsertWithWhereUniqueWithoutProjectsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateManyWithoutLanguagesInput {
+  create?: Maybe<
+    UserCreateWithoutLanguagesInput[] | UserCreateWithoutLanguagesInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutLanguagesInput[]
+    | UserUpdateWithWhereUniqueWithoutLanguagesInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutLanguagesInput[]
+    | UserUpsertWithWhereUniqueWithoutLanguagesInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutProjectsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutProjectsDataInput;
 }
 
 export interface UserWhereInput {
@@ -541,26 +536,10 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface UserUpdateManyWithoutProjectsInput {
-  create?: Maybe<
-    UserCreateWithoutProjectsInput[] | UserCreateWithoutProjectsInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutProjectsInput[]
-    | UserUpdateWithWhereUniqueWithoutProjectsInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutProjectsInput[]
-    | UserUpsertWithWhereUniqueWithoutProjectsInput
-  >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
+export interface UserUpdateWithoutProjectsDataInput {
+  name?: Maybe<String>;
+  admin?: Maybe<Boolean>;
+  languages?: Maybe<LanguageUpdateManyWithoutUsersInput>;
 }
 
 export interface TranslationSubscriptionWhereInput {
@@ -578,33 +557,6 @@ export interface TranslationSubscriptionWhereInput {
   NOT?: Maybe<
     TranslationSubscriptionWhereInput[] | TranslationSubscriptionWhereInput
   >;
-}
-
-export interface UserUpdateWithWhereUniqueWithoutProjectsInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutProjectsDataInput;
-}
-
-export interface LiteralSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LiteralWhereInput>;
-  AND?: Maybe<LiteralSubscriptionWhereInput[] | LiteralSubscriptionWhereInput>;
-  OR?: Maybe<LiteralSubscriptionWhereInput[] | LiteralSubscriptionWhereInput>;
-  NOT?: Maybe<LiteralSubscriptionWhereInput[] | LiteralSubscriptionWhereInput>;
-}
-
-export interface UserUpdateWithoutProjectsDataInput {
-  name?: Maybe<String>;
-  admin?: Maybe<Boolean>;
-  languages?: Maybe<LanguageUpdateManyWithoutUsersInput>;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
-  admin?: Maybe<Boolean>;
 }
 
 export interface LanguageUpdateManyWithoutUsersInput {
@@ -630,12 +582,15 @@ export interface LanguageUpdateManyWithoutUsersInput {
   >;
 }
 
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  admin?: Maybe<Boolean>;
-  projects?: Maybe<ProjectCreateManyWithoutUsersInput>;
-  languages?: Maybe<LanguageCreateManyWithoutUsersInput>;
+export interface LiteralSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LiteralWhereInput>;
+  AND?: Maybe<LiteralSubscriptionWhereInput[] | LiteralSubscriptionWhereInput>;
+  OR?: Maybe<LiteralSubscriptionWhereInput[] | LiteralSubscriptionWhereInput>;
+  NOT?: Maybe<LiteralSubscriptionWhereInput[] | LiteralSubscriptionWhereInput>;
 }
 
 export interface LanguageUpdateWithWhereUniqueWithoutUsersInput {
@@ -643,8 +598,9 @@ export interface LanguageUpdateWithWhereUniqueWithoutUsersInput {
   data: LanguageUpdateWithoutUsersDataInput;
 }
 
-export interface TranslationUpdateManyMutationInput {
-  translation?: Maybe<String>;
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  admin?: Maybe<Boolean>;
 }
 
 export interface LanguageUpdateWithoutUsersDataInput {
@@ -655,12 +611,12 @@ export interface LanguageUpdateWithoutUsersDataInput {
   translations?: Maybe<TranslationUpdateManyWithoutLanguageInput>;
 }
 
-export interface TranslationCreateInput {
+export interface UserCreateInput {
   id?: Maybe<ID_Input>;
-  language: LanguageCreateOneWithoutTranslationsInput;
-  literal: LiteralCreateOneInput;
-  project: ProjectCreateOneWithoutTranslationsInput;
-  translation: String;
+  name: String;
+  admin?: Maybe<Boolean>;
+  projects?: Maybe<ProjectCreateManyWithoutUsersInput>;
+  languages?: Maybe<LanguageCreateManyWithoutUsersInput>;
 }
 
 export interface TranslationUpdateManyWithoutLanguageInput {
@@ -691,13 +647,38 @@ export interface TranslationUpdateManyWithoutLanguageInput {
   >;
 }
 
-export interface ProjectUpdateManyMutationInput {
-  name?: Maybe<String>;
+export interface TranslationUpdateManyMutationInput {
+  translation?: Maybe<String>;
 }
 
 export interface TranslationUpdateWithWhereUniqueWithoutLanguageInput {
   where: TranslationWhereUniqueInput;
   data: TranslationUpdateWithoutLanguageDataInput;
+}
+
+export interface TranslationCreateInput {
+  id?: Maybe<ID_Input>;
+  language: LanguageCreateOneWithoutTranslationsInput;
+  literal: LiteralCreateOneWithoutTranslationsInput;
+  project: ProjectCreateOneWithoutTranslationsInput;
+  translation: String;
+}
+
+export interface TranslationUpdateWithoutLanguageDataInput {
+  literal?: Maybe<LiteralUpdateOneRequiredWithoutTranslationsInput>;
+  project?: Maybe<ProjectUpdateOneRequiredWithoutTranslationsInput>;
+  translation?: Maybe<String>;
+}
+
+export interface ProjectUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface LiteralUpdateOneRequiredWithoutTranslationsInput {
+  create?: Maybe<LiteralCreateWithoutTranslationsInput>;
+  update?: Maybe<LiteralUpdateWithoutTranslationsDataInput>;
+  upsert?: Maybe<LiteralUpsertWithoutTranslationsInput>;
+  connect?: Maybe<LiteralWhereUniqueInput>;
 }
 
 export interface ProjectCreateInput {
@@ -709,39 +690,15 @@ export interface ProjectCreateInput {
   literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
 }
 
-export interface TranslationUpdateWithoutLanguageDataInput {
-  literal?: Maybe<LiteralUpdateOneRequiredInput>;
-  project?: Maybe<ProjectUpdateOneRequiredWithoutTranslationsInput>;
-  translation?: Maybe<String>;
+export interface LanguageUpsertWithWhereUniqueWithoutUsersInput {
+  where: LanguageWhereUniqueInput;
+  update: LanguageUpdateWithoutUsersDataInput;
+  create: LanguageCreateWithoutUsersInput;
 }
 
 export interface LiteralUpdateManyMutationInput {
   literal?: Maybe<String>;
   as_in?: Maybe<String>;
-}
-
-export interface TranslationUpsertWithWhereUniqueWithoutLanguageInput {
-  where: TranslationWhereUniqueInput;
-  update: TranslationUpdateWithoutLanguageDataInput;
-  create: TranslationCreateWithoutLanguageInput;
-}
-
-export interface LanguageUpdateManyMutationInput {
-  name?: Maybe<String>;
-  iso?: Maybe<String>;
-  code?: Maybe<String>;
-}
-
-export interface LiteralUpdateDataInput {
-  project?: Maybe<ProjectUpdateOneRequiredWithoutLiteralsInput>;
-  literal?: Maybe<String>;
-  as_in?: Maybe<String>;
-}
-
-export interface ProjectUpsertWithWhereUniqueWithoutLanguagesInput {
-  where: ProjectWhereUniqueInput;
-  update: ProjectUpdateWithoutLanguagesDataInput;
-  create: ProjectCreateWithoutLanguagesInput;
 }
 
 export interface ProjectUpdateOneRequiredWithoutLiteralsInput {
@@ -751,10 +708,12 @@ export interface ProjectUpdateOneRequiredWithoutLiteralsInput {
   connect?: Maybe<ProjectWhereUniqueInput>;
 }
 
-export interface LanguageUpsertWithWhereUniqueWithoutUsersInput {
-  where: LanguageWhereUniqueInput;
-  update: LanguageUpdateWithoutUsersDataInput;
-  create: LanguageCreateWithoutUsersInput;
+export interface LiteralCreateInput {
+  id?: Maybe<ID_Input>;
+  project: ProjectCreateOneWithoutLiteralsInput;
+  translations?: Maybe<TranslationCreateManyWithoutLiteralInput>;
+  literal: String;
+  as_in: String;
 }
 
 export interface ProjectUpdateWithoutLiteralsDataInput {
@@ -764,14 +723,39 @@ export interface ProjectUpdateWithoutLiteralsDataInput {
   translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
 }
 
-export interface LanguageCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  iso: String;
-  code: String;
-  projects?: Maybe<ProjectCreateManyWithoutLanguagesInput>;
-  users?: Maybe<UserCreateManyWithoutLanguagesInput>;
-  translations?: Maybe<TranslationCreateManyWithoutLanguageInput>;
+export interface LanguageUpdateManyMutationInput {
+  name?: Maybe<String>;
+  iso?: Maybe<String>;
+  code?: Maybe<String>;
+}
+
+export interface LanguageUpdateManyWithoutProjectsInput {
+  create?: Maybe<
+    LanguageCreateWithoutProjectsInput[] | LanguageCreateWithoutProjectsInput
+  >;
+  delete?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
+  connect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
+  set?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
+  disconnect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
+  update?: Maybe<
+    | LanguageUpdateWithWhereUniqueWithoutProjectsInput[]
+    | LanguageUpdateWithWhereUniqueWithoutProjectsInput
+  >;
+  upsert?: Maybe<
+    | LanguageUpsertWithWhereUniqueWithoutProjectsInput[]
+    | LanguageUpsertWithWhereUniqueWithoutProjectsInput
+  >;
+  deleteMany?: Maybe<LanguageScalarWhereInput[] | LanguageScalarWhereInput>;
+  updateMany?: Maybe<
+    | LanguageUpdateManyWithWhereNestedInput[]
+    | LanguageUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutProjectsInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutProjectsDataInput;
+  create: UserCreateWithoutProjectsInput;
 }
 
 export interface LiteralWhereInput {
@@ -790,6 +774,9 @@ export interface LiteralWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   project?: Maybe<ProjectWhereInput>;
+  translations_every?: Maybe<TranslationWhereInput>;
+  translations_some?: Maybe<TranslationWhereInput>;
+  translations_none?: Maybe<TranslationWhereInput>;
   literal?: Maybe<String>;
   literal_not?: Maybe<String>;
   literal_in?: Maybe<String[] | String>;
@@ -823,6 +810,22 @@ export interface LiteralWhereInput {
   NOT?: Maybe<LiteralWhereInput[] | LiteralWhereInput>;
 }
 
+export interface LanguageCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  iso: String;
+  code: String;
+  projects?: Maybe<ProjectCreateManyWithoutLanguagesInput>;
+  users?: Maybe<UserCreateManyWithoutLanguagesInput>;
+  translations?: Maybe<TranslationCreateManyWithoutLanguageInput>;
+}
+
+export interface TranslationUpsertWithWhereUniqueWithoutLanguageInput {
+  where: TranslationWhereUniqueInput;
+  update: TranslationUpdateWithoutLanguageDataInput;
+  create: TranslationCreateWithoutLanguageInput;
+}
+
 export interface ProjectCreateWithoutLanguagesInput {
   id?: Maybe<ID_Input>;
   name: String;
@@ -831,9 +834,9 @@ export interface ProjectCreateWithoutLanguagesInput {
   literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
 }
 
-export interface ProjectUpsertWithoutTranslationsInput {
-  update: ProjectUpdateWithoutTranslationsDataInput;
-  create: ProjectCreateWithoutTranslationsInput;
+export interface LiteralUpsertWithoutTranslationsInput {
+  update: LiteralUpdateWithoutTranslationsDataInput;
+  create: LiteralCreateWithoutTranslationsInput;
 }
 
 export interface UserCreateWithoutProjectsInput {
@@ -843,11 +846,9 @@ export interface UserCreateWithoutProjectsInput {
   languages?: Maybe<LanguageCreateManyWithoutUsersInput>;
 }
 
-export interface ProjectUpdateWithoutTranslationsDataInput {
-  name?: Maybe<String>;
-  users?: Maybe<UserUpdateManyWithoutProjectsInput>;
-  languages?: Maybe<LanguageUpdateManyWithoutProjectsInput>;
-  literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+export interface UserUpdateWithWhereUniqueWithoutLanguagesInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutLanguagesDataInput;
 }
 
 export interface LanguageCreateWithoutUsersInput {
@@ -859,59 +860,17 @@ export interface LanguageCreateWithoutUsersInput {
   translations?: Maybe<TranslationCreateManyWithoutLanguageInput>;
 }
 
-export interface UserUpdateManyWithoutLanguagesInput {
-  create?: Maybe<
-    UserCreateWithoutLanguagesInput[] | UserCreateWithoutLanguagesInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutLanguagesInput[]
-    | UserUpdateWithWhereUniqueWithoutLanguagesInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutLanguagesInput[]
-    | UserUpsertWithWhereUniqueWithoutLanguagesInput
-  >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface TranslationCreateWithoutLanguageInput {
-  id?: Maybe<ID_Input>;
-  literal: LiteralCreateOneInput;
-  project: ProjectCreateOneWithoutTranslationsInput;
-  translation: String;
-}
-
-export interface UserUpdateWithWhereUniqueWithoutLanguagesInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutLanguagesDataInput;
-}
-
-export interface LiteralCreateInput {
-  id?: Maybe<ID_Input>;
-  project: ProjectCreateOneWithoutLiteralsInput;
-  literal: String;
-  as_in: String;
-}
-
 export interface UserUpdateWithoutLanguagesDataInput {
   name?: Maybe<String>;
   admin?: Maybe<Boolean>;
   projects?: Maybe<ProjectUpdateManyWithoutUsersInput>;
 }
 
-export interface ProjectCreateWithoutLiteralsInput {
+export interface TranslationCreateWithoutLanguageInput {
   id?: Maybe<ID_Input>;
-  name: String;
-  users?: Maybe<UserCreateManyWithoutProjectsInput>;
-  languages?: Maybe<LanguageCreateManyWithoutProjectsInput>;
-  translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
+  literal: LiteralCreateOneWithoutTranslationsInput;
+  project: ProjectCreateOneWithoutTranslationsInput;
+  translation: String;
 }
 
 export interface ProjectUpdateManyWithoutUsersInput {
@@ -937,13 +896,11 @@ export interface ProjectUpdateManyWithoutUsersInput {
   >;
 }
 
-export interface LanguageCreateWithoutProjectsInput {
+export interface LiteralCreateWithoutTranslationsInput {
   id?: Maybe<ID_Input>;
-  name: String;
-  iso: String;
-  code: String;
-  users?: Maybe<UserCreateManyWithoutLanguagesInput>;
-  translations?: Maybe<TranslationCreateManyWithoutLanguageInput>;
+  project: ProjectCreateOneWithoutLiteralsInput;
+  literal: String;
+  as_in: String;
 }
 
 export interface ProjectUpdateWithWhereUniqueWithoutUsersInput {
@@ -951,11 +908,12 @@ export interface ProjectUpdateWithWhereUniqueWithoutUsersInput {
   data: ProjectUpdateWithoutUsersDataInput;
 }
 
-export interface UserCreateWithoutLanguagesInput {
+export interface ProjectCreateWithoutLiteralsInput {
   id?: Maybe<ID_Input>;
   name: String;
-  admin?: Maybe<Boolean>;
-  projects?: Maybe<ProjectCreateManyWithoutUsersInput>;
+  users?: Maybe<UserCreateManyWithoutProjectsInput>;
+  languages?: Maybe<LanguageCreateManyWithoutProjectsInput>;
+  translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
 }
 
 export interface ProjectUpdateWithoutUsersDataInput {
@@ -965,12 +923,13 @@ export interface ProjectUpdateWithoutUsersDataInput {
   literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
 }
 
-export interface ProjectCreateWithoutUsersInput {
+export interface LanguageCreateWithoutProjectsInput {
   id?: Maybe<ID_Input>;
   name: String;
-  languages?: Maybe<LanguageCreateManyWithoutProjectsInput>;
-  translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
-  literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
+  iso: String;
+  code: String;
+  users?: Maybe<UserCreateManyWithoutLanguagesInput>;
+  translations?: Maybe<TranslationCreateManyWithoutLanguageInput>;
 }
 
 export interface TranslationUpdateManyWithoutProjectInput {
@@ -1001,16 +960,44 @@ export interface TranslationUpdateManyWithoutProjectInput {
   >;
 }
 
-export interface TranslationCreateWithoutProjectInput {
+export interface UserCreateWithoutLanguagesInput {
   id?: Maybe<ID_Input>;
-  language: LanguageCreateOneWithoutTranslationsInput;
-  literal: LiteralCreateOneInput;
-  translation: String;
+  name: String;
+  admin?: Maybe<Boolean>;
+  projects?: Maybe<ProjectCreateManyWithoutUsersInput>;
 }
 
 export interface TranslationUpdateWithWhereUniqueWithoutProjectInput {
   where: TranslationWhereUniqueInput;
   data: TranslationUpdateWithoutProjectDataInput;
+}
+
+export interface ProjectCreateWithoutUsersInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  languages?: Maybe<LanguageCreateManyWithoutProjectsInput>;
+  translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
+  literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
+}
+
+export interface TranslationUpdateWithoutProjectDataInput {
+  language?: Maybe<LanguageUpdateOneRequiredWithoutTranslationsInput>;
+  literal?: Maybe<LiteralUpdateOneRequiredWithoutTranslationsInput>;
+  translation?: Maybe<String>;
+}
+
+export interface TranslationCreateWithoutProjectInput {
+  id?: Maybe<ID_Input>;
+  language: LanguageCreateOneWithoutTranslationsInput;
+  literal: LiteralCreateOneWithoutTranslationsInput;
+  translation: String;
+}
+
+export interface LanguageUpdateOneRequiredWithoutTranslationsInput {
+  create?: Maybe<LanguageCreateWithoutTranslationsInput>;
+  update?: Maybe<LanguageUpdateWithoutTranslationsDataInput>;
+  upsert?: Maybe<LanguageUpsertWithoutTranslationsInput>;
+  connect?: Maybe<LanguageWhereUniqueInput>;
 }
 
 export interface LanguageCreateWithoutTranslationsInput {
@@ -1022,33 +1009,6 @@ export interface LanguageCreateWithoutTranslationsInput {
   users?: Maybe<UserCreateManyWithoutLanguagesInput>;
 }
 
-export interface TranslationUpdateWithoutProjectDataInput {
-  language?: Maybe<LanguageUpdateOneRequiredWithoutTranslationsInput>;
-  literal?: Maybe<LiteralUpdateOneRequiredInput>;
-  translation?: Maybe<String>;
-}
-
-export interface LiteralCreateWithoutProjectInput {
-  id?: Maybe<ID_Input>;
-  literal: String;
-  as_in: String;
-}
-
-export interface LanguageUpdateOneRequiredWithoutTranslationsInput {
-  create?: Maybe<LanguageCreateWithoutTranslationsInput>;
-  update?: Maybe<LanguageUpdateWithoutTranslationsDataInput>;
-  upsert?: Maybe<LanguageUpsertWithoutTranslationsInput>;
-  connect?: Maybe<LanguageWhereUniqueInput>;
-}
-
-export interface ProjectCreateWithoutTranslationsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  users?: Maybe<UserCreateManyWithoutProjectsInput>;
-  languages?: Maybe<LanguageCreateManyWithoutProjectsInput>;
-  literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
-}
-
 export interface LanguageUpdateWithoutTranslationsDataInput {
   name?: Maybe<String>;
   iso?: Maybe<String>;
@@ -1057,15 +1017,11 @@ export interface LanguageUpdateWithoutTranslationsDataInput {
   users?: Maybe<UserUpdateManyWithoutLanguagesInput>;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+export interface LiteralCreateWithoutProjectInput {
+  id?: Maybe<ID_Input>;
+  translations?: Maybe<TranslationCreateManyWithoutLiteralInput>;
+  literal: String;
+  as_in: String;
 }
 
 export interface LanguageUpsertWithoutTranslationsInput {
@@ -1073,15 +1029,11 @@ export interface LanguageUpsertWithoutTranslationsInput {
   create: LanguageCreateWithoutTranslationsInput;
 }
 
-export interface ProjectSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ProjectWhereInput>;
-  AND?: Maybe<ProjectSubscriptionWhereInput[] | ProjectSubscriptionWhereInput>;
-  OR?: Maybe<ProjectSubscriptionWhereInput[] | ProjectSubscriptionWhereInput>;
-  NOT?: Maybe<ProjectSubscriptionWhereInput[] | ProjectSubscriptionWhereInput>;
+export interface TranslationCreateWithoutLiteralInput {
+  id?: Maybe<ID_Input>;
+  language: LanguageCreateOneWithoutTranslationsInput;
+  project: ProjectCreateOneWithoutTranslationsInput;
+  translation: String;
 }
 
 export interface TranslationUpsertWithWhereUniqueWithoutProjectInput {
@@ -1090,11 +1042,12 @@ export interface TranslationUpsertWithWhereUniqueWithoutProjectInput {
   create: TranslationCreateWithoutProjectInput;
 }
 
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  admin?: Maybe<Boolean>;
-  projects?: Maybe<ProjectUpdateManyWithoutUsersInput>;
-  languages?: Maybe<LanguageUpdateManyWithoutUsersInput>;
+export interface ProjectCreateWithoutTranslationsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  users?: Maybe<UserCreateManyWithoutProjectsInput>;
+  languages?: Maybe<LanguageCreateManyWithoutProjectsInput>;
+  literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
 }
 
 export interface TranslationScalarWhereInput {
@@ -1131,11 +1084,27 @@ export interface TranslationScalarWhereInput {
   NOT?: Maybe<TranslationScalarWhereInput[] | TranslationScalarWhereInput>;
 }
 
-export interface TranslationUpdateInput {
-  language?: Maybe<LanguageUpdateOneRequiredWithoutTranslationsInput>;
-  literal?: Maybe<LiteralUpdateOneRequiredInput>;
-  project?: Maybe<ProjectUpdateOneRequiredWithoutTranslationsInput>;
-  translation?: Maybe<String>;
+export interface ProjectUpdateManyWithoutLanguagesInput {
+  create?: Maybe<
+    ProjectCreateWithoutLanguagesInput[] | ProjectCreateWithoutLanguagesInput
+  >;
+  delete?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+  connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+  set?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+  disconnect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+  update?: Maybe<
+    | ProjectUpdateWithWhereUniqueWithoutLanguagesInput[]
+    | ProjectUpdateWithWhereUniqueWithoutLanguagesInput
+  >;
+  upsert?: Maybe<
+    | ProjectUpsertWithWhereUniqueWithoutLanguagesInput[]
+    | ProjectUpsertWithWhereUniqueWithoutLanguagesInput
+  >;
+  deleteMany?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
+  updateMany?: Maybe<
+    | ProjectUpdateManyWithWhereNestedInput[]
+    | ProjectUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface TranslationUpdateManyWithWhereNestedInput {
@@ -1143,22 +1112,30 @@ export interface TranslationUpdateManyWithWhereNestedInput {
   data: TranslationUpdateManyDataInput;
 }
 
-export interface ProjectUpdateInput {
-  name?: Maybe<String>;
-  users?: Maybe<UserUpdateManyWithoutProjectsInput>;
-  languages?: Maybe<LanguageUpdateManyWithoutProjectsInput>;
-  translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
-  literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
 export interface TranslationUpdateManyDataInput {
   translation?: Maybe<String>;
 }
 
-export interface LiteralUpdateInput {
-  project?: Maybe<ProjectUpdateOneRequiredWithoutLiteralsInput>;
-  literal?: Maybe<String>;
-  as_in?: Maybe<String>;
+export interface ProjectSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ProjectWhereInput>;
+  AND?: Maybe<ProjectSubscriptionWhereInput[] | ProjectSubscriptionWhereInput>;
+  OR?: Maybe<ProjectSubscriptionWhereInput[] | ProjectSubscriptionWhereInput>;
+  NOT?: Maybe<ProjectSubscriptionWhereInput[] | ProjectSubscriptionWhereInput>;
 }
 
 export interface LiteralUpdateManyWithoutProjectInput {
@@ -1184,15 +1161,89 @@ export interface LiteralUpdateManyWithoutProjectInput {
   >;
 }
 
-export interface UserUpsertWithWhereUniqueWithoutProjectsInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutProjectsDataInput;
-  create: UserCreateWithoutProjectsInput;
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  admin?: Maybe<Boolean>;
+  projects?: Maybe<ProjectUpdateManyWithoutUsersInput>;
+  languages?: Maybe<LanguageUpdateManyWithoutUsersInput>;
 }
 
 export interface LiteralUpdateWithWhereUniqueWithoutProjectInput {
   where: LiteralWhereUniqueInput;
   data: LiteralUpdateWithoutProjectDataInput;
+}
+
+export interface TranslationUpdateInput {
+  language?: Maybe<LanguageUpdateOneRequiredWithoutTranslationsInput>;
+  literal?: Maybe<LiteralUpdateOneRequiredWithoutTranslationsInput>;
+  project?: Maybe<ProjectUpdateOneRequiredWithoutTranslationsInput>;
+  translation?: Maybe<String>;
+}
+
+export interface LiteralUpdateWithoutProjectDataInput {
+  translations?: Maybe<TranslationUpdateManyWithoutLiteralInput>;
+  literal?: Maybe<String>;
+  as_in?: Maybe<String>;
+}
+
+export interface ProjectUpdateInput {
+  name?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutProjectsInput>;
+  languages?: Maybe<LanguageUpdateManyWithoutProjectsInput>;
+  translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
+  literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+}
+
+export interface TranslationUpdateManyWithoutLiteralInput {
+  create?: Maybe<
+    | TranslationCreateWithoutLiteralInput[]
+    | TranslationCreateWithoutLiteralInput
+  >;
+  delete?: Maybe<TranslationWhereUniqueInput[] | TranslationWhereUniqueInput>;
+  connect?: Maybe<TranslationWhereUniqueInput[] | TranslationWhereUniqueInput>;
+  set?: Maybe<TranslationWhereUniqueInput[] | TranslationWhereUniqueInput>;
+  disconnect?: Maybe<
+    TranslationWhereUniqueInput[] | TranslationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | TranslationUpdateWithWhereUniqueWithoutLiteralInput[]
+    | TranslationUpdateWithWhereUniqueWithoutLiteralInput
+  >;
+  upsert?: Maybe<
+    | TranslationUpsertWithWhereUniqueWithoutLiteralInput[]
+    | TranslationUpsertWithWhereUniqueWithoutLiteralInput
+  >;
+  deleteMany?: Maybe<
+    TranslationScalarWhereInput[] | TranslationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | TranslationUpdateManyWithWhereNestedInput[]
+    | TranslationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface LiteralUpdateInput {
+  project?: Maybe<ProjectUpdateOneRequiredWithoutLiteralsInput>;
+  translations?: Maybe<TranslationUpdateManyWithoutLiteralInput>;
+  literal?: Maybe<String>;
+  as_in?: Maybe<String>;
+}
+
+export interface TranslationUpdateWithWhereUniqueWithoutLiteralInput {
+  where: TranslationWhereUniqueInput;
+  data: TranslationUpdateWithoutLiteralDataInput;
+}
+
+export interface ProjectUpsertWithWhereUniqueWithoutLanguagesInput {
+  where: ProjectWhereUniqueInput;
+  update: ProjectUpdateWithoutLanguagesDataInput;
+  create: ProjectCreateWithoutLanguagesInput;
+}
+
+export interface TranslationUpdateWithoutLiteralDataInput {
+  language?: Maybe<LanguageUpdateOneRequiredWithoutTranslationsInput>;
+  project?: Maybe<ProjectUpdateOneRequiredWithoutTranslationsInput>;
+  translation?: Maybe<String>;
 }
 
 export interface ProjectCreateManyWithoutLanguagesInput {
@@ -1202,9 +1253,11 @@ export interface ProjectCreateManyWithoutLanguagesInput {
   connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
 }
 
-export interface LiteralUpdateWithoutProjectDataInput {
-  literal?: Maybe<String>;
-  as_in?: Maybe<String>;
+export interface ProjectUpdateOneRequiredWithoutTranslationsInput {
+  create?: Maybe<ProjectCreateWithoutTranslationsInput>;
+  update?: Maybe<ProjectUpdateWithoutTranslationsDataInput>;
+  upsert?: Maybe<ProjectUpsertWithoutTranslationsInput>;
+  connect?: Maybe<ProjectWhereUniqueInput>;
 }
 
 export interface LanguageCreateManyWithoutUsersInput {
@@ -1214,15 +1267,52 @@ export interface LanguageCreateManyWithoutUsersInput {
   connect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
 }
 
+export interface ProjectUpdateWithoutTranslationsDataInput {
+  name?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutProjectsInput>;
+  languages?: Maybe<LanguageUpdateManyWithoutProjectsInput>;
+  literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+}
+
+export interface LiteralCreateOneWithoutTranslationsInput {
+  create?: Maybe<LiteralCreateWithoutTranslationsInput>;
+  connect?: Maybe<LiteralWhereUniqueInput>;
+}
+
+export interface ProjectUpsertWithoutTranslationsInput {
+  update: ProjectUpdateWithoutTranslationsDataInput;
+  create: ProjectCreateWithoutTranslationsInput;
+}
+
+export interface LanguageCreateManyWithoutProjectsInput {
+  create?: Maybe<
+    LanguageCreateWithoutProjectsInput[] | LanguageCreateWithoutProjectsInput
+  >;
+  connect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
+}
+
+export interface TranslationUpsertWithWhereUniqueWithoutLiteralInput {
+  where: TranslationWhereUniqueInput;
+  update: TranslationUpdateWithoutLiteralDataInput;
+  create: TranslationCreateWithoutLiteralInput;
+}
+
+export interface ProjectCreateManyWithoutUsersInput {
+  create?: Maybe<
+    ProjectCreateWithoutUsersInput[] | ProjectCreateWithoutUsersInput
+  >;
+  connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+}
+
 export interface LiteralUpsertWithWhereUniqueWithoutProjectInput {
   where: LiteralWhereUniqueInput;
   update: LiteralUpdateWithoutProjectDataInput;
   create: LiteralCreateWithoutProjectInput;
 }
 
-export interface LiteralCreateOneInput {
-  create?: Maybe<LiteralCreateInput>;
-  connect?: Maybe<LiteralWhereUniqueInput>;
+export interface LanguageCreateOneWithoutTranslationsInput {
+  create?: Maybe<LanguageCreateWithoutTranslationsInput>;
+  connect?: Maybe<LanguageWhereUniqueInput>;
 }
 
 export interface LiteralScalarWhereInput {
@@ -1273,11 +1363,12 @@ export interface LiteralScalarWhereInput {
   NOT?: Maybe<LiteralScalarWhereInput[] | LiteralScalarWhereInput>;
 }
 
-export interface LanguageCreateManyWithoutProjectsInput {
+export interface TranslationCreateManyWithoutLiteralInput {
   create?: Maybe<
-    LanguageCreateWithoutProjectsInput[] | LanguageCreateWithoutProjectsInput
+    | TranslationCreateWithoutLiteralInput[]
+    | TranslationCreateWithoutLiteralInput
   >;
-  connect?: Maybe<LanguageWhereUniqueInput[] | LanguageWhereUniqueInput>;
+  connect?: Maybe<TranslationWhereUniqueInput[] | TranslationWhereUniqueInput>;
 }
 
 export interface LiteralUpdateManyWithWhereNestedInput {
@@ -1285,66 +1376,18 @@ export interface LiteralUpdateManyWithWhereNestedInput {
   data: LiteralUpdateManyDataInput;
 }
 
-export interface ProjectCreateManyWithoutUsersInput {
-  create?: Maybe<
-    ProjectCreateWithoutUsersInput[] | ProjectCreateWithoutUsersInput
-  >;
-  connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+export interface LanguageUpdateInput {
+  name?: Maybe<String>;
+  iso?: Maybe<String>;
+  code?: Maybe<String>;
+  projects?: Maybe<ProjectUpdateManyWithoutLanguagesInput>;
+  users?: Maybe<UserUpdateManyWithoutLanguagesInput>;
+  translations?: Maybe<TranslationUpdateManyWithoutLanguageInput>;
 }
 
 export interface LiteralUpdateManyDataInput {
   literal?: Maybe<String>;
   as_in?: Maybe<String>;
-}
-
-export interface LanguageCreateOneWithoutTranslationsInput {
-  create?: Maybe<LanguageCreateWithoutTranslationsInput>;
-  connect?: Maybe<LanguageWhereUniqueInput>;
-}
-
-export interface ProjectUpsertWithWhereUniqueWithoutUsersInput {
-  where: ProjectWhereUniqueInput;
-  update: ProjectUpdateWithoutUsersDataInput;
-  create: ProjectCreateWithoutUsersInput;
-}
-
-export interface ProjectCreateOneWithoutTranslationsInput {
-  create?: Maybe<ProjectCreateWithoutTranslationsInput>;
-  connect?: Maybe<ProjectWhereUniqueInput>;
-}
-
-export interface ProjectScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
-  OR?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
-  NOT?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
 }
 
 export interface ProjectWhereInput {
@@ -1393,27 +1436,57 @@ export interface ProjectWhereInput {
   NOT?: Maybe<ProjectWhereInput[] | ProjectWhereInput>;
 }
 
-export interface ProjectUpdateManyWithWhereNestedInput {
-  where: ProjectScalarWhereInput;
-  data: ProjectUpdateManyDataInput;
+export interface ProjectUpsertWithWhereUniqueWithoutUsersInput {
+  where: ProjectWhereUniqueInput;
+  update: ProjectUpdateWithoutUsersDataInput;
+  create: ProjectCreateWithoutUsersInput;
 }
 
 export type LiteralWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface ProjectUpdateManyDataInput {
+export interface ProjectScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
   name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
+  OR?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
+  NOT?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
 }
 
 export type TranslationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface UserUpsertWithWhereUniqueWithoutLanguagesInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutLanguagesDataInput;
-  create: UserCreateWithoutLanguagesInput;
+export interface ProjectUpdateManyWithWhereNestedInput {
+  where: ProjectScalarWhereInput;
+  data: ProjectUpdateManyDataInput;
 }
 
 export interface TranslationCreateManyWithoutLanguageInput {
@@ -1422,6 +1495,30 @@ export interface TranslationCreateManyWithoutLanguageInput {
     | TranslationCreateWithoutLanguageInput
   >;
   connect?: Maybe<TranslationWhereUniqueInput[] | TranslationWhereUniqueInput>;
+}
+
+export interface ProjectUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface UserCreateManyWithoutLanguagesInput {
+  create?: Maybe<
+    UserCreateWithoutLanguagesInput[] | UserCreateWithoutLanguagesInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutLanguagesInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutLanguagesDataInput;
+  create: UserCreateWithoutLanguagesInput;
+}
+
+export interface LiteralCreateManyWithoutProjectInput {
+  create?: Maybe<
+    LiteralCreateWithoutProjectInput[] | LiteralCreateWithoutProjectInput
+  >;
+  connect?: Maybe<LiteralWhereUniqueInput[] | LiteralWhereUniqueInput>;
 }
 
 export interface UserScalarWhereInput {
@@ -1460,11 +1557,9 @@ export interface UserScalarWhereInput {
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
 }
 
-export interface UserCreateManyWithoutLanguagesInput {
-  create?: Maybe<
-    UserCreateWithoutLanguagesInput[] | UserCreateWithoutLanguagesInput
-  >;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+export interface ProjectUpdateWithWhereUniqueWithoutLanguagesInput {
+  where: ProjectWhereUniqueInput;
+  data: ProjectUpdateWithoutLanguagesDataInput;
 }
 
 export interface UserUpdateManyWithWhereNestedInput {
@@ -1472,43 +1567,33 @@ export interface UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput;
 }
 
-export interface LiteralCreateManyWithoutProjectInput {
-  create?: Maybe<
-    LiteralCreateWithoutProjectInput[] | LiteralCreateWithoutProjectInput
-  >;
-  connect?: Maybe<LiteralWhereUniqueInput[] | LiteralWhereUniqueInput>;
-}
+export type ProjectWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  name?: Maybe<String>;
+}>;
 
 export interface UserUpdateManyDataInput {
   name?: Maybe<String>;
   admin?: Maybe<Boolean>;
 }
 
-export interface LanguageSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LanguageWhereInput>;
-  AND?: Maybe<
-    LanguageSubscriptionWhereInput[] | LanguageSubscriptionWhereInput
+export interface UserCreateManyWithoutProjectsInput {
+  create?: Maybe<
+    UserCreateWithoutProjectsInput[] | UserCreateWithoutProjectsInput
   >;
-  OR?: Maybe<LanguageSubscriptionWhereInput[] | LanguageSubscriptionWhereInput>;
-  NOT?: Maybe<
-    LanguageSubscriptionWhereInput[] | LanguageSubscriptionWhereInput
-  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface LanguageUpsertWithWhereUniqueWithoutProjectsInput {
-  where: LanguageWhereUniqueInput;
-  update: LanguageUpdateWithoutProjectsDataInput;
-  create: LanguageCreateWithoutProjectsInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+export interface LanguageUpdateManyDataInput {
   name?: Maybe<String>;
-}>;
+  iso?: Maybe<String>;
+  code?: Maybe<String>;
+}
+
+export interface LanguageUpdateManyWithWhereNestedInput {
+  where: LanguageScalarWhereInput;
+  data: LanguageUpdateManyDataInput;
+}
 
 export interface LanguageScalarWhereInput {
   id?: Maybe<ID_Input>;
@@ -1572,30 +1657,40 @@ export interface LanguageScalarWhereInput {
   NOT?: Maybe<LanguageScalarWhereInput[] | LanguageScalarWhereInput>;
 }
 
+export interface LanguageUpsertWithWhereUniqueWithoutProjectsInput {
+  where: LanguageWhereUniqueInput;
+  update: LanguageUpdateWithoutProjectsDataInput;
+  create: LanguageCreateWithoutProjectsInput;
+}
+
 export interface ProjectCreateOneWithoutLiteralsInput {
   create?: Maybe<ProjectCreateWithoutLiteralsInput>;
   connect?: Maybe<ProjectWhereUniqueInput>;
 }
 
-export interface LiteralUpsertNestedInput {
-  update: LiteralUpdateDataInput;
-  create: LiteralCreateInput;
-}
-
-export interface ProjectUpsertWithoutLiteralsInput {
-  update: ProjectUpdateWithoutLiteralsDataInput;
-  create: ProjectCreateWithoutLiteralsInput;
-}
-
-export interface LanguageUpdateManyDataInput {
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
   name?: Maybe<String>;
-  iso?: Maybe<String>;
-  code?: Maybe<String>;
+}>;
+
+export interface LanguageSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LanguageWhereInput>;
+  AND?: Maybe<
+    LanguageSubscriptionWhereInput[] | LanguageSubscriptionWhereInput
+  >;
+  OR?: Maybe<LanguageSubscriptionWhereInput[] | LanguageSubscriptionWhereInput>;
+  NOT?: Maybe<
+    LanguageSubscriptionWhereInput[] | LanguageSubscriptionWhereInput
+  >;
 }
 
-export interface LanguageUpdateManyWithWhereNestedInput {
-  where: LanguageScalarWhereInput;
-  data: LanguageUpdateManyDataInput;
+export interface ProjectCreateOneWithoutTranslationsInput {
+  create?: Maybe<ProjectCreateWithoutTranslationsInput>;
+  connect?: Maybe<ProjectWhereUniqueInput>;
 }
 
 export interface TranslationCreateManyWithoutProjectInput {
@@ -1604,27 +1699,6 @@ export interface TranslationCreateManyWithoutProjectInput {
     | TranslationCreateWithoutProjectInput
   >;
   connect?: Maybe<TranslationWhereUniqueInput[] | TranslationWhereUniqueInput>;
-}
-
-export interface UserCreateManyWithoutProjectsInput {
-  create?: Maybe<
-    UserCreateWithoutProjectsInput[] | UserCreateWithoutProjectsInput
-  >;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export type ProjectWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  name?: Maybe<String>;
-}>;
-
-export interface LanguageUpdateInput {
-  name?: Maybe<String>;
-  iso?: Maybe<String>;
-  code?: Maybe<String>;
-  projects?: Maybe<ProjectUpdateManyWithoutLanguagesInput>;
-  users?: Maybe<UserUpdateManyWithoutLanguagesInput>;
-  translations?: Maybe<TranslationUpdateManyWithoutLanguageInput>;
 }
 
 export interface NodeNode {
@@ -2008,20 +2082,29 @@ export interface LanguageConnectionSubscription
   aggregate: <T = AggregateLanguageSubscription>() => T;
 }
 
-export interface BatchPayload {
-  count: Long;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
 }
 
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  count: () => Promise<Long>;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface TranslationPreviousValues {
@@ -2343,29 +2426,20 @@ export interface LiteralPreviousValuesSubscription
   as_in: () => Promise<AsyncIterator<String>>;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface AggregateTranslation {
+  count: Int;
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface AggregateTranslationPromise
+  extends Promise<AggregateTranslation>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface AggregateTranslationSubscription
+  extends Promise<AsyncIterator<AggregateTranslation>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface ProjectEdge {
@@ -2471,6 +2545,15 @@ export interface Literal {
 export interface LiteralPromise extends Promise<Literal>, Fragmentable {
   id: () => Promise<ID_Output>;
   project: <T = ProjectPromise>() => T;
+  translations: <T = FragmentableArray<Translation>>(args?: {
+    where?: TranslationWhereInput;
+    orderBy?: TranslationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   literal: () => Promise<String>;
   as_in: () => Promise<String>;
 }
@@ -2480,6 +2563,15 @@ export interface LiteralSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   project: <T = ProjectSubscription>() => T;
+  translations: <T = Promise<AsyncIterator<TranslationSubscription>>>(args?: {
+    where?: TranslationWhereInput;
+    orderBy?: TranslationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   literal: () => Promise<AsyncIterator<String>>;
   as_in: () => Promise<AsyncIterator<String>>;
 }
@@ -2489,6 +2581,15 @@ export interface LiteralNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   project: <T = ProjectPromise>() => T;
+  translations: <T = FragmentableArray<Translation>>(args?: {
+    where?: TranslationWhereInput;
+    orderBy?: TranslationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   literal: () => Promise<String>;
   as_in: () => Promise<String>;
 }
@@ -2530,20 +2631,20 @@ export interface TranslationConnectionSubscription
   aggregate: <T = AggregateTranslationSubscription>() => T;
 }
 
-export interface AggregateTranslation {
-  count: Int;
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface AggregateTranslationPromise
-  extends Promise<AggregateTranslation>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  count: () => Promise<Int>;
+  count: () => Promise<Long>;
 }
 
-export interface AggregateTranslationSubscription
-  extends Promise<AsyncIterator<AggregateTranslation>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface LiteralConnection {
