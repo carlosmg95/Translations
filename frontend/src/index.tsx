@@ -55,9 +55,7 @@ client
       <ApolloProvider client={client}>
         <BrowserRouter>
           <UserContext.Provider value={{ user }}>
-            <App
-              user={user}
-            />
+            <App user={user} />
           </UserContext.Provider>
         </BrowserRouter>
       </ApolloProvider>,

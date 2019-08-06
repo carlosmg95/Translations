@@ -33,31 +33,3 @@
 .translate {
   flex: 1 1;
 }
-
-.add-literal button,
-.translate button {
-  background-color: white;
-  color: #3ad09e;
-  border: solid 1px #3ad09e;
-  border-radius: 100px;
-}
-
-.add-literal button:focus,
-.translate button:focus {
-  outline: none;
-}
-
-.add-literal button:hover,
-.translate button:hover,
-.add-literal button:active,
-.translate button:active {
-  border-color: #3ea985;
-  color: #3ea985;
-}
-
-.add-literal button:disabled,
-.translate button:disabled {
-  color: #ccc;
-  border-color: #ccc;
-  cursor: not-allowed;
-}

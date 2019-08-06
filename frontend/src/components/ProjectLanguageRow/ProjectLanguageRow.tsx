@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
+import PillButton from '../PillButton/PillButton';
 import { Project, Language } from '../../types';
 import Flag from 'react-world-flags';
 
@@ -22,9 +23,7 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
         </div>
       </div>
       <div className="add-literal">
-        <button type="button" disabled={!props.allowed}>
-          + Add literal
-        </button>
+        <PillButton text="+ Add literal" disabled={!props.allowed} />
       </div>
       <div className="translate">
         <Link
@@ -34,9 +33,7 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
               : '#'
           }
         >
-          <button type="button" disabled={!props.allowed}>
-            Translate
-          </button>
+          <PillButton text="Translate" disabled={!props.allowed} />
         </Link>
       </div>
     </div>
