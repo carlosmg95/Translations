@@ -10,16 +10,16 @@ interface PillButtonProps {
 
 const pillButton: React.FC<PillButtonProps> = ({
   disabled = false,
-  text,
-  className,
+  ...props
 }) => {
   return (
     <button
-      className={'PillButton ' + className}
+      className={'PillButton ' + props.className}
       type="button"
       disabled={disabled}
+      onClick={props.onClick}
     >
-      {text}
+      {props.text}
     </button>
   );
 };
