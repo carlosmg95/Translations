@@ -11,8 +11,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 
-import { User, Language, Translation, Literal, Project } from './types';
-import UserContext from './context/user-context';
+import { Language, Project } from './types';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000',
@@ -54,9 +53,7 @@ client
     ReactDOM.render(
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <UserContext.Provider value={{ user }}>
-            <App user={user} />
-          </UserContext.Provider>
+          <App user={user} />
         </BrowserRouter>
       </ApolloProvider>,
       document.getElementById('root'),
