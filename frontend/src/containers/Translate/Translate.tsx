@@ -6,20 +6,14 @@ import Dashboard, {
 } from '../../components/Dashboard/Dashboard';
 import Translations from '../../components/Translations/Translations';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import {
-  User,
-  Language,
-  Translation,
-  Literal,
-  Project,
-  LiteralTranslation,
-} from '../../types';
-import UserContext from '../../context/user-context';
+import { User, Translation, Literal, LiteralTranslation } from '../../types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface TranslateProps {
-  [propName: string]: any;
+  languageIso: string;
+  projectName: string;
+  user: User;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
@@ -33,8 +27,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     Dispatch<SetStateAction<Filter>>,
   ] = useState(Filter.all);
 
-  const { languageIso, projectName } = props.match.params;
-
   const selectLiterals = (event: any) => {
     const { value } = event.target;
     if (value === 'all') setFilterState(Filter.all);
@@ -45,13 +37,13 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const PROJECT = gql`
     {
       project(where: {
-        name:"${projectName}"
+        name:"${props.projectName}"
       }) {
         id
         name
         translations(where: {
           language: {
-            iso:"${languageIso}"
+            iso:"${props.languageIso}"
           }
         }) {
           id
@@ -72,7 +64,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         }
       }
       language(where: {
-        iso:"${languageIso}"
+        iso:"${props.languageIso}"
       }) {
         id
         name
@@ -81,72 +73,70 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   `;
 
   return (
-    <UserContext.Consumer>
-      {({ user }) => (
-        <Query query={PROJECT}>
-          {({ data, loading }) => {
-            if (loading) {
-              return <div></div>;
-            } else {
-              if (
-                user.allowLanguages.indexOf(data.language.id) === -1 ||
-                user.allowProjects.indexOf(data.project.id) === -1
-              ) {
-                return (
-                  <ErrorMessage code={401} message="You shouldn't be here!" />
-                );
-              }
-              const { literals, translations } = data.project;
-              const lt: LiteralTranslation[] = literals
-                .map((literal: Literal) => {
-                  const translation: Translation = translations.find(
-                    translation => translation.literal.id === literal.id,
-                  );
-                  const translationText = translation
-                    ? translation.translation
-                    : '';
-                  const translationId = translation ? translation.id : '0';
-                  return {
-                    translationId,
-                    literalId: literal.id,
-                    translation: translationText,
-                    as_in: literal.as_in,
-                    literal: literal.literal,
-                  };
-                })
-                .filter((literal: LiteralTranslation) => {
-                  if (filterState === Filter.all) {
-                    return true;
-                  } else if (filterState === Filter.translated) {
-                    return literal.translation !== '';
-                  } else if (filterState === Filter.noTranslated) {
-                    return literal.translation === '';
-                  }
-                });
-              return (
-                <Dashboard>
-                  <DashboardHeader
-                    title={data.language.name}
-                    links={[
-                      { to: '/dashboard', text: 'dashboard' },
-                      { to: `/project/${projectName}`, text: projectName },
-                    ]}
-                  />
-                  <DashboardBody>
-                    <Translations
-                      projectName={projectName}
-                      languageId={data.language.id}
-                      translations={lt}
-                      selectLiterals={selectLiterals}
-                    />
-                  </DashboardBody>
-                </Dashboard>
+    <Query query={PROJECT}>
+      {({ data, loading }) => {
+        if (loading) {
+          return <div></div>;
+        } else {
+          if (
+            props.user.allowLanguages.indexOf(data.language.id) === -1 ||
+            props.user.allowProjects.indexOf(data.project.id) === -1
+          ) {
+            return <ErrorMessage code={401} message="You shouldn't be here!" />;
+          }
+          const { literals, translations } = data.project;
+          const lt: LiteralTranslation[] = literals
+            .map((literal: Literal) => {
+              const translation: Translation = translations.find(
+                translation => translation.literal.id === literal.id,
               );
-            }
-          }}
-        </Query>
-      )}
-    </UserContext.Consumer>
+              const translationText = translation
+                ? translation.translation
+                : '';
+              const translationId = translation ? translation.id : '0';
+              return {
+                translationId,
+                literalId: literal.id,
+                translation: translationText,
+                as_in: literal.as_in,
+                literal: literal.literal,
+              };
+            })
+            .filter((literal: LiteralTranslation) => {
+              if (filterState === Filter.all) {
+                return true;
+              } else if (filterState === Filter.translated) {
+                return literal.translation !== '';
+              } else if (filterState === Filter.noTranslated) {
+                return literal.translation === '';
+              }
+              return false;
+            });
+          return (
+            <Dashboard>
+              <DashboardHeader
+                title={data.language.name}
+                links={[
+                  { to: '/dashboard', text: 'dashboard' },
+                  {
+                    to: `/project/${props.projectName}`,
+                    text: props.projectName,
+                  },
+                ]}
+              />
+              <DashboardBody>
+                <Translations
+                  projectName={props.projectName}
+                  languageId={data.language.id}
+                  translations={lt}
+                  selectLiterals={selectLiterals}
+                />
+              </DashboardBody>
+            </Dashboard>
+          );
+        }
+      }}
+    </Query>
   );
 };
 

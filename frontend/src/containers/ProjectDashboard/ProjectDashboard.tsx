@@ -1,28 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './ProjectDashboard.css';
 import Dashboard, {
   DashboardBody,
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
-import { Project, Language, User } from '../../types';
-import UserContext from '../../context/user-context';
+import { Language, User } from '../../types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface ProjectDashboardProps {
-  [propName: string]: any;
+  projectName: string;
+  user: User;
 }
 
 const projectDashboard: React.FC<ProjectDashboardProps> = (
   props: ProjectDashboardProps,
 ) => {
-  const projectName: string = props.match.params.projectName;
-
   const PROJECT = gql`
     {
-      project(where: { name: "${projectName}" }) {
+      project(where: { name: "${props.projectName}" }) {
         id
         name
         languages {
@@ -41,7 +38,7 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
   return (
     <Dashboard>
       <DashboardHeader
-        title={projectName}
+        title={props.projectName}
         links={[{ to: '/dashboard', text: 'dashboard' }]}
       />
       <Query query={PROJECT}>
@@ -50,24 +47,20 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
             return <></>;
           } else {
             return (
-              <UserContext.Consumer>
-                {({ user }) => (
-                  <DashboardBody>
-                    {data.project.languages.map((language: Language) => {
-                      const allowed: boolean =
-                        user.allowLanguages.indexOf(language.id) !== -1;
-                      return (
-                        <ProjectLanguageRow
-                          key={language.id}
-                          language={language}
-                          projectName={projectName}
-                          allowed={allowed}
-                        />
-                      );
-                    })}
-                  </DashboardBody>
-                )}
-              </UserContext.Consumer>
+              <DashboardBody>
+                {data.project.languages.map((language: Language) => {
+                  const allowed: boolean =
+                    props.user.allowLanguages.indexOf(language.id) !== -1;
+                  return (
+                    <ProjectLanguageRow
+                      key={language.id}
+                      language={language}
+                      projectName={props.projectName}
+                      allowed={allowed}
+                    />
+                  );
+                })}
+              </DashboardBody>
             );
           }
         }}

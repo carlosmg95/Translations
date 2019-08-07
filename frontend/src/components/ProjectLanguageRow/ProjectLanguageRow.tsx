@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
-import { Project, Language } from '../../types';
+import { Language } from '../../types';
 import Flag from 'react-world-flags';
 
 interface ProjectLanguageRowProps {
