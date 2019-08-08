@@ -19,6 +19,17 @@ interface TranslateProps {
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   let lt: LiteralTranslation[];
 
+  enum Filter {
+    ALL,
+    TRANSLATED,
+    NO_TRANSLATED,
+  }
+
+  const [filterState, setFilterState]: [
+    Filter,
+    Dispatch<SetStateAction<Filter>>,
+  ] = useState(Filter.ALL);
+
   const [translationsState, setTranslationState]: [
     // The most current values
     LiteralTranslation[],
@@ -51,16 +62,23 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const selectLiterals = (event: any) => {
     const { value } = event.target;
     let translations: LiteralTranslation[] = translationsState;
-    if (value === 'all') translations = lt;
-    else if (value === 'translated')
+    if (value === 'all') {
+      translations = lt;
+      setFilterState(Filter.ALL);
+    } else if (value === 'translated') {
       translations = lt.filter((literal: LiteralTranslation) => {
         return literal.translation !== '';
       });
-    else if (value === 'no-translated')
+      setFilterState(Filter.TRANSLATED);
+    } else if (value === 'no-translated') {
       translations = lt.filter((literal: LiteralTranslation) => {
         return literal.translation === '';
       });
-    else translations = [];
+      setFilterState(Filter.NO_TRANSLATED);
+    } else {
+      translations = [];
+      setFilterState(Filter.ALL);
+    }
     setTranslationState(translations);
   };
 
@@ -125,7 +143,16 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         return t;
       },
     );
-    setTranslationState(translations);
+    setTranslationState(
+      translations.filter((translation: LiteralTranslation) => {
+        if (filterState === Filter.ALL) return true;
+        else if (filterState === Filter.TRANSLATED)
+          return translation.translation !== '';
+        else if (filterState === Filter.NO_TRANSLATED)
+          return translation.translation === '';
+        else return false;
+      }),
+    );
     setSavedTranslationState(
       translations.map((translation: LiteralTranslation) => ({
         id: translation.translationId,
