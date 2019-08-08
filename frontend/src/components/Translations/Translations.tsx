@@ -10,44 +10,30 @@ interface TranslationsProps {
   projectName: string;
   languageId: string;
   translations: LiteralTranslation[];
+  changeValue(event: any, literalId: string): void;
+  upsertTranslations(
+    translationId: string,
+    literalId: string,
+    languageId: string,
+    translationText: string,
+    upsert,
+  ): void;
   selectLiterals(event: any): void;
 }
 
 const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
 ) => {
-  const translationsMap: Map<string, string> = new Map();
-
-  props.translations.forEach((translation: LiteralTranslation) => {
-    translationsMap.set(translation.literalId, translation.translation);
-  });
-
   type newLiteral = {
     literal: string;
     as_in: string;
     translation: string;
   };
 
-  const [rowsState, setRowsState]: [
-    Map<string, string>,
-    Dispatch<SetStateAction<Map<string, string>>>,
-  ] = useState(translationsMap);
-
-  const [lastSavedDataState, setLastSavedDataState]: [
-    Map<string, string>,
-    Dispatch<SetStateAction<Map<string, string>>>,
-  ] = useState(translationsMap);
-
   const [newLiteralState, setNewLiteralState]: [
     newLiteral,
     Dispatch<SetStateAction<newLiteral>>,
   ] = useState({ literal: '', as_in: '', translation: '' });
-
-  const changeValue = (event: any, literalId: string): void => {
-    let rows: Map<string, string> = new Map(rowsState);
-    rows.set(literalId, event.target.value);
-    setRowsState(rows);
-  };
 
   const changeLiteral = (event: any, key: string): void => {
     newLiteralState[key] = event.target.value;
@@ -116,50 +102,6 @@ const Translations: React.FC<TranslationsProps> = (
     }
   `;
 
-  const upsertTranslations = (
-    translationId,
-    literalId,
-    translationText,
-    upsert,
-  ): void => {
-    if (
-      translationText &&
-      translationText !== lastSavedDataState.get(literalId)
-    ) {
-      upsert({
-        variables: {
-          where: {
-            id: translationId,
-          },
-          create: {
-            translation: translationText,
-            language: {
-              connect: {
-                id: props.languageId,
-              },
-            },
-            literal: {
-              connect: {
-                id: literalId,
-              },
-            },
-            project: {
-              connect: {
-                name: props.projectName,
-              },
-            },
-          },
-          update: {
-            translation: translationText,
-          },
-        },
-      });
-    }
-    let rows: Map<string, string> = new Map(lastSavedDataState);
-    rows.set(literalId, translationText);
-    setLastSavedDataState(rows);
-  };
-
   return (
     <div className="Translations">
       <select className="select-filter" onChange={props.selectLiterals}>
@@ -180,12 +122,13 @@ const Translations: React.FC<TranslationsProps> = (
               translationId={translation.translationId}
               literal={translation.literal}
               as_in={translation.as_in}
-              translation={rowsState.get(translation.literalId)}
-              change={changeValue}
+              translation={translation.translation}
+              change={props.changeValue}
               blur={(translationId, literalId, translationText) => {
-                upsertTranslations(
+                props.upsertTranslations(
                   translationId,
                   literalId,
+                  props.languageId,
                   translationText,
                   upsert,
                 );
