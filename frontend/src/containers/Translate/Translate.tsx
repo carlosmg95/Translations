@@ -5,9 +5,10 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import Translations from '../../components/Translations/Translations';
+import NewLiteralRow from '../../components/NewLiteralRow/NewLiteralRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { User, Translation, Literal, LiteralTranslation } from '../../types';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface TranslateProps {
@@ -25,7 +26,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     NO_TRANSLATED,
   }
 
+  const [errorState, setErrorState]: [
+    // New literal error message
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
   const [filterState, setFilterState]: [
+    // Filter the translations
     Filter,
     Dispatch<SetStateAction<Filter>>,
   ] = useState(Filter.ALL);
@@ -58,6 +66,18 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     },
   ]);
 
+  const [newLiteralState, setNewLiteralState]: [
+    // Current value of a new literal
+    LiteralTranslation,
+    Dispatch<SetStateAction<LiteralTranslation>>,
+  ] = useState({
+    literalId: '',
+    translationId: '',
+    literal: '',
+    as_in: '',
+    translation: '',
+  });
+
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
     const { value } = event.target;
@@ -82,8 +102,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     setTranslationState(translations);
   };
 
-  // Change the current value when onChange
-  const changeValue = (event: any, literalId: string): void => {
+  // Change the current value of a translation when onChange
+  const changeTranslationValue = (event: any, literalId: string): void => {
     const translations: LiteralTranslation[] = translationsState.map(
       (translation: LiteralTranslation) => {
         if (translation.literalId === literalId)
@@ -164,6 +184,81 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     );
   };
 
+  // Save the current value of the new literal
+  const changeLiteral = (event: any, key: string): void => {
+    const literalState: LiteralTranslation = { ...newLiteralState };
+    literalState[key] = event.target.value;
+    setNewLiteralState(literalState);
+  };
+
+  // Create a new literal
+  const addNewLiteral = (createTranslation): void => {
+    let { literal, as_in, translation } = newLiteralState;
+
+    as_in = as_in || literal;
+
+    if (literal && !literal.match(/\s|\.|\//gi)) {
+      createTranslation({
+        variables: {
+          translation: {
+            translation: translation,
+            project: {
+              connect: {
+                name: props.projectName,
+              },
+            },
+            language: {
+              connect: {
+                iso: props.languageIso,
+              },
+            },
+            literal: {
+              create: {
+                literal: literal,
+                as_in: as_in,
+                project: {
+                  connect: {
+                    name: props.projectName,
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+        .then(result => {
+          const data = result.data.createLiteralTranslation;
+          const translation: LiteralTranslation = {
+            translationId: data.id,
+            literalId: data.literal.id,
+            translation: data.translation,
+            as_in: data.literal.as_in,
+            literal: data.literal.literal,
+          };
+          const translations: LiteralTranslation[] = [
+            ...translationsState,
+            translation,
+          ];
+          const literalState: LiteralTranslation = {
+            translationId: '0',
+            literalId: '0',
+            translation: '',
+            as_in: '',
+            literal: '',
+          };
+          setNewLiteralState(literalState);
+          setTranslationState(translations);
+          setErrorState('');
+        })
+        .catch(e => {
+          const errorMessage: string = e.message.replace(/^.+:\s(.+)$/, '$1');
+          setErrorState(errorMessage);
+        });
+    } else {
+      setErrorState('Empty literal.');
+    }
+  };
+
   const PROJECT = gql`
     {
       project(where: {
@@ -198,6 +293,20 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
       }) {
         id
         name
+      }
+    }
+  `;
+
+  const ADD_NEW_LITERAL = gql`
+    mutation CreateTranslation($translation: TranslationCreateInput!) {
+      createLiteralTranslation(data: $translation) {
+        id
+        translation
+        literal {
+          id
+          as_in
+          literal
+        }
       }
     }
   `;
@@ -258,10 +367,24 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
                   projectName={props.projectName}
                   languageId={data.language.id}
                   translations={translationsState}
-                  changeValue={changeValue}
+                  changeValue={changeTranslationValue}
                   upsertTranslations={upsertTranslations}
                   selectLiterals={selectLiterals}
                 />
+                <Mutation mutation={ADD_NEW_LITERAL}>
+                  {createTranslation => {
+                    return (
+                      <NewLiteralRow
+                        addNewLiteral={() => addNewLiteral(createTranslation)}
+                        changeLiteral={changeLiteral}
+                        errorMessage={errorState}
+                        literal={newLiteralState.literal}
+                        translation={newLiteralState.translation}
+                        as_in={newLiteralState.as_in}
+                      />
+                    );
+                  }}
+                </Mutation>
               </DashboardBody>
             </Dashboard>
           );

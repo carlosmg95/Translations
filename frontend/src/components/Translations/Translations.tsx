@@ -1,7 +1,6 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
-import NewLiteralRow from './NewLiteralRow/NewLiteralRow';
 import { LiteralTranslation } from '../../types';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -24,63 +23,6 @@ interface TranslationsProps {
 const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
 ) => {
-  type newLiteral = {
-    literal: string;
-    as_in: string;
-    translation: string;
-  };
-
-  const [newLiteralState, setNewLiteralState]: [
-    newLiteral,
-    Dispatch<SetStateAction<newLiteral>>,
-  ] = useState({ literal: '', as_in: '', translation: '' });
-
-  const changeLiteral = (event: any, key: string): void => {
-    newLiteralState[key] = event.target.value;
-    setNewLiteralState(newLiteralState);
-  };
-
-  const addNewLiteral = (createTranslation): Promise<string> => {
-    let { literal, as_in, translation } = newLiteralState;
-
-    as_in = as_in || literal;
-
-    if (literal && !literal.match(/\s|\.|\//gi)) {
-      return createTranslation({
-        variables: {
-          translation: {
-            translation: translation,
-            project: {
-              connect: {
-                name: props.projectName,
-              },
-            },
-            language: {
-              connect: {
-                id: props.languageId,
-              },
-            },
-            literal: {
-              create: {
-                literal: literal,
-                as_in: as_in,
-                project: {
-                  connect: {
-                    name: props.projectName,
-                  },
-                },
-              },
-            },
-          },
-        },
-      });
-    } else {
-      return new Promise((resolve, reject) => {
-        reject({ message: 'Empty literal.' });
-      });
-    }
-  };
-
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
       $where: TranslationWhereUniqueInput!
@@ -89,15 +31,6 @@ const Translations: React.FC<TranslationsProps> = (
     ) {
       upsertTranslation(where: $where, create: $create, update: $update) {
         id
-      }
-    }
-  `;
-
-  const CREATE_TRANSLATION = gql`
-    mutation CreateTranslation($translation: TranslationCreateInput!) {
-      createLiteralTranslation(data: $translation) {
-        id
-        translation
       }
     }
   `;
@@ -137,16 +70,6 @@ const Translations: React.FC<TranslationsProps> = (
           )}
         </Mutation>
       ))}
-      <Mutation mutation={CREATE_TRANSLATION}>
-        {createTranslation => {
-          return (
-            <NewLiteralRow
-              addNewLiteral={() => addNewLiteral(createTranslation)}
-              changeLiteral={changeLiteral}
-            />
-          );
-        }}
-      </Mutation>
     </div>
   );
 };
