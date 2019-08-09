@@ -7,7 +7,13 @@ import Dashboard, {
 import Translations from '../../components/Translations/Translations';
 import NewLiteralRow from '../../components/NewLiteralRow/NewLiteralRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import { User, Translation, Literal, LiteralTranslation } from '../../types';
+import {
+  User,
+  Translation,
+  Literal,
+  LiteralTranslation,
+  Filter,
+} from '../../types';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -19,12 +25,6 @@ interface TranslateProps {
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   let lt: LiteralTranslation[];
-
-  enum Filter {
-    ALL,
-    TRANSLATED,
-    NO_TRANSLATED,
-  }
 
   const [errorState, setErrorState]: [
     // New literal error message
@@ -38,7 +38,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     Dispatch<SetStateAction<Filter>>,
   ] = useState(Filter.ALL);
 
-  const [translationsState, setTranslationState]: [
+  const [translationsState, setTranslationsState]: [
     // The most current values
     LiteralTranslation[],
     Dispatch<SetStateAction<LiteralTranslation[]>>,
@@ -81,25 +81,18 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
     const { value } = event.target;
-    let translations: LiteralTranslation[] = translationsState;
-    if (value === 'all') {
-      translations = lt;
-      setFilterState(Filter.ALL);
-    } else if (value === 'translated') {
-      translations = lt.filter((literal: LiteralTranslation) => {
-        return literal.translation !== '';
-      });
-      setFilterState(Filter.TRANSLATED);
-    } else if (value === 'no-translated') {
-      translations = lt.filter((literal: LiteralTranslation) => {
-        return literal.translation === '';
-      });
-      setFilterState(Filter.NO_TRANSLATED);
-    } else {
-      translations = [];
-      setFilterState(Filter.ALL);
+    switch (value) {
+      case 'translated':
+        setFilterState(Filter.TRANSLATED);
+        break;
+      case 'no-translated':
+        setFilterState(Filter.NO_TRANSLATED);
+        break;
+      case 'all':
+      default:
+        setFilterState(Filter.ALL);
+        break;
     }
-    setTranslationState(translations);
   };
 
   // Change the current value of a translation when onChange
@@ -111,7 +104,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         return translation;
       },
     );
-    setTranslationState(translations);
+    setTranslationsState(translations);
   };
 
   // Save data when onBlur
@@ -159,20 +152,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     }
     let translations: LiteralTranslation[] = translationsState.map(
       (t: LiteralTranslation) => {
-        if (t.literalId === literalId) t.translation = translationText;
+        if (t.literalId === literalId) {
+          t.state = translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED;
+          t.translation = translationText;
+        }
         return t;
       },
     );
-    setTranslationState(
-      translations.filter((translation: LiteralTranslation) => {
-        if (filterState === Filter.ALL) return true;
-        else if (filterState === Filter.TRANSLATED)
-          return translation.translation !== '';
-        else if (filterState === Filter.NO_TRANSLATED)
-          return translation.translation === '';
-        else return false;
-      }),
-    );
+    setTranslationsState(translations);
     setSavedTranslationState(
       translations.map((translation: LiteralTranslation) => ({
         id: translation.translationId,
@@ -234,6 +221,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             translation: data.translation,
             as_in: data.literal.as_in,
             literal: data.literal.literal,
+            state: data.translation ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
           };
           const translations: LiteralTranslation[] = [
             ...translationsState,
@@ -247,7 +235,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             literal: '',
           };
           setNewLiteralState(literalState);
-          setTranslationState(translations);
+          setTranslationsState(translations);
           setErrorState('');
         })
         .catch(e => {
@@ -255,7 +243,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           setErrorState(errorMessage);
         });
     } else {
-      setErrorState('Empty literal.');
+      setErrorState('Empty or wrong literal.');
     }
   };
 
@@ -336,10 +324,11 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
               translation: translationText,
               as_in: literal.as_in,
               literal: literal.literal,
+              state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
             };
           });
           if (translationsState[0] && translationsState[0].literalId === '0') {
-            setTranslationState(lt);
+            setTranslationsState(lt);
             setSavedTranslationState(
               lt.map((translation: LiteralTranslation) => ({
                 id: translation.translationId,
@@ -366,7 +355,11 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
                 <Translations
                   projectName={props.projectName}
                   languageId={data.language.id}
-                  translations={translationsState}
+                  translations={translationsState.filter(
+                    (translation: LiteralTranslation) =>
+                      filterState === Filter.ALL ||
+                      filterState === translation.state,
+                  )}
                   changeValue={changeTranslationValue}
                   upsertTranslations={upsertTranslations}
                   selectLiterals={selectLiterals}

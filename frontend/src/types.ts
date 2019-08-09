@@ -40,5 +40,12 @@ export type LiteralTranslation = {
   translationId: string;
   literal: string,
   as_in: string,
-  translation: string
+  translation: string,
+  state?: Filter
+}
+
+export enum Filter {
+  ALL,
+  TRANSLATED,
+  NO_TRANSLATED,
 }
