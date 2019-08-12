@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
-//import NewProject from './NewProject/NewProject';
+import NewProject from './NewProject/NewProject';
 
 const MainDashboard = React.lazy(() => import('./MainDashboard/MainDashboard'));
 const ProjectDashboard = React.lazy(() =>
@@ -111,6 +111,17 @@ const App: React.FC<AppProps> = (props: AppProps) => {
               <MainDashboard user={props.user} />
             </Suspense>
           )}
+        />
+        <Route
+          exact
+          path="/newproject"
+          render={() => {
+            return (
+              <Suspense fallback={<div>Loading...</div>}>
+                <NewProject user={props.user} />
+              </Suspense>
+            );
+          }}
         />
         <Route
           exact
