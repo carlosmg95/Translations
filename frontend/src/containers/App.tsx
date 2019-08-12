@@ -13,6 +13,7 @@ const Translate = React.lazy(() => import('./Translate/Translate'));
 
 interface AppProps {
   user: User;
+  projects: Project[];
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
@@ -24,11 +25,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
   const [projectsState, setProjectsState]: [
     Project[],
     Dispatch<SetStateAction<Project[]>>,
-  ] = useState([]);
-
-  const setNewProjects = (projects: Project[]): void => {
-    setProjectsState(projects);
-  };
+  ] = useState(props.projects);
 
   const addNewProject = (project: Project): void => {
     const projects = [...projectsState, project];
@@ -66,11 +63,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/"
           render={routeProps => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard
-                user={props.user}
-                projects={projectsState}
-                setNewProjects={setNewProjects}
-              />
+              <MainDashboard user={props.user} projects={projectsState} />
             </Suspense>
           )}
         />
@@ -79,11 +72,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/dashboard"
           render={routeProps => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard
-                user={props.user}
-                projects={projectsState}
-                setNewProjects={setNewProjects}
-              />
+              <MainDashboard user={props.user} projects={projectsState} />
             </Suspense>
           )}
         />
@@ -105,7 +94,12 @@ const App: React.FC<AppProps> = (props: AppProps) => {
             const { projectName } = routeProps.match.params;
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <ProjectDashboard user={props.user} projectName={projectName} />
+                <ProjectDashboard
+                  user={props.user}
+                  project={projectsState.find(
+                    (project: Project) => project.name === projectName,
+                  )}
+                />
               </Suspense>
             );
           }}
@@ -122,6 +116,9 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   languageIso={languageIso}
                   projectName={projectName}
                   addValueToProjectProperty={addValueToProjectProperty}
+                  project={projectsState.find(
+                    (project: Project) => project.name === projectName,
+                  )}
                 />
               </Suspense>
             );

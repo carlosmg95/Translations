@@ -37,11 +37,41 @@ client
             id
           }
         }
+        projects(where: { users_every: { name: "admin" } }) {
+          id
+          name
+          users {
+            id
+          }
+          languages {
+            id
+            iso
+            code
+            name
+          }
+          translations {
+            id
+            translation
+            language {
+              id
+              name
+            }
+            literal {
+              id
+              literal
+            }
+          }
+          literals {
+            id
+            literal
+            as_in
+          }
+        }
       }
     `,
   })
   .then(response => {
-    let { user } = response.data;
+    let { user, projects } = response.data;
 
     user.allowLanguages = user.languages.map(
       (language: Language) => language.id,
@@ -53,7 +83,7 @@ client
     ReactDOM.render(
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <App user={user} />
+          <App user={user} projects={projects} />
         </BrowserRouter>
       </ApolloProvider>,
       document.getElementById('root'),
