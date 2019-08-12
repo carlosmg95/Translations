@@ -1,30 +1,30 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import './NewLiteralRow.css';
-import PillButton from '../../PillButton/PillButton';
+import PillButton from '../PillButton/PillButton';
 
 interface NewLiteralRowProps {
-  addNewLiteral(): Promise<string>;
+  addNewLiteral(): void;
   changeLiteral(event: any, key: string): void;
+  literal: string;
+  translation: string;
+  as_in: string;
+  errorMessage: string;
 }
 
 const NewLiteralRow: React.FC<NewLiteralRowProps> = (
   props: NewLiteralRowProps,
 ) => {
-  const [errorState, setErrorState]: [
-    string,
-    Dispatch<SetStateAction<string>>,
-  ] = useState('');
-
   return (
     <div className="new-literal-row">
       <p className="new-literal-row__item literal">
         <input
           type="text"
           placeholder="new literal"
+          value={props.literal}
           onChange={event => props.changeLiteral(event, 'literal')}
         />
-        {errorState ? (
-          <small className="error-message-sm">{errorState}</small>
+        {props.errorMessage ? (
+          <small className="error-message-sm">{props.errorMessage}</small>
         ) : (
           ''
         )}
@@ -33,12 +33,14 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
         <input
           type="text"
           placeholder="as in"
+          value={props.as_in}
           onChange={event => props.changeLiteral(event, 'as_in')}
         />
       </p>
       <p className="new-literal-row__item translation-text">
         <textarea
           placeholder="translation"
+          value={props.translation}
           onChange={event => props.changeLiteral(event, 'translation')}
         />
       </p>
@@ -46,21 +48,7 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
         <PillButton
           className="create-btn"
           text="Create"
-          onClick={() => {
-            props
-              .addNewLiteral()
-              .then(() => {
-                setErrorState('');
-                window.location.reload();
-              })
-              .catch(e => {
-                const errorMessage: string = e.message.replace(
-                  /^.+:\s(.+)$/,
-                  '$1',
-                );
-                setErrorState(errorMessage);
-              });
-          }}
+          onClick={props.addNewLiteral}
         />
       </p>
     </div>
