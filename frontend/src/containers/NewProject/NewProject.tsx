@@ -1,16 +1,17 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
+import { Link } from 'react-router-dom';
 import './NewProject.css';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Dashboard, {
+  DashboardBody,
+  DashboardHeader,
+} from '../../components/Dashboard/Dashboard';
 import { User, Language } from '../../types';
+import { Mutation, Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 interface NewProjectProps {
-  users: User[];
-  languages: Language[];
-  createProject(
-    name: string,
-    users: string[],
-    languages: string[],
-  ): Promise<string>;
+  user: User;
 }
 
 const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
@@ -29,125 +30,272 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     Dispatch<SetStateAction<Set<string>>>,
   ] = useState(new Set());
 
-  const [errorMessageState, setErrorMessageState]: [
+  const [languageRegex, setLanguageRegex]: [
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState('');
 
+  const [userRegex, setUserRegex]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const [errorMessageState, setErrorMessageState] = useState({
+    name: '',
+    languages: '',
+    users: '',
+  });
+
   const changeForm = (event: any) => {
+    let errorMessage = { ...errorMessageState };
+
     if (event.target.className.match(/.*project-name.*/)) {
-      setName(event.target.value);
+      const name: string = event.target.value;
+      if (!name || name.match(/\s|\.|\//gi))
+        errorMessage.name = "The name is empty or it's wrong";
+      else errorMessage.name = '';
+      setName(name);
     } else if (event.target.className.match(/.*project-users__checkbox.*/)) {
+      let users: Set<string> = new Set(usersState);
       if (event.target.checked) {
-        usersState.add(event.target.value);
+        users.add(event.target.value);
       } else {
-        usersState.delete(event.target.value);
+        users.delete(event.target.value);
       }
-      setUsersState(usersState);
+      if (users.size === 0)
+        errorMessage.users = 'You must select one user at least';
+      else errorMessage.users = '';
+      setUsersState(users);
     } else if (
       event.target.className.match(/.*project-languages__checkbox.*/)
     ) {
+      let languages: Set<string> = new Set(languagesState);
       if (event.target.checked) {
-        languagesState.add(event.target.value);
+        languages.add(event.target.value);
       } else {
-        languagesState.delete(event.target.value);
+        languages.delete(event.target.value);
       }
-      setLanguagesState(languagesState);
+      if (languages.size === 0)
+        errorMessage.languages = 'You must select one language at least';
+      else errorMessage.languages = '';
+      setLanguagesState(languages);
+    } else if (event.target.className.match(/.*language-search.*/)) {
+      setLanguageRegex(event.target.value);
+    } else if (event.target.className.match(/.*user-search.*/)) {
+      setUserRegex(event.target.value);
     }
+
+    setErrorMessageState(errorMessage);
   };
 
-  let languagesBody: JSX.Element[] = props.languages.map(
-    (language: Language) => {
-      return (
-        <label key={language.id} className="form-item">
-          <input
-            className="project-languages__checkbox"
-            type="checkbox"
-            value={language.id}
-          />{' '}
-          {language.name}
-        </label>
-      );
-    },
-  );
-  let usersBody: JSX.Element[] = props.users.map((user: User) => {
-    return (
-      <label key={user.id} className="form-item">
-        <input
-          className="project-users__checkbox"
-          type="checkbox"
-          value={user.id}
-        />{' '}
-        {user.name}
-      </label>
-    );
-  });
+  const USERS_LANGUAGES = gql`
+    {
+      users(where: {}) {
+        id
+        name
+      }
+      languages(where: {}) {
+        id
+        iso
+        name
+      }
+    }
+  `;
+
+  const CREATE_PROJECT = gql`
+    mutation CreateProject($project: ProjectCreateInput!) {
+      createProject(data: $project) {
+        name
+        users {
+          name
+        }
+        languages {
+          name
+        }
+      }
+    }
+  `;
+
+  if (!props.user.admin) {
+    return <ErrorMessage code={403} message="You shouldn't be here!" />;
+  }
 
   return (
-    <div className="new-project">
-      <h1>Create a new project</h1>
-      {errorMessageState ? (
-        <ErrorMessage code={403} message={errorMessageState} />
-      ) : (
-        ''
-      )}
-      <form onChange={changeForm} className="project-form">
-        <div className="form-group">
-          <label className="form-item">Name: </label>
-          <input className="form-item project-name" type="text" />
-        </div>
-        <div className="form-group">
-          <label className="form-item">Allowed users: </label>
-          {usersBody}
-        </div>
-        <div className="form-group">
-          <label className="form-item">Allowed languages: </label>
-          {languagesBody}
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            window.location.href = '/';
-          }}
-          className="btn-cancel"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          className="btn-save"
-          onClick={() => {
-            if (usersState.size === 0) {
-              setErrorMessageState('You must select one user at least');
-              return;
+    <Dashboard>
+      <DashboardHeader
+        title="Create new project"
+        links={[{ to: '/dashboard', text: 'dashboard' }]}
+      />
+      <DashboardBody>
+        <Link to="/dashboard">
+          <button type="button" className="btn-cancel">
+            Cancel
+          </button>
+        </Link>
+        <Mutation mutation={CREATE_PROJECT}>
+          {createProject => (
+            <button
+              type="button"
+              className="btn-save"
+              onClick={() => {
+                let errorMessage = { ...errorMessageState };
+
+                if (!nameState || nameState.match(/\s|\.|\//gi))
+                  errorMessage.name = "The name is empty or it's wrong";
+                if (usersState.size === 0)
+                  errorMessage.users = 'You must select one user at least';
+                if (languagesState.size === 0)
+                  errorMessage.languages =
+                    'You must select one language at least';
+
+                setErrorMessageState(errorMessage);
+                if (
+                  errorMessage.languages ||
+                  errorMessage.users ||
+                  errorMessage.name
+                )
+                  return;
+
+                createProject({
+                  variables: {
+                    project: {
+                      name: nameState,
+                      users: {
+                        connect: Array.from(usersState).map(
+                          (userId: string) => {
+                            return { id: userId };
+                          },
+                        ),
+                      },
+                      languages: {
+                        connect: Array.from(languagesState).map(
+                          (languageId: string) => {
+                            return { id: languageId };
+                          },
+                        ),
+                      },
+                    },
+                  },
+                })
+                  .then(() => {
+                    window.location.href = '/dashboard';
+                  })
+                  .catch(e => {
+                    const field = e.message.replace(/.*\s(\w+)$/, '$1');
+                    const errorMessage = { ...errorMessageState };
+                    if (field === 'name') {
+                      errorMessage.name = 'The name cannot be repeated';
+                      setErrorMessageState(errorMessage);
+                    }
+                  });
+              }}
+            >
+              Save
+            </button>
+          )}
+        </Mutation>
+        <Query query={USERS_LANGUAGES}>
+          {({ data, loading }) => {
+            if (loading) {
+              return <></>;
             }
-            if (languagesState.size === 0) {
-              setErrorMessageState('You must select one language at least');
-              return;
-            }
-            props
-              .createProject(
-                nameState,
-                Array.from(usersState),
-                Array.from(languagesState),
-              )
-              .then(() => {
-                window.location.href = '/';
-              })
-              .catch(e => {
-                const field = e.message.replace(/.*\s(\w+)$/, '$1');
-                if (field === 'name') {
-                  setErrorMessageState(
-                    'The name must be filled and it cannot be repeated',
-                  );
-                }
-              });
+            const { users, languages } = data;
+            return (
+              <form onChange={changeForm} className="new-project__form">
+                <div className="form-group">
+                  <label className="form-item">Name: </label>
+                  <input className="form-item project-name" type="text" />
+                  {errorMessageState.name ? (
+                    <small className="error-message-sm">
+                      {errorMessageState.name}
+                    </small>
+                  ) : (
+                    ''
+                  )}
+                </div>
+                <div className="form-group search-group">
+                  <div className="input-search">
+                    <input
+                      className="form-item search language-search"
+                      type="text"
+                      placeholder="language"
+                    />
+                  </div>
+                  {errorMessageState.languages ? (
+                    <small className="error-message-sm">
+                      {errorMessageState.languages}
+                    </small>
+                  ) : (
+                    ''
+                  )}
+                  <div className="result-search">
+                    {languages
+                      .filter(
+                        (language: Language) =>
+                          (!languageRegex && languagesState.has(language.id)) ||
+                          (languageRegex &&
+                            language.name.includes(languageRegex)),
+                      )
+                      .map((language: Language) => (
+                        <label
+                          key={language.id}
+                          className="form-item project-languages__label"
+                        >
+                          <input
+                            className="project-languages__checkbox"
+                            type="checkbox"
+                            value={language.id}
+                            defaultChecked={languagesState.has(language.id)}
+                          />{' '}
+                          {language.name}
+                        </label>
+                      ))}
+                  </div>
+                </div>
+                <div className="form-group search-group">
+                  <div className="input-search">
+                    <input
+                      className="form-item search user-search"
+                      type="text"
+                      placeholder="user"
+                    />
+                  </div>
+                  {errorMessageState.users ? (
+                    <small className="error-message-sm">
+                      {errorMessageState.users}
+                    </small>
+                  ) : (
+                    ''
+                  )}
+                  <div className="result-search">
+                    {users
+                      .filter(
+                        (user: User) =>
+                          (!userRegex && usersState.has(user.id)) ||
+                          (userRegex && user.name.includes(userRegex)),
+                      )
+                      .map((user: Language) => (
+                        <label
+                          key={user.id}
+                          className="form-item project-users__label"
+                        >
+                          <input
+                            className="project-users__checkbox"
+                            type="checkbox"
+                            value={user.id}
+                            defaultChecked={usersState.has(user.id)}
+                          />{' '}
+                          {user.name}
+                        </label>
+                      ))}
+                  </div>
+                </div>
+              </form>
+            );
           }}
-        >
-          Save
-        </button>
-      </form>
-    </div>
+        </Query>
+      </DashboardBody>
+    </Dashboard>
   );
 };
 

@@ -1,50 +1,69 @@
-.new-project {
-  margin-top: 56px;
+.new-project__form {
   width: 100%;
-  padding: 22px;
   display: flex;
   flex-flow: row wrap;
-  text-align: center;
-  align-content: center;
-  justify-content: center;
-}
-
-.new-project h1 {
-  flex: 1 0 100%;
-  font-size: 3em;
-  color: #2988f3;
-  font-family: sans-serif;
-}
-
-.form-project {
-  flex: 1 0 50%;
-  display: flex;
-  flex-flow: row wrap;
-  align-content: space-between;
   justify-content: space-between;
 }
 
 .form-group {
-  flex: 1 0 100%;
+  flex: 0 1 30%;
   display: flex;
   flex-flow: row wrap;
-  align-content: space-between;
-  justify-content: space-between;
-  padding: 22px;
+  align-items: center;
+  align-content: flex-start;
+  justify-content: flex-start;
 }
 
-label.form-item {
-  margin-right: 22px;
+.search-group {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.result-search {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.search {
+  flex-shrink: 0;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.form-item {
+  flex-grow: 1;
+}
+
+.project-languages__checkbox,
+.project-users__checkbox {
+  border-radius: 100%;
+  padding: 0.5rem;
+  border: solid #419176 0.5px;
+  background-color: white;
+}
+
+.project-languages__label,
+.project-users__label {
+  margin-top: 5px;
+}
+
+.project-languages__checkbox:checked,
+.project-users__checkbox:checked {
+  background-image: radial-gradient(circle, #419176 0%, white 70%);
 }
 
 button {
-  display: inline-block;
-  margin-top: 5px;
+  margin-bottom: 10px;
   margin-left: 5px;
   padding: 10px 20px;
   color: white;
   cursor: pointer;
   border-radius: 5px;
+  float: right;
 }
 
 button.btn-save {
@@ -59,6 +78,7 @@ button:focus {
 button.btn-save:hover,
 button.btn-save:active {
   background-color: #90ee90;
+  color: green;
 }
 
 button.btn-cancel {
@@ -68,5 +88,6 @@ button.btn-cancel {
 
 button.btn-cancel:hover,
 button.btn-cancel:active {
-  background-color: salmon;
+  background-color: #fc9e9e;
+  color: red;
 }
