@@ -16,9 +16,14 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
+  const [userState, setUserState]: [
+    User,
+    Dispatch<SetStateAction<User>>,
+  ] = useState(props.user);
+
   const [projectsState, setProjectsState]: [
     Project[],
-    Dispatch<SetStateAction<Project[]>>
+    Dispatch<SetStateAction<Project[]>>,
   ] = useState([]);
 
   const setNewProjects = (projects: Project[]): void => {
@@ -26,8 +31,15 @@ const App: React.FC<AppProps> = (props: AppProps) => {
   };
 
   const addNewProject = (project: Project): void => {
-    const projects = [ ...projectsState, project ];
+    const projects = [...projectsState, project];
     setProjectsState(projects);
+    if (
+      project.users.map((user: User) => user.id).indexOf(props.user.id) !== -1
+    ) {
+      let user: User = userState;
+      user.allowProjects = [...user.allowProjects, project.id];
+      setUserState(user);
+    }
   };
 
   return (
@@ -39,7 +51,11 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/"
           render={routeProps => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} projects={projectsState} setNewProjects={setNewProjects} />
+              <MainDashboard
+                user={props.user}
+                projects={projectsState}
+                setNewProjects={setNewProjects}
+              />
             </Suspense>
           )}
         />
@@ -48,7 +64,11 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/dashboard"
           render={routeProps => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} projects={projectsState} setNewProjects={setNewProjects} />
+              <MainDashboard
+                user={props.user}
+                projects={projectsState}
+                setNewProjects={setNewProjects}
+              />
             </Suspense>
           )}
         />

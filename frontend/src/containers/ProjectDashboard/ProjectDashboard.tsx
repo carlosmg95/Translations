@@ -5,6 +5,7 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { Language, User } from '../../types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -36,17 +37,20 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
   `;
 
   return (
-    <Dashboard>
-      <DashboardHeader
-        title={props.projectName}
-        links={[{ to: '/dashboard', text: 'dashboard' }]}
-      />
-      <Query query={PROJECT}>
-        {({ data, loading }) => {
-          if (loading) {
-            return <></>;
-          } else {
-            return (
+    <Query query={PROJECT}>
+      {({ data, loading }) => {
+        if (loading) {
+          return <></>;
+        } else {
+          if (props.user.allowProjects.indexOf(data.project.id) === -1) {
+            return <ErrorMessage code={401} message="You shouldn't be here!" />;
+          }
+          return (
+            <Dashboard>
+              <DashboardHeader
+                title={props.projectName}
+                links={[{ to: '/dashboard', text: 'dashboard' }]}
+              />
               <DashboardBody>
                 {data.project.languages.map((language: Language) => {
                   const allowed: boolean =
@@ -61,11 +65,11 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
                   );
                 })}
               </DashboardBody>
-            );
-          }
-        }}
-      </Query>
-    </Dashboard>
+            </Dashboard>
+          );
+        }
+      }}
+    </Query>
   );
 };
 

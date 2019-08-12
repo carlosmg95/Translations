@@ -117,6 +117,9 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
         literals {
           id
         }
+        users {
+          id
+        }
       }
     }
   `;
@@ -180,7 +183,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
                     },
                   },
                 })
-                  .then((result) => {
+                  .then(result => {
                     props.addNewProject(result.data.createProject);
                   })
                   .catch(e => {

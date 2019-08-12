@@ -40,8 +40,7 @@ const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
               return <div></div>;
             } else {
               let { projects } = result.data;
-              if (props.projects.length === 0)
-                props.setNewProjects(projects);
+              if (props.projects.length === 0) props.setNewProjects(projects);
               return props.projects.map(project => (
                 <ProjectItem
                   key={project.id}

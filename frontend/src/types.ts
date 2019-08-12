@@ -10,7 +10,8 @@ export type Project = {
   id: string,
   name: string,
   languages: Language[],
-  literals: Literal[]
+  literals: Literal[],
+  users: User[]
 };
 
 export type Language = {
