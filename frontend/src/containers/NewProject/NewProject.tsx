@@ -7,7 +7,7 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import { User, Language } from '../../types';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface NewProjectProps {
@@ -102,6 +102,20 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     }
   `;
 
+  const CREATE_PROJECT = gql`
+    mutation CreateProject($project: ProjectCreateInput!) {
+      createProject(data: $project) {
+        name
+        users {
+          name
+        }
+        languages {
+          name
+        }
+      }
+    }
+  `;
+
   if (!props.user.admin) {
     return <ErrorMessage code={403} message="You shouldn't be here!" />;
   }
@@ -118,42 +132,68 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
             Cancel
           </button>
         </Link>
-        <button
-          type="button"
-          className="btn-save"
-          onClick={() => {
-            let errorMessage = { ...errorMessageState };
+        <Mutation mutation={CREATE_PROJECT}>
+          {createProject => (
+            <button
+              type="button"
+              className="btn-save"
+              onClick={() => {
+                let errorMessage = { ...errorMessageState };
 
-            if (!nameState || nameState.match(/\s|\.|\//gi))
-              errorMessage.name = "The name is empty or it's wrong";
-            if (usersState.size === 0)
-              errorMessage.users = 'You must select one user at least';
-            if (languagesState.size === 0)
-              errorMessage.languages = 'You must select one language at least';
+                if (!nameState || nameState.match(/\s|\.|\//gi))
+                  errorMessage.name = "The name is empty or it's wrong";
+                if (usersState.size === 0)
+                  errorMessage.users = 'You must select one user at least';
+                if (languagesState.size === 0)
+                  errorMessage.languages =
+                    'You must select one language at least';
 
-            setErrorMessageState(errorMessage);
-            // TODO: SAVE DATA
-            /*props
-              .createProject(
-                nameState,
-                Array.from(usersState),
-                Array.from(languagesState),
-              )
-              .then(() => {
-                window.location.href = '/';
-              })
-              .catch(e => {
-                const field = e.message.replace(/.*\s(\w+)$/, '$1');
-                if (field === 'name') {
-                  setErrorMessageState(
-                    'The name must be filled and it cannot be repeated',
-                  );
-                }
-              });*/
-          }}
-        >
-          Save
-        </button>
+                setErrorMessageState(errorMessage);
+                if (
+                  errorMessage.languages ||
+                  errorMessage.users ||
+                  errorMessage.name
+                )
+                  return;
+
+                createProject({
+                  variables: {
+                    project: {
+                      name: nameState,
+                      users: {
+                        connect: Array.from(usersState).map(
+                          (userId: string) => {
+                            return { id: userId };
+                          },
+                        ),
+                      },
+                      languages: {
+                        connect: Array.from(languagesState).map(
+                          (languageId: string) => {
+                            return { id: languageId };
+                          },
+                        ),
+                      },
+                    },
+                  },
+                })
+                  .then(() => {
+                    window.location.href = '/dashboard';
+                  })
+                  .catch(e => {
+                    const field = e.message.replace(/.*\s(\w+)$/, '$1');
+                    const errorMessage = { ...errorMessageState };
+                    if (field === 'name') {
+                      errorMessage.name = 'The name cannot be repeated';
+                      setErrorMessageState(errorMessage);
+                    }
+                  });
+              }}
+            >
+              Save
+            </button>
+          )}
+        </Mutation>
         <Query query={USERS_LANGUAGES}>
           {({ data, loading }) => {
             if (loading) {
