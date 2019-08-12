@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { User } from '../types';
+import { User, Project } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
 import NewProject from './NewProject/NewProject';
 
@@ -16,6 +16,20 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
+  const [projectsState, setProjectsState]: [
+    Project[],
+    Dispatch<SetStateAction<Project[]>>
+  ] = useState([]);
+
+  const setNewProjects = (projects: Project[]): void => {
+    setProjectsState(projects);
+  };
+
+  const addNewProject = (project: Project): void => {
+    const projects = [ ...projectsState, project ];
+    setProjectsState(projects);
+  };
+
   return (
     <div className="App">
       <MainHeader title="Translations" user={props.user} />
@@ -25,7 +39,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/"
           render={routeProps => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} />
+              <MainDashboard user={props.user} projects={projectsState} setNewProjects={setNewProjects} />
             </Suspense>
           )}
         />
@@ -34,7 +48,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/dashboard"
           render={routeProps => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} />
+              <MainDashboard user={props.user} projects={projectsState} setNewProjects={setNewProjects} />
             </Suspense>
           )}
         />
@@ -44,7 +58,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           render={() => {
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <NewProject user={props.user} />
+                <NewProject user={props.user} addNewProject={addNewProject} />
               </Suspense>
             );
           }}

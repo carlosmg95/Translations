@@ -1,12 +1,14 @@
 import React from 'react';
 import './MainDashboard.css';
 import ProjectItem from '../../components/ProjectItem/ProjectItem';
-import { User } from '../../types';
+import { User, Project } from '../../types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface DashboardProps {
   user: User;
+  projects: Project[];
+  setNewProjects(projects: Project[]): void;
 }
 
 const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
@@ -38,7 +40,9 @@ const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
               return <div></div>;
             } else {
               let { projects } = result.data;
-              return projects.map(project => (
+              if (props.projects.length === 0)
+                props.setNewProjects(projects);
+              return props.projects.map(project => (
                 <ProjectItem
                   key={project.id}
                   project={project}
