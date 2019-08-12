@@ -42,6 +42,21 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     }
   };
 
+  const addValueToProjectProperty = (
+    projectWhereKey: string,
+    projectWhereValue: string,
+    projectSetKey: string,
+    projectSetValue: any,
+  ): void => {
+    let projects: Project[] = projectsState;
+    projects = projects.map((project: Project) => {
+      if (project[projectWhereKey] === projectWhereValue)
+        project[projectSetKey] = [...project[projectSetKey], projectSetValue];
+      return project;
+    });
+    setProjectsState(projects);
+  };
+
   return (
     <div className="App">
       <MainHeader title="Translations" user={props.user} />
@@ -106,6 +121,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   user={props.user}
                   languageIso={languageIso}
                   projectName={projectName}
+                  addValueToProjectProperty={addValueToProjectProperty}
                 />
               </Suspense>
             );

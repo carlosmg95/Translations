@@ -13,6 +13,7 @@ import {
   Literal,
   LiteralTranslation,
   Filter,
+  Project,
 } from '../../types';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -21,6 +22,12 @@ interface TranslateProps {
   languageIso: string;
   projectName: string;
   user: User;
+  addValueToProjectProperty(
+    projectWhereKey: string,
+    projectWhereValue: string,
+    projectSetKey: string,
+    projectSetValue: any,
+  ): void;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
@@ -234,6 +241,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             as_in: '',
             literal: '',
           };
+          props.addValueToProjectProperty('name', props.projectName, 'literals', { id: data.literal.id });
           setNewLiteralState(literalState);
           setTranslationsState(translations);
           setErrorState('');
