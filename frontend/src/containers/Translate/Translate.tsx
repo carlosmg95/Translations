@@ -114,6 +114,50 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     setTranslationsState(translations);
   };
 
+  // Add a translation when it doesn't exist
+  const addTranslation = (
+    project: Project,
+    id: string,
+    literalId: string,
+    translationText: string,
+  ): Project => {
+    project.translations = [
+      ...project.translations,
+      {
+        id,
+        language: props.project.languages.find(
+          (lang: Language) => lang.iso === props.languageIso,
+        ),
+        literal: props.project.literals.find(
+          (lit: Literal) => lit.id === literalId,
+        ),
+        project: props.project,
+        translation: translationText,
+      } as Translation,
+    ];
+    return project;
+  };
+
+  // Update a translation when it exists
+  const updateTranslation = (
+    project: Project,
+    literalId: string,
+    translationText: string,
+  ): Project => {
+    project.translations = project.translations.map(
+      (translation: Translation) => {
+        if (
+          translation.literal.id === literalId &&
+          translation.language.iso === props.languageIso
+        )
+          translation.translation = translationText;
+        return translation;
+      },
+    );
+
+    return project;
+  };
+
   // Save data when onBlur
   const upsertTranslations = (
     translationId: string,
@@ -160,33 +204,43 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             translation: translationText,
           },
         },
+      }).then(result => {
+        // Update the state of the translations
+        let translations: LiteralTranslation[] = translationsState.map(
+          (t: LiteralTranslation) => {
+            if (t.literalId === literalId) {
+              t.state = translationText
+                ? Filter.TRANSLATED
+                : Filter.NO_TRANSLATED;
+              t.translation = translationText;
+            }
+            return t;
+          },
+        );
+        setTranslationsState(translations);
+
+        // Update the list of projects in App
+        let project: Project = props.project;
+        if (
+          project.translations.find(
+            (trans: Translation) =>
+              trans.literal.id === literalId &&
+              trans.language.iso === props.languageIso,
+          )
+        ) {
+          project = updateTranslation(project, literalId, translationText); // Update a translation when it exists
+        } else {
+          project = addTranslation(
+            // Add a new translation when it doesn't exist
+            project,
+            result.data.upsertTranslation.id,
+            literalId,
+            translationText,
+          );
+        }
+        props.updateProject('name', props.project.name, project);
       });
     }
-    // Update the state of the translations
-    let translations: LiteralTranslation[] = translationsState.map(
-      (t: LiteralTranslation) => {
-        if (t.literalId === literalId) {
-          t.state = translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED;
-          t.translation = translationText;
-        }
-        return t;
-      },
-    );
-    setTranslationsState(translations);
-
-    // Update the list of projects in App
-    let project: Project = props.project;
-    project.translations = project.translations.map(
-      (translation: Translation) => {
-        if (
-          translation.literal.id === literalId &&
-          translation.language.iso === props.languageIso
-        )
-          translation.translation = translationText;
-        return translation;
-      },
-    );
-    props.updateProject('name', props.project.name, project);
   };
 
   // Save the current value of the new literal
