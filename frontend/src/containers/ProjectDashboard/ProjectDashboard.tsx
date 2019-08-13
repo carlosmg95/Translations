@@ -40,7 +40,7 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
             <ProjectLanguageRow
               key={language.id}
               language={language}
-              projectName={props.project.name}
+              project={props.project}
               allowed={allowed}
             />
           );

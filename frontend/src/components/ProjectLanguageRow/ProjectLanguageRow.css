@@ -29,7 +29,7 @@
   flex-flow: row wrap;
 }
 
-.add-literal,
+.create-json,
 .translate {
   flex: 1 1;
 }
