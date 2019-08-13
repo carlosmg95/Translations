@@ -1,4 +1,47 @@
 export type User = {
+  id: string
+  name: string
+  admin: Boolean
+  projects: Project[]
+  languages: Language[]
+}
+
+export type Project = {
+  id: string
+  name: string
+  users: User[]
+  languages: Language[]
+  translations: Translation[]
+  literals: Literal[]
+}
+
+export type Language = {
+  id: string
+  name: string
+  iso: string
+  code: string
+  projects: Project[]
+  users: User[]
+  translations: Translation[]
+}
+
+export type Translation = {
+  id: string
+  language: Language
+  literal: Literal
+  project: Project
+  translation: string
+}
+
+export type Literal = {
+  id: string
+  project: Project
+  translations: Translation[]
+  literal: string
+  as_in: string
+}
+/*
+export type User = {
   id: string,
   admin: boolean,
   name: string,
@@ -10,7 +53,9 @@ export type Project = {
   id: string,
   name: string,
   languages: Language[],
-  literals: Literal[]
+  literals: Literal[],
+  users: User[],
+  translations: Translation[]
 };
 
 export type Language = {
@@ -34,7 +79,7 @@ export type Literal = {
   literal: string,
   as_in: string
 }
-
+*/
 export type LiteralTranslation = {
   literalId: string;
   translationId: string;

@@ -5,66 +5,47 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
-import { Language, User } from '../../types';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import { Language, User, Project } from '../../types';
 
 interface ProjectDashboardProps {
-  projectName: string;
+  project: Project;
   user: User;
 }
 
 const projectDashboard: React.FC<ProjectDashboardProps> = (
   props: ProjectDashboardProps,
 ) => {
-  const PROJECT = gql`
-    {
-      project(where: { name: "${props.projectName}" }) {
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-      }
-    }
-  `;
+  if (
+    props.user.projects
+      .map((project: Project) => project.id)
+      .indexOf(props.project.id) === -1
+  ) {
+    return <ErrorMessage code={401} message="You shouldn't be here!" />;
+  }
 
   return (
     <Dashboard>
       <DashboardHeader
-        title={props.projectName}
+        title={props.project.name}
         links={[{ to: '/dashboard', text: 'dashboard' }]}
       />
-      <Query query={PROJECT}>
-        {({ data, loading }) => {
-          if (loading) {
-            return <></>;
-          } else {
-            return (
-              <DashboardBody>
-                {data.project.languages.map((language: Language) => {
-                  const allowed: boolean =
-                    props.user.allowLanguages.indexOf(language.id) !== -1;
-                  return (
-                    <ProjectLanguageRow
-                      key={language.id}
-                      language={language}
-                      projectName={props.projectName}
-                      allowed={allowed}
-                    />
-                  );
-                })}
-              </DashboardBody>
-            );
-          }
-        }}
-      </Query>
+      <DashboardBody>
+        {props.project.languages.map((language: Language) => {
+          const allowed: boolean =
+            props.user.languages
+              .map((lang: Language) => lang.id)
+              .indexOf(language.id) !== -1;
+          return (
+            <ProjectLanguageRow
+              key={language.id}
+              language={language}
+              projectName={props.project.name}
+              allowed={allowed}
+            />
+          );
+        })}
+      </DashboardBody>
     </Dashboard>
   );
 };

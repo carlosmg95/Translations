@@ -56,7 +56,7 @@ label {
   background-image: radial-gradient(circle, #419176 0%, white 70%);
 }
 
-button {
+.btn {
   margin-bottom: 10px;
   margin-left: 5px;
   padding: 10px 20px;
@@ -66,28 +66,28 @@ button {
   float: right;
 }
 
-button.btn-save {
+.btn.btn-save {
   background-color: green;
   border: solid 1px green;
 }
 
-button:focus {
+.btn:focus {
   outline: none;
 }
 
-button.btn-save:hover,
-button.btn-save:active {
+.btn.btn-save:hover,
+.btn.btn-save:active {
   background-color: #90ee90;
   color: green;
 }
 
-button.btn-cancel {
+.btn.btn-cancel {
   background-color: red;
   border: solid 1px red;
 }
 
-button.btn-cancel:hover,
-button.btn-cancel:active {
+.btn.btn-cancel:hover,
+.btn.btn-cancel:active {
   background-color: #fc9e9e;
   color: red;
 }

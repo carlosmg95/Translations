@@ -6,12 +6,13 @@ import Dashboard, {
   DashboardBody,
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
-import { User, Language } from '../../types';
+import { User, Language, Project } from '../../types';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface NewProjectProps {
   user: User;
+  addNewProject(project: Project): void;
 }
 
 const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
@@ -105,12 +106,19 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
   const CREATE_PROJECT = gql`
     mutation CreateProject($project: ProjectCreateInput!) {
       createProject(data: $project) {
+        id
         name
-        users {
-          name
-        }
         languages {
+          id
           name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
         }
       }
     }
@@ -127,16 +135,14 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
         links={[{ to: '/dashboard', text: 'dashboard' }]}
       />
       <DashboardBody>
-        <Link to="/dashboard">
-          <button type="button" className="btn-cancel">
-            Cancel
-          </button>
+        <Link to="/dashboard" className="btn btn-cancel">
+          Cancel
         </Link>
         <Mutation mutation={CREATE_PROJECT}>
           {createProject => (
-            <button
-              type="button"
-              className="btn-save"
+            <Link
+              to="/dashboard"
+              className="btn btn-save"
               onClick={() => {
                 let errorMessage = { ...errorMessageState };
 
@@ -177,8 +183,8 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
                     },
                   },
                 })
-                  .then(() => {
-                    window.location.href = '/dashboard';
+                  .then(result => {
+                    props.addNewProject(result.data.createProject);
                   })
                   .catch(e => {
                     const field = e.message.replace(/.*\s(\w+)$/, '$1');
@@ -191,7 +197,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
               }}
             >
               Save
-            </button>
+            </Link>
           )}
         </Mutation>
         <Query query={USERS_LANGUAGES}>
