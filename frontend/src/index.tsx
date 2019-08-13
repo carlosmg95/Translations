@@ -11,8 +11,6 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 
-import { Language, Project } from './types';
-
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000',
 });

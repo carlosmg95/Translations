@@ -16,7 +16,7 @@ import {
   Project,
   Language,
 } from '../../types';
-import { Query, Mutation } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface TranslateProps {
