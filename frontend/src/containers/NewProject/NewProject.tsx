@@ -184,7 +184,9 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
                   },
                 })
                   .then(result => {
-                    props.addNewProject(result.data.createProject);
+                    const project: Project = result.data.createProject;
+                    project.translations = [];
+                    props.addNewProject(project);
                   })
                   .catch(e => {
                     const field = e.message.replace(/.*\s(\w+)$/, '$1');
