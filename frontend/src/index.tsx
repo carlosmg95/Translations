@@ -53,12 +53,12 @@ client
             id
             translation
             language {
-              id
-              name
+              iso
             }
             literal {
               id
               literal
+              as_in
             }
           }
           literals {
@@ -72,13 +72,6 @@ client
   })
   .then(response => {
     let { user, projects } = response.data;
-
-    user.allowLanguages = user.languages.map(
-      (language: Language) => language.id,
-    );
-    user.allowProjects = user.projects.map((project: Project) => project.id);
-    delete user.languages;
-    delete user.projects;
 
     ReactDOM.render(
       <ApolloProvider client={client}>

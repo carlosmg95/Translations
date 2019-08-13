@@ -1,7 +1,7 @@
 import React from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
-import { LiteralTranslation } from '../../types';
+import { LiteralTranslation, Project } from '../../types';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 

@@ -16,7 +16,11 @@ interface ProjectDashboardProps {
 const projectDashboard: React.FC<ProjectDashboardProps> = (
   props: ProjectDashboardProps,
 ) => {
-  if (props.user.allowProjects.indexOf(props.project.id) === -1) {
+  if (
+    props.user.projects
+      .map((project: Project) => project.id)
+      .indexOf(props.project.id) === -1
+  ) {
     return <ErrorMessage code={401} message="You shouldn't be here!" />;
   }
 
@@ -29,7 +33,9 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
       <DashboardBody>
         {props.project.languages.map((language: Language) => {
           const allowed: boolean =
-            props.user.allowLanguages.indexOf(language.id) !== -1;
+            props.user.languages
+              .map((lang: Language) => lang.id)
+              .indexOf(language.id) !== -1;
           return (
             <ProjectLanguageRow
               key={language.id}

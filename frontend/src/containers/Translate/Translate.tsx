@@ -21,7 +21,6 @@ import gql from 'graphql-tag';
 
 interface TranslateProps {
   languageIso: string;
-  projectName: string;
   user: User;
   addValueToProjectProperty(
     projectWhereKey: string,
@@ -29,12 +28,15 @@ interface TranslateProps {
     projectSetKey: string,
     projectSetValue: any,
   ): void;
+  updateProject(
+    projectWhereKey: string,
+    projectWhereValue: string,
+    updatedProject: Project,
+  ): void;
   project: Project;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
-  let lt: LiteralTranslation[];
-
   const [errorState, setErrorState]: [
     // New literal error message
     string,
@@ -51,29 +53,25 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     // The most current values
     LiteralTranslation[],
     Dispatch<SetStateAction<LiteralTranslation[]>>,
-  ] = useState([
-    {
-      translationId: '0',
-      literalId: '0',
-      translation: '',
-      as_in: '',
-      literal: '',
-    },
-  ]);
-
-  const [savedTranslationsState, setSavedTranslationState]: [
-    // The values saved in DB
-    Translation[],
-    Dispatch<SetStateAction<Translation[]>>,
-  ] = useState([
-    {
-      id: '0',
-      lang_id: '0',
-      lit_id: '0',
-      project_id: '0',
-      translation: '',
-    },
-  ]);
+  ] = useState(
+    props.project.literals.map((literal: Literal) => {
+      const translation: Translation = props.project.translations.find(
+        translation =>
+          translation.literal.id === literal.id &&
+          translation.language.iso === props.languageIso,
+      );
+      const translationText = translation ? translation.translation : '';
+      const translationId = translation ? translation.id : '0';
+      return {
+        translationId,
+        literalId: literal.id,
+        translation: translationText,
+        as_in: literal.as_in,
+        literal: literal.literal,
+        state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
+      };
+    }),
+  );
 
   const [newLiteralState, setNewLiteralState]: [
     // Current value of a new literal
@@ -124,11 +122,16 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     translationText: string,
     upsert,
   ): void => {
+    const originalTranslation: Translation = props.project.translations.find(
+      (t: Translation) =>
+        t.literal.id === literalId && t.language.iso === props.languageIso,
+    );
+    const originalTranslationText: string = originalTranslation
+      ? originalTranslation.translation
+      : '';
     if (
-      translationText &&
-      translationText !==
-        savedTranslationsState.find((t: Translation) => t.lit_id === literalId)
-          .translation
+      translationText && // If there is text
+      translationText !== originalTranslationText // and the text is different to the saved data
     ) {
       upsert({
         variables: {
@@ -149,7 +152,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             },
             project: {
               connect: {
-                name: props.projectName,
+                name: props.project.name,
               },
             },
           },
@@ -159,6 +162,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         },
       });
     }
+    // Update the state of the translations
     let translations: LiteralTranslation[] = translationsState.map(
       (t: LiteralTranslation) => {
         if (t.literalId === literalId) {
@@ -169,15 +173,20 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
       },
     );
     setTranslationsState(translations);
-    setSavedTranslationState(
-      translations.map((translation: LiteralTranslation) => ({
-        id: translation.translationId,
-        lang_id: props.languageIso,
-        lit_id: translation.literalId,
-        project_id: props.projectName,
-        translation: translation.translation,
-      })),
+
+    // Update the list of projects in App
+    let project: Project = props.project;
+    project.translations = project.translations.map(
+      (translation: Translation) => {
+        if (
+          translation.literal.id === literalId &&
+          translation.language.iso === props.languageIso
+        )
+          translation.translation = translationText;
+        return translation;
+      },
     );
+    props.updateProject('name', props.project.name, project);
   };
 
   // Save the current value of the new literal
@@ -200,7 +209,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             translation: translation,
             project: {
               connect: {
-                name: props.projectName,
+                name: props.project.name,
               },
             },
             language: {
@@ -214,7 +223,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
                 as_in: as_in,
                 project: {
                   connect: {
-                    name: props.projectName,
+                    name: props.project.name,
                   },
                 },
               },
@@ -224,7 +233,9 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
       })
         .then(result => {
           const data = result.data.createLiteralTranslation;
+
           const translation: LiteralTranslation = {
+            // Create the new object
             translationId: data.id,
             literalId: data.literal.id,
             translation: data.translation,
@@ -233,25 +244,53 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             state: data.translation ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
           };
           const translations: LiteralTranslation[] = [
+            // Save the object
             ...translationsState,
             translation,
           ];
+          setTranslationsState(translations);
+
           const literalState: LiteralTranslation = {
+            // Reset the new literal row
             translationId: '0',
             literalId: '0',
             translation: '',
             as_in: '',
             literal: '',
           };
-          props.addValueToProjectProperty(
-            'name',
-            props.projectName,
-            'literals',
-            { id: data.literal.id },
-          );
           setNewLiteralState(literalState);
-          setTranslationsState(translations);
-          setErrorState('');
+
+          props.addValueToProjectProperty(
+            // Add the new literal to project in App
+            'name',
+            props.project.name,
+            'literals',
+            {
+              id: data.literal.id,
+              literal: data.literal.literal,
+              as_in: data.literal.as_in,
+            },
+          );
+          props.addValueToProjectProperty(
+            // Add the new translation to project in App
+            'name',
+            props.project.name,
+            'translations',
+            {
+              id: data.id,
+              translation: data.translation,
+              language: {
+                iso: props.languageIso,
+              },
+              literal: {
+                id: data.literal.id,
+                literal: data.literal.literal,
+                as_in: data.literal.as_in,
+              },
+            },
+          );
+
+          setErrorState(''); // Remove errors
         })
         .catch(e => {
           const errorMessage: string = e.message.replace(/^.+:\s(.+)$/, '$1');
@@ -261,44 +300,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
       setErrorState('Empty or wrong literal.');
     }
   };
-
-  const PROJECT = gql`
-    {
-      project(where: {
-        name:"${props.projectName}"
-      }) {
-        id
-        name
-        translations(where: {
-          language: {
-            iso:"${props.languageIso}"
-          }
-        }) {
-          id
-          translation
-          language {
-            id
-            name
-          }
-          literal {
-            id
-            literal
-          }
-        }
-        literals {
-          id
-          literal
-          as_in
-        }
-      }
-      language(where: {
-        iso:"${props.languageIso}"
-      }) {
-        id
-        name
-      }
-    }
-  `;
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
@@ -314,91 +315,61 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     }
   `;
 
+  const language: Language = props.project.languages.find(
+    (lang: Language) => lang.iso === props.languageIso,
+  );
+
+  if (
+    props.user.languages
+      .map((lang: Language) => lang.id)
+      .indexOf(language.id) === -1 ||
+    props.user.projects
+      .map((project: Project) => project.id)
+      .indexOf(props.project.id) === -1
+  ) {
+    return <ErrorMessage code={401} message="You shouldn't be here!" />;
+  }
+
   return (
-    <Query query={PROJECT}>
-      {({ data, loading }) => {
-        if (loading) {
-          return <div></div>;
-        } else {
-          if (
-            props.user.allowLanguages.indexOf(data.language.id) === -1 ||
-            props.user.allowProjects.indexOf(data.project.id) === -1
-          ) {
-            return <ErrorMessage code={401} message="You shouldn't be here!" />;
-          }
-          const { literals, translations } = data.project;
-          lt = literals.map((literal: Literal) => {
-            const translation: Translation = translations.find(
-              translation => translation.literal.id === literal.id,
-            );
-            const translationText = translation ? translation.translation : '';
-            const translationId = translation ? translation.id : '0';
-            return {
-              translationId,
-              literalId: literal.id,
-              translation: translationText,
-              as_in: literal.as_in,
-              literal: literal.literal,
-              state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
-            };
-          });
-          if (translationsState[0] && translationsState[0].literalId === '0') {
-            setTranslationsState(lt);
-            setSavedTranslationState(
-              lt.map((translation: LiteralTranslation) => ({
-                id: translation.translationId,
-                lang_id: props.languageIso,
-                lit_id: translation.literalId,
-                project_id: props.projectName,
-                translation: translation.translation,
-              })),
-            );
-          }
-          return (
-            <Dashboard>
-              <DashboardHeader
-                title={data.language.name}
-                links={[
-                  { to: '/dashboard', text: 'dashboard' },
-                  {
-                    to: `/project/${props.projectName}`,
-                    text: props.projectName,
-                  },
-                ]}
+    <Dashboard>
+      <DashboardHeader
+        title={language.name}
+        links={[
+          { to: '/dashboard', text: 'dashboard' },
+          {
+            to: `/project/${props.project.name}`,
+            text: props.project.name,
+          },
+        ]}
+      />
+      <DashboardBody>
+        <Translations
+          projectName={props.project.name}
+          languageId={language.id}
+          translations={translationsState.filter(
+            (translation: LiteralTranslation) =>
+              filterState === Filter.ALL || filterState === translation.state,
+          )}
+          changeValue={changeTranslationValue}
+          upsertTranslations={upsertTranslations}
+          selectLiterals={selectLiterals}
+        />
+        <Mutation mutation={ADD_NEW_LITERAL}>
+          {createTranslation => {
+            return (
+              <NewLiteralRow
+                addNewLiteral={() => addNewLiteral(createTranslation)}
+                changeLiteral={changeLiteral}
+                errorMessage={errorState}
+                literal={newLiteralState.literal}
+                translation={newLiteralState.translation}
+                as_in={newLiteralState.as_in}
               />
-              <DashboardBody>
-                <Translations
-                  projectName={props.projectName}
-                  languageId={data.language.id}
-                  translations={translationsState.filter(
-                    (translation: LiteralTranslation) =>
-                      filterState === Filter.ALL ||
-                      filterState === translation.state,
-                  )}
-                  changeValue={changeTranslationValue}
-                  upsertTranslations={upsertTranslations}
-                  selectLiterals={selectLiterals}
-                />
-                <Mutation mutation={ADD_NEW_LITERAL}>
-                  {createTranslation => {
-                    return (
-                      <NewLiteralRow
-                        addNewLiteral={() => addNewLiteral(createTranslation)}
-                        changeLiteral={changeLiteral}
-                        errorMessage={errorState}
-                        literal={newLiteralState.literal}
-                        translation={newLiteralState.translation}
-                        as_in={newLiteralState.as_in}
-                      />
-                    );
-                  }}
-                </Mutation>
-              </DashboardBody>
-            </Dashboard>
-          );
-        }
-      }}
-    </Query>
+            );
+          }}
+        </Mutation>
+      </DashboardBody>
+    </Dashboard>
   );
 };
 

@@ -26,7 +26,9 @@ const project: React.FC<ProjectItemProps> = (props: ProjectItemProps) => {
           <ul className="languages-flag__list">
             {props.project.languages.map((language: Language) => {
               const allowed: boolean =
-                props.user.allowLanguages.indexOf(language.id) !== -1;
+                props.user.languages
+                  .map((lang: Language) => lang.id)
+                  .indexOf(language.id) !== -1;
               return (
                 <Link
                   key={project.name + language.iso}

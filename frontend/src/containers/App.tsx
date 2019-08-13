@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { User, Project } from '../types';
+import { User, Project, Translation } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
 import NewProject from './NewProject/NewProject';
 
@@ -18,15 +18,18 @@ interface AppProps {
 
 const App: React.FC<AppProps> = (props: AppProps) => {
   const [userState, setUserState]: [
+    // The logged user
     User,
     Dispatch<SetStateAction<User>>,
   ] = useState(props.user);
 
   const [projectsState, setProjectsState]: [
+    // The list of logged user's projects
     Project[],
     Dispatch<SetStateAction<Project[]>>,
   ] = useState(props.projects);
 
+  // Add a new project to the list
   const addNewProject = (project: Project): void => {
     const projects = [...projectsState, project];
     setProjectsState(projects);
@@ -34,11 +37,26 @@ const App: React.FC<AppProps> = (props: AppProps) => {
       project.users.map((user: User) => user.id).indexOf(props.user.id) !== -1
     ) {
       let user: User = userState;
-      user.allowProjects = [...user.allowProjects, project.id];
+      user.projects = [...user.projects, project];
       setUserState(user);
     }
   };
 
+  // Update a project in the list
+  const updateProject = (
+    projectWhereKey: string,
+    projectWhereValue: string,
+    updatedProject: Project,
+  ): void => {
+    let projects: Project[] = projectsState;
+    projects = projects.map((project: Project) => {
+      if (project[projectWhereKey] === projectWhereValue) return updatedProject;
+      return project;
+    });
+    setProjectsState(projects);
+  };
+
+  // Add a value to property array of a project in the list
   const addValueToProjectProperty = (
     projectWhereKey: string,
     projectWhereValue: string,
@@ -109,16 +127,17 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/project/:projectName/translate/:languageIso"
           render={routeProps => {
             const { languageIso, projectName } = routeProps.match.params;
+            let project: Project = projectsState.find(
+              (project: Project) => project.name === projectName,
+            );
             return (
               <Suspense fallback={<div>Loading...</div>}>
                 <Translate
                   user={props.user}
                   languageIso={languageIso}
-                  projectName={projectName}
                   addValueToProjectProperty={addValueToProjectProperty}
-                  project={projectsState.find(
-                    (project: Project) => project.name === projectName,
-                  )}
+                  updateProject={updateProject}
+                  project={project}
                 />
               </Suspense>
             );
