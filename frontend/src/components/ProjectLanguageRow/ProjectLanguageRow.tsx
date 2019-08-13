@@ -34,9 +34,9 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
                   translation.language.iso === props.language.iso &&
                   translation.literal.id === literal.id,
               );
-              const translationText: string = translation
+              const translationText: string = (translation && translation.translation)
                 ? translation.translation
-                : '';
+                : literal.literal;
               i18n = { ...i18n, [literal.literal]: translationText };
             });
 
