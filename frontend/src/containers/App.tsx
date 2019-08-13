@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { User, Project, Translation } from '../types';
+import { User, Project } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
 import NewProject from './NewProject/NewProject';
 
