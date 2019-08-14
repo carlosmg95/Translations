@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import './ProjectItem.css';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
 import { Project, Language, User } from '../../types';
-import Flag from 'react-world-flags';
 
 interface ProjectItemProps {
   project?: Project;

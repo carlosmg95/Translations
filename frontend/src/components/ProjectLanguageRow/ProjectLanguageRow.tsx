@@ -4,7 +4,6 @@ import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
 import { Language, Project, Translation, Literal } from '../../types';
-import Flag from 'react-world-flags';
 
 interface ProjectLanguageRowProps {
   project: Project;

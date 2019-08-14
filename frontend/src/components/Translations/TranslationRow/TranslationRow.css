@@ -1,16 +1,15 @@
-textarea,
-input {
+.translation-input {
   max-width: 100%;
   min-width: 100%;
   background-color: transparent;
   border: none;
   height: 40px;
   text-align: center;
-  resize: none;
+  resize: vertical;
   border: 0.5px dotted #419277;
+  line-height: 40px;
 }
 
-textarea:focus,
-input:focus {
-  background-color: rgba(56, 226, 169, 0.1);
+.translation-input:focus {
+  background-color: white;
 }
