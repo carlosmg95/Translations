@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectItem.css';
+import LanguageFlag from '../LanguageFlag/LanguageFlag';
 import { Project, Language, User } from '../../types';
-import Flag from 'react-world-flags';
 
 interface ProjectItemProps {
   project?: Project;
@@ -30,24 +30,14 @@ const project: React.FC<ProjectItemProps> = (props: ProjectItemProps) => {
                   .map((lang: Language) => lang.id)
                   .indexOf(language.id) !== -1;
               return (
-                <Link
-                  key={project.name + language.iso}
-                  to={
-                    allowed
-                      ? `/project/${props.project &&
-                          props.project.name}/translate/${language.iso}`
-                      : '#'
-                  }
-                >
-                  <li
-                    className={
-                      'language-flag__item ' + (allowed ? '' : 'disabled')
-                    }
-                  >
-                    <Flag className="flag" code={language.code} height="18" />
-                    <small>{language.name}</small>
-                  </li>
-                </Link>
+                <LanguageFlag
+                  key={language.id}
+                  allowed={allowed}
+                  code={language.code}
+                  name={language.name}
+                  link={`/project/${props.project &&
+                    props.project.name}/translate/${language.iso}`}
+                />
               );
             })}
           </ul>

@@ -20,6 +20,7 @@ const translationRow: React.FC<TranslationRowProps> = (
       <p className="translation-row__item as-in">{props.as_in}</p>
       <p className="translation-row__item translation-text">
         <textarea
+          className="translation-input"
           onBlur={() => {
             props.blur(props.translationId, props.literalId, props.translation);
           }}

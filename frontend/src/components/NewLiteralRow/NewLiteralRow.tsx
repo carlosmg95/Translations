@@ -18,6 +18,7 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
     <div className="new-literal-row">
       <p className="new-literal-row__item literal">
         <input
+          className="translation-input"
           type="text"
           placeholder="new literal"
           value={props.literal}
@@ -31,6 +32,7 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
       </p>
       <p className="new-literal-row__item as-in">
         <input
+          className="translation-input"
           type="text"
           placeholder="as in"
           value={props.as_in}
@@ -39,6 +41,7 @@ const NewLiteralRow: React.FC<NewLiteralRowProps> = (
       </p>
       <p className="new-literal-row__item translation-text">
         <textarea
+          className="translation-input"
           placeholder="translation"
           value={props.translation}
           onChange={event => props.changeLiteral(event, 'translation')}
