@@ -1,8 +1,8 @@
 import { GraphQLServer } from 'graphql-yoga';
-//import { typeDefs } from './schema.graphql';
 import { Prisma } from 'prisma-binding';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
+import log from './utils/log';
 
 const prisma = new Prisma({
   typeDefs: './src/schema.graphql',
@@ -24,5 +24,7 @@ const server: GraphQLServer = new GraphQLServer({
 });
 
 server.start(() => {
-  console.log('The server is up!');
+  const clear = require('clear');
+  clear();
+  log.greet('The server is up!');
 });
