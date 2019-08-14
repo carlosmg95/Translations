@@ -12,6 +12,7 @@ import gql from 'graphql-tag';
 
 interface NewProjectProps {
   user: User;
+  history: any;
   addNewProject(project: Project): void;
 }
 
@@ -109,7 +110,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     setErrorMessageState(errorMessage);
   };
 
-  const createNewProject = (mutation): void => {
+  const createNewProject = (mutation, event): void => {
     let errorMessage = { ...errorMessageState };
 
     if (!nameState || nameState.match(/\s|\.|\//gi))
@@ -148,15 +149,15 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
 
         project.translations = [];
         props.addNewProject(project);
+
+        props.history.push(event.target.href.replace(/^.+\/(\w+)$/, '$1')); // Go to /dashboard
       })
       .catch(e => {
-        const field = e.message.replace(/.*\s(\w+)$/, '$1');
+        const errorText = e.message.replace(/^.*:\s(.+)$/, '$1');
         const errorMessage = { ...errorMessageState };
 
-        if (field === 'name') {
-          errorMessage.name = 'The name cannot be repeated';
-          setErrorMessageState(errorMessage);
-        }
+        errorMessage.name = errorText;
+        setErrorMessageState(errorMessage);
       });
   };
 
@@ -217,7 +218,11 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
             <Link
               to="/dashboard"
               className="btn btn-save"
-              onClick={() => createNewProject(createProject)}
+              onClick={event => {
+                event.preventDefault();
+                event.persist();
+                createNewProject(createProject, event);
+              }}
             >
               Save
             </Link>

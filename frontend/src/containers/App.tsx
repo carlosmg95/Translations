@@ -97,10 +97,14 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         <Route
           exact
           path="/newproject"
-          render={() => {
+          render={routeProps => {
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <NewProject user={props.user} addNewProject={addNewProject} />
+                <NewProject
+                  user={props.user}
+                  addNewProject={addNewProject}
+                  history={routeProps.history}
+                />
               </Suspense>
             );
           }}

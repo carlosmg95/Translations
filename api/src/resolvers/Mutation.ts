@@ -8,7 +8,11 @@ const throwError = (message?: string): void => {
 
 const Mutation = {
   async createProject(parent, { data }, { prisma }, info) {
-    log.mutation('Mutation: createProject');
+    const projectExists: boolean = await prisma.exists.Project({ name: data.name });
+
+    if (projectExists) throwError('The name cannot be repeated.');
+    else log.mutation('Mutation: createProject');
+
     return await prisma.mutation.createProject({ data }, info);
   },
   async createLiteralTranslation(parent, { data }, { prisma }, info) {
