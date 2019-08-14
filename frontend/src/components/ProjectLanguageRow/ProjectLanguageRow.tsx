@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
+import LanguageFlag from '../LanguageFlag/LanguageFlag';
 import { Language, Project, Translation, Literal } from '../../types';
 import Flag from 'react-world-flags';
 
@@ -17,10 +18,12 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   return (
     <div className={'projectLanguageRow ' + (props.allowed ? '' : 'disabled')}>
       <div className="language-project">
-        <div>
-          <Flag className="flag" code={props.language.code} height="18" />
-          <small>{props.language.name}</small>
-        </div>
+        <LanguageFlag
+          key={props.language.id}
+          allowed={props.allowed}
+          code={props.language.code}
+          name={props.language.name}
+        />
       </div>
       <div className="create-json">
         <PillButton
@@ -34,9 +37,10 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
                   translation.language.iso === props.language.iso &&
                   translation.literal.id === literal.id,
               );
-              const translationText: string = (translation && translation.translation)
-                ? translation.translation
-                : literal.literal;
+              const translationText: string =
+                translation && translation.translation
+                  ? translation.translation
+                  : literal.literal;
               i18n = { ...i18n, [literal.literal]: translationText };
             });
 
