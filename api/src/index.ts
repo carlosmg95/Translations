@@ -1,11 +1,14 @@
 import { GraphQLServer } from 'graphql-yoga';
 import { Prisma } from 'prisma-binding';
+import { typeDefs as PrismaTypeDefs } from '../prisma/generated/prisma-client/prisma-schema';
+
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
+
 import log from './utils/log';
 
 const prisma = new Prisma({
-  typeDefs: './src/schema.graphql',
+  typeDefs: PrismaTypeDefs,
   endpoint: 'http://localhost:4466',
 });
 

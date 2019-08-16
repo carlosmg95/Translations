@@ -185,19 +185,13 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           create: {
             translation: translationText,
             language: {
-              connect: {
-                id: languageId,
-              },
+              id: languageId,
             },
             literal: {
-              connect: {
-                id: literalId,
-              },
+              id: literalId,
             },
             project: {
-              connect: {
-                name: props.project.name,
-              },
+              name: props.project.name,
             },
           },
           update: {
@@ -262,24 +256,16 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           translation: {
             translation: translation,
             project: {
-              connect: {
-                name: props.project.name,
-              },
+              name: props.project.name,
             },
             language: {
-              connect: {
-                iso: props.languageIso,
-              },
+              iso: props.languageIso,
             },
             literal: {
-              create: {
-                literal: literal,
-                as_in: as_in,
-                project: {
-                  connect: {
-                    name: props.project.name,
-                  },
-                },
+              literal: literal,
+              as_in: as_in,
+              project: {
+                name: props.project.name,
               },
             },
           },

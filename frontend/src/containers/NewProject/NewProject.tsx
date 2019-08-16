@@ -131,23 +131,17 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
       variables: {
         project: {
           name: nameState,
-          users: {
-            connect: Array.from(usersState).map((userId: string) => {
-              return { id: userId };
-            }),
-          },
-          languages: {
-            connect: Array.from(languagesState).map((languageId: string) => {
-              return { id: languageId };
-            }),
-          },
+          users: Array.from(usersState).map((userId: string) => {
+            return { id: userId };
+          }),
+          languages: Array.from(languagesState).map((languageId: string) => {
+            return { id: languageId };
+          }),
         },
       },
     })
       .then(result => {
         const project: Project = result.data.createProject;
-
-        project.translations = [];
         props.addNewProject(project);
 
         props.history.push(event.target.href.replace(/^.+\/(\w+)$/, '$1')); // Go to /dashboard
@@ -190,6 +184,9 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
           id
         }
         users {
+          id
+        }
+        translations {
           id
         }
       }
