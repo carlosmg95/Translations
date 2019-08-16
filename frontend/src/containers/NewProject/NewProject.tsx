@@ -7,8 +7,8 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import { User, Language, Project } from '../../types';
-import { Mutation, Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 interface NewProjectProps {
   user: User;
@@ -193,6 +193,19 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     }
   `;
 
+  const { loading, error, data } = useQuery(USERS_LANGUAGES);
+  const [createProject] = useMutation(CREATE_PROJECT);
+
+  if (loading) {
+    return <div>Loafing...</div>;
+  }
+
+  if (error) {
+    return <ErrorMessage code={500} message="Server error" />;
+  }
+
+  const { users, languages } = data;
+
   if (!props.user.admin) {
     // Only admins can create a new project
     return <ErrorMessage code={403} message="You shouldn't be here!" />;
@@ -210,129 +223,114 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
           Cancel
         </Link>
         {/* SAVE BUTTON */}
-        <Mutation mutation={CREATE_PROJECT}>
-          {createProject => (
-            <Link
-              to="/dashboard"
-              className="btn btn-save"
-              onClick={event => {
-                event.preventDefault();
-                event.persist();
-                createNewProject(createProject, event);
-              }}
-            >
-              Save
-            </Link>
-          )}
-        </Mutation>
-        {/* FORM */}
-        <Query query={USERS_LANGUAGES}>
-          {({ data, loading }) => {
-            if (loading) {
-              return <></>;
-            }
-            const { users, languages } = data;
-            return (
-              <form onChange={changeForm} className="new-project__form">
-                {/* FORM NAME */}
-                <div className="form-group">
-                  <label className="form-item">Name: </label>
-                  <input className="form-item project-name" type="text" />
-                  {errorMessageState.name ? (
-                    <small className="error-message-sm">
-                      {errorMessageState.name}
-                    </small>
-                  ) : (
-                    ''
-                  )}
-                </div>
-                {/* FORM LANGUAGES */}
-                <div className="form-group search-group">
-                  {/* SEARCH INPUT */}
-                  <div className="input-search">
-                    <input
-                      className="form-item search language-search"
-                      type="text"
-                      placeholder="language"
-                    />
-                  </div>
-                  {errorMessageState.languages ? (
-                    <small className="error-message-sm">
-                      {errorMessageState.languages}
-                    </small>
-                  ) : (
-                    ''
-                  )}
-                  {/* SEARCH RESULTS */}
-                  <div className="result-search">
-                    {languages
-                      .filter(
-                        (language: Language) =>
-                          (!languageRegex && languagesState.has(language.id)) ||
-                          (languageRegex &&
-                            language.name.includes(languageRegex)),
-                      )
-                      .map((language: Language) => (
-                        <label
-                          key={language.id}
-                          className="form-item project-languages__label"
-                        >
-                          <input
-                            className="project-languages__checkbox"
-                            type="checkbox"
-                            value={language.id}
-                            defaultChecked={languagesState.has(language.id)}
-                          />{' '}
-                          {language.name}
-                        </label>
-                      ))}
-                  </div>
-                </div>
-                {/* FORM USERS */}
-                <div className="form-group search-group">
-                  {/* SEARCH INPUT */}
-                  <div className="input-search">
-                    <input
-                      className="form-item search user-search"
-                      type="text"
-                      placeholder="user"
-                    />
-                  </div>
-                  {errorMessageState.users ? (
-                    <small className="error-message-sm">
-                      {errorMessageState.users}
-                    </small>
-                  ) : (
-                    ''
-                  )}
-                  {/* SEARCH RESULTS */}
-                  <div className="result-search">
-                    {users
-                      .filter(
-                        (user: User) =>
-                          (!userRegex && usersState.has(user.id)) ||
-                          (userRegex && user.name.includes(userRegex)),
-                      )
-                      .map((user: Language) => (
-                        <label
-                          key={user.id}
-                          className="form-item project-users__label"
-                        >
-                          <input
-                            className="project-users__checkbox"
-                            type="checkbox"
-                            value={user.id}
-                            defaultChecked={usersState.has(user.id)}
-                          />{' '}
-                          {user.name}
-                        </label>
-                      ))}
-                  </div>
-                </div>
-              </form>
-            );
+        <Link
+          to="/dashboard"
+          className="btn btn-save"
+          onClick={event => {
+            event.preventDefault();
+            event.persist();
+            createNewProject(createProject, event);
           }}
-        </Query>
+        >
+          Save
+        </Link>
+        {/* FORM */}
+        <form onChange={changeForm} className="new-project__form">
+          {/* FORM NAME */}
+          <div className="form-group">
+            <label className="form-item">Name: </label>
+            <input className="form-item project-name" type="text" />
+            {errorMessageState.name ? (
+              <small className="error-message-sm">
+                {errorMessageState.name}
+              </small>
+            ) : (
+              ''
+            )}
+          </div>
+          {/* FORM LANGUAGES */}
+          <div className="form-group search-group">
+            {/* SEARCH INPUT */}
+            <div className="input-search">
+              <input
+                className="form-item search language-search"
+                type="text"
+                placeholder="language"
+              />
+            </div>
+            {errorMessageState.languages ? (
+              <small className="error-message-sm">
+                {errorMessageState.languages}
+              </small>
+            ) : (
+              ''
+            )}
+            {/* SEARCH RESULTS */}
+            <div className="result-search">
+              {languages
+                .filter(
+                  (language: Language) =>
+                    (!languageRegex && languagesState.has(language.id)) ||
+                    (languageRegex && language.name.includes(languageRegex)),
+                )
+                .map((language: Language) => (
+                  <label
+                    key={language.id}
+                    className="form-item project-languages__label"
+                  >
+                    <input
+                      className="project-languages__checkbox"
+                      type="checkbox"
+                      value={language.id}
+                      defaultChecked={languagesState.has(language.id)}
+                    />{' '}
+                    {language.name}
+                  </label>
+                ))}
+            </div>
+          </div>
+          {/* FORM USERS */}
+          <div className="form-group search-group">
+            {/* SEARCH INPUT */}
+            <div className="input-search">
+              <input
+                className="form-item search user-search"
+                type="text"
+                placeholder="user"
+              />
+            </div>
+            {errorMessageState.users ? (
+              <small className="error-message-sm">
+                {errorMessageState.users}
+              </small>
+            ) : (
+              ''
+            )}
+            {/* SEARCH RESULTS */}
+            <div className="result-search">
+              {users
+                .filter(
+                  (user: User) =>
+                    (!userRegex && usersState.has(user.id)) ||
+                    (userRegex && user.name.includes(userRegex)),
+                )
+                .map((user: Language) => (
+                  <label
+                    key={user.id}
+                    className="form-item project-users__label"
+                  >
+                    <input
+                      className="project-users__checkbox"
+                      type="checkbox"
+                      value={user.id}
+                      defaultChecked={usersState.has(user.id)}
+                    />{' '}
+                    {user.name}
+                  </label>
+                ))}
+            </div>
+          </div>
+        </form>
       </DashboardBody>
     </Dashboard>
   );

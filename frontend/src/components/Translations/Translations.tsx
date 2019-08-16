@@ -2,8 +2,8 @@ import React from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
 import { LiteralTranslation } from '../../types';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 interface TranslationsProps {
   projectName: string;
@@ -35,6 +35,8 @@ const Translations: React.FC<TranslationsProps> = (
     }
   `;
 
+  const [upsert] = useMutation(UPSERT_TRANSLATIONS);
+
   return (
     <div className="Translations">
       <select className="select-filter" onChange={props.selectLiterals}>
@@ -48,27 +50,24 @@ const Translations: React.FC<TranslationsProps> = (
         <p className="translation-row__item translation-text">Translation</p>
       </div>
       {props.translations.map((translation: LiteralTranslation) => (
-        <Mutation key={translation.literalId} mutation={UPSERT_TRANSLATIONS}>
-          {upsert => (
-            <TranslationRow
-              literalId={translation.literalId}
-              translationId={translation.translationId}
-              literal={translation.literal}
-              as_in={translation.as_in}
-              translation={translation.translation}
-              change={props.changeValue}
-              blur={(translationId, literalId, translationText) => {
-                props.upsertTranslations(
-                  translationId,
-                  literalId,
-                  props.languageId,
-                  translationText,
-                  upsert,
-                );
-              }}
-            />
-          )}
-        </Mutation>
+        <TranslationRow
+          key={translation.literalId}
+          literalId={translation.literalId}
+          translationId={translation.translationId}
+          literal={translation.literal}
+          as_in={translation.as_in}
+          translation={translation.translation}
+          change={props.changeValue}
+          blur={(translationId, literalId, translationText) => {
+            props.upsertTranslations(
+              translationId,
+              literalId,
+              props.languageId,
+              translationText,
+              upsert,
+            );
+          }}
+        />
       ))}
     </div>
   );

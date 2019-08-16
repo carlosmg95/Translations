@@ -16,8 +16,8 @@ import {
   Project,
   Language,
 } from '../../types';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 interface TranslateProps {
   languageIso: string;
@@ -355,6 +355,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     }
   `;
 
+  const [createTranslation] = useMutation(ADD_NEW_LITERAL);
+
   const language: Language = props.project.languages.find(
     (lang: Language) => lang.iso === props.languageIso,
   );
@@ -394,20 +396,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           upsertTranslations={upsertTranslations}
           selectLiterals={selectLiterals}
         />
-        <Mutation mutation={ADD_NEW_LITERAL}>
-          {createTranslation => {
-            return (
-              <NewLiteralRow
-                addNewLiteral={() => addNewLiteral(createTranslation)}
-                changeLiteral={changeLiteral}
-                errorMessage={errorState}
-                literal={newLiteralState.literal}
-                translation={newLiteralState.translation}
-                as_in={newLiteralState.as_in}
-              />
-            );
-          }}
-        </Mutation>
+        <NewLiteralRow
+          addNewLiteral={() => addNewLiteral(createTranslation)}
+          changeLiteral={changeLiteral}
+          errorMessage={errorState}
+          literal={newLiteralState.literal}
+          translation={newLiteralState.translation}
+          as_in={newLiteralState.as_in}
+        />
       </DashboardBody>
     </Dashboard>
   );
