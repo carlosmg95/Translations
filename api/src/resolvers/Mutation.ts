@@ -1,36 +1,101 @@
+import log from '../utils/log';
+
 const throwError = (message?: string): void => {
   const errorMessage = message || 'Error ocurred.';
-  console.error(`[error] ${errorMessage}`);
+  log.error(`${errorMessage}`);
   throw new Error(errorMessage);
 };
 
 const Mutation = {
   async createProject(parent, { data }, { prisma }, info) {
-    console.info('[info] Mutation: createProject');
-    return await prisma.mutation.createProject({ data }, info);
+    const projectExists: boolean = await prisma.exists.Project({
+      name: data.name,
+    });
+
+    const newProject = {
+      ...data,
+      users: {
+        connect: data.users,
+      },
+      languages: {
+        connect: data.languages,
+      },
+    };
+
+    if (projectExists) throwError('The name cannot be repeated.');
+    else log.mutation('Mutation: createProject');
+
+    return await prisma.mutation.createProject(
+      { data: newProject },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+        }
+        translations {
+          id
+        }
+      }`,
+    );
   },
   async createLiteralTranslation(parent, { data }, { prisma }, info) {
-    console.info('[info] Mutation: createTranslation');
-
-    const literal: string = data.literal.create.literal;
-    const projectName: string = data.project.connect.name;
+    const literal: string = data.literal.literal;
+    const projectName: string = data.project.name;
     const existsLiteral: boolean = await prisma.exists.Literal({
       literal,
       project: { name: projectName },
     });
 
-    if (existsLiteral) throwError('The literal already exists.');
+    const newTranslation = {
+      ...data,
+      project: {
+        connect: data.project,
+      },
+      language: {
+        connect: data.language,
+      },
+      literal: {
+        create: {
+          ...data.literal,
+          project: {
+            connect: data.literal.project,
+          },
+        },
+      },
+    };
 
-    return await prisma.mutation.createTranslation({ data }, info);
+    if (existsLiteral) throwError('The literal already exists.');
+    else log.mutation('Mutation: createTranslation');
+
+    return await prisma.mutation.createTranslation(
+      { data: newTranslation },
+      `{
+        id
+        translation
+        literal {
+          id
+          as_in
+          literal
+        }
+      }`,
+    );
   },
   async upsertTranslation(parent, { where, create, update }, { prisma }, info) {
-    console.info('[info] Mutation: upsertTranslation');
-
     const translationExists: boolean = await prisma.exists.Translation(where);
     if (!translationExists) {
-      const languageId: string = create.language.connect.id;
-      const literalId: string = create.literal.connect.id;
-      const projectName: string = create.project.connect.name;
+      const languageId: string = create.language.id;
+      const literalId: string = create.literal.id;
+      const projectName: string = create.project.name;
 
       const languageExists: boolean = await prisma.exists.Language({
         id: languageId,
@@ -46,10 +111,27 @@ const Mutation = {
       if (!languageExists || !literalExists || !projectExists)
         throwError("It can't connect with the requiered elements.");
     }
-    return await prisma.mutation.upsertTranslation(
-      { where, create, update },
-      info,
-    );
+
+    const newTranslation = {
+      ...create,
+      project: {
+        connect: create.project,
+      },
+      language: {
+        connect: create.language,
+      },
+      literal: {
+        connect: create.literal,
+      },
+    };
+
+    log.mutation('Mutation: upsertTranslation');
+
+    return await prisma.mutation.upsertTranslation({
+      where,
+      create: newTranslation,
+      update,
+    });
   },
 };
 

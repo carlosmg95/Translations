@@ -1,11 +1,14 @@
 import { GraphQLServer } from 'graphql-yoga';
-//import { typeDefs } from './schema.graphql';
 import { Prisma } from 'prisma-binding';
+import { typeDefs as PrismaTypeDefs } from '../prisma/generated/prisma-client/prisma-schema';
+
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 
+import log from './utils/log';
+
 const prisma = new Prisma({
-  typeDefs: './src/schema.graphql',
+  typeDefs: PrismaTypeDefs,
   endpoint: 'http://localhost:4466',
 });
 
@@ -24,5 +27,7 @@ const server: GraphQLServer = new GraphQLServer({
 });
 
 server.start(() => {
-  console.log('The server is up!');
+  const clear = require('clear');
+  clear();
+  log.greet('The server is up!');
 });
