@@ -10,6 +10,7 @@ interface ProjectOptionsItemProps {
   addUser?(userId: string): void;
   addLanguage?(languageId: string): void;
   removeUser?(userId: string): void;
+  removeLanguage?(languageId: string): void;
 }
 
 const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
@@ -42,7 +43,13 @@ const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
         {props.header
           ? 'Project languages'
           : projectLanguages.map((lang: Language) => (
-              <p key={lang.id} className="item-name">
+              <p
+                key={lang.id}
+                className="item-name"
+                onClick={() => {
+                  props.removeLanguage(lang.id);
+                }}
+              >
                 {lang.name}
               </p>
             ))}

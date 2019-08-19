@@ -103,9 +103,38 @@ const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
     }
   `;
 
+  const REMOVE_LANGUAGE = gql`
+    mutation RemoveLanguageFromProject(
+      $project: ProjectWhereUniqueInput!
+      $language: LanguageWhereUniqueInput!
+    ) {
+      removeLanguageFromProject(project: $project, language: $language) {
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }
+    }
+  `;
+
   const [addUserToProject] = useMutation(ADD_NEW_USER);
   const [addLanguageToProject] = useMutation(ADD_NEW_LANGUAGE);
   const [removeUserFromProject] = useMutation(REMOVE_USER);
+  const [removeLanguageFromProject] = useMutation(REMOVE_LANGUAGE);
 
   return (
     <div className="ProjectsOptions">
@@ -158,6 +187,21 @@ const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
               },
             }).then(result => {
               const project: Project = result.data.removeUserFromProject;
+              props.updateProject('id', project.id, project);
+            });
+          }}
+          removeLanguage={(languageId: string) => {
+            removeLanguageFromProject({
+              variables: {
+                project: {
+                  name: project.name,
+                },
+                language: {
+                  id: languageId,
+                },
+              },
+            }).then(result => {
+              const project: Project = result.data.removeLanguageFromProject;
               props.updateProject('id', project.id, project);
             });
           }}
