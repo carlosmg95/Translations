@@ -31,13 +31,14 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   // Add a new project to the list
   const addNewProject = (project: Project): void => {
-    const projects = [...projectsState, project];
-    setProjectsState(projects);
     if (
       project.users.map((user: User) => user.id).indexOf(props.user.id) !== -1
     ) {
+      const projects = [...projectsState, project];
       let user: User = userState;
       user.projects = [...user.projects, project];
+
+      setProjectsState(projects);
       setUserState(user);
     }
   };
