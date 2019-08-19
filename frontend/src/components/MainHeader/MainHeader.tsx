@@ -25,7 +25,7 @@ const header: React.FC<HeaderProps> = (props: HeaderProps) => {
             <Link to="/dashboard">Dashboard</Link>
           </li>
           <li className="main-nav__item">
-            <Link to="">{props.user.name}</Link>
+            <Link to={props.user.admin ? '/admin' : ''}>{props.user.name}</Link>
           </li>
         </ul>
       </nav>

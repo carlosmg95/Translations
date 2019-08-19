@@ -157,11 +157,11 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
 
   const USERS_LANGUAGES = gql`
     {
-      users(where: {}) {
+      users {
         id
         name
       }
-      languages(where: {}) {
+      languages {
         id
         iso
         name
@@ -185,6 +185,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
         }
         users {
           id
+          name
         }
         translations {
           id
@@ -197,7 +198,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
   const [createProject] = useMutation(CREATE_PROJECT);
 
   if (loading) {
-    return <div>Loafing...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {

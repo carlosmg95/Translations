@@ -10,6 +10,9 @@ const ProjectDashboard = React.lazy(() =>
   import('./ProjectDashboard/ProjectDashboard'),
 );
 const Translate = React.lazy(() => import('./Translate/Translate'));
+const AdminDashboard = React.lazy(() =>
+  import('./AdminDashboard/AdminDashboard'),
+);
 
 interface AppProps {
   user: User;
@@ -31,13 +34,14 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   // Add a new project to the list
   const addNewProject = (project: Project): void => {
-    const projects = [...projectsState, project];
-    setProjectsState(projects);
     if (
       project.users.map((user: User) => user.id).indexOf(props.user.id) !== -1
     ) {
+      const projects = [...projectsState, project];
       let user: User = userState;
       user.projects = [...user.projects, project];
+
+      setProjectsState(projects);
       setUserState(user);
     }
   };
@@ -104,6 +108,21 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   user={props.user}
                   addNewProject={addNewProject}
                   history={routeProps.history}
+                />
+              </Suspense>
+            );
+          }}
+        />
+        <Route
+          exact
+          path="/admin"
+          render={() => {
+            return (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AdminDashboard
+                  user={props.user}
+                  projects={projectsState}
+                  updateProject={updateProject}
                 />
               </Suspense>
             );

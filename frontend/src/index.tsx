@@ -29,11 +29,12 @@ client
             id
           }
         }
-        projects(where: { users_every: { name: "admin" } }) {
+        projects(where: { users_some: { name: "admin" } }) {
           id
           name
           users {
             id
+            name
           }
           languages {
             id

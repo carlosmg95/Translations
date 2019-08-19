@@ -7,6 +7,109 @@ const throwError = (message?: string): void => {
 };
 
 const Mutation = {
+  async addLanguageToProject(parent, { project, language }, { prisma }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: language.id,
+    });
+
+    if (!projectExists || !languageExists)
+      throwError('The language cannot be added to the project.');
+    else log.mutation('Mutation: addLanguageToProject');
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          languages: {
+            connect: { id: language.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }`,
+    );
+  },
+  async addUserToProject(parent, { project, user }, { prisma }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const userExists: boolean = await prisma.exists.User({
+      id: user.id,
+    });
+
+    if (!projectExists || !userExists)
+      throwError('The user cannot be added to the project.');
+    else log.mutation('Mutation: addUserToProject');
+
+    prisma.mutation.updateUser({
+      where: {
+        id: user.id,
+      },
+      data: {
+        projects: {
+          connects: {
+            name: project.name,
+          },
+        },
+      },
+    });
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          users: {
+            connect: { id: user.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }`,
+    );
+  },
   async createProject(parent, { data }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: data.name,
@@ -41,6 +144,7 @@ const Mutation = {
         }
         users {
           id
+          name
         }
         translations {
           id
@@ -86,6 +190,114 @@ const Mutation = {
           id
           as_in
           literal
+        }
+      }`,
+    );
+  },
+  async removeLanguageFromProject(
+    parent,
+    { project, language },
+    { prisma },
+    info,
+  ) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: language.id,
+    });
+
+    if (!projectExists || !languageExists)
+      throwError('The language cannot be removeed from the project.');
+    else log.mutation('Mutation: removeLanguageFromProject');
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          languages: {
+            disconnect: { id: language.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }`,
+    );
+  },
+  async removeUserFromProject(parent, { project, user }, { prisma }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const userExists: boolean = await prisma.exists.User({
+      id: user.id,
+    });
+
+    if (!projectExists || !userExists)
+      throwError('The user cannot be removeed from the project.');
+    else log.mutation('Mutation: removeUserFromProject');
+
+    prisma.mutation.updateUser({
+      where: {
+        id: user.id,
+      },
+      data: {
+        projects: {
+          disconnect: {
+            name: project.name,
+          },
+        },
+      },
+    });
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          users: {
+            disconnect: { id: user.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
         }
       }`,
     );

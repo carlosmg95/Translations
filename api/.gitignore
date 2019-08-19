@@ -2,4 +2,4 @@ node_modules/
 src/*.js
 src/*/*.js
 prisma/*.js
-prisma/generated/prisma-client/prisma-schema*
+prisma/generated/prisma-client/*

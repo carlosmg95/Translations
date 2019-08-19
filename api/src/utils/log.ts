@@ -5,19 +5,19 @@ type log = {
 };
 
 const log: log = {
-  error(message: string) {
+  error(message: string): void {
     console.log(`${chalk.red.bold('[error]')} ${chalk.red(message)}`);
   },
-  info(message: string) {
+  info(message: string): void {
     console.log(`${chalk.blue.bold('[info]')} ${chalk.blue(message)}`);
   },
-  greet(message: string) {
+  greet(message: string): void {
     console.log(chalk.green.bold(message));
   },
-  mutation(message: string) {
+  mutation(message: string): void {
     console.log(`${chalk.blue.bold('[info]')} ${chalk.cyan(message)}`);
   },
-  query(message: string) {
+  query(message: string): void {
     console.log(`${chalk.blue.bold('[info]')} ${chalk.magenta(message)}`);
   },
 };

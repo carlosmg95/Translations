@@ -21,7 +21,7 @@ const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
             user={props.user}
           />
         ))}
-        <ProjectItem key={0} new={true} user={null} />
+        {props.user.admin ? <ProjectItem key={0} new={true} user={null} /> : ''}
       </div>
     </div>
   );

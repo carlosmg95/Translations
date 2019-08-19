@@ -11,9 +11,9 @@ input LanguageWhereInput {
   name: String
   iso: String
   code: String
-  projects_every: ProjectWhereInput
-  users_every: UserWhereInput
-  translations_every: TranslationWhereInput
+  projects_some: ProjectWhereInput
+  users_some: UserWhereInput
+  translations_some: TranslationWhereInput
 }
 
 input LiteralWhereUniqueInput {
@@ -23,7 +23,7 @@ input LiteralWhereUniqueInput {
 input LiteralWhereInput {
   id: ID
   project: ProjectWhereInput
-  translations_every: TranslationWhereInput
+  translations_some: TranslationWhereInput
   literal: String
   as_in: String
 }
@@ -36,10 +36,10 @@ input ProjectWhereUniqueInput {
 input ProjectWhereInput {
   id: ID
   name: String
-  users_every: UserWhereInput
-  languages_every: LanguageWhereInput
-  translations_every: TranslationWhereInput
-  literals_every: LiteralWhereInput
+  users_some: UserWhereInput
+  languages_some: LanguageWhereInput
+  translations_some: TranslationWhereInput
+  literals_some: LiteralWhereInput
 }
 
 input TranslationWhereUniqueInput {
@@ -63,8 +63,8 @@ input UserWhereInput {
   id: ID
   name: String
   admin: Boolean
-  projects_every: ProjectWhereInput
-  languages_every: LanguageWhereInput
+  projects_some: ProjectWhereInput
+  languages_some: LanguageWhereInput
 }
 
 ## CREATE
@@ -109,8 +109,12 @@ type Query {
 ## MUTATION
 
 type Mutation {
+  addLanguageToProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
+  addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   createProject(data: ProjectCreateInput!): Project!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
+  removeLanguageFromProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
+  removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!
 }
 
