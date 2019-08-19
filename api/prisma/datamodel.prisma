@@ -20,8 +20,6 @@ type Language {
   name: String!
   iso: String! @unique
   code: String!
-  projects: [Project!]! @relation(name: "LanguageToProject", onDelete: SET_NULL)
-  users: [User!]! @relation(name: "LanguageToUser", onDelete: SET_NULL)
   translations: [Translation!]! @relation(name: "TranslationToLanguage", onDelete: CASCADE)
 }
 

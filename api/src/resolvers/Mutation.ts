@@ -7,6 +7,51 @@ const throwError = (message?: string): void => {
 };
 
 const Mutation = {
+  async addLanguageToProject(parent, { project, language }, { prisma }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: language.id,
+    });
+
+    if (!projectExists || !languageExists)
+      throwError('The language cannot be added to the project.');
+    else log.mutation('Mutation: addLanguageToProject');
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          languages: {
+            connect: { id: language.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }`,
+    );
+  },
   async addUserToProject(parent, { project, user }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
