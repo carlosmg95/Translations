@@ -112,6 +112,7 @@ type Mutation {
   addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   createProject(data: ProjectCreateInput!): Project!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
+  removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!
 }
 

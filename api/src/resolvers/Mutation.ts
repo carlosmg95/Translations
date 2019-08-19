@@ -21,7 +21,7 @@ const Mutation = {
 
     prisma.mutation.updateUser({
       where: {
-        name: user.id,
+        id: user.id,
       },
       data: {
         projects: {
@@ -145,6 +145,64 @@ const Mutation = {
           id
           as_in
           literal
+        }
+      }`,
+    );
+  },
+  async removeUserFromProject(parent, { project, user }, { prisma }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const userExists: boolean = await prisma.exists.User({
+      id: user.id,
+    });
+
+    if (!projectExists || !userExists)
+      throwError('The user cannot be removeed from the project.');
+    else log.mutation('Mutation: removeUserFromProject');
+
+    prisma.mutation.updateUser({
+      where: {
+        id: user.id,
+      },
+      data: {
+        projects: {
+          disconnect: {
+            name: project.name,
+          },
+        },
+      },
+    });
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          users: {
+            disconnect: { id: user.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
         }
       }`,
     );
