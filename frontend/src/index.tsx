@@ -34,6 +34,7 @@ client
           name
           users {
             id
+            name
           }
           languages {
             id

@@ -97,6 +97,7 @@ const Mutation = {
         }
         users {
           id
+          name
         }
         translations {
           id

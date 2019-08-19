@@ -10,6 +10,9 @@ const ProjectDashboard = React.lazy(() =>
   import('./ProjectDashboard/ProjectDashboard'),
 );
 const Translate = React.lazy(() => import('./Translate/Translate'));
+const AdminDashboard = React.lazy(() =>
+  import('./AdminDashboard/AdminDashboard'),
+);
 
 interface AppProps {
   user: User;
@@ -106,6 +109,17 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   addNewProject={addNewProject}
                   history={routeProps.history}
                 />
+              </Suspense>
+            );
+          }}
+        />
+        <Route
+          exact
+          path="/admin"
+          render={() => {
+            return (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AdminDashboard user={props.user} projects={projectsState} />
               </Suspense>
             );
           }}
