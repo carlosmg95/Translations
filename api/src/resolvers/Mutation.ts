@@ -7,28 +7,29 @@ const throwError = (message?: string): void => {
 };
 
 const Mutation = {
-  async addUserToProject(parent, { project, users }, { prisma }, info) {
+  async addUserToProject(parent, { project, user }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
+    const userExists: boolean = await prisma.exists.User({
+      id: user.id,
+    });
 
-    if (!projectExists) {
-      throwError("The projects doesn't exists.");
-    }
+    if (!projectExists || !userExists)
+      throwError('The user cannot be added to the project.');
+    else log.mutation('Mutation: addUserToProject');
 
-    users.forEach(user => {
-      prisma.mutation.updateUser({
-        where: {
-          name: user.name,
-        },
-        data: {
-          projects: {
-            connects: {
-              name: project.name,
-            },
+    prisma.mutation.updateUser({
+      where: {
+        name: user.id,
+      },
+      data: {
+        projects: {
+          connects: {
+            name: project.name,
           },
         },
-      });
+      },
     });
 
     return await prisma.mutation.updateProject(
@@ -38,7 +39,7 @@ const Mutation = {
         },
         data: {
           users: {
-            connect: users.map(user => ({ name: user.name })),
+            connect: { id: user.id },
           },
         },
       },
@@ -56,6 +57,7 @@ const Mutation = {
         }
         users {
           id
+          name
         }
         translations {
           id

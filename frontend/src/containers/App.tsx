@@ -119,7 +119,11 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           render={() => {
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <AdminDashboard user={props.user} projects={projectsState} />
+                <AdminDashboard
+                  user={props.user}
+                  projects={projectsState}
+                  updateProject={updateProject}
+                />
               </Suspense>
             );
           }}

@@ -7,12 +7,17 @@ import Dashboard, {
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import ProjectsOptions from '../../components/ProjectsOptions/ProjectsOptions';
 import { User, Project } from '../../types';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface AdminDashboardProps {
   user: User;
   projects: Project[];
+  updateProject(
+    projectWhereKey: string,
+    projectWhereValue: string,
+    updatedProject: Project,
+  ): void;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = (
@@ -57,6 +62,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
           users={users}
           languages={languages}
           projects={props.projects}
+          updateProject={props.updateProject}
         />
       </DashboardBody>
     </Dashboard>
