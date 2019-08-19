@@ -47,7 +47,36 @@ const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
     }
   `;
 
+  const REMOVE_USER = gql`
+    mutation RemoveUserFromProject(
+      $project: ProjectWhereUniqueInput!
+      $user: UserWhereUniqueInput!
+    ) {
+      removeUserFromProject(project: $project, user: $user) {
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }
+    }
+  `;
+
   const [addUserToProject] = useMutation(ADD_NEW_USER);
+  const [removeUserFromProject] = useMutation(REMOVE_USER);
 
   return (
     <div className="ProjectsOptions">
@@ -70,6 +99,21 @@ const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
               },
             }).then(result => {
               const project: Project = result.data.addUserToProject;
+              props.updateProject('id', project.id, project);
+            });
+          }}
+          removeUser={(userId: string) => {
+            removeUserFromProject({
+              variables: {
+                project: {
+                  name: project.name,
+                },
+                user: {
+                  id: userId,
+                },
+              },
+            }).then(result => {
+              const project: Project = result.data.removeUserFromProject;
               props.updateProject('id', project.id, project);
             });
           }}

@@ -8,6 +8,7 @@ interface ProjectOptionsItemProps {
   users?: User[];
   header?: boolean;
   addUser?(userId: string): void;
+  removeUser?(userId: string): void;
 }
 
 const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
@@ -58,7 +59,11 @@ const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
         {props.header
           ? 'Project users'
           : projectUsers.map((user: User) => (
-              <p key={user.id} className="item-name">
+              <p
+                key={user.id}
+                className="item-name"
+                onClick={() => props.removeUser(user.id)}
+              >
                 {user.name}
               </p>
             ))}
