@@ -194,6 +194,56 @@ const Mutation = {
       }`,
     );
   },
+  async removeLanguageFromProject(
+    parent,
+    { project, language },
+    { prisma },
+    info,
+  ) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: language.id,
+    });
+
+    if (!projectExists || !languageExists)
+      throwError('The language cannot be removeed from the project.');
+    else log.mutation('Mutation: removeLanguageFromProject');
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          languages: {
+            disconnect: { id: language.id },
+          },
+        },
+      },
+      `{
+        id
+        name
+        languages {
+          id
+          name
+          iso
+          code
+        }
+        literals {
+          id
+        }
+        users {
+          id
+          name
+        }
+        translations {
+          id
+        }
+      }`,
+    );
+  },
   async removeUserFromProject(parent, { project, user }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
