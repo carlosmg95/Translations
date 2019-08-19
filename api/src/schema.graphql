@@ -109,6 +109,7 @@ type Query {
 ## MUTATION
 
 type Mutation {
+  addUserToProject(project: ProjectWhereUniqueInput!, users: [UserWhereUniqueInput!]!): Project!
   createProject(data: ProjectCreateInput!): Project!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!
