@@ -14,6 +14,14 @@ interface ProjectLanguageRowProps {
 const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   props: ProjectLanguageRowProps,
 ) => {
+  const totalLiterals: number = props.project.literals.length;
+  const translatedLiterals: number = props.project.translations.filter(
+    (trans: Translation) =>
+      trans.translation !== '' && trans.language.iso === props.language.iso,
+  ).length;
+  const porcentaje: number =
+    totalLiterals && Math.round((translatedLiterals / totalLiterals) * 100);
+
   return (
     <div className={'projectLanguageRow ' + (props.allowed ? '' : 'disabled')}>
       <div className="language-project">
@@ -23,6 +31,18 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
           code={props.language.code}
           name={props.language.name}
         />
+      </div>
+      <div className="info">
+        {porcentaje !== 100 ? `${translatedLiterals} of ${totalLiterals}` : ''}
+        <span
+          className={
+            'porcentaje' +
+            (porcentaje >= 50 ? ' half' : '') +
+            (porcentaje === 100 ? ' complete' : '')
+          }
+        >
+          {porcentaje}%
+        </span>
       </div>
       <div className="create-json">
         <PillButton

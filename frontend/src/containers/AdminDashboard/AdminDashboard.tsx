@@ -57,13 +57,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
         links={[{ to: '/dashboard', text: 'dashboard' }]}
       />
       <DashboardBody>
-        <AdminOptions
-          users={users}
-          languages={languages}
-          projects={props.projects}
-          updateProject={props.updateProject}
-          updateUserLanguages={props.updateUserLanguages}
-        />
+        <AdminOptions users={users} languages={languages} {...props} />
       </DashboardBody>
     </Dashboard>
   );
