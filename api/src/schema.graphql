@@ -110,10 +110,12 @@ type Query {
 
 type Mutation {
   addLanguageToProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
+  addLanguageToUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   createProject(data: ProjectCreateInput!): Project!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
   removeLanguageFromProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
+  removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!
 }

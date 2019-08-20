@@ -51,9 +51,11 @@ export const UserResponse = `
   admin
   projects {
     id
+    name
   }
   languages {
     id
+    name
   }
 }
 `;

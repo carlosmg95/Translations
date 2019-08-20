@@ -1,5 +1,5 @@
 import log from '../utils/log';
-import { LiteralResponse, ProjectResponse } from '../type-res';
+import { LiteralResponse, ProjectResponse, UserResponse } from '../type-res';
 
 const throwError = (message?: string): void => {
   const errorMessage = message || 'Error ocurred.';
@@ -32,6 +32,32 @@ const Mutation = {
         },
       },
       ProjectResponse,
+    );
+  },
+  async addLanguageToUser(parent, { user, language }, { prisma }, info) {
+    const userExists: boolean = await prisma.exists.User({
+      name: user.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: language.id,
+    });
+
+    if (!userExists || !languageExists)
+      throwError('The language cannot be added to the user.');
+    else log.mutation('Mutation: addLanguageToUser');
+
+    return await prisma.mutation.updateUser(
+      {
+        where: {
+          name: user.name,
+        },
+        data: {
+          languages: {
+            connect: { id: language.id },
+          },
+        },
+      },
+      UserResponse,
     );
   },
   async addUserToProject(parent, { project, user }, { prisma }, info) {
@@ -170,6 +196,32 @@ const Mutation = {
         },
       },
       ProjectResponse,
+    );
+  },
+  async removeLanguageFromUser(parent, { user, language }, { prisma }, info) {
+    const userExists: boolean = await prisma.exists.User({
+      name: user.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: language.id,
+    });
+
+    if (!userExists || !languageExists)
+      throwError('The language cannot be removeed from the user.');
+    else log.mutation('Mutation: removeLanguageFromUser');
+
+    return await prisma.mutation.updateUser(
+      {
+        where: {
+          name: user.name,
+        },
+        data: {
+          languages: {
+            disconnect: { id: language.id },
+          },
+        },
+      },
+      UserResponse,
     );
   },
   async removeUserFromProject(parent, { project, user }, { prisma }, info) {
