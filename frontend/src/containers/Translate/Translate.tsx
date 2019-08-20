@@ -16,6 +16,7 @@ import {
   Project,
   Language,
 } from '../../types';
+import { LiteralResponse } from '../../types-res';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -54,23 +55,25 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     LiteralTranslation[],
     Dispatch<SetStateAction<LiteralTranslation[]>>,
   ] = useState(
-    props.project.literals.map((literal: Literal) => {
-      const translation: Translation = props.project.translations.find(
-        translation =>
-          translation.literal.id === literal.id &&
-          translation.language.iso === props.languageIso,
-      );
-      const translationText = translation ? translation.translation : '';
-      const translationId = translation ? translation.id : '0';
-      return {
-        translationId,
-        literalId: literal.id,
-        translation: translationText,
-        as_in: literal.as_in,
-        literal: literal.literal,
-        state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
-      };
-    }),
+    props.project
+      ? props.project.literals.map((literal: Literal) => {
+          const translation: Translation = props.project.translations.find(
+            translation =>
+              translation.literal.id === literal.id &&
+              translation.language.iso === props.languageIso,
+          );
+          const translationText = translation ? translation.translation : '';
+          const translationId = translation ? translation.id : '0';
+          return {
+            translationId,
+            literalId: literal.id,
+            translation: translationText,
+            as_in: literal.as_in,
+            literal: literal.literal,
+            state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
+          };
+        })
+      : [],
   );
 
   const [newLiteralState, setNewLiteralState]: [
@@ -343,25 +346,20 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
-      createLiteralTranslation(data: $translation) {
-        id
-        translation
-        literal {
-          id
-          as_in
-          literal
-        }
-      }
+      createLiteralTranslation(data: $translation) ${LiteralResponse}
     }
   `;
 
   const [createTranslation] = useMutation(ADD_NEW_LITERAL);
 
-  const language: Language = props.project.languages.find(
-    (lang: Language) => lang.iso === props.languageIso,
-  );
+  const language: Language =
+    props.project &&
+    props.project.languages.find(
+      (lang: Language) => lang.iso === props.languageIso,
+    );
 
   if (
+    !props.project ||
     props.user.languages
       .map((lang: Language) => lang.id)
       .indexOf(language.id) === -1 ||

@@ -1,0 +1,1 @@
+/home/carlosgarciamoro/Documentos/Proyectos/Translations/api/src/type-res.ts

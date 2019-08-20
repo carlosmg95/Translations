@@ -17,6 +17,7 @@ const projectDashboard: React.FC<ProjectDashboardProps> = (
   props: ProjectDashboardProps,
 ) => {
   if (
+    !props.project ||
     props.user.projects
       .map((project: Project) => project.id)
       .indexOf(props.project.id) === -1

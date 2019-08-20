@@ -5,8 +5,9 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import ProjectsOptions from '../../components/ProjectsOptions/ProjectsOptions';
-import { User, Project } from '../../types';
+import AdminOptions from '../../components/AdminOptions/AdminOptions';
+import { Language, Project, User } from '../../types';
+import { UserResponse } from '../../types-res';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -18,6 +19,7 @@ interface AdminDashboardProps {
     projectWhereValue: string,
     updatedProject: Project,
   ): void;
+  updateUserLanguages(languages: Language[]): void;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = (
@@ -25,10 +27,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
 ) => {
   const GET_DATA = gql`
     {
-      users {
-        id
-        name
-      }
+      users ${UserResponse}
       languages {
         id
         iso
@@ -54,15 +53,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
   return (
     <Dashboard>
       <DashboardHeader
-        title={'admin'}
+        title={'admin panel'}
         links={[{ to: '/dashboard', text: 'dashboard' }]}
       />
       <DashboardBody>
-        <ProjectsOptions
+        <AdminOptions
           users={users}
           languages={languages}
           projects={props.projects}
           updateProject={props.updateProject}
+          updateUserLanguages={props.updateUserLanguages}
         />
       </DashboardBody>
     </Dashboard>

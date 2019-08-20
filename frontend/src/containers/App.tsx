@@ -1,10 +1,11 @@
 import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { User, Project } from '../types';
+import { Language, Project, User } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
-import NewProject from './NewProject/NewProject';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 
+const NewProject = React.lazy(() => import('./NewProject/NewProject'));
 const MainDashboard = React.lazy(() => import('./MainDashboard/MainDashboard'));
 const ProjectDashboard = React.lazy(() =>
   import('./ProjectDashboard/ProjectDashboard'),
@@ -58,6 +59,20 @@ const App: React.FC<AppProps> = (props: AppProps) => {
       return project;
     });
     setProjectsState(projects);
+  };
+
+  // Update the languages of the logged user
+  const updateUserLanguages = (languages: Language[]): void => {
+    let user: User = userState;
+    user.languages = languages;
+    //let languages: Language[] = user.languages;
+    /*let projects: Project[] = projectsState;
+    projects = projects.map((project: Project) => {
+      if (project[projectWhereKey] === projectWhereValue) return updatedProject;
+      return project;
+    });
+    setProjectsState(projects);*/
+    setUserState(user);
   };
 
   // Add a value to property array of a project in the list
@@ -123,6 +138,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   user={props.user}
                   projects={projectsState}
                   updateProject={updateProject}
+                  updateUserLanguages={updateUserLanguages}
                 />
               </Suspense>
             );
@@ -164,6 +180,13 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                 />
               </Suspense>
             );
+          }}
+        />
+        <Route
+          exact
+          path=""
+          render={() => {
+            return <ErrorMessage code={404} message="NOT FOUND" />;
           }}
         />
       </Switch>
