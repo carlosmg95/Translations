@@ -3,8 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User, Project } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
-import NewProject from './NewProject/NewProject';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 
+const NewProject = React.lazy(() => import('./NewProject/NewProject'));
 const MainDashboard = React.lazy(() => import('./MainDashboard/MainDashboard'));
 const ProjectDashboard = React.lazy(() =>
   import('./ProjectDashboard/ProjectDashboard'),
@@ -164,6 +165,13 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                 />
               </Suspense>
             );
+          }}
+        />
+        <Route
+          exact
+          path=""
+          render={() => {
+            return <ErrorMessage code={404} message="NOT FOUND" />;
           }}
         />
       </Switch>
