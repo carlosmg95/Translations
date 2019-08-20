@@ -211,6 +211,17 @@ const Mutation = {
       throwError('The language cannot be removeed from the project.');
     else log.mutation('Mutation: removeLanguageFromProject');
 
+    prisma.mutation.deleteManyTranslations({
+      where: {
+        project: {
+          name: project.name,
+        },
+        language: {
+          id: language.id,
+        },
+      },
+    });
+
     return await prisma.mutation.updateProject(
       {
         where: {
