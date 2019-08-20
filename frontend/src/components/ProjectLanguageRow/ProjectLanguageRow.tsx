@@ -4,7 +4,7 @@ import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
 import Modal from '../Modal/Modal';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
-import { Language, Project } from '../../types';
+import { Language, Project, Translation } from '../../types';
 import { changeQueryValues } from '../../utils/functions';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
@@ -64,6 +64,14 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 
   const [push] = useMutation(PUSH_TRANSLATIONS);
   const [addLiterals] = useMutation(IMPORT_NEW_LITERALS);
+
+  const totalLiterals: number = props.project.literals.length;
+  const translatedLiterals: number = props.project.translations.filter(
+    (trans: Translation) =>
+      trans.translation !== '' && trans.language.iso === props.language.iso,
+  ).length;
+  const porcentaje: number =
+    totalLiterals && Math.round((translatedLiterals / totalLiterals) * 100);
 
   return (
     <>
@@ -147,6 +155,18 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
             code={props.language.code}
             name={props.language.name}
           />
+        </div>
+        <div className="info">
+          {porcentaje !== 100 ? `${translatedLiterals} of ${totalLiterals}` : ''}
+          <span
+            className={
+              'porcentaje' +
+              (porcentaje >= 50 ? ' half' : '') +
+              (porcentaje === 100 ? ' complete' : '')
+            }
+          >
+            {porcentaje}%
+          </span>
         </div>
         <div className="import-json">
           <PillButton
