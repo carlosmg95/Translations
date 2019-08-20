@@ -1,12 +1,13 @@
 import React from 'react';
-import './ProjectsOptions.css';
+import './AdminOptions.css';
 import ProjectOptionsItem from './ProjectOptionsItem/ProjectOptionsItem';
+import UserOptionsItem from './UserOptionsItem/UserOptionsItem';
 import { User, Project, Language } from '../../types';
-import { ProjectResponse } from '../../types-res';
+import { ProjectResponse, UserResponse } from '../../types-res';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-interface ProjectsOptionsProps {
+interface AdminOptionsProps {
   users: User[];
   projects: Project[];
   languages: Language[];
@@ -15,22 +16,32 @@ interface ProjectsOptionsProps {
     projectWhereValue: string,
     updatedProject: Project,
   ): void;
+  updateUserLanguages(languages: Language[]): void;
 }
 
-const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
-  props: ProjectsOptionsProps,
+const AdminOptions: React.FC<AdminOptionsProps> = (
+  props: AdminOptionsProps,
 ) => {
-  const createMutation = (mutationName: string, item: 'language' | 'user') => {
+  const createMutation = (
+    mutationName: string,
+    containerItem: 'project' | 'user',
+    contentItem: 'language' | 'user',
+  ) => {
     const upperName =
       mutationName.charAt(0).toUpperCase() + mutationName.slice(1);
-    const upperItem = item.charAt(0).toUpperCase() + item.slice(1);
+    const upperContentItem =
+      contentItem.charAt(0).toUpperCase() + contentItem.slice(1);
+    const upperContainerItem =
+      containerItem.charAt(0).toUpperCase() + containerItem.slice(1);
 
     const MUTATION = gql`
       mutation ${upperName}(
-        $project: ProjectWhereUniqueInput!
-        $${item}: ${upperItem}WhereUniqueInput!
+        $${containerItem}: ${upperContainerItem}WhereUniqueInput!
+        $${contentItem}: ${upperContentItem}WhereUniqueInput!
       ) {
-        ${mutationName}(project: $project, ${item}: $${item}) ${ProjectResponse}
+        ${mutationName}(${containerItem}: $${containerItem}, ${contentItem}: $${contentItem}) ${
+      containerItem === 'project' ? ProjectResponse : UserResponse
+    }
       }
     `;
 
@@ -38,20 +49,26 @@ const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
   };
 
   const [addUserToProject] = useMutation(
-    createMutation('addUserToProject', 'user'),
+    createMutation('addUserToProject', 'project', 'user'),
   );
   const [addLanguageToProject] = useMutation(
-    createMutation('addLanguageToProject', 'language'),
+    createMutation('addLanguageToProject', 'project', 'language'),
   );
   const [removeUserFromProject] = useMutation(
-    createMutation('removeUserFromProject', 'user'),
+    createMutation('removeUserFromProject', 'project', 'user'),
   );
   const [removeLanguageFromProject] = useMutation(
-    createMutation('removeLanguageFromProject', 'language'),
+    createMutation('removeLanguageFromProject', 'project', 'language'),
+  );
+  const [addLanguageToUser] = useMutation(
+    createMutation('addLanguageToUser', 'user', 'language'),
+  );
+  const [removeLanguageFromUser] = useMutation(
+    createMutation('removeLanguageFromUser', 'user', 'language'),
   );
 
   return (
-    <div className="ProjectsOptions">
+    <div className="AdminOptions">
       <ProjectOptionsItem header={true} />
       {props.projects.map((project: Project) => (
         <ProjectOptionsItem
@@ -121,8 +138,47 @@ const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
           }}
         />
       ))}
+      <UserOptionsItem header={true} />
+      <UserOptionsItem header={true} />
+      {props.users.map((user: User) => (
+        <UserOptionsItem
+          key={user.id}
+          languages={props.languages}
+          user={user}
+          addLanguage={(languageId: string) => {
+            addLanguageToUser({
+              variables: {
+                user: {
+                  name: user.name,
+                },
+                language: {
+                  id: languageId,
+                },
+              },
+            }).then(result => {
+              const user: User = result.data.addLanguageToUser;
+              props.updateUserLanguages(user.languages);
+            });
+          }}
+          removeLanguage={(languageId: string) => {
+            removeLanguageFromUser({
+              variables: {
+                user: {
+                  name: user.name,
+                },
+                language: {
+                  id: languageId,
+                },
+              },
+            }).then(result => {
+              const user: User = result.data.removeLanguageFromUser;
+              props.updateUserLanguages(user.languages);
+            });
+          }}
+        />
+      ))}
     </div>
   );
 };
 
-export default ProjectsOptions;
+export default AdminOptions;

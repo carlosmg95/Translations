@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { User, Project } from '../types';
+import { Language, Project, User } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 
@@ -59,6 +59,20 @@ const App: React.FC<AppProps> = (props: AppProps) => {
       return project;
     });
     setProjectsState(projects);
+  };
+
+  // Update the languages of the logged user
+  const updateUserLanguages = (languages: Language[]): void => {
+    let user: User = userState;
+    user.languages = languages;
+    //let languages: Language[] = user.languages;
+    /*let projects: Project[] = projectsState;
+    projects = projects.map((project: Project) => {
+      if (project[projectWhereKey] === projectWhereValue) return updatedProject;
+      return project;
+    });
+    setProjectsState(projects);*/
+    setUserState(user);
   };
 
   // Add a value to property array of a project in the list
@@ -124,6 +138,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   user={props.user}
                   projects={projectsState}
                   updateProject={updateProject}
+                  updateUserLanguages={updateUserLanguages}
                 />
               </Suspense>
             );

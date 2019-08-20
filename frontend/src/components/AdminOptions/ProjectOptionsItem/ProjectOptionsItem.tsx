@@ -37,7 +37,7 @@ const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
   return (
     <div className={'ProjectOptionsItem' + (props.header ? ' header' : '')}>
       <div className="column">
-        {props.header ? 'Project name' : props.project.name}
+        {props.header ? 'Project name' : <h2>{props.project.name}</h2>}
       </div>
       <div className="column project-in">
         {props.header

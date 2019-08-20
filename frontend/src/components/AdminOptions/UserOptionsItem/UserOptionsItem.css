@@ -1,0 +1,49 @@
+.UserOptionsItem {
+  width: 50%;
+  height: 200px;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  margin-bottom: 22px;
+}
+
+.header {
+  height: 50px;
+  margin: 0;
+}
+
+.UserOptionsItem > .column {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  overflow: scroll;
+  border: solid rgba(44, 223, 163, 0.4) 1px;
+}
+
+.header > .column {
+  border: none;
+}
+
+.item-name {
+  margin: 5px 5px;
+  padding-right: 13px;
+}
+
+.project-in > .item-name:hover {
+  color: #bb7474;
+  padding: 0;
+}
+
+.project-out > .item-name:hover {
+  color: #74bb93;
+  padding: 0;
+}
+
+.project-in > .item-name:hover::after {
+  content: '\2193';
+}
+
+.project-out > .item-name:hover::after {
+  content: '\2191';
+}
