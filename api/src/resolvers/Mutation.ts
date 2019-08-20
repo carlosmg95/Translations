@@ -1,4 +1,5 @@
 import log from '../utils/log';
+import { LiteralResponse, ProjectResponse } from '../type-res';
 
 const throwError = (message?: string): void => {
   const errorMessage = message || 'Error ocurred.';
@@ -30,26 +31,7 @@ const Mutation = {
           },
         },
       },
-      `{
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }`,
+      ProjectResponse,
     );
   },
   async addUserToProject(parent, { project, user }, { prisma }, info) {
@@ -88,26 +70,7 @@ const Mutation = {
           },
         },
       },
-      `{
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }`,
+      ProjectResponse,
     );
   },
   async createProject(parent, { data }, { prisma }, info) {
@@ -130,26 +93,7 @@ const Mutation = {
 
     return await prisma.mutation.createProject(
       { data: newProject },
-      `{
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }`,
+      ProjectResponse,
     );
   },
   async createLiteralTranslation(parent, { data }, { prisma }, info) {
@@ -183,15 +127,7 @@ const Mutation = {
 
     return await prisma.mutation.createTranslation(
       { data: newTranslation },
-      `{
-        id
-        translation
-        literal {
-          id
-          as_in
-          literal
-        }
-      }`,
+      LiteralResponse,
     );
   },
   async removeLanguageFromProject(
@@ -233,26 +169,7 @@ const Mutation = {
           },
         },
       },
-      `{
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }`,
+      ProjectResponse,
     );
   },
   async removeUserFromProject(parent, { project, user }, { prisma }, info) {
@@ -291,26 +208,7 @@ const Mutation = {
           },
         },
       },
-      `{
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }`,
+      ProjectResponse,
     );
   },
   async upsertTranslation(parent, { where, create, update }, { prisma }, info) {

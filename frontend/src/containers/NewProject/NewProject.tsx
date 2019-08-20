@@ -7,6 +7,7 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import { User, Language, Project } from '../../types';
+import { ProjectResponse } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -171,26 +172,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
 
   const CREATE_PROJECT = gql`
     mutation CreateProject($project: ProjectCreateInput!) {
-      createProject(data: $project) {
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }
+      createProject(data: $project) ${ProjectResponse}
     }
   `;
 

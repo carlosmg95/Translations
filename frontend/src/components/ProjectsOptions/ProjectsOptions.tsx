@@ -2,6 +2,7 @@ import React from 'react';
 import './ProjectsOptions.css';
 import ProjectOptionsItem from './ProjectOptionsItem/ProjectOptionsItem';
 import { User, Project, Language } from '../../types';
+import { ProjectResponse } from '../../types-res';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -19,122 +20,35 @@ interface ProjectsOptionsProps {
 const ProjectsOptions: React.FC<ProjectsOptionsProps> = (
   props: ProjectsOptionsProps,
 ) => {
-  const ADD_NEW_USER = gql`
-    mutation AddUserToProject(
-      $project: ProjectWhereUniqueInput!
-      $user: UserWhereUniqueInput!
-    ) {
-      addUserToProject(project: $project, user: $user) {
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }
-    }
-  `;
+  const createMutation = (mutationName: string, item: 'language' | 'user') => {
+    const upperName =
+      mutationName.charAt(0).toUpperCase() + mutationName.slice(1);
+    const upperItem = item.charAt(0).toUpperCase() + item.slice(1);
 
-  const ADD_NEW_LANGUAGE = gql`
-    mutation AddLanguageToProject(
-      $project: ProjectWhereUniqueInput!
-      $language: LanguageWhereUniqueInput!
-    ) {
-      addLanguageToProject(project: $project, language: $language) {
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
+    const MUTATION = gql`
+      mutation ${upperName}(
+        $project: ProjectWhereUniqueInput!
+        $${item}: ${upperItem}WhereUniqueInput!
+      ) {
+        ${mutationName}(project: $project, ${item}: $${item}) ${ProjectResponse}
       }
-    }
-  `;
+    `;
 
-  const REMOVE_USER = gql`
-    mutation RemoveUserFromProject(
-      $project: ProjectWhereUniqueInput!
-      $user: UserWhereUniqueInput!
-    ) {
-      removeUserFromProject(project: $project, user: $user) {
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }
-    }
-  `;
+    return MUTATION;
+  };
 
-  const REMOVE_LANGUAGE = gql`
-    mutation RemoveLanguageFromProject(
-      $project: ProjectWhereUniqueInput!
-      $language: LanguageWhereUniqueInput!
-    ) {
-      removeLanguageFromProject(project: $project, language: $language) {
-        id
-        name
-        languages {
-          id
-          name
-          iso
-          code
-        }
-        literals {
-          id
-        }
-        users {
-          id
-          name
-        }
-        translations {
-          id
-        }
-      }
-    }
-  `;
-
-  const [addUserToProject] = useMutation(ADD_NEW_USER);
-  const [addLanguageToProject] = useMutation(ADD_NEW_LANGUAGE);
-  const [removeUserFromProject] = useMutation(REMOVE_USER);
-  const [removeLanguageFromProject] = useMutation(REMOVE_LANGUAGE);
+  const [addUserToProject] = useMutation(
+    createMutation('addUserToProject', 'user'),
+  );
+  const [addLanguageToProject] = useMutation(
+    createMutation('addLanguageToProject', 'language'),
+  );
+  const [removeUserFromProject] = useMutation(
+    createMutation('removeUserFromProject', 'user'),
+  );
+  const [removeLanguageFromProject] = useMutation(
+    createMutation('removeLanguageFromProject', 'language'),
+  );
 
   return (
     <div className="ProjectsOptions">

@@ -16,6 +16,7 @@ import {
   Project,
   Language,
 } from '../../types';
+import { LiteralResponse } from '../../types-res';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -345,15 +346,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
-      createLiteralTranslation(data: $translation) {
-        id
-        translation
-        literal {
-          id
-          as_in
-          literal
-        }
-      }
+      createLiteralTranslation(data: $translation) ${LiteralResponse}
     }
   `;
 
