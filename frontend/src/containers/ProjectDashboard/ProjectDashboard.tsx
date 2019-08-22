@@ -8,9 +8,12 @@ import Dashboard, {
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { Language, User, Project } from '../../types';
+import { ProjectResponse } from '../../types-res';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 interface ProjectDashboardProps {
-  project: Project;
+  projectName: string;
   user: User;
 }
 
@@ -34,11 +37,22 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
       .catch(e => setErrorMessageState(true));
   };
 
+  const GET_PROJECT = gql`{
+    project(where: { name: "${props.projectName}" }) ${ProjectResponse}
+  }`;
+
+  const { loading, error, data } = useQuery(GET_PROJECT);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <ErrorMessage code={500} message={error.message} />;
+
+  const project: Project = data.project;
+
   if (
-    !props.project ||
+    !props.projectName ||
     props.user.projects
-      .map((project: Project) => project.id)
-      .indexOf(props.project.id) === -1
+      .map((project: Project) => project.name)
+      .indexOf(props.projectName) === -1
   ) {
     return <ErrorMessage code={401} message="You shouldn't be here!" />;
   }
@@ -51,7 +65,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     <>
       <Dashboard>
         <DashboardHeader
-          title={props.project.name}
+          title={props.projectName}
           links={[{ to: '/dashboard', text: 'dashboard' }]}
         />
         <DashboardBody>
@@ -63,7 +77,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
             ) : (
               ''
             )}
-            {props.project.languages.map((language: Language) => {
+            {project.languages.map((language: Language) => {
               const allowed: boolean =
                 props.user.languages
                   .map((lang: Language) => lang.id)
@@ -72,7 +86,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
                 <ProjectLanguageRow
                   key={language.id}
                   language={language}
-                  project={props.project}
+                  project={project}
                   allowed={allowed}
                   pushFunction={pushTranslations}
                 />

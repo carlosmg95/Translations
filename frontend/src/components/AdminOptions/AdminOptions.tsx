@@ -11,12 +11,6 @@ interface AdminOptionsProps {
   users: User[];
   projects: Project[];
   languages: Language[];
-  updateProject(
-    projectWhereKey: string,
-    projectWhereValue: string,
-    updatedProject: Project,
-  ): void;
-  updateUserLanguages(languages: Language[]): void;
 }
 
 const AdminOptions: React.FC<AdminOptionsProps> = (
@@ -87,8 +81,8 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             }).then(result => {
-              const project: Project = result.data.addUserToProject;
-              props.updateProject('id', project.id, project);
+              /*const project: Project = result.data.addUserToProject;
+              props.updateProject('id', project.id, project);*/
             });
           }}
           addLanguage={(languageId: string) => {
@@ -102,8 +96,8 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             }).then(result => {
-              const project: Project = result.data.addLanguageToProject;
-              props.updateProject('id', project.id, project);
+              /*const project: Project = result.data.addLanguageToProject;
+              props.updateProject('id', project.id, project);*/
             });
           }}
           removeUser={(userId: string) => {
@@ -117,8 +111,8 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             }).then(result => {
-              const project: Project = result.data.removeUserFromProject;
-              props.updateProject('id', project.id, project);
+              /*const project: Project = result.data.removeUserFromProject;
+              props.updateProject('id', project.id, project);*/
             });
           }}
           removeLanguage={(languageId: string) => {
@@ -132,8 +126,8 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             }).then(result => {
-              const project: Project = result.data.removeLanguageFromProject;
-              props.updateProject('id', project.id, project);
+              /*const project: Project = result.data.removeLanguageFromProject;
+              props.updateProject('id', project.id, project);*/
             });
           }}
         />
@@ -156,8 +150,8 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             }).then(result => {
-              const user: User = result.data.addLanguageToUser;
-              props.updateUserLanguages(user.languages);
+              /*const user: User = result.data.addLanguageToUser;
+              props.updateUserLanguages(user.languages);*/
             });
           }}
           removeLanguage={(languageId: string) => {
@@ -171,8 +165,8 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             }).then(result => {
-              const user: User = result.data.removeLanguageFromUser;
-              props.updateUserLanguages(user.languages);
+              /*const user: User = result.data.removeLanguageFromUser;
+              props.updateUserLanguages(user.languages);*/
             });
           }}
         />

@@ -6,15 +6,13 @@ import Dashboard, {
   DashboardBody,
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
-import { User, Language, Project } from '../../types';
+import { User, Language } from '../../types';
 import { ProjectResponse } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface NewProjectProps {
   user: User;
-  history: any;
-  addNewProject(project: Project): void;
 }
 
 const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
@@ -202,11 +200,8 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
         },
       },
     })
-      .then(result => {
-        const project: Project = result.data.createProject;
-        props.addNewProject(project);
-
-        props.history.push(event.target.href.replace(/^.+\/(\w+)$/, '$1')); // Go to /dashboard
+      .then(() => {
+        window.location.href = event.target.href.replace(/^.+\/(\w+)$/, '$1'); // Go to /dashboard
       })
       .catch(e => {
         const errorText = e.message.replace(/^.*:\s(.+)$/, '$1');

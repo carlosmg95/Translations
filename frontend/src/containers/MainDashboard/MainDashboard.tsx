@@ -1,19 +1,33 @@
 import React from 'react';
 import './MainDashboard.css';
 import ProjectItem from '../../components/ProjectItem/ProjectItem';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { User, Project } from '../../types';
+import { ProjectResponse } from '../../types-res';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 interface DashboardProps {
   user: User;
-  projects: Project[];
 }
 
-const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
+const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
+  const GET_PROJECTS = gql`{
+    projects(where: { users_some: { name: "${props.user.name}" } }) ${ProjectResponse}
+  }`;
+
+  const { loading, error, data } = useQuery(GET_PROJECTS);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <ErrorMessage code={500} message="Server error" />;
+
+  const projects: Project[] = data.projects;
+
   return (
     <div className="MainDashboard">
       <h1>Dashboard</h1>
       <div className="projects-list">
-        {props.projects.map(project => (
+        {projects.map(project => (
           <ProjectItem
             key={project.id}
             project={project}
@@ -27,4 +41,4 @@ const dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

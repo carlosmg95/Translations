@@ -9,7 +9,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient, { gql } from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import { ProjectResponse, UserResponse } from './types-res';
+import { User } from './types';
+import { UserResponse } from './types-res';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
@@ -21,17 +22,16 @@ client
     query: gql`
       {
         user(where: { name: "admin" }) ${UserResponse}
-        projects(where: { users_some: { name: "admin" } }) ${ProjectResponse}
       }
     `,
   })
   .then(response => {
-    let { user, projects } = response.data;
+    let user: User = response.data.user;
 
     ReactDOM.render(
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <App user={user} projects={projects} />
+          <App user={user} />
         </BrowserRouter>
       </ApolloProvider>,
       document.getElementById('root'),
