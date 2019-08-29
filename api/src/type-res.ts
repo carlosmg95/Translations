@@ -1,3 +1,9 @@
+export const PagesResponse = `
+{
+  pages
+}
+`;
+
 export const ProjectResponse = `
 {
   id

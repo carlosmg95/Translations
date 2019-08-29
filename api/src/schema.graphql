@@ -104,6 +104,9 @@ input TranslationUpdateInput {
 ## QUERY
 
 type Query {
+  # Functions
+  getLiteralsPages(where: LiteralWhereInput): Pages!
+  # Types
   language(where: LanguageWhereUniqueInput!): Language
   languages(where: LanguageWhereInput): [Language]!
   literals(where: LiteralWhereInput): [Literal]!
@@ -176,6 +179,10 @@ type User {
   admin: Boolean!
   projects: [Project!]!
   languages: [Language!]!
+}
+
+type Pages {
+  pages: Int!
 }
 
 # ENUM

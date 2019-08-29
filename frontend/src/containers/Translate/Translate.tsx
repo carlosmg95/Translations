@@ -7,6 +7,7 @@ import Dashboard, {
 import Translations from '../../components/Translations/Translations';
 import NewLiteralRow from '../../components/NewLiteralRow/NewLiteralRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Pagination from '../../components/Pagination/Pagination';
 import {
   User,
   Translation,
@@ -16,7 +17,11 @@ import {
   Project,
   Language,
 } from '../../types';
-import { LiteralResponse, ProjectResponse } from '../../types-res';
+import {
+  LiteralResponse,
+  PagesResponse,
+  ProjectResponse,
+} from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -32,6 +37,12 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState('');
+
+  const [pageState, setPageState]: [
+    // The current page
+    number,
+    Dispatch<SetStateAction<number>>,
+  ] = useState(1);
 
   const [filterState, setFilterState]: [
     // Filter the translations
@@ -67,6 +78,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const GET_PROJECT = gql`{
     project(where: { name: "${props.projectName}" }) ${ProjectResponse}
+    getLiteralsPages(where: { project: { name: "${props.projectName}" } }) ${PagesResponse}
   }`;
 
   const { loading, error, data } = useQuery(GET_PROJECT);
@@ -75,6 +87,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   if (error) return <ErrorMessage code={500} message={error.message} />;
 
   const project: Project = data.project;
+  const pages: number = data.getLiteralsPages.pages;
 
   if (translationsState.length === 0)
     setTranslationsState(
@@ -98,6 +111,11 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           })
         : [],
     );
+
+  // Set the current page
+  const setPage = (page: number): void => {
+    setPageState(page);
+  };
 
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
@@ -360,6 +378,11 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           changeValue={changeTranslationValue}
           upsertTranslations={upsertTranslations}
           selectLiterals={selectLiterals}
+        />
+        <Pagination
+          numberPages={pages}
+          currentPage={pageState}
+          click={setPage}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}

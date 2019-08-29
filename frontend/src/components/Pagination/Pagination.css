@@ -1,0 +1,37 @@
+.Pagination {
+  display: flex;
+  flex-flow: row nowrap;
+  height: auto;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  padding: 0;
+  width: auto;
+}
+
+.page {
+  border: 1px solid #b2d5c2;
+  border-left: none;
+  color: #38e1a9;
+  cursor: pointer;
+  margin: 0;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.page:hover {
+  background-color: white;
+}
+
+.page:first-of-type {
+  border-left: 1px solid #b2d5c2;
+  border-radius: 5px 0 0 5px;
+}
+
+.page:last-of-type {
+  border-radius: 0 5px 5px 0;
+}
+
+.page.active {
+  background-color: #38e1a9;
+  color: white;
+}
