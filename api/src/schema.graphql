@@ -76,6 +76,10 @@ input UserWhereInput {
 input ProjectCreateInput {
   id: ID
   name: String!
+  git_repo: String!
+  git_name: String!
+  git_branch: String!
+  git_path: String!
   users: [UserWhereUniqueInput!]
   languages: [LanguageWhereUniqueInput!]
   translations: [TranslationWhereUniqueInput!]

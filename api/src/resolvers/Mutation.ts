@@ -132,6 +132,8 @@ const Mutation = {
 
     const newProject = {
       ...data,
+      git_repo: data.git_repo.replace(/^https*:\/\//, ''),
+      git_path: data.git_path.replace(/^\//, ''),
       users: {
         connect: data.users,
       },
