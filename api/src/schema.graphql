@@ -36,6 +36,10 @@ input ProjectWhereUniqueInput {
 input ProjectWhereInput {
   id: ID
   name: String
+  git_repo: String
+  git_name: String
+  git_branch: String
+  git_path: String
   users_some: UserWhereInput
   languages_some: LanguageWhereInput
   translations_some: TranslationWhereInput
@@ -114,6 +118,7 @@ type Mutation {
   addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   createProject(data: ProjectCreateInput!): Project!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
+  pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
   removeLanguageFromProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
   removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
@@ -143,6 +148,10 @@ type Literal {
 type Project {
   id: ID!
   name: String!
+  git_repo: String!
+  git_name: String!
+  git_branch: String!
+  git_path: String!
   users: [User!]
   languages: [Language!]
   translations: [Translation!]

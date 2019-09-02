@@ -1,10 +1,36 @@
+import * as simplegit from 'simple-git/promise';
+import * as shell from 'shelljs';
 import log from '../utils/log';
 import { LiteralResponse, ProjectResponse, UserResponse } from '../type-res';
+
+const GIT_USER: string = process.env.GIT_USER;
+const GIT_PASS: string = process.env.GIT_PASS;
+
+type i18n = {
+  [key: string]: string;
+};
 
 const throwError = (message?: string): void => {
   const errorMessage = message || 'Error ocurred.';
   log.error(`${errorMessage}`);
   throw new Error(errorMessage);
+};
+
+const createLangJSON = (project, languageIso): i18n => {
+  let i18n: i18n = {};
+  project.literals.forEach(literal => {
+    const translation = project.translations.find(
+      translation =>
+        translation.language.iso === languageIso &&
+        translation.literal.id === literal.id,
+    );
+    const translationText: string =
+      translation && translation.translation
+        ? translation.translation
+        : literal.literal;
+    i18n = { ...i18n, [literal.literal]: translationText };
+  });
+  return i18n;
 };
 
 const Mutation = {
@@ -155,6 +181,50 @@ const Mutation = {
       { data: newTranslation },
       LiteralResponse,
     );
+  },
+  async pushTranslations(parent, { project, language }, { prisma }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+
+    if (!projectExists) throwError("The project doesn't exist.");
+    else log.mutation('Mutation: pushTranslations');
+
+    project = await prisma.query.project(
+      { where: { name: project.name } },
+      ProjectResponse,
+    );
+    const { git_repo, git_name, git_branch, git_path } = project;
+
+    const git = simplegit();
+
+    const path: string = `/tmp/${git_name}`;
+    const remote: string = `https://${GIT_USER}:${GIT_PASS}@${git_repo}`;
+
+    shell.rm('-Rf', path);
+
+    await git.clone(remote, path, [
+      '--single-branch',
+      '--branch',
+      'pruebaPush',
+    ]);
+
+    shell.exec(
+      `echo '${JSON.stringify(
+        createLangJSON(project, language.iso),
+        null,
+        2,
+      )}' > ${path}/${git_path}/${language.iso}.json`,
+    );
+
+    await git.cwd(path);
+    await git.add(`${git_path}/${language.iso}.json`);
+    await git.commit(`Adds new ${language.iso} translations`);
+    await git.push('origin', git_branch);
+
+    shell.rm('-Rf', path);
+
+    return true;
   },
   async removeLanguageFromProject(
     parent,

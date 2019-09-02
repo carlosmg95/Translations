@@ -9,6 +9,10 @@ export type User = {
 export type Project = {
   id: string
   name: string
+  git_repo: string
+  git_name: string
+  git_branch: string
+  git_path: string
   users: User[]
   languages: Language[]
   translations: Translation[]
@@ -40,46 +44,7 @@ export type Literal = {
   literal: string
   as_in: string
 }
-/*
-export type User = {
-  id: string,
-  admin: boolean,
-  name: string,
-  allowLanguages: string[],
-  allowProjects: string[]
-};
 
-export type Project = {
-  id: string,
-  name: string,
-  languages: Language[],
-  literals: Literal[],
-  users: User[],
-  translations: Translation[]
-};
-
-export type Language = {
-  id: string,
-  name: string,
-  iso: string,
-  code: string
-};
-
-export type Translation = {
-  id: string,
-  lang_id: string,
-  lit_id: string,
-  project_id: string,
-  translation: string
-};
-
-export type Literal = {
-  id: string,
-  project_id: string,
-  literal: string,
-  as_in: string
-}
-*/
 export type LiteralTranslation = {
   literalId: string;
   translationId: string;
