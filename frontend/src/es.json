@@ -1,9 +1,5 @@
 {
-  "a": "aES",
-  "b": "bES",
-  "c": "cES",
-  "d": "otro",
-  "e": "a",
-  "fdsh": "a",
-  "fghfdh": "cambiadoES"
+  "printer": "impresora",
+  "robot": "robot",
+  "welcome_landing": "¡Bienvenidos/as a esta página!"
 }
