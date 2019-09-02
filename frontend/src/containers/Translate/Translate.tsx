@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import './Translate.css';
 import Dashboard, {
   DashboardBody,
@@ -21,6 +21,7 @@ import {
   LiteralResponse,
   PagesResponse,
   ProjectResponse,
+  TranslationResponse,
 } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
@@ -32,13 +33,21 @@ interface TranslateProps {
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
+  let pages: number = 0;
+
   const [errorState, setErrorState]: [
     // New literal error message
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState('');
 
-  const [pageState, setPageState]: [
+  const [pagesState, setPagesState]: [
+    // Number of pages
+    number,
+    Dispatch<SetStateAction<number>>,
+  ] = useState(pages);
+
+  const [currentPageState, setCurrentPageState]: [
     // The current page
     number,
     Dispatch<SetStateAction<number>>,
@@ -54,7 +63,15 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     // The most current values
     LiteralTranslation[],
     Dispatch<SetStateAction<LiteralTranslation[]>>,
-  ] = useState([]);
+  ] = useState([
+    {
+      literalId: '-1',
+      translationId: '-1',
+      literal: '',
+      as_in: '',
+      translation: '',
+    },
+  ]);
 
   const [newLiteralState, setNewLiteralState]: [
     // Current value of a new literal
@@ -70,51 +87,30 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
-      createLiteralTranslation(data: $translation) ${LiteralResponse}
+      createLiteralTranslation(data: $translation) ${TranslationResponse}
     }
   `;
 
   const [createTranslation] = useMutation(ADD_NEW_LITERAL);
 
-  const GET_PROJECT = gql`{
+  const GET_DATA = gql`{
     project(where: { name: "${props.projectName}" }) ${ProjectResponse}
     getLiteralsPages(where: { project: { name: "${props.projectName}" } }) ${PagesResponse}
   }`;
 
-  const { loading, error, data } = useQuery(GET_PROJECT);
+  const { loading, error, data } = useQuery(GET_DATA);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <ErrorMessage code={500} message={error.message} />;
 
+  pages = data.getLiteralsPages.pages;
   const project: Project = data.project;
-  const pages: number = data.getLiteralsPages.pages;
 
-  if (translationsState.length === 0)
-    setTranslationsState(
-      project
-        ? project.literals.map((literal: Literal) => {
-            const translation: Translation = project.translations.find(
-              translation =>
-                translation.literal.id === literal.id &&
-                translation.language.iso === props.languageIso,
-            );
-            const translationText = translation ? translation.translation : '';
-            const translationId = translation ? translation.id : '0';
-            return {
-              translationId,
-              literalId: literal.id,
-              translation: translationText,
-              as_in: literal.as_in,
-              literal: literal.literal,
-              state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
-            };
-          })
-        : [],
-    );
+  if (pagesState === 0) setPagesState(pages);
 
   // Set the current page
-  const setPage = (page: number): void => {
-    setPageState(page);
+  const selectPage = (page: number): void => {
+    setCurrentPageState(page);
   };
 
   // Show all, translated or no translated
@@ -131,138 +127,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
       default:
         setFilterState(Filter.ALL);
         break;
-    }
-  };
-
-  // Change the current value of a translation when onChange
-  const changeTranslationValue = (event: any, literalId: string): void => {
-    const translations: LiteralTranslation[] = translationsState.map(
-      (translation: LiteralTranslation) => {
-        if (translation.literalId === literalId)
-          translation.translation = event.target.value;
-        return translation;
-      },
-    );
-    setTranslationsState(translations);
-  };
-
-  // Add a translation when it doesn't exist
-  const addTranslation = (
-    project: Project,
-    id: string,
-    literalId: string,
-    translationText: string,
-  ): Project => {
-    project.translations = [
-      ...project.translations,
-      {
-        id,
-        language: project.languages.find(
-          (lang: Language) => lang.iso === props.languageIso,
-        ),
-        literal: project.literals.find((lit: Literal) => lit.id === literalId),
-        project: project,
-        translation: translationText,
-      } as Translation,
-    ];
-    return project;
-  };
-
-  // Update a translation when it exists
-  const updateTranslation = (
-    project: Project,
-    literalId: string,
-    translationText: string,
-  ): Project => {
-    project.translations = project.translations.map(
-      (translation: Translation) => {
-        if (
-          translation.literal.id === literalId &&
-          translation.language.iso === props.languageIso
-        )
-          translation.translation = translationText;
-        return translation;
-      },
-    );
-
-    return project;
-  };
-
-  // Save data when onBlur
-  const upsertTranslations = (
-    translationId: string,
-    literalId: string,
-    languageId: string,
-    translationText: string,
-    upsert,
-  ): void => {
-    const originalTranslation: Translation = project.translations.find(
-      (t: Translation) =>
-        t.literal.id === literalId && t.language.iso === props.languageIso,
-    );
-    const originalTranslationText: string = originalTranslation
-      ? originalTranslation.translation
-      : '';
-    if (
-      translationText && // If there is text
-      translationText !== originalTranslationText // and the text is different to the saved data
-    ) {
-      upsert({
-        variables: {
-          where: {
-            id: translationId,
-          },
-          create: {
-            translation: translationText,
-            language: {
-              id: languageId,
-            },
-            literal: {
-              id: literalId,
-            },
-            project: {
-              name: project.name,
-            },
-          },
-          update: {
-            translation: translationText,
-          },
-        },
-      }).then(result => {
-        // Update the state of the translations
-        let translations: LiteralTranslation[] = translationsState.map(
-          (t: LiteralTranslation) => {
-            if (t.literalId === literalId) {
-              t.state = translationText
-                ? Filter.TRANSLATED
-                : Filter.NO_TRANSLATED;
-              t.translation = translationText;
-            }
-            return t;
-          },
-        );
-        setTranslationsState(translations);
-
-        // Update the list of projects in App
-        let myProject: Project = project;
-        if (
-          myProject.translations.find(
-            (trans: Translation) =>
-              trans.literal.id === literalId &&
-              trans.language.iso === props.languageIso,
-          )
-        ) {
-          myProject = updateTranslation(myProject, literalId, translationText); // Update a translation when it exists
-        } else {
-          myProject = addTranslation(
-            // Add a new translation when it doesn't exist
-            myProject,
-            result.data.upsertTranslation.id,
-            literalId,
-            translationText,
-          );
-        }
-      });
     }
   };
 
@@ -371,18 +235,13 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         <Translations
           projectName={project.name}
           languageId={language.id}
-          translations={translationsState.filter(
-            (translation: LiteralTranslation) =>
-              filterState === Filter.ALL || filterState === translation.state,
-          )}
-          changeValue={changeTranslationValue}
-          upsertTranslations={upsertTranslations}
+          page={currentPageState}
           selectLiterals={selectLiterals}
         />
         <Pagination
-          numberPages={pages}
-          currentPage={pageState}
-          click={setPage}
+          numberPages={pagesState}
+          currentPage={currentPageState}
+          click={selectPage}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}

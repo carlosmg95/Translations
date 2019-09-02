@@ -1,28 +1,36 @@
-import React from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
-import { LiteralTranslation } from '../../types';
-import { useMutation } from '@apollo/react-hooks';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { Filter, Literal, LiteralTranslation, Translation } from '../../types';
+import { LiteralResponse, TranslationResponse } from '../../types-res';
+import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface TranslationsProps {
   projectName: string;
   languageId: string;
-  translations: LiteralTranslation[];
-  changeValue(event: any, literalId: string): void;
-  upsertTranslations(
-    translationId: string,
-    literalId: string,
-    languageId: string,
-    translationText: string,
-    upsert,
-  ): void;
+  page: number;
   selectLiterals(event: any): void;
 }
 
 const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
 ) => {
+  const [translationsState, setTranslationsState]: [
+    // The most current values
+    LiteralTranslation[],
+    Dispatch<SetStateAction<LiteralTranslation[]>>,
+  ] = useState([
+    {
+      literalId: '-1',
+      translationId: '-1',
+      literal: '',
+      as_in: '',
+      translation: '',
+    },
+  ]);
+
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
       $where: TranslationWhereUniqueInput!
@@ -37,6 +45,97 @@ const Translations: React.FC<TranslationsProps> = (
 
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
 
+  const GET_DATA = gql`{
+    literals(where: { project: { name: "${props.projectName}" } }, page: ${props.page}) ${LiteralResponse}
+    translations(where: { project: { name: "${props.projectName}" }, language: { id: "${props.languageId}" } }) ${TranslationResponse}
+  }`;
+
+  const { loading, error, data, client } = useQuery(GET_DATA);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <ErrorMessage code={500} message={error.message} />;
+
+  const literals: Literal[] = data.literals;
+  const translations: Translation[] = data.translations;
+  const lt: LiteralTranslation[] = literals.map((literal: Literal) => {
+    const translation: Translation = translations.find(
+      (translation: Translation) =>
+        translation.literal.id === literal.id &&
+        translation.language.id === props.languageId,
+    );
+    const translationText = translation ? translation.translation : '';
+    const translationId = translation ? translation.id : '0';
+    return {
+      translationId,
+      literalId: literal.id,
+      translation: translationText,
+      as_in: literal.as_in,
+      literal: literal.literal,
+      state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
+    };
+  });
+
+  if (
+    (translationsState[0] && translationsState[0].literalId === '-1') ||
+    (lt[0] && lt[0].literalId !== translationsState[0].literalId)
+  )
+    setTranslationsState(lt);
+
+  // Change the current value of a translation when onChange
+  const changeTranslationValue = (event: any, literalId: string): void => {
+    const translations: LiteralTranslation[] = translationsState.map(
+      (translation: LiteralTranslation) => {
+        if (translation.literalId === literalId)
+          translation.translation = event.target.value;
+        return translation;
+      },
+    );
+    setTranslationsState(translations);
+  };
+
+  // Save data when onBlur
+  const upsertTranslations = (
+    translationId: string,
+    literalId: string,
+    languageId: string,
+    translationText: string,
+  ): void => {
+    const originalTranslation: Translation = translations.find(
+      (t: Translation) =>
+        t.literal.id === literalId && t.language.id === props.languageId,
+    );
+    const originalTranslationText: string = originalTranslation
+      ? originalTranslation.translation
+      : '';
+    if (
+      translationText && // If there is text
+      translationText !== originalTranslationText // and the text is different to the saved data
+    ) {
+      upsert({
+        variables: {
+          where: {
+            id: translationId,
+          },
+          create: {
+            translation: translationText,
+            language: {
+              id: languageId,
+            },
+            literal: {
+              id: literalId,
+            },
+            project: {
+              name: props.projectName,
+            },
+          },
+          update: {
+            translation: translationText,
+          },
+        },
+      });
+    }
+  };
+
   return (
     <div className="Translations">
       <select className="select-filter" onChange={props.selectLiterals}>
@@ -49,7 +148,7 @@ const Translations: React.FC<TranslationsProps> = (
         <p className="translation-row__item as-in">As in</p>
         <p className="translation-row__item translation-text">Translation</p>
       </div>
-      {props.translations.map((translation: LiteralTranslation) => (
+      {translationsState.map((translation: LiteralTranslation) => (
         <TranslationRow
           key={translation.literalId}
           literalId={translation.literalId}
@@ -57,14 +156,13 @@ const Translations: React.FC<TranslationsProps> = (
           literal={translation.literal}
           as_in={translation.as_in}
           translation={translation.translation}
-          change={props.changeValue}
+          change={changeTranslationValue}
           blur={(translationId, literalId, translationText) => {
-            props.upsertTranslations(
+            upsertTranslations(
               translationId,
               literalId,
               props.languageId,
               translationText,
-              upsert,
             );
           }}
         />

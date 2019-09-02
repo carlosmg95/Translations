@@ -46,11 +46,11 @@ export type Literal = {
 }
 
 export type LiteralTranslation = {
-  literalId: string;
-  translationId: string;
-  literal: string,
-  as_in: string,
-  translation: string,
+  literalId: string
+  translationId: string
+  literal: string
+  as_in: string
+  translation: string
   state?: Filter
 }
 

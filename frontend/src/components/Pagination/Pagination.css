@@ -9,6 +9,7 @@
 }
 
 .page {
+  background-color: rgba(0, 0, 0, 0);
   border: 1px solid #b2d5c2;
   border-left: none;
   color: #38e1a9;

@@ -21,18 +21,18 @@ interface PaginationProps {
 
 const Page: React.FC<PageProps> = (props: PageProps) => {
   return (
-    <a
+    <button
       className={'page' + (props.active ? ' active' : '')}
       onClick={() => props.click(props.value)}
     >
       {props.value}
-    </a>
+    </button>
   );
 };
 
 const ExtremePage: React.FC<ExtremePageProps> = (props: ExtremePageProps) => {
   return (
-    <a
+    <button
       className="page"
       onClick={() =>
         props.click(props.position === 'first' ? 1 : props.lastValue)
@@ -43,7 +43,7 @@ const ExtremePage: React.FC<ExtremePageProps> = (props: ExtremePageProps) => {
       ) : (
         <>&rsaquo;&rsaquo;</>
       )}
-    </a>
+    </button>
   );
 };
 
