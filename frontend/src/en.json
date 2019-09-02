@@ -1,9 +1,5 @@
 {
-  "a": "1",
-  "b": "2",
-  "c": "3",
-  "d": "4",
-  "e": "5",
-  "fdsh": "6",
-  "fghfdh": "7"
+  "printer": "printer",
+  "robot": "robot",
+  "welcome_landing": "Welcome everybody!!"
 }
