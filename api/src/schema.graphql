@@ -109,7 +109,7 @@ type Query {
   # Types
   language(where: LanguageWhereUniqueInput!): Language
   languages(where: LanguageWhereInput): [Language]!
-  literals(where: LiteralWhereInput): [Literal]!
+  literals(where: LiteralWhereInput, page: Int): [Literal]!
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput): [Project]!
   translations(where: TranslationWhereInput): [Translation]!

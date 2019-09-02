@@ -1,6 +1,6 @@
 import log from '../utils/log';
 
-const LITERAL_PER_PAGE: number = 0.1;
+const LITERAL_PER_PAGE: number = 3;
 
 const Query = {
   // Functions
@@ -10,7 +10,7 @@ const Query = {
       '{ aggregate { count }}',
     );
     const literalsCount: number = literalsAggregate.aggregate.count;
-    const pages: number = Math.ceil(literalsCount / LITERAL_PER_PAGE);
+    const pages: number = Math.ceil(literalsCount / LITERAL_PER_PAGE) || 1;
     log.query('Query: getLiteralsPages');
     return { pages };
   },
@@ -39,9 +39,14 @@ const Query = {
     log.query('Query: languages');
     return prisma.query.languages(where, info);
   },
-  literals(parent, { where }, { prisma }, info) {
+  literals(parent, { where, page }, { prisma }, info) {
     log.query('Query: literals');
-    return prisma.query.literals(where, info);
+    const args = {
+      where,
+      first: LITERAL_PER_PAGE,
+      skip: (page - 1) * LITERAL_PER_PAGE,
+    };
+    return prisma.query.literals(args, info);
   },
   translations(parent, { where }, { prisma }, info) {
     log.query('Query: translations');

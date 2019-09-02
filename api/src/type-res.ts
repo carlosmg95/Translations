@@ -4,6 +4,14 @@ export const PagesResponse = `
 }
 `;
 
+export const LiteralResponse = `
+{
+  id
+  literal
+  as_in
+}
+`;
+
 export const ProjectResponse = `
 {
   id
@@ -42,7 +50,7 @@ export const ProjectResponse = `
 }
 `;
 
-export const LiteralResponse = `
+export const TranslationResponse = `
 {
   id
   translation
@@ -50,6 +58,10 @@ export const LiteralResponse = `
     id
     as_in
     literal
+  }
+  language {
+    id
+    iso
   }
 }
 `;
