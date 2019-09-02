@@ -24,6 +24,24 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     Dispatch<SetStateAction<string>>,
   ] = useState('');
 
+  const [repoState, setRepo]: [
+    // Project repository
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const [branchState, setBranch]: [
+    // Project repository branch
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const [pathState, setPath]: [
+    // Project repository branch
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
   const [usersState, setUsersState]: [
     // List of allowed users
     Set<string>,
@@ -53,6 +71,9 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     name: '',
     languages: '',
     users: '',
+    repo: '',
+    branch: '',
+    path: '',
   });
 
   // Actions when the form changes
@@ -68,6 +89,33 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
       else errorMessage.name = '';
 
       setName(name);
+    } else if (event.target.className.match(/.*project-repo.*/)) {
+      // If the repo changes
+      const repo: string = event.target.value;
+
+      if (!repo || repo.match(/\s/gi))
+        errorMessage.repo = "The repository field is empty or it's wrong";
+      else errorMessage.repo = '';
+
+      setRepo(repo);
+    } else if (event.target.className.match(/.*project-branch.*/)) {
+      // If the repo changes
+      const branch: string = event.target.value;
+
+      if (!branch || branch.match(/\s/gi))
+        errorMessage.branch = "The branch field is empty or it's wrong";
+      else errorMessage.branch = '';
+
+      setBranch(branch);
+    } else if (event.target.className.match(/.*project-path.*/)) {
+      // If the repo changes
+      const path: string = event.target.value;
+
+      if (!path || path.match(/\s/gi))
+        errorMessage.path = "The path field is empty or it's wrong";
+      else errorMessage.path = '';
+
+      setPath(path);
     } else if (event.target.className.match(/.*project-users__checkbox.*/)) {
       // If an user is selected
       let users: Set<string> = new Set(usersState);
@@ -117,6 +165,15 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     if (!nameState || nameState.match(/\s|\.|\//gi))
       errorMessage.name = "The name is empty or it's wrong";
 
+    if (!repoState || repoState.match(/\s/gi))
+      errorMessage.repo = "The repository field is empty or it's wrong";
+
+    if (!branchState || branchState.match(/\s|\.|\//gi))
+      errorMessage.branch = "The branch field is empty or it's wrong";
+
+    if (!pathState || pathState.match(/\s/gi))
+      errorMessage.path = "The path field is empty or it's wrong";
+
     if (usersState.size === 0)
       errorMessage.users = 'You must select one user at least';
 
@@ -132,6 +189,10 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
       variables: {
         project: {
           name: nameState,
+          git_name: nameState,
+          git_repo: repoState,
+          git_branch: branchState,
+          git_path: pathState,
           users: Array.from(usersState).map((userId: string) => {
             return { id: userId };
           }),
@@ -226,6 +287,48 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
             {errorMessageState.name ? (
               <small className="error-message-sm">
                 {errorMessageState.name}
+              </small>
+            ) : (
+              ''
+            )}
+          </div>
+          {/* FORM GIT CONFIG */}
+          <div className="form-group">
+            <label className="form-item">Repository: </label>
+            <input
+              className="form-item project-repo"
+              type="text"
+              placeholder="https clone url"
+            />
+            {errorMessageState.repo ? (
+              <small className="error-message-sm">
+                {errorMessageState.repo}
+              </small>
+            ) : (
+              ''
+            )}
+          </div>
+          <div className="form-group">
+            <label className="form-item">Repository Branch: </label>
+            <input className="form-item project-branch" type="text" />
+            {errorMessageState.branch ? (
+              <small className="error-message-sm">
+                {errorMessageState.branch}
+              </small>
+            ) : (
+              ''
+            )}
+          </div>
+          <div className="form-group">
+            <label className="form-item">Relative path: </label>
+            <input
+              className="form-item project-path"
+              type="text"
+              placeholder="Path to the translations file"
+            />
+            {errorMessageState.path ? (
+              <small className="error-message-sm">
+                {errorMessageState.path}
               </small>
             ) : (
               ''
