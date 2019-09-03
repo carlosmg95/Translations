@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Loading from '../Loading/Loading';
 import Pagination from '../../components/Pagination/Pagination';
 import { Filter, Literal, LiteralTranslation, Translation } from '../../types';
 import {
@@ -76,8 +76,10 @@ const Translations: React.FC<TranslationsProps> = (
     variables: { page: props.page, filter: props.filter },
   });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <ErrorMessage code={500} message={error.message} />;
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />
+  }
+
   const pages = data.getLiteralsPages.pages;
   const literals: Literal[] = data.literals;
   const translations: Translation[] = data.translations;

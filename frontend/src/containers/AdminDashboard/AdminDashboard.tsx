@@ -5,6 +5,7 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Loading from '../../components/Loading/Loading';
 import AdminOptions from '../../components/AdminOptions/AdminOptions';
 import { User } from '../../types';
 import { ProjectResponse, UserResponse } from '../../types-res';
@@ -30,12 +31,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
 
   const { loading, error, data } = useQuery(GET_DATA);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <ErrorMessage code={500} message="Server error" />;
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />
   }
 
   const { languages, projects, users } = data;

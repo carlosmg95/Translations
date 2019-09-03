@@ -1,7 +1,7 @@
 import React from 'react';
 import './MainDashboard.css';
 import ProjectItem from '../../components/ProjectItem/ProjectItem';
-import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Loading from '../../components/Loading/Loading';
 import { User, Project } from '../../types';
 import { ProjectResponse } from '../../types-res';
 import { useQuery } from '@apollo/react-hooks';
@@ -18,8 +18,9 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
 
   const { loading, error, data, refetch } = useQuery(GET_PROJECTS);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <ErrorMessage code={500} message="Server error" />;
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />
+  }
 
   let projects: Project[] = data.projects;
 

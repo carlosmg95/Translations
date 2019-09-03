@@ -7,6 +7,7 @@ import Dashboard, {
 import Translations from '../../components/Translations/Translations';
 import NewLiteralRow from '../../components/NewLiteralRow/NewLiteralRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Loading from '../../components/Loading/Loading';
 import {
   User,
   LiteralTranslation,
@@ -75,8 +76,9 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const { loading, error, data } = useQuery(GET_PROJECT);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <ErrorMessage code={500} message={error.message} />;
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />
+  }
 
   const project: Project = data.project;
 

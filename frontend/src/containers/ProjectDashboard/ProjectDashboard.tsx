@@ -7,6 +7,7 @@ import Dashboard, {
 } from '../../components/Dashboard/Dashboard';
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Loading from '../../components/Loading/Loading';
 import { Language, User, Project } from '../../types';
 import { ProjectResponse } from '../../types-res';
 import { useQuery } from '@apollo/react-hooks';
@@ -43,8 +44,9 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
 
   const { loading, error, data } = useQuery(GET_PROJECT);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <ErrorMessage code={500} message={error.message} />;
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />
+  }
 
   const project: Project = data.project;
 
