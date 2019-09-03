@@ -16,12 +16,16 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
     projects(where: { users_some: { name: "${props.user.name}" } }) ${ProjectResponse}
   }`;
 
-  const { loading, error, data } = useQuery(GET_PROJECTS);
+  const { loading, error, data, refetch } = useQuery(GET_PROJECTS);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <ErrorMessage code={500} message="Server error" />;
 
-  const projects: Project[] = data.projects;
+  let projects: Project[] = data.projects;
+
+  refetch().then(result => {
+    projects = result.data.projects;
+  });
 
   return (
     <div className="MainDashboard">
