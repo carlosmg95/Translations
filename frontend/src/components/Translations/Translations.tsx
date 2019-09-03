@@ -32,6 +32,12 @@ const Translations: React.FC<TranslationsProps> = (
     Dispatch<SetStateAction<LiteralTranslation[]>>,
   ] = useState([]);
 
+  const [searchInputState, setSearchInputState]: [
+    // The text to search
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
       $where: TranslationWhereUniqueInput!
@@ -77,7 +83,7 @@ const Translations: React.FC<TranslationsProps> = (
   });
 
   if (loading || error) {
-    return <Loading errorMessage={error && error.message} errorCode={500} />
+    return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
   const pages = data.getLiteralsPages.pages;
@@ -211,28 +217,42 @@ const Translations: React.FC<TranslationsProps> = (
 
   return (
     <div className="Translations">
-      <select
-        className="select-filter"
-        onChange={event => {
-          props.selectLiterals(event);
-          refetch({ page: props.page, filter: +event.target.value }).then(
-            result => {
-              if (loading || !result.data) return;
-              const { literals, translations } = result.data;
-              const lt: LiteralTranslation[] = createLiteralTranslations(
-                literals,
-                translations,
-              );
-              setTranslationsState(lt);
-            },
-          );
-        }}
-        defaultValue={`${props.filter}`}
-      >
-        <option value={Filter.ALL}>All</option>
-        <option value={Filter.TRANSLATED}>Translated</option>
-        <option value={Filter.NO_TRANSLATED}>No translated</option>
-      </select>
+      <div className="filter">
+        <input
+          value={searchInputState}
+          id="input-filter"
+          type="text"
+          placeholder="Search"
+          onChange={event => setSearchInputState(event.target.value)}
+          onKeyUp={event => {
+            if (event.keyCode === 13) {
+              console.log(searchInputState);
+            }
+          }}
+        />
+        <select
+          className="select-filter"
+          onChange={event => {
+            props.selectLiterals(event);
+            refetch({ page: props.page, filter: +event.target.value }).then(
+              result => {
+                if (loading || !result.data) return;
+                const { literals, translations } = result.data;
+                const lt: LiteralTranslation[] = createLiteralTranslations(
+                  literals,
+                  translations,
+                );
+                setTranslationsState(lt);
+              },
+            );
+          }}
+          defaultValue={`${props.filter}`}
+        >
+          <option value={Filter.ALL}>All</option>
+          <option value={Filter.TRANSLATED}>Translated</option>
+          <option value={Filter.NO_TRANSLATED}>No translated</option>
+        </select>
+      </div>
       <div className="translation-row header">
         <p className="translation-row__item literal">Literal</p>
         <p className="translation-row__item as-in">As in</p>
