@@ -2,9 +2,54 @@ import log from '../utils/log';
 
 const LITERAL_PER_PAGE: number = 3;
 
+enum Filter {
+  ALL,
+  TRANSLATED,
+  NO_TRANSLATED,
+}
+
 const Query = {
   // Functions
-  async getLiteralsPages(parent, { where }, { prisma }, info) {
+  async getLiteralsPages(parent, { where, filter }, { prisma }, info) {
+    if (filter === Filter.NO_TRANSLATED) {
+      where = {
+        ...where,
+        OR: [
+          {
+            translations_some: {
+              translation: '',
+              language: {
+                id: where.language.id,
+              },
+            },
+          },
+          {
+            translations_none: {
+              language: {
+                id: where.language.id,
+              },
+            },
+          },
+        ],
+      };
+    } else if (filter === Filter.TRANSLATED) {
+      where = {
+        ...where,
+        OR: [
+          {
+            translations_some: {
+              translation_not: '',
+              language: {
+                id: where.language.id,
+              },
+            },
+          },
+        ],
+      };
+    }
+
+    delete where.language;
+
     const literalsAggregate = await prisma.query.literalsConnection(
       { where },
       '{ aggregate { count }}',
@@ -39,13 +84,54 @@ const Query = {
     log.query('Query: languages');
     return prisma.query.languages(where, info);
   },
-  literals(parent, { where, page }, { prisma }, info) {
+  literals(parent, { where, page, filter }, { prisma }, info) {
     log.query('Query: literals');
-    const args = {
+
+    let args = {
       where,
       first: LITERAL_PER_PAGE,
       skip: (page - 1) * LITERAL_PER_PAGE,
     };
+
+    if (filter === Filter.NO_TRANSLATED) {
+      args.where = {
+        ...args.where,
+        OR: [
+          {
+            translations_some: {
+              translation: '',
+              language: {
+                id: where.language.id,
+              },
+            },
+          },
+          {
+            translations_none: {
+              language: {
+                id: where.language.id,
+              },
+            },
+          },
+        ],
+      };
+    } else if (filter === Filter.TRANSLATED) {
+      args.where = {
+        ...args.where,
+        OR: [
+          {
+            translations_some: {
+              translation_not: '',
+              language: {
+                id: where.language.id,
+              },
+            },
+          },
+        ],
+      };
+    }
+
+    delete args.where.language;
+
     return prisma.query.literals(args, info);
   },
   translations(parent, { where }, { prisma }, info) {

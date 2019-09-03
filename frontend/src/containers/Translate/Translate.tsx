@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translate.css';
 import Dashboard, {
   DashboardBody,
@@ -7,22 +7,14 @@ import Dashboard, {
 import Translations from '../../components/Translations/Translations';
 import NewLiteralRow from '../../components/NewLiteralRow/NewLiteralRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import Pagination from '../../components/Pagination/Pagination';
 import {
   User,
-  Translation,
-  Literal,
   LiteralTranslation,
   Filter,
   Project,
   Language,
 } from '../../types';
-import {
-  LiteralResponse,
-  PagesResponse,
-  ProjectResponse,
-  TranslationResponse,
-} from '../../types-res';
+import { ProjectResponse, TranslationResponse } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -33,19 +25,11 @@ interface TranslateProps {
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
-  let pages: number = 0;
-
   const [errorState, setErrorState]: [
     // New literal error message
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState('');
-
-  const [pagesState, setPagesState]: [
-    // Number of pages
-    number,
-    Dispatch<SetStateAction<number>>,
-  ] = useState(pages);
 
   const [currentPageState, setCurrentPageState]: [
     // The current page
@@ -58,20 +42,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     Filter,
     Dispatch<SetStateAction<Filter>>,
   ] = useState(Filter.ALL);
-
-  const [translationsState, setTranslationsState]: [
-    // The most current values
-    LiteralTranslation[],
-    Dispatch<SetStateAction<LiteralTranslation[]>>,
-  ] = useState([
-    {
-      literalId: '-1',
-      translationId: '-1',
-      literal: '',
-      as_in: '',
-      translation: '',
-    },
-  ]);
 
   const [newLiteralState, setNewLiteralState]: [
     // Current value of a new literal
@@ -93,20 +63,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const [createTranslation] = useMutation(ADD_NEW_LITERAL);
 
-  const GET_DATA = gql`{
-    project(where: { name: "${props.projectName}" }) ${ProjectResponse}
-    getLiteralsPages(where: { project: { name: "${props.projectName}" } }) ${PagesResponse}
-  }`;
+  const GET_DATA = gql`{project(where: { name: "${props.projectName}" }) ${ProjectResponse}}`;
 
   const { loading, error, data } = useQuery(GET_DATA);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <ErrorMessage code={500} message={error.message} />;
 
-  pages = data.getLiteralsPages.pages;
   const project: Project = data.project;
-
-  if (pagesState === 0) setPagesState(pages);
 
   // Set the current page
   const selectPage = (page: number): void => {
@@ -116,14 +80,15 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
     const { value } = event.target;
+    selectPage(1);
     switch (value) {
-      case 'translated':
+      case `${Filter.TRANSLATED}`:
         setFilterState(Filter.TRANSLATED);
         break;
-      case 'no-translated':
+      case `${Filter.NO_TRANSLATED}`:
         setFilterState(Filter.NO_TRANSLATED);
         break;
-      case 'all':
+      case `${Filter.ALL}`:
       default:
         setFilterState(Filter.ALL);
         break;
@@ -165,24 +130,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
         },
       })
         .then(result => {
-          const data = result.data.createLiteralTranslation;
-
-          const translation: LiteralTranslation = {
-            // Create the new object
-            translationId: data.id,
-            literalId: data.literal.id,
-            translation: data.translation,
-            as_in: data.literal.as_in,
-            literal: data.literal.literal,
-            state: data.translation ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
-          };
-          const translations: LiteralTranslation[] = [
-            // Save the object
-            ...translationsState,
-            translation,
-          ];
-          setTranslationsState(translations);
-
           const literalState: LiteralTranslation = {
             // Reset the new literal row
             translationId: '0',
@@ -237,11 +184,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           languageId={language.id}
           page={currentPageState}
           selectLiterals={selectLiterals}
-        />
-        <Pagination
-          numberPages={pagesState}
-          currentPage={currentPageState}
-          click={selectPage}
+          selectPage={selectPage}
+          filter={filterState}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}

@@ -26,6 +26,7 @@ input LiteralWhereInput {
   translations_some: TranslationWhereInput
   literal: String
   as_in: String
+  language: LanguageWhereInput
 }
 
 input ProjectWhereUniqueInput {
@@ -105,11 +106,11 @@ input TranslationUpdateInput {
 
 type Query {
   # Functions
-  getLiteralsPages(where: LiteralWhereInput): Pages!
+  getLiteralsPages(where: LiteralWhereInput, filter: Int): Pages!
   # Types
   language(where: LanguageWhereUniqueInput!): Language
   languages(where: LanguageWhereInput): [Language]!
-  literals(where: LiteralWhereInput, page: Int): [Literal]!
+  literals(where: LiteralWhereInput, page: Int, filter: Int): [Literal]!
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput): [Project]!
   translations(where: TranslationWhereInput): [Translation]!
@@ -186,6 +187,12 @@ type Pages {
 }
 
 # ENUM
+
+enum Filter {
+  ALL
+  TRANSLATED
+  NO_TRANSLATED
+}
 
 enum MutationType {
   CREATED

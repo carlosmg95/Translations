@@ -51,7 +51,6 @@ export type LiteralTranslation = {
   literal: string
   as_in: string
   translation: string
-  state?: Filter
 }
 
 export enum Filter {

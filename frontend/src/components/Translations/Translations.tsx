@@ -2,17 +2,40 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Pagination from '../../components/Pagination/Pagination';
 import { Filter, Literal, LiteralTranslation, Translation } from '../../types';
-import { LiteralResponse, TranslationResponse } from '../../types-res';
-import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
+import {
+  LiteralResponse,
+  PagesResponse,
+  TranslationResponse,
+} from '../../types-res';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface TranslationsProps {
   projectName: string;
   languageId: string;
   page: number;
+  filter: Filter;
   selectLiterals(event: any): void;
+  selectPage(page: number): void;
 }
+
+const equalTranslations = (
+  lt1: LiteralTranslation[],
+  lt2: LiteralTranslation[],
+): boolean => {
+  let equals: boolean = true;
+  if (lt1.length !== lt2.length) {
+    equals = false;
+  }
+  lt1.forEach((value: LiteralTranslation, index: number) => {
+    if (!lt2[index] || value.literalId !== lt2[index].literalId) {
+      equals = false;
+    }
+  });
+  return equals;
+};
 
 const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
@@ -46,15 +69,35 @@ const Translations: React.FC<TranslationsProps> = (
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
 
   const GET_DATA = gql`{
-    literals(where: { project: { name: "${props.projectName}" } }, page: ${props.page}) ${LiteralResponse}
-    translations(where: { project: { name: "${props.projectName}" }, language: { id: "${props.languageId}" } }) ${TranslationResponse}
+    literals(
+      where: {
+        project: { name: "${props.projectName}" },
+        language: { id: "${props.languageId}" }
+      },
+      page: ${props.page},
+      filter: ${props.filter}
+    ) ${LiteralResponse}
+    translations(
+      where: {
+        project: { name: "${props.projectName}" },
+        language: { id: "${props.languageId}" }
+      }
+    ) ${TranslationResponse}
+    getLiteralsPages(
+      where: {
+        project: { name: "${props.projectName}" },
+        language: { id: "${props.languageId}" }
+      },
+      filter: ${props.filter}
+    ) ${PagesResponse}
   }`;
 
-  const { loading, error, data, client } = useQuery(GET_DATA);
+  const { loading, error, data } = useQuery(GET_DATA);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <ErrorMessage code={500} message={error.message} />;
 
+  const pages = data.getLiteralsPages.pages;
   const literals: Literal[] = data.literals;
   const translations: Translation[] = data.translations;
   const lt: LiteralTranslation[] = literals.map((literal: Literal) => {
@@ -75,11 +118,9 @@ const Translations: React.FC<TranslationsProps> = (
     };
   });
 
-  if (
-    (translationsState[0] && translationsState[0].literalId === '-1') ||
-    (lt[0] && lt[0].literalId !== translationsState[0].literalId)
-  )
+  if (!equalTranslations(lt, translationsState)) {
     setTranslationsState(lt);
+  }
 
   // Change the current value of a translation when onChange
   const changeTranslationValue = (event: any, literalId: string): void => {
@@ -138,10 +179,14 @@ const Translations: React.FC<TranslationsProps> = (
 
   return (
     <div className="Translations">
-      <select className="select-filter" onChange={props.selectLiterals}>
-        <option value="all">All</option>
-        <option value="translated">Translated</option>
-        <option value="no-translated">No translated</option>
+      <select
+        className="select-filter"
+        onChange={props.selectLiterals}
+        defaultValue={`${props.filter}`}
+      >
+        <option value={Filter.ALL}>All</option>
+        <option value={Filter.TRANSLATED}>Translated</option>
+        <option value={Filter.NO_TRANSLATED}>No translated</option>
       </select>
       <div className="translation-row header">
         <p className="translation-row__item literal">Literal</p>
@@ -167,6 +212,11 @@ const Translations: React.FC<TranslationsProps> = (
           }}
         />
       ))}
+      <Pagination
+        numberPages={pages}
+        currentPage={props.page}
+        click={props.selectPage}
+      />
     </div>
   );
 };
