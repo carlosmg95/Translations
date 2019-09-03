@@ -3,17 +3,31 @@ import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
-import { Language, Project, Translation, Literal } from '../../types';
+import { Language, Project } from '../../types';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 interface ProjectLanguageRowProps {
   project: Project;
   language: Language;
   allowed: boolean;
+  pushFunction(pushResult: Promise<any>): void;
 }
 
-const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
+const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   props: ProjectLanguageRowProps,
 ) => {
+  const PUSH_TRANSLATIONS = gql`
+    mutation PushTranslations(
+      $project: ProjectWhereUniqueInput!
+      $language: LanguageWhereUniqueInput!
+    ) {
+      pushTranslations(project: $project, language: $language)
+    }
+  `;
+
+  const [push] = useMutation(PUSH_TRANSLATIONS);
+
   return (
     <div className={'projectLanguageRow ' + (props.allowed ? '' : 'disabled')}>
       <div className="language-project">
@@ -24,27 +38,19 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
           name={props.language.name}
         />
       </div>
-      <div className="create-json">
+      <div className="push-json">
         <PillButton
-          text="Create JSON"
+          text="Push translations"
           disabled={!props.allowed}
           onClick={() => {
-            let i18n: { [key: string]: string } = {};
-            props.project.literals.forEach((literal: Literal) => {
-              const translation: Translation = props.project.translations.find(
-                (translation: Translation) =>
-                  translation.language.iso === props.language.iso &&
-                  translation.literal.id === literal.id,
-              );
-              const translationText: string =
-                translation && translation.translation
-                  ? translation.translation
-                  : literal.literal;
-              i18n = { ...i18n, [literal.literal]: translationText };
-            });
-
-            const fileName: string = `${props.language.iso}_${props.project.name}.json`;
-            console.log(`${fileName}:\n${JSON.stringify(i18n, null, 4)}`);
+            props.pushFunction(
+              push({
+                variables: {
+                  project: { name: props.project.name },
+                  language: { iso: props.language.iso },
+                },
+              }),
+            );
           }}
         />
       </div>
@@ -63,4 +69,4 @@ const projectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   );
 };
 
-export default projectLanguageRow;
+export default ProjectLanguageRow;

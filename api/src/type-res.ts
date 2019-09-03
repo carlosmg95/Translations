@@ -2,6 +2,10 @@ export const ProjectResponse = `
 {
   id
   name
+  git_repo
+  git_name
+  git_branch
+  git_path
   users {
     id
     name

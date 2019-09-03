@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import { GraphQLServer } from 'graphql-yoga';
 import { Prisma } from 'prisma-binding';
 import { typeDefs as PrismaTypeDefs } from '../prisma/generated/prisma-client/prisma-schema';
