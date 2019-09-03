@@ -22,6 +22,8 @@ interface TranslateProps {
   languageIso: string;
   user: User;
   projectName: string;
+  page?: number;
+  filter?: Filter;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
@@ -35,13 +37,13 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     // The current page
     number,
     Dispatch<SetStateAction<number>>,
-  ] = useState(1);
+  ] = useState(props.page || 1);
 
   const [filterState, setFilterState]: [
     // Filter the translations
     Filter,
     Dispatch<SetStateAction<Filter>>,
-  ] = useState(Filter.ALL);
+  ] = useState(props.filter || Filter.ALL);
 
   const [newLiteralState, setNewLiteralState]: [
     // Current value of a new literal
@@ -80,6 +82,13 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   // Set the current page
   const selectPage = (page: number): void => {
+    let state: string = window.location.search;
+    state = state.replace(
+      new RegExp(`page=${currentPageState}`),
+      `page=${page}`,
+    );
+    state = state || `?page=${page}`;
+    window.history.replaceState(this, '', state);
     setCurrentPageState(page);
   };
 
@@ -90,13 +99,16 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     switch (value) {
       case `${Filter.TRANSLATED}`:
         setFilterState(Filter.TRANSLATED);
+        window.history.replaceState(this, '', `?page=1&filter=${value}`);
         break;
       case `${Filter.NO_TRANSLATED}`:
         setFilterState(Filter.NO_TRANSLATED);
+        window.history.replaceState(this, '', `?page=1&filter=${value}`);
         break;
       case `${Filter.ALL}`:
       default:
         setFilterState(Filter.ALL);
+        window.history.replaceState(this, '', `?page=1`);
         break;
     }
   };

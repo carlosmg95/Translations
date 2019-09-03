@@ -80,13 +80,20 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           exact
           path="/project/:projectName/translate/:languageIso"
           render={routeProps => {
+            const query: string = routeProps.location.search;
             const { languageIso, projectName } = routeProps.match.params;
+            const page: string =
+              query.match(/page=(\d+)/) && query.match(/page=(\d+)/)[1];
+            const filter: string =
+              query.match(/filter=(\d+)/) && query.match(/filter=(\d+)/)[1];
             return (
               <Suspense fallback={<div>Loading...</div>}>
                 <Translate
                   user={props.user}
                   languageIso={languageIso}
                   projectName={projectName}
+                  page={page ? +page : 1}
+                  filter={filter ? +filter : 0}
                 />
               </Suspense>
             );
