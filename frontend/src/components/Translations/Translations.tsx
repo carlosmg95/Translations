@@ -21,22 +21,6 @@ interface TranslationsProps {
   selectPage(page: number): void;
 }
 
-const equalTranslations = (
-  lt1: LiteralTranslation[],
-  lt2: LiteralTranslation[],
-): boolean => {
-  let equals: boolean = true;
-  if (lt1.length !== lt2.length) {
-    equals = false;
-  }
-  lt1.forEach((value: LiteralTranslation, index: number) => {
-    if (!lt2[index] || value.literalId !== lt2[index].literalId) {
-      equals = false;
-    }
-  });
-  return equals;
-};
-
 const Translations: React.FC<TranslationsProps> = (
   props: TranslationsProps,
 ) => {
@@ -44,15 +28,7 @@ const Translations: React.FC<TranslationsProps> = (
     // The most current values
     LiteralTranslation[],
     Dispatch<SetStateAction<LiteralTranslation[]>>,
-  ] = useState([
-    {
-      literalId: '-1',
-      translationId: '-1',
-      literal: '',
-      as_in: '',
-      translation: '',
-    },
-  ]);
+  ] = useState([]);
 
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
@@ -68,55 +44,85 @@ const Translations: React.FC<TranslationsProps> = (
 
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
 
-  const GET_DATA = gql`{
-    literals(
-      where: {
-        project: { name: "${props.projectName}" },
-        language: { id: "${props.languageId}" }
-      },
-      page: ${props.page},
-      filter: ${props.filter}
-    ) ${LiteralResponse}
-    translations(
-      where: {
-        project: { name: "${props.projectName}" },
-        language: { id: "${props.languageId}" }
-      }
-    ) ${TranslationResponse}
-    getLiteralsPages(
-      where: {
-        project: { name: "${props.projectName}" },
-        language: { id: "${props.languageId}" }
-      },
-      filter: ${props.filter}
-    ) ${PagesResponse}
-  }`;
+  const GET_DATA = gql`
+    query GetData($page: Int, $filter: Int) {
+      literals(
+        where: {
+          project: { name: "${props.projectName}" },
+          language: { id: "${props.languageId}" }
+        },
+        page: $page,
+        filter: $filter
+      ) ${LiteralResponse}
+      translations(
+        where: {
+          project: { name: "${props.projectName}" },
+          language: { id: "${props.languageId}" }
+        }
+      ) ${TranslationResponse}
+      getLiteralsPages(
+        where: {
+          project: { name: "${props.projectName}" },
+          language: { id: "${props.languageId}" }
+        },
+        filter: $filter
+      ) ${PagesResponse}
+    }
+  `;
 
-  const { loading, error, data } = useQuery(GET_DATA);
+  const { loading, error, data, refetch } = useQuery(GET_DATA, {
+    variables: { page: props.page, filter: props.filter },
+  });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <ErrorMessage code={500} message={error.message} />;
-
   const pages = data.getLiteralsPages.pages;
   const literals: Literal[] = data.literals;
   const translations: Translation[] = data.translations;
-  const lt: LiteralTranslation[] = literals.map((literal: Literal) => {
-    const translation: Translation = translations.find(
-      (translation: Translation) =>
-        translation.literal.id === literal.id &&
-        translation.language.id === props.languageId,
-    );
-    const translationText = translation ? translation.translation : '';
-    const translationId = translation ? translation.id : '0';
-    return {
-      translationId,
-      literalId: literal.id,
-      translation: translationText,
-      as_in: literal.as_in,
-      literal: literal.literal,
-      state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
-    };
-  });
+
+  const equalTranslations = (
+    lt1: LiteralTranslation[],
+    lt2: LiteralTranslation[],
+  ): boolean => {
+    let equals: boolean = true;
+    if (lt1.length !== lt2.length) {
+      equals = false;
+    }
+    lt1.forEach((value: LiteralTranslation, index: number) => {
+      if (!lt2[index] || value.literalId !== lt2[index].literalId) {
+        equals = false;
+      }
+    });
+    return equals;
+  };
+
+  const createLiteralTranslations = (
+    literals: Literal[],
+    translations: Translation[],
+  ): LiteralTranslation[] => {
+    return literals.map((literal: Literal) => {
+      const translation: Translation = translations.find(
+        (translation: Translation) =>
+          translation.literal.id === literal.id &&
+          translation.language.id === props.languageId,
+      );
+      const translationText = translation ? translation.translation : '';
+      const translationId = translation ? translation.id : '0';
+      return {
+        translationId,
+        literalId: literal.id,
+        translation: translationText,
+        as_in: literal.as_in,
+        literal: literal.literal,
+        state: translationText ? Filter.TRANSLATED : Filter.NO_TRANSLATED,
+      };
+    });
+  };
+
+  const lt: LiteralTranslation[] = createLiteralTranslations(
+    literals,
+    translations,
+  );
 
   if (!equalTranslations(lt, translationsState)) {
     setTranslationsState(lt);
@@ -173,6 +179,15 @@ const Translations: React.FC<TranslationsProps> = (
             translation: translationText,
           },
         },
+      }).then(() => {
+        refetch().then(result => {
+          const { literals, translations } = result.data;
+          const lt: LiteralTranslation[] = createLiteralTranslations(
+            literals,
+            translations,
+          );
+          setTranslationsState(lt);
+        });
       });
     }
   };
@@ -181,7 +196,20 @@ const Translations: React.FC<TranslationsProps> = (
     <div className="Translations">
       <select
         className="select-filter"
-        onChange={props.selectLiterals}
+        onChange={event => {
+          props.selectLiterals(event);
+          refetch({ page: props.page, filter: +event.target.value }).then(
+            result => {
+              if (loading || !result.data) return;
+              const { literals, translations } = result.data;
+              const lt: LiteralTranslation[] = createLiteralTranslations(
+                literals,
+                translations,
+              );
+              setTranslationsState(lt);
+            },
+          );
+        }}
         defaultValue={`${props.filter}`}
       >
         <option value={Filter.ALL}>All</option>
