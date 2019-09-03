@@ -2,7 +2,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import './NewProject.css';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import Loading from '../../components/Loading/Loading'
+import Loading from '../../components/Loading/Loading';
 import Dashboard, {
   DashboardBody,
   DashboardHeader,
@@ -237,7 +237,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
   const [createProject] = useMutation(CREATE_PROJECT);
 
   if (loading || error) {
-    return <Loading errorMessage={error && 'Server error'} errorCode={500} />
+    return <Loading errorMessage={error && 'Server error'} errorCode={500} />;
   }
 
   const { users, languages } = data;

@@ -32,7 +32,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
   const { loading, error, data } = useQuery(GET_DATA);
 
   if (loading || error) {
-    return <Loading errorMessage={error && error.message} errorCode={500} />
+    return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
   const { languages, projects, users } = data;

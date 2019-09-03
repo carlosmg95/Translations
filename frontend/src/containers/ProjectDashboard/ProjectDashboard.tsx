@@ -45,7 +45,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
   const { loading, error, data } = useQuery(GET_PROJECT);
 
   if (loading || error) {
-    return <Loading errorMessage={error && error.message} errorCode={500} />
+    return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
   const project: Project = data.project;

@@ -19,7 +19,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
   const { loading, error, data, refetch } = useQuery(GET_PROJECTS);
 
   if (loading || error) {
-    return <Loading errorMessage={error && error.message} errorCode={500} />
+    return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
   let projects: Project[] = data.projects;

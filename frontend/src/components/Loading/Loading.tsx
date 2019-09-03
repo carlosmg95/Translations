@@ -8,11 +8,9 @@ interface loadingProps {
   errorCode?: number;
 }
 
-const loading: React.FC<loadingProps> = (
-  props: loadingProps,
-) => {
+const loading: React.FC<loadingProps> = (props: loadingProps) => {
   if (props.errorMessage) {
-    return <ErrorMessage code={props.errorCode} message={props.errorMessage}/>
+    return <ErrorMessage code={props.errorCode} message={props.errorMessage} />;
   }
   return (
     <div className="Loading">
