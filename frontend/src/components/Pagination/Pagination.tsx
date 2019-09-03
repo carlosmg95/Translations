@@ -75,6 +75,7 @@ const pagination: React.FC<PaginationProps> = (props: PaginationProps) => {
           5,
           pages.length,
           <ExtremePage
+            key="last"
             click={props.click}
             lastValue={pages.length}
             position="last"
@@ -88,6 +89,7 @@ const pagination: React.FC<PaginationProps> = (props: PaginationProps) => {
           0,
           pages.length - 5,
           <ExtremePage
+            key="first"
             click={props.click}
             lastValue={pages.length}
             position="first"
@@ -98,12 +100,14 @@ const pagination: React.FC<PaginationProps> = (props: PaginationProps) => {
         const middle: JSX.Element[] = pages.splice(props.currentPage - 3, 5);
         pages = [
           <ExtremePage
+            key="first"
             click={props.click}
             lastValue={pages.length}
             position="first"
           />,
           ...middle,
           <ExtremePage
+            key="last"
             click={props.click}
             lastValue={pages.length}
             position="last"

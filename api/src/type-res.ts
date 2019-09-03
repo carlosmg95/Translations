@@ -34,6 +34,7 @@ export const ProjectResponse = `
     id
     translation
     language {
+      id
       iso
     }
     literal {
