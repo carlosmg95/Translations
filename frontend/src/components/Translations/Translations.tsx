@@ -17,6 +17,8 @@ interface TranslationsProps {
   languageId: string;
   page: number;
   filter: Filter;
+  newLiteral: boolean;
+  newLiteralShow(): void;
   selectLiterals(event: any): void;
   selectPage(page: number): void;
 }
@@ -191,6 +193,19 @@ const Translations: React.FC<TranslationsProps> = (
       });
     }
   };
+
+  if (props.newLiteral) {
+    props.newLiteralShow();
+    refetch().then(result => {
+      if (loading || !result.data) return;
+      const { literals, translations } = result.data;
+      const lt: LiteralTranslation[] = createLiteralTranslations(
+        literals,
+        translations,
+      );
+      setTranslationsState(lt);
+    });
+  }
 
   return (
     <div className="Translations">

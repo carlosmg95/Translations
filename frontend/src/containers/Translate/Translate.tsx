@@ -55,6 +55,12 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     translation: '',
   });
 
+  const [isThereNewLiteral, setIsThereNewLiteral]: [
+    // True when there is a new literal but it isn't on the display and false when it has been displayed
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(false);
+
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
       createLiteralTranslation(data: $translation) ${TranslationResponse}
@@ -63,9 +69,9 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   const [createTranslation] = useMutation(ADD_NEW_LITERAL);
 
-  const GET_DATA = gql`{project(where: { name: "${props.projectName}" }) ${ProjectResponse}}`;
+  const GET_PROJECT = gql`{project(where: { name: "${props.projectName}" }) ${ProjectResponse}}`;
 
-  const { loading, error, data } = useQuery(GET_DATA);
+  const { loading, error, data } = useQuery(GET_PROJECT);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <ErrorMessage code={500} message={error.message} />;
@@ -129,16 +135,17 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           },
         },
       })
-        .then(result => {
+        .then(() => {
           const literalState: LiteralTranslation = {
             // Reset the new literal row
-            translationId: '0',
-            literalId: '0',
+            translationId: '',
+            literalId: '',
             translation: '',
             as_in: '',
             literal: '',
           };
           setNewLiteralState(literalState);
+          setIsThereNewLiteral(true);
           setErrorState(''); // Remove errors
         })
         .catch(e => {
@@ -186,6 +193,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           selectLiterals={selectLiterals}
           selectPage={selectPage}
           filter={filterState}
+          newLiteral={isThereNewLiteral}
+          newLiteralShow={() => setIsThereNewLiteral(false)}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}
