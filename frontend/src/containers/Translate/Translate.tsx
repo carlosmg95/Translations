@@ -117,10 +117,12 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const selectSearchInput = (text: string): void => {
     const originalState: string = window.location.search;
     let state: string = originalState
-      ? changeQueryValues(originalState, 'search', text)
-      : `?search=${text}`;
+      ? changeQueryValues(originalState, 'pages', 1)
+      : `?page=1&search=${text}`;
+    state = changeQueryValues(state, 'search', text);
     state = state.match(/search/) ? state : `${state}&search=${text}`;
     window.history.replaceState(this, '', state);
+    selectPage(1);
     setSearchInputState(text);
   };
 
