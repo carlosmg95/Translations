@@ -1,7 +1,11 @@
 import * as simplegit from 'simple-git/promise';
 import * as shell from 'shelljs';
 import log from '../utils/log';
-import { LiteralResponse, ProjectResponse, UserResponse } from '../type-res';
+import {
+  ProjectResponse,
+  TranslationResponse,
+  UserResponse,
+} from '../type-res';
 
 const GIT_USER: string = process.env.GIT_USER;
 const GIT_PASS: string = process.env.GIT_PASS;
@@ -181,7 +185,7 @@ const Mutation = {
 
     return await prisma.mutation.createTranslation(
       { data: newTranslation },
-      LiteralResponse,
+      TranslationResponse,
     );
   },
   async pushTranslations(parent, { project, language }, { prisma }, info) {

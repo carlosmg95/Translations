@@ -6,7 +6,7 @@ interface ErrorMessageProps {
   message: string;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = (
+const errorMessage: React.FC<ErrorMessageProps> = (
   props: ErrorMessageProps,
 ) => {
   return (
@@ -19,4 +19,4 @@ const ErrorMessage: React.FC<ErrorMessageProps> = (
   );
 };
 
-export default ErrorMessage;
+export default errorMessage;

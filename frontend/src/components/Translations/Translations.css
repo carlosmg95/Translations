@@ -34,12 +34,17 @@
   flex-basis: 20%;
 }
 
+.filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 22px;
+  width: 100%;
+}
+
 .select-filter {
+  margin-left: 20px;
   padding: 5px;
   text-align: right;
-  right: 0;
-  top: -30px;
-  position: absolute;
 }
 
 @media (max-width: 600px) {

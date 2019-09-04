@@ -1,7 +1,7 @@
-import React, { useState, Dispatch, SetStateAction, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { Language, Project, User } from '../types';
+import { User } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 
@@ -17,80 +17,9 @@ const AdminDashboard = React.lazy(() =>
 
 interface AppProps {
   user: User;
-  projects: Project[];
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
-  const [userState, setUserState]: [
-    // The logged user
-    User,
-    Dispatch<SetStateAction<User>>,
-  ] = useState(props.user);
-
-  const [projectsState, setProjectsState]: [
-    // The list of logged user's projects
-    Project[],
-    Dispatch<SetStateAction<Project[]>>,
-  ] = useState(props.projects);
-
-  // Add a new project to the list
-  const addNewProject = (project: Project): void => {
-    if (
-      project.users.map((user: User) => user.id).indexOf(props.user.id) !== -1
-    ) {
-      const projects = [...projectsState, project];
-      let user: User = userState;
-      user.projects = [...user.projects, project];
-
-      setProjectsState(projects);
-      setUserState(user);
-    }
-  };
-
-  // Update a project in the list
-  const updateProject = (
-    projectWhereKey: string,
-    projectWhereValue: string,
-    updatedProject: Project,
-  ): void => {
-    let projects: Project[] = projectsState;
-    projects = projects.map((project: Project) => {
-      if (project[projectWhereKey] === projectWhereValue) return updatedProject;
-      return project;
-    });
-    setProjectsState(projects);
-  };
-
-  // Update the languages of the logged user
-  const updateUserLanguages = (languages: Language[]): void => {
-    let user: User = userState;
-    user.languages = languages;
-    //let languages: Language[] = user.languages;
-    /*let projects: Project[] = projectsState;
-    projects = projects.map((project: Project) => {
-      if (project[projectWhereKey] === projectWhereValue) return updatedProject;
-      return project;
-    });
-    setProjectsState(projects);*/
-    setUserState(user);
-  };
-
-  // Add a value to property array of a project in the list
-  const addValueToProjectProperty = (
-    projectWhereKey: string,
-    projectWhereValue: string,
-    projectSetKey: string,
-    projectSetValue: any,
-  ): void => {
-    let projects: Project[] = projectsState;
-    projects = projects.map((project: Project) => {
-      if (project[projectWhereKey] === projectWhereValue)
-        project[projectSetKey] = [...project[projectSetKey], projectSetValue];
-      return project;
-    });
-    setProjectsState(projects);
-  };
-
   return (
     <div className="App">
       <MainHeader title="Translations" user={props.user} />
@@ -98,32 +27,28 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         <Route
           exact
           path="/"
-          render={routeProps => (
+          render={() => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} projects={projectsState} />
+              <MainDashboard user={props.user} />
             </Suspense>
           )}
         />
         <Route
           exact
           path="/dashboard"
-          render={routeProps => (
+          render={() => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} projects={projectsState} />
+              <MainDashboard user={props.user} />
             </Suspense>
           )}
         />
         <Route
           exact
           path="/newproject"
-          render={routeProps => {
+          render={() => {
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <NewProject
-                  user={props.user}
-                  addNewProject={addNewProject}
-                  history={routeProps.history}
-                />
+                <NewProject user={props.user} />
               </Suspense>
             );
           }}
@@ -134,12 +59,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           render={() => {
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <AdminDashboard
-                  user={props.user}
-                  projects={projectsState}
-                  updateProject={updateProject}
-                  updateUserLanguages={updateUserLanguages}
-                />
+                <AdminDashboard user={props.user} />
               </Suspense>
             );
           }}
@@ -151,12 +71,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
             const { projectName } = routeProps.match.params;
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <ProjectDashboard
-                  user={props.user}
-                  project={projectsState.find(
-                    (project: Project) => project.name === projectName,
-                  )}
-                />
+                <ProjectDashboard user={props.user} projectName={projectName} />
               </Suspense>
             );
           }}
@@ -165,18 +80,23 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           exact
           path="/project/:projectName/translate/:languageIso"
           render={routeProps => {
+            const query: string = routeProps.location.search;
             const { languageIso, projectName } = routeProps.match.params;
-            let project: Project = projectsState.find(
-              (project: Project) => project.name === projectName,
-            );
+            const page: string =
+              query.match(/page=(\d+)/) && query.match(/page=(\d+)/)[1];
+            const filter: string =
+              query.match(/filter=(\d+)/) && query.match(/filter=(\d+)/)[1];
+            const search: string =
+              query.match(/search=(\w+)/) && query.match(/search=(\w+)/)[1];
             return (
               <Suspense fallback={<div>Loading...</div>}>
                 <Translate
                   user={props.user}
                   languageIso={languageIso}
-                  addValueToProjectProperty={addValueToProjectProperty}
-                  updateProject={updateProject}
-                  project={project}
+                  projectName={projectName}
+                  page={+page || 1}
+                  filter={+filter || 0}
+                  search={search || ''}
                 />
               </Suspense>
             );

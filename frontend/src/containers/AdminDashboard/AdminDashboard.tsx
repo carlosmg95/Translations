@@ -5,48 +5,37 @@ import Dashboard, {
   DashboardHeader,
 } from '../../components/Dashboard/Dashboard';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Loading from '../../components/Loading/Loading';
 import AdminOptions from '../../components/AdminOptions/AdminOptions';
-import { Language, Project, User } from '../../types';
-import { UserResponse } from '../../types-res';
+import { User } from '../../types';
+import { ProjectResponse, UserResponse } from '../../types-res';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface AdminDashboardProps {
   user: User;
-  projects: Project[];
-  updateProject(
-    projectWhereKey: string,
-    projectWhereValue: string,
-    updatedProject: Project,
-  ): void;
-  updateUserLanguages(languages: Language[]): void;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = (
   props: AdminDashboardProps,
 ) => {
-  const GET_DATA = gql`
-    {
-      users ${UserResponse}
-      languages {
-        id
-        iso
-        name
-      }
+  const GET_DATA = gql`{
+    users ${UserResponse}
+    languages {
+      id
+      iso
+      name
     }
-  `;
+    projects(where: { users_some: { name: "${props.user.name}" } }) ${ProjectResponse}
+  }`;
 
   const { loading, error, data } = useQuery(GET_DATA);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
-  if (error) {
-    return <ErrorMessage code={500} message="Server error" />;
-  }
-
-  const { users, languages } = data;
+  const { languages, projects, users } = data;
 
   if (!props.user.admin)
     return <ErrorMessage code={401} message="You shouldn't be here!" />;
@@ -57,13 +46,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = (
         links={[{ to: '/dashboard', text: 'dashboard' }]}
       />
       <DashboardBody>
-        <AdminOptions
-          users={users}
-          languages={languages}
-          projects={props.projects}
-          updateProject={props.updateProject}
-          updateUserLanguages={props.updateUserLanguages}
-        />
+        <AdminOptions users={users} languages={languages} projects={projects} />
       </DashboardBody>
     </Dashboard>
   );
