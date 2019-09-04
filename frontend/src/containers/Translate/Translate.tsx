@@ -25,7 +25,21 @@ interface TranslateProps {
   projectName: string;
   page?: number;
   filter?: Filter;
+  search?: string;
 }
+
+// Changes the values of the query in the URL
+const changeQueryValues = (
+  query: string,
+  key: string,
+  newValue: string | number,
+): string => {
+  let newQuery: string = query.replace(
+    new RegExp(`${key}=\\w*`),
+    `${key}=${newValue}`,
+  );
+  return newQuery;
+};
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const [errorState, setErrorState]: [
@@ -45,6 +59,12 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     Filter,
     Dispatch<SetStateAction<Filter>>,
   ] = useState(props.filter || Filter.ALL);
+
+  const [searchInputState, setSearchInputState]: [
+    // The text to search
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState(props.search || '');
 
   const [newLiteralState, setNewLiteralState]: [
     // Current value of a new literal
@@ -84,33 +104,47 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   // Set the current page
   const selectPage = (page: number): void => {
-    let state: string = window.location.search;
-    state = state.replace(
-      new RegExp(`page=${currentPageState}`),
-      `page=${page}`,
-    );
-    state = state || `?page=${page}`;
+    const originalState: string = window.location.search;
+    let state: string = originalState
+      ? changeQueryValues(originalState, 'page', page)
+      : `?page=${page}`;
+    state = state.match(/page/) ? state : `${state}&page=${page}`;
     window.history.replaceState(this, '', state);
     setCurrentPageState(page);
+  };
+
+  // Set the search input
+  const selectSearchInput = (text: string): void => {
+    const originalState: string = window.location.search;
+    let state: string = originalState
+      ? changeQueryValues(originalState, 'search', text)
+      : `?search=${text}`;
+    state = state.match(/search/) ? state : `${state}&search=${text}`;
+    window.history.replaceState(this, '', state);
+    setSearchInputState(text);
   };
 
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
     const { value } = event.target;
+    const originalState: string = window.location.search;
+    let state: string = originalState
+      ? changeQueryValues(originalState, 'page', 1)
+      : `?page=1&filter=${value}`;
+    state = changeQueryValues(state, 'filter', value);
+    state = state.match(/filter/) ? state : `${state}&filter=${value}`;
+    window.history.replaceState(this, '', state);
     selectPage(1);
     switch (value) {
       case `${Filter.TRANSLATED}`:
         setFilterState(Filter.TRANSLATED);
-        window.history.replaceState(this, '', `?page=1&filter=${value}`);
         break;
       case `${Filter.NO_TRANSLATED}`:
         setFilterState(Filter.NO_TRANSLATED);
-        window.history.replaceState(this, '', `?page=1&filter=${value}`);
         break;
       case `${Filter.ALL}`:
       default:
         setFilterState(Filter.ALL);
-        window.history.replaceState(this, '', `?page=1`);
         break;
     }
   };
@@ -206,7 +240,9 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           page={currentPageState}
           selectLiterals={selectLiterals}
           selectPage={selectPage}
+          selectSearch={selectSearchInput}
           filter={filterState}
+          searchValue={searchInputState}
           newLiteral={isThereNewLiteral}
           newLiteralShow={() => setIsThereNewLiteral(false)}
         />

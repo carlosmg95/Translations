@@ -86,14 +86,17 @@ const App: React.FC<AppProps> = (props: AppProps) => {
               query.match(/page=(\d+)/) && query.match(/page=(\d+)/)[1];
             const filter: string =
               query.match(/filter=(\d+)/) && query.match(/filter=(\d+)/)[1];
+            const search: string =
+              query.match(/search=(\w+)/) && query.match(/search=(\w+)/)[1];
             return (
               <Suspense fallback={<div>Loading...</div>}>
                 <Translate
                   user={props.user}
                   languageIso={languageIso}
                   projectName={projectName}
-                  page={page ? +page : 1}
-                  filter={filter ? +filter : 0}
+                  page={+page || 1}
+                  filter={+filter || 0}
+                  search={search || ''}
                 />
               </Suspense>
             );

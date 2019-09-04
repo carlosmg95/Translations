@@ -17,10 +17,12 @@ interface TranslationsProps {
   languageId: string;
   page: number;
   filter: Filter;
+  searchValue: string;
   newLiteral: boolean;
   newLiteralShow(): void;
   selectLiterals(event: any): void;
   selectPage(page: number): void;
+  selectSearch(text: string): void;
 }
 
 const Translations: React.FC<TranslationsProps> = (
@@ -36,7 +38,7 @@ const Translations: React.FC<TranslationsProps> = (
     // The text to search
     string,
     Dispatch<SetStateAction<string>>,
-  ] = useState('');
+  ] = useState(props.searchValue);
 
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
@@ -226,7 +228,22 @@ const Translations: React.FC<TranslationsProps> = (
           onChange={event => setSearchInputState(event.target.value)}
           onKeyUp={event => {
             if (event.keyCode === 13) {
-              console.log(searchInputState);
+              // "enter" key
+              props.selectSearch(searchInputState);
+              refetch().then(result => {
+                const {
+                  getLiteralsPages,
+                  literals,
+                  translations,
+                } = result.data;
+                const pages: number = getLiteralsPages.pages;
+
+                const lt: LiteralTranslation[] = createLiteralTranslations(
+                  literals,
+                  translations,
+                );
+                setTranslationsState(lt);
+              });
             }
           }}
         />
