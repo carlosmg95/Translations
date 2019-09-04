@@ -106,11 +106,11 @@ input TranslationUpdateInput {
 
 type Query {
   # Functions
-  getLiteralsPages(where: LiteralWhereInput, filter: Int): Pages!
+  getLiteralsPages(where: LiteralWhereInput, filter: Int, search: String): Pages!
   # Types
   language(where: LanguageWhereUniqueInput!): Language
   languages(where: LanguageWhereInput): [Language]!
-  literals(where: LiteralWhereInput, page: Int, filter: Int): [Literal]!
+  literals(where: LiteralWhereInput, page: Int, filter: Int, search: String): [Literal]!
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput): [Project]!
   translations(where: TranslationWhereInput): [Translation]!

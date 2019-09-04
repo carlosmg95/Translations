@@ -55,7 +55,7 @@ const Translations: React.FC<TranslationsProps> = (
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
 
   const GET_DATA = gql`
-    query GetData($page: Int, $filter: Int) {
+    query GetData($page: Int, $filter: Int, $search: String) {
       literals(
         where: {
           project: { name: "${props.projectName}" },
@@ -63,6 +63,7 @@ const Translations: React.FC<TranslationsProps> = (
         },
         page: $page,
         filter: $filter
+        search: $search
       ) ${LiteralResponse}
       translations(
         where: {
@@ -76,12 +77,17 @@ const Translations: React.FC<TranslationsProps> = (
           language: { id: "${props.languageId}" }
         },
         filter: $filter
+        search: $search
       ) ${PagesResponse}
     }
   `;
 
   const { loading, error, data, refetch } = useQuery(GET_DATA, {
-    variables: { page: props.page, filter: props.filter },
+    variables: {
+      page: props.page,
+      filter: props.filter,
+      search: props.searchValue,
+    },
   });
 
   if (loading || error) {
@@ -230,13 +236,12 @@ const Translations: React.FC<TranslationsProps> = (
             if (event.keyCode === 13) {
               // "enter" key
               props.selectSearch(searchInputState);
-              refetch().then(result => {
-                const {
-                  getLiteralsPages,
-                  literals,
-                  translations,
-                } = result.data;
-                const pages: number = getLiteralsPages.pages;
+              refetch({
+                page: props.page,
+                filter: props.filter,
+                search: searchInputState,
+              }).then(result => {
+                const { literals, translations } = result.data;
 
                 const lt: LiteralTranslation[] = createLiteralTranslations(
                   literals,
@@ -251,17 +256,19 @@ const Translations: React.FC<TranslationsProps> = (
           className="select-filter"
           onChange={event => {
             props.selectLiterals(event);
-            refetch({ page: props.page, filter: +event.target.value }).then(
-              result => {
-                if (loading || !result.data) return;
-                const { literals, translations } = result.data;
-                const lt: LiteralTranslation[] = createLiteralTranslations(
-                  literals,
-                  translations,
-                );
-                setTranslationsState(lt);
-              },
-            );
+            refetch({
+              page: props.page,
+              filter: +event.target.value,
+              search: props.searchValue,
+            }).then(result => {
+              if (loading || !result.data) return;
+              const { literals, translations } = result.data;
+              const lt: LiteralTranslation[] = createLiteralTranslations(
+                literals,
+                translations,
+              );
+              setTranslationsState(lt);
+            });
           }}
           defaultValue={`${props.filter}`}
         >
