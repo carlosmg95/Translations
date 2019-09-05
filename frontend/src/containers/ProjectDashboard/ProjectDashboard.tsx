@@ -95,6 +95,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
             return (
               <ProjectLanguageRow
                 key={language.id}
+                user={props.user}
                 language={language}
                 project={project}
                 allowed={allowed}
