@@ -14,7 +14,7 @@ type i18n = {
   [key: string]: string;
 };
 
-const addLiteral = async (
+const addLiteral = (
   literal: string,
   translation: string,
   overwrite: boolean,
@@ -22,53 +22,56 @@ const addLiteral = async (
   languageId: string,
   prisma,
 ) => {
-  const [literalObj] = await prisma.query.literals({
-    where: {
-      literal,
-      project: { name: projectName },
-    },
-  });
-  if (!literalObj) {
-    return Mutation.createLiteralTranslation(
-      undefined,
-      {
-        data: {
-          language: { id: languageId },
-          project: { name: projectName },
-          translation,
-          literal: {
-            literal,
-            as_in: literal,
-            project: { name: projectName },
-          },
-        },
-      },
-      { prisma },
-      undefined,
-    );
-  } else if (literalObj && overwrite) {
-    const [translationObj] = await prisma.query.translations({
+  return new Promise(async (resolve, reject) => {
+    const [literalObj] = await prisma.query.literals({
       where: {
-        literal: { literal },
-        language: { id: languageId },
+        literal,
         project: { name: projectName },
       },
     });
-    return prisma.mutation.upsertTranslation({
-      where: {
-        id: translationObj ? translationObj.id : '0',
-      },
-      update: {
-        translation,
-      },
-      create: {
-        language: { connect: { id: languageId } },
-        project: { connect: { name: projectName } },
-        literal: { connect: { id: literalObj.id } },
-        translation,
-      },
-    });
-  }
+    if (!literalObj) {
+      await Mutation.createLiteralTranslation(
+        undefined,
+        {
+          data: {
+            language: { id: languageId },
+            project: { name: projectName },
+            translation,
+            literal: {
+              literal,
+              as_in: literal,
+              project: { name: projectName },
+            },
+          },
+        },
+        { prisma },
+        undefined,
+      );
+    } else if (literalObj && overwrite) {
+      const [translationObj] = await prisma.query.translations({
+        where: {
+          literal: { literal },
+          language: { id: languageId },
+          project: { name: projectName },
+        },
+      });
+      await prisma.mutation.upsertTranslation({
+        where: {
+          id: translationObj ? translationObj.id : '0',
+        },
+        update: {
+          translation,
+        },
+        create: {
+          language: { connect: { id: languageId } },
+          project: { connect: { name: projectName } },
+          literal: { connect: { id: literalObj.id } },
+          translation,
+        },
+      });
+    }
+    resolve();
+  });
 };
 
 const throwError = (message?: string): void => {
@@ -251,18 +254,21 @@ const Mutation = {
     { prisma },
     info,
   ) {
-    data.forEach(item => {
-      addLiteral(
-        item.literal,
-        item.translation,
-        overwrite,
-        project.name,
-        language.id,
-        prisma,
-      );
+    return Promise.all(
+      data.map(item =>
+        addLiteral(
+          item.literal,
+          item.translation,
+          overwrite,
+          project.name,
+          language.id,
+          prisma,
+        ),
+      ),
+    ).then(() => {
+      log.mutation('importLiterals');
+      return true;
     });
-    log.mutation('importLiterals');
-    return true;
   },
   async pushTranslations(parent, { project, language }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({
