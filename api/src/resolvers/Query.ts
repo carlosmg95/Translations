@@ -1,6 +1,6 @@
 import log from '../utils/log';
 
-const LITERAL_PER_PAGE: number = 3;
+const LITERAL_PER_PAGE: number = 10;
 
 enum Filter {
   ALL,
