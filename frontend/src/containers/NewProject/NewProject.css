@@ -39,22 +39,9 @@ label {
   flex-grow: 1;
 }
 
-.project-languages__checkbox,
-.project-users__checkbox {
-  border-radius: 100%;
-  padding: 0.5rem;
-  border: solid #419176 0.5px;
-  background-color: white;
-}
-
 .project-languages__label,
 .project-users__label {
   margin-top: 5px;
-}
-
-.project-languages__checkbox:checked,
-.project-users__checkbox:checked {
-  background-image: radial-gradient(circle, #419176 0%, white 70%);
 }
 
 .btn {

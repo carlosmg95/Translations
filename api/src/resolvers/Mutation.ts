@@ -14,6 +14,63 @@ type i18n = {
   [key: string]: string;
 };
 
+const addLiteral = async (
+  literal: string,
+  translation: string,
+  overwrite: boolean,
+  projectName: string,
+  languageId: string,
+  prisma,
+) => {
+  const [literalObj] = await prisma.query.literals({
+    where: {
+      literal,
+      project: { name: projectName },
+    },
+  });
+  if (!literalObj) {
+    return Mutation.createLiteralTranslation(
+      undefined,
+      {
+        data: {
+          language: { id: languageId },
+          project: { name: projectName },
+          translation,
+          literal: {
+            literal,
+            as_in: literal,
+            project: { name: projectName },
+          },
+        },
+      },
+      { prisma },
+      undefined,
+    );
+  } else if (literalObj && overwrite) {
+    const [translationObj] = await prisma.query.translations({
+      where: {
+        literal: { literal },
+        language: { id: languageId },
+        project: { name: projectName },
+      },
+    });
+    return prisma.mutation.upsertTranslation({
+      where: {
+        id: translationObj ? translationObj.id : '0',
+      },
+      update: {
+        translation,
+      },
+      create: {
+        language: { connect: { id: languageId } },
+        project: { connect: { name: projectName } },
+        literal: { connect: { id: literalObj.id } },
+        translation,
+      },
+    });
+  }
+};
+
 const throwError = (message?: string): void => {
   const errorMessage = message || 'Error ocurred.';
   log.error(`${errorMessage}`);
@@ -187,6 +244,25 @@ const Mutation = {
       { data: newTranslation },
       TranslationResponse,
     );
+  },
+  async importLiterals(
+    parent,
+    { data, overwrite, project, language },
+    { prisma },
+    info,
+  ) {
+    data.forEach(item => {
+      addLiteral(
+        item.literal,
+        item.translation,
+        overwrite,
+        project.name,
+        language.id,
+        prisma,
+      );
+    });
+    log.mutation('importLiterals');
+    return true;
   },
   async pushTranslations(parent, { project, language }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({

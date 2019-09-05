@@ -19,11 +19,7 @@ const client = new ApolloClient({
 
 client
   .query({
-    query: gql`
-      {
-        user(where: { name: "admin" }) ${UserResponse}
-      }
-    `,
+    query: gql`{ user(where: { name: "admin" }) ${UserResponse} }`,
   })
   .then(response => {
     let user: User = response.data.user;

@@ -18,7 +18,15 @@
   align-items: center;
 }
 
+.import-json,
 .push-json,
 .translate {
   flex: 1 1;
+}
+
+.overwrite-checkbox {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
 }
