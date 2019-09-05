@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, Dispatch, SetStateAction } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User } from '../types';
@@ -20,6 +20,30 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
+  const [updateMainDashboardState, setUpdateMainDashboardState]: [
+    // If the MainDashboard has to be updated
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(true);
+
+  const [updateProjectDashboardState, setUpdateProjectDashboardState]: [
+    // If the ProjectDashboard has to be updated
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(true);
+
+  const [updateTranslateState, setUpdateTranslateState]: [
+    // If the Translate has to be updated
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(true);
+
+  const updateData = (): void => {
+    setUpdateMainDashboardState(true);
+    setUpdateProjectDashboardState(true);
+    setUpdateTranslateState(true);
+  };
+
   return (
     <div className="App">
       <MainHeader title="Translations" user={props.user} />
@@ -29,7 +53,11 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/"
           render={() => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} />
+              <MainDashboard
+                user={props.user}
+                update={updateMainDashboardState}
+                dataUpdated={() => setUpdateMainDashboardState(false)}
+              />
             </Suspense>
           )}
         />
@@ -38,7 +66,11 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/dashboard"
           render={() => (
             <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} />
+              <MainDashboard
+                user={props.user}
+                update={updateMainDashboardState}
+                dataUpdated={() => setUpdateMainDashboardState(false)}
+              />
             </Suspense>
           )}
         />
@@ -71,7 +103,13 @@ const App: React.FC<AppProps> = (props: AppProps) => {
             const { projectName } = routeProps.match.params;
             return (
               <Suspense fallback={<div>Loading...</div>}>
-                <ProjectDashboard user={props.user} projectName={projectName} />
+                <ProjectDashboard
+                  user={props.user}
+                  projectName={projectName}
+                  update={updateProjectDashboardState}
+                  dataUpdated={() => setUpdateProjectDashboardState(false)}
+                  updateData={updateData}
+                />
               </Suspense>
             );
           }}
@@ -99,7 +137,9 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   page={+page || 1}
                   filter={+filter || 0}
                   search={search || ''}
-                  update={update || false}
+                  update={updateTranslateState || update || false}
+                  dataUpdated={() => setUpdateTranslateState(false)}
+                  updateData={updateData}
                 />
               </Suspense>
             );

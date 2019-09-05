@@ -23,6 +23,7 @@ interface TranslationsProps {
   selectLiterals(event: any): void;
   selectPage(page: number): void;
   selectSearch(text: string): void;
+  updateData(): void;
 }
 
 const Translations: React.FC<TranslationsProps> = (
@@ -176,6 +177,7 @@ const Translations: React.FC<TranslationsProps> = (
       translationText && // If there is text
       translationText !== originalTranslationText // and the text is different to the saved data
     ) {
+      props.updateData()
       upsert({
         variables: {
           where: {

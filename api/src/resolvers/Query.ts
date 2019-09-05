@@ -50,11 +50,17 @@ const Query = {
   literals(parent, { where, page, filter, search }, { prisma }, info) {
     log.query('Query: literals');
 
-    let args = {
+    let args: { where; first?; skip? } = {
       where: prepareLiteralsWhere(where, filter, search),
-      first: LITERAL_PER_PAGE,
-      skip: (page - 1) * LITERAL_PER_PAGE,
     };
+
+    if (page) {
+      args = {
+        ...args,
+        first: LITERAL_PER_PAGE,
+        skip: (page - 1) * LITERAL_PER_PAGE,
+      };
+    }
 
     return prisma.query.literals(args, info);
   },

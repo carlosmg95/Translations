@@ -12,15 +12,37 @@
 }
 
 .language-project {
-  flex: 3 3;
+  flex: 2 2;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
 }
 
+.info {
+  color: gray;
+}
+
+.porcentaje {
+  margin-left: 5px;
+  color: red;
+}
+
+.porcentaje.half {
+  color: orange;
+}
+
+.porcentaje.complete {
+  color: green;
+  font-size: 1.5rem;
+}
+
+.info,
 .import-json,
 .push-json,
 .translate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1 1;
 }
 
