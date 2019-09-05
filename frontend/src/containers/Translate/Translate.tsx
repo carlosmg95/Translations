@@ -15,7 +15,7 @@ import {
   Project,
   Language,
 } from '../../types';
-import { changeQueryValues } from '../../utils/functions';
+import { changeQueryValues, removeQueryValue } from '../../utils/functions';
 import { ProjectResponse, TranslationResponse } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
@@ -101,7 +101,9 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Set the search input
   const selectSearchInput = (text: string): void => {
     let state: string = changeQueryValues('page', 1);
-    state = changeQueryValues('search', text, state);
+    state = text
+      ? changeQueryValues('search', text, state)
+      : removeQueryValue('search', state);
     window.history.replaceState(this, '', state);
     selectPage(1);
     setSearchInputState(text);
@@ -173,7 +175,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           };
           setNewLiteralState(literalState);
           setIsThereNewLiteral(true);
-          changeQueryValues('update', 1)
+          changeQueryValues('update', 1);
           setErrorState(''); // Remove errors
         })
         .catch(e => {
@@ -229,7 +231,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
             window.history.replaceState(
               this,
               '',
-              changeQueryValues('update', 0),
+              removeQueryValue('update') || changeQueryValues('update', 0),
             );
           }}
         />
