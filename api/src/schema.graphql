@@ -132,7 +132,7 @@ type Mutation {
   createProject(data: ProjectCreateInput!): Project!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
   importLiterals(data: [I18nCreateInput!]!, overwrite: Boolean, project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
-  pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
+  pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput): Boolean
   removeLanguageFromProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
   removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!

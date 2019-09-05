@@ -291,23 +291,32 @@ const Mutation = {
 
     shell.rm('-Rf', path);
 
-    await git.clone(remote, path, [
-      '--single-branch',
-      '--branch',
-      'pruebaPush',
-    ]);
+    try {
+      await git.clone(remote, path, [
+        '--single-branch',
+        '--branch',
+        'pruebaPush',
+      ]);
+    } catch (e) {
+      throwError('Clone error');
+    }
 
-    shell.exec(
-      `echo '${JSON.stringify(
-        createLangJSON(project, language.iso),
-        null,
-        2,
-      )}' > ${path}/${git_path}/${language.iso}.json`,
-    );
+    const languages = language ? [language] : project.languages;
 
     await git.cwd(path);
-    await git.add(`${git_path}/${language.iso}.json`);
-    await git.commit(`Adds new ${language.iso} translations`);
+
+    languages.forEach(async lang => {
+      shell.exec(
+        `echo '${JSON.stringify(
+          createLangJSON(project, lang.iso),
+          null,
+          2,
+        )}' > ${path}/${git_path}/${lang.iso}.json`,
+      );
+      await git.add(`${git_path}/${lang.iso}.json`);
+    });
+
+    await git.commit(`Adds new ${language ? language.iso : ''} translations`);
     await git.push('origin', git_branch);
 
     shell.rm('-Rf', path);

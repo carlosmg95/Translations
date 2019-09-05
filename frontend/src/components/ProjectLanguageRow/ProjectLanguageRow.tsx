@@ -5,13 +5,14 @@ import PillButton from '../PillButton/PillButton';
 import Modal from '../Modal/Modal';
 import Loading from '../Loading/Loading';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
-import { Language, Project } from '../../types';
+import { Language, Project, User } from '../../types';
 import { LiteralResponse } from '../../types-res';
 import { changeQueryValues } from '../../utils/functions';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface ProjectLanguageRowProps {
+  user: User;
   project: Project;
   language: Language;
   allowed: boolean;
@@ -62,7 +63,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   const PUSH_TRANSLATIONS = gql`
     mutation PushTranslations(
       $project: ProjectWhereUniqueInput!
-      $language: LanguageWhereUniqueInput!
+      $language: LanguageWhereUniqueInput
     ) {
       pushTranslations(project: $project, language: $language)
     }
@@ -138,7 +139,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 
   return (
     <>
-      {uploadFileState ? (
+      {uploadFileState && props.user.admin ? (
         <Modal
           title="Upload JSON"
           acceptFunction={() => {
@@ -238,31 +239,37 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
             {porcentajeState}%
           </span>
         </div>
-        <div className="import-json">
-          <PillButton
-            text="Import JSON"
-            disabled={!props.allowed}
-            onClick={() => {
-              setUploadFileState(true);
-            }}
-          />
-        </div>
-        <div className="push-json">
-          <PillButton
-            text="Push translations"
-            disabled={!props.allowed}
-            onClick={() => {
-              props.pushFunction(
-                push({
-                  variables: {
-                    project: { name: props.project.name },
-                    language: { iso: props.language.iso },
-                  },
-                }),
-              );
-            }}
-          />
-        </div>
+        {props.user.admin ? (
+          <>
+            <div className="import-json">
+              <PillButton
+                text="Import JSON"
+                disabled={!props.allowed}
+                onClick={() => {
+                  setUploadFileState(true);
+                }}
+              />
+            </div>
+            <div className="push-json">
+              <PillButton
+                text="Push translations"
+                disabled={!props.allowed}
+                onClick={() => {
+                  props.pushFunction(
+                    push({
+                      variables: {
+                        project: { name: props.project.name },
+                        language: { iso: props.language.iso },
+                      },
+                    }),
+                  );
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          ''
+        )}
         <div className="translate">
           <Link
             to={

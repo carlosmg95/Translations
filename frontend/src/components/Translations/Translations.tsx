@@ -177,7 +177,7 @@ const Translations: React.FC<TranslationsProps> = (
       translationText && // If there is text
       translationText !== originalTranslationText // and the text is different to the saved data
     ) {
-      props.updateData()
+      props.updateData();
       upsert({
         variables: {
           where: {
