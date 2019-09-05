@@ -15,6 +15,7 @@ import {
   Project,
   Language,
 } from '../../types';
+import { changeQueryValues, removeQueryValue } from '../../utils/functions';
 import { ProjectResponse, TranslationResponse } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
@@ -26,20 +27,8 @@ interface TranslateProps {
   page?: number;
   filter?: Filter;
   search?: string;
+  update?: boolean;
 }
-
-// Changes the values of the query in the URL
-const changeQueryValues = (
-  query: string,
-  key: string,
-  newValue: string | number,
-): string => {
-  let newQuery: string = query.replace(
-    new RegExp(`${key}=\\w*`),
-    `${key}=${newValue}`,
-  );
-  return newQuery;
-};
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const [errorState, setErrorState]: [
@@ -82,7 +71,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     // True when there is a new literal but it isn't on the display and false when it has been displayed
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(false);
+  ] = useState(props.update || false);
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
@@ -104,23 +93,17 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   // Set the current page
   const selectPage = (page: number): void => {
-    const originalState: string = window.location.search;
-    let state: string = originalState
-      ? changeQueryValues(originalState, 'page', page)
-      : `?page=${page}`;
-    state = state.match(/page/) ? state : `${state}&page=${page}`;
+    let state: string = changeQueryValues('page', page);
     window.history.replaceState(this, '', state);
     setCurrentPageState(page);
   };
 
   // Set the search input
   const selectSearchInput = (text: string): void => {
-    const originalState: string = window.location.search;
-    let state: string = originalState
-      ? changeQueryValues(originalState, 'pages', 1)
-      : `?page=1&search=${text}`;
-    state = changeQueryValues(state, 'search', text);
-    state = state.match(/search/) ? state : `${state}&search=${text}`;
+    let state: string = changeQueryValues('page', 1);
+    state = text
+      ? changeQueryValues('search', text, state)
+      : removeQueryValue('search', state);
     window.history.replaceState(this, '', state);
     selectPage(1);
     setSearchInputState(text);
@@ -129,12 +112,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
     const { value } = event.target;
-    const originalState: string = window.location.search;
-    let state: string = originalState
-      ? changeQueryValues(originalState, 'page', 1)
-      : `?page=1&filter=${value}`;
-    state = changeQueryValues(state, 'filter', value);
-    state = state.match(/filter/) ? state : `${state}&filter=${value}`;
+    let state: string = changeQueryValues('page', 1);
+    state = changeQueryValues('filter', value, state);
     window.history.replaceState(this, '', state);
     selectPage(1);
     switch (value) {
@@ -196,6 +175,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           };
           setNewLiteralState(literalState);
           setIsThereNewLiteral(true);
+          changeQueryValues('update', 1);
           setErrorState(''); // Remove errors
         })
         .catch(e => {
@@ -246,7 +226,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           filter={filterState}
           searchValue={searchInputState}
           newLiteral={isThereNewLiteral}
-          newLiteralShow={() => setIsThereNewLiteral(false)}
+          newLiteralShow={() => {
+            setIsThereNewLiteral(false);
+            window.history.replaceState(
+              this,
+              '',
+              removeQueryValue('update') || changeQueryValues('update', 0),
+            );
+          }}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}

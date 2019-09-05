@@ -237,7 +237,7 @@ const Translations: React.FC<TranslationsProps> = (
               // "enter" key
               props.selectSearch(searchInputState);
               refetch({
-                page: props.page,
+                page: 1,
                 filter: props.filter,
                 search: searchInputState,
               }).then(result => {
@@ -257,7 +257,7 @@ const Translations: React.FC<TranslationsProps> = (
           onChange={event => {
             props.selectLiterals(event);
             refetch({
-              page: props.page,
+              page: 1,
               filter: +event.target.value,
               search: props.searchValue,
             }).then(result => {

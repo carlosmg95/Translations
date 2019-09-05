@@ -5,6 +5,7 @@ import PillButton from '../PillButton/PillButton';
 import Modal from '../Modal/Modal';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
 import { Language, Project } from '../../types';
+import { changeQueryValues } from '../../utils/functions';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -95,9 +96,12 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
                 language: { id: props.language.id },
                 project: { name: props.project.name },
               },
-            })
-              .then(r => console.log({ r }))
-              .catch(e => console.error(e.message));
+            });
+            window.history.replaceState(
+              this,
+              '',
+              changeQueryValues('update', 1),
+            );
             setUploadFileState(false);
           }}
           cancelFunction={() => {
@@ -173,7 +177,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
           <Link
             to={
               props.allowed
-                ? `${props.project.name}/translate/${props.language.iso}`
+                ? `${props.project.name}/translate/${props.language.iso}${window.location.search}`
                 : '#'
             }
           >
