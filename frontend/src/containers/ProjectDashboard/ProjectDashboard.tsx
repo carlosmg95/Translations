@@ -64,40 +64,38 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
   }
 
   return (
-    <>
-      <Dashboard>
-        <DashboardHeader
-          title={props.projectName}
-          links={[{ to: '/dashboard', text: 'dashboard' }]}
-        />
-        <DashboardBody>
-          <>
-            {blockedState ? (
-              <div className="blocked">
-                <HashLoader size={50} color={'#36d7b7'} />
-              </div>
-            ) : (
-              ''
-            )}
-            {project.languages.map((language: Language) => {
-              const allowed: boolean =
-                props.user.languages
-                  .map((lang: Language) => lang.id)
-                  .indexOf(language.id) !== -1;
-              return (
-                <ProjectLanguageRow
-                  key={language.id}
-                  language={language}
-                  project={project}
-                  allowed={allowed}
-                  pushFunction={pushTranslations}
-                />
-              );
-            })}
-          </>
-        </DashboardBody>
-      </Dashboard>
-    </>
+    <Dashboard>
+      <DashboardHeader
+        title={props.projectName}
+        links={[{ to: '/dashboard', text: 'dashboard' }]}
+      />
+      <DashboardBody>
+        <>
+          {blockedState ? (
+            <div className="blocked">
+              <HashLoader size={50} color={'#36d7b7'} />
+            </div>
+          ) : (
+            ''
+          )}
+          {project.languages.map((language: Language) => {
+            const allowed: boolean =
+              props.user.languages
+                .map((lang: Language) => lang.id)
+                .indexOf(language.id) !== -1;
+            return (
+              <ProjectLanguageRow
+                key={language.id}
+                language={language}
+                project={project}
+                allowed={allowed}
+                pushFunction={pushTranslations}
+              />
+            );
+          })}
+        </>
+      </DashboardBody>
+    </Dashboard>
   );
 };
 
