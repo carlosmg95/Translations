@@ -31,6 +31,12 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
 
+  const [updateInfoState, setUpdateInfoState]: [
+    // If the rows have to update its info
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(false);
+
   const pushTranslations = (pushResult: Promise<any>): void => {
     setBlockedState(true);
     pushResult
@@ -89,6 +95,11 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
                 language={language}
                 project={project}
                 allowed={allowed}
+                updateInfo={updateInfoState}
+                literalsImported={() => {
+                  setUpdateInfoState(true);
+                  setUpdateInfoState(false);
+                }}
                 pushFunction={pushTranslations}
               />
             );

@@ -3,16 +3,20 @@ import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
 import Modal from '../Modal/Modal';
+import Loading from '../Loading/Loading';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
-import { Language, Project, Translation } from '../../types';
+import { Language, Project } from '../../types';
+import { LiteralResponse } from '../../types-res';
 import { changeQueryValues } from '../../utils/functions';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface ProjectLanguageRowProps {
   project: Project;
   language: Language;
   allowed: boolean;
+  updateInfo: boolean;
+  literalsImported(): void;
   pushFunction(pushResult: Promise<any>): void;
 }
 
@@ -36,6 +40,24 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
     boolean,
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
+
+  const [totalLiteralsState, setTotalLiteralsState]: [
+    // Number literals
+    number,
+    Dispatch<SetStateAction<number>>,
+  ] = useState(-1);
+
+  const [translatedLiteralsState, setTranslatedLiteralsState]: [
+    // Number of translated literals
+    number,
+    Dispatch<SetStateAction<number>>,
+  ] = useState(-1);
+
+  const [porcentajeState, setPorcentajeState]: [
+    // Porcentaje of translated literals
+    number,
+    Dispatch<SetStateAction<number>>,
+  ] = useState(-1);
 
   const PUSH_TRANSLATIONS = gql`
     mutation PushTranslations(
@@ -62,16 +84,57 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
     }
   `;
 
+  const GET_DATA = gql`
+    query GetData {
+      all: literals(
+        where: {
+          project: { name: "${props.project.name}" },
+          language: { id: "${props.language.id}" }
+        },
+        page: 0,
+        filter: 0
+        search: ""
+      ) ${LiteralResponse}
+      translated: literals(
+        where: {
+          project: { name: "${props.project.name}" },
+          language: { id: "${props.language.id}" }
+        },
+        page: 0,
+        filter: 1
+        search: ""
+      ) ${LiteralResponse}
+    }
+  `;
+
   const [push] = useMutation(PUSH_TRANSLATIONS);
   const [addLiterals] = useMutation(IMPORT_NEW_LITERALS);
+  const { data, error, loading, refetch } = useQuery(GET_DATA);
 
-  const totalLiterals: number = props.project.literals.length;
-  const translatedLiterals: number = props.project.translations.filter(
-    (trans: Translation) =>
-      trans.translation !== '' && trans.language.iso === props.language.iso,
-  ).length;
-  const porcentaje: number =
-    totalLiterals && Math.round((translatedLiterals / totalLiterals) * 100);
+  if (loading || error) {
+    return <Loading errorMessage={error && error.message} errorCode={500} />;
+  }
+
+  const setInfoValues = (data): void => {
+    const totalLiterals: number = data.all.length;
+    const translatedLiterals: number = data.translated.length;
+    const porcentaje: number =
+      totalLiterals && Math.round((translatedLiterals / totalLiterals) * 100);
+
+    setTotalLiteralsState(totalLiterals);
+    setTranslatedLiteralsState(translatedLiterals);
+    setPorcentajeState(porcentaje);
+  };
+
+  if (totalLiteralsState === -1) {
+    setInfoValues(data);
+  }
+
+  if (props.updateInfo) {
+    refetch().then(result => {
+      setInfoValues(result.data);
+    });
+  }
 
   return (
     <>
@@ -104,6 +167,11 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
                 language: { id: props.language.id },
                 project: { name: props.project.name },
               },
+            }).then(() => {
+              props.literalsImported();
+              refetch().then(result => {
+                setInfoValues(result.data);
+              });
             });
             window.history.replaceState(
               this,
@@ -157,15 +225,17 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
           />
         </div>
         <div className="info">
-          {porcentaje !== 100 ? `${translatedLiterals} of ${totalLiterals}` : ''}
+          {porcentajeState !== 100
+            ? `${translatedLiteralsState} of ${totalLiteralsState}`
+            : ''}
           <span
             className={
               'porcentaje' +
-              (porcentaje >= 50 ? ' half' : '') +
-              (porcentaje === 100 ? ' complete' : '')
+              (porcentajeState >= 50 ? ' half' : '') +
+              (porcentajeState === 100 ? ' complete' : '')
             }
           >
-            {porcentaje}%
+            {porcentajeState}%
           </span>
         </div>
         <div className="import-json">
