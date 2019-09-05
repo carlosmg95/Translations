@@ -16,6 +16,9 @@ import { gql } from 'apollo-boost';
 interface ProjectDashboardProps {
   projectName: string;
   user: User;
+  update: boolean;
+  dataUpdated(): void;
+  updateData(): void;
 }
 
 const ProjectDashboard: React.FC<ProjectDashboardProps> = (
@@ -35,7 +38,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     // If the rows have to update its info
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(false);
+  ] = useState(props.update);
 
   const pushTranslations = (pushResult: Promise<any>): void => {
     setBlockedState(true);
@@ -98,7 +101,9 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
                 updateInfo={updateInfoState}
                 literalsImported={() => {
                   setUpdateInfoState(true);
+                  props.updateData();
                   setUpdateInfoState(false);
+                  props.dataUpdated();
                 }}
                 pushFunction={pushTranslations}
               />

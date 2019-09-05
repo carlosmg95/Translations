@@ -28,6 +28,8 @@ interface TranslateProps {
   filter?: Filter;
   search?: string;
   update?: boolean;
+  dataUpdated(): void;
+  updateData(): void;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
@@ -175,6 +177,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           };
           setNewLiteralState(literalState);
           setIsThereNewLiteral(true);
+          props.updateData();
           changeQueryValues('update', 1);
           setErrorState(''); // Remove errors
         })
@@ -228,12 +231,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           newLiteral={isThereNewLiteral}
           newLiteralShow={() => {
             setIsThereNewLiteral(false);
+            props.dataUpdated();
             window.history.replaceState(
               this,
               '',
               removeQueryValue('update') || changeQueryValues('update', 0),
             );
           }}
+          updateData={props.updateData}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}

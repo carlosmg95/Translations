@@ -9,6 +9,8 @@ import { gql } from 'apollo-boost';
 
 interface DashboardProps {
   user: User;
+  update: boolean;
+  dataUpdated(): void;
 }
 
 const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
@@ -24,9 +26,12 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
 
   let projects: Project[] = data.projects;
 
-  refetch().then(result => {
-    projects = result.data.projects;
-  });
+  if (props.update) {
+    refetch().then(result => {
+      projects = result.data.projects;
+      props.dataUpdated();
+    });
+  }
 
   return (
     <div className="MainDashboard">
