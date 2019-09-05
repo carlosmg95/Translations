@@ -27,3 +27,32 @@ export const changeQueryValues = (
   }
   return newState;
 };
+
+/**
+ * Remove a query from the state in the URL
+ * @param {string} key. Query to remove
+ * @param {string} state. Complete current query.
+ * @return {string} New complete query.
+ */
+export const removeQueryValue = (
+  key: string,
+  state: string = window.location.search,
+): string => {
+  let newState: string;
+  newState = state.replace(
+    // Remove the value
+    new RegExp(`&${key}=\\w*`),
+    '',
+  );
+  newState = newState.replace(
+    // Remove the value
+    new RegExp(`\\?${key}=\\w*&`),
+    '?',
+  );
+  newState = newState.replace(
+    // Remove the value
+    new RegExp(`\\?${key}=\\w*&{0}`),
+    '',
+  );
+  return newState;
+};
