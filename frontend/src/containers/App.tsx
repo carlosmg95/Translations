@@ -24,19 +24,19 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     // If the MainDashboard has to be updated
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(true);
+  ] = useState(false);
 
   const [updateProjectDashboardState, setUpdateProjectDashboardState]: [
     // If the ProjectDashboard has to be updated
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(true);
+  ] = useState(false);
 
   const [updateTranslateState, setUpdateTranslateState]: [
     // If the Translate has to be updated
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(true);
+  ] = useState(false);
 
   const updateData = (): void => {
     setUpdateMainDashboardState(true);
