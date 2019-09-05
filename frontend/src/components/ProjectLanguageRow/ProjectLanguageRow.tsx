@@ -63,7 +63,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   const PUSH_TRANSLATIONS = gql`
     mutation PushTranslations(
       $project: ProjectWhereUniqueInput!
-      $language: LanguageWhereUniqueInput!
+      $language: LanguageWhereUniqueInput
     ) {
       pushTranslations(project: $project, language: $language)
     }

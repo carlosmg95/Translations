@@ -8,9 +8,10 @@ import Dashboard, {
 import ProjectLanguageRow from '../../components/ProjectLanguageRow/ProjectLanguageRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import Loading from '../../components/Loading/Loading';
+import PillButton from '../../components/PillButton/PillButton';
 import { Language, User, Project } from '../../types';
 import { ProjectResponse } from '../../types-res';
-import { useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface ProjectDashboardProps {
@@ -29,11 +30,6 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
 
-  const [errorMessageState, setErrorMessageState]: [
-    boolean,
-    Dispatch<SetStateAction<boolean>>,
-  ] = useState(false);
-
   const [updateInfoState, setUpdateInfoState]: [
     // If the rows have to update its info
     boolean,
@@ -43,15 +39,25 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
   const pushTranslations = (pushResult: Promise<any>): void => {
     setBlockedState(true);
     pushResult
-      .then(result => setBlockedState(!result.data.pushTranslations))
-      .catch(e => setErrorMessageState(true));
+      .then(() => setBlockedState(false))
+      .catch(e => {
+        setBlockedState(false);
+        console.error(e.message.replace(/.+:\s/, ''));
+      });
   };
+
+  const PUSH_TRANSLATIONS = gql`
+    mutation PushTranslations($project: ProjectWhereUniqueInput!) {
+      pushTranslations(project: $project)
+    }
+  `;
 
   const GET_PROJECT = gql`{
     project(where: { name: "${props.projectName}" }) ${ProjectResponse}
   }`;
 
   const { loading, error, data } = useQuery(GET_PROJECT);
+  const [push] = useMutation(PUSH_TRANSLATIONS);
 
   if (loading || error) {
     return <Loading errorMessage={error && error.message} errorCode={500} />;
@@ -68,10 +74,6 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     return <ErrorMessage code={401} message="You shouldn't be here!" />;
   }
 
-  if (errorMessageState) {
-    return <ErrorMessage code={500} message="Server error" />;
-  }
-
   return (
     <Dashboard>
       <DashboardHeader
@@ -80,6 +82,25 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
       />
       <DashboardBody>
         <>
+          {props.user.admin ? (
+            <PillButton
+              text="Push All Translations"
+              className="push-all-button"
+              onClick={() => {
+                pushTranslations(
+                  push({
+                    variables: {
+                      project: {
+                        name: props.projectName,
+                      },
+                    },
+                  }),
+                );
+              }}
+            />
+          ) : (
+            ''
+          )}
           {blockedState ? (
             <div className="blocked">
               <HashLoader size={50} color={'#36d7b7'} />

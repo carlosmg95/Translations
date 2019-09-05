@@ -8,3 +8,8 @@
   width: 100%;
   z-index: 100;
 }
+
+.push-all-button {
+  float: right;
+  margin-bottom: 22px;
+}
