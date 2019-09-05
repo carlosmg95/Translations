@@ -27,6 +27,7 @@ interface TranslateProps {
   page?: number;
   filter?: Filter;
   search?: string;
+  update?: boolean;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
@@ -70,7 +71,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     // True when there is a new literal but it isn't on the display and false when it has been displayed
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(false);
+  ] = useState(props.update || false);
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
