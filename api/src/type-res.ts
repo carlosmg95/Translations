@@ -20,10 +20,6 @@ export const ProjectResponse = `
   git_name
   git_branch
   git_path
-  users {
-    id
-    name
-  }
   languages {
     id
     iso
@@ -39,14 +35,11 @@ export const ProjectResponse = `
     }
     literal {
       id
-      literal
-      as_in
     }
   }
   literals {
     id
     literal
-    as_in
   }
 }
 `;
