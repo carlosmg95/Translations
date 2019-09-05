@@ -15,6 +15,7 @@ import {
   Project,
   Language,
 } from '../../types';
+import { changeQueryValues } from '../../utils/functions';
 import { ProjectResponse, TranslationResponse } from '../../types-res';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
@@ -27,19 +28,6 @@ interface TranslateProps {
   filter?: Filter;
   search?: string;
 }
-
-// Changes the values of the query in the URL
-const changeQueryValues = (
-  query: string,
-  key: string,
-  newValue: string | number,
-): string => {
-  let newQuery: string = query.replace(
-    new RegExp(`${key}=\\w*`),
-    `${key}=${newValue}`,
-  );
-  return newQuery;
-};
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const [errorState, setErrorState]: [
@@ -105,10 +93,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Set the current page
   const selectPage = (page: number): void => {
     const originalState: string = window.location.search;
-    let state: string = originalState
-      ? changeQueryValues(originalState, 'page', page)
-      : `?page=${page}`;
-    state = state.match(/page/) ? state : `${state}&page=${page}`;
+    let state: string = changeQueryValues(originalState, 'page', page);
     window.history.replaceState(this, '', state);
     setCurrentPageState(page);
   };
@@ -116,11 +101,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Set the search input
   const selectSearchInput = (text: string): void => {
     const originalState: string = window.location.search;
-    let state: string = originalState
-      ? changeQueryValues(originalState, 'pages', 1)
-      : `?page=1&search=${text}`;
+    let state: string = changeQueryValues(originalState, 'page', 1);
     state = changeQueryValues(state, 'search', text);
-    state = state.match(/search/) ? state : `${state}&search=${text}`;
     window.history.replaceState(this, '', state);
     selectPage(1);
     setSearchInputState(text);
@@ -130,11 +112,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const selectLiterals = (event: any) => {
     const { value } = event.target;
     const originalState: string = window.location.search;
-    let state: string = originalState
-      ? changeQueryValues(originalState, 'page', 1)
-      : `?page=1&filter=${value}`;
+    let state: string = changeQueryValues(originalState, 'page', 1);
     state = changeQueryValues(state, 'filter', value);
-    state = state.match(/filter/) ? state : `${state}&filter=${value}`;
     window.history.replaceState(this, '', state);
     selectPage(1);
     switch (value) {
