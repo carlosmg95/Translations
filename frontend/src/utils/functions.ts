@@ -1,14 +1,14 @@
 /**
  * Changes the values of the queries of the state in the URL.
- * @param {string} state. Complete current query.
  * @param {string} key. Query to change.
  * @param {string | number} newValue. New value to the query.
+ * @param {string} state. Complete current query.
  * @return {string} New complete query.
  */
 export const changeQueryValues = (
-  state: string,
   key: string,
   newValue: string | number,
+  state: string = window.location.search,
 ): string => {
   let newState: string;
   if (!state) {

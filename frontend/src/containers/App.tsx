@@ -89,7 +89,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
             const search: string =
               query.match(/search=(\w+)/) && query.match(/search=(\w+)/)[1];
             const update: boolean =
-              query.match(/search=(\d+)/) && !!+query.match(/search=(\d+)/)[1];
+              query.match(/update=(\d+)/) && !!+query.match(/update=(\d+)/)[1];
             return (
               <Suspense fallback={<div>Loading...</div>}>
                 <Translate

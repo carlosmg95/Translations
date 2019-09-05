@@ -93,17 +93,15 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
   // Set the current page
   const selectPage = (page: number): void => {
-    const originalState: string = window.location.search;
-    let state: string = changeQueryValues(originalState, 'page', page);
+    let state: string = changeQueryValues('page', page);
     window.history.replaceState(this, '', state);
     setCurrentPageState(page);
   };
 
   // Set the search input
   const selectSearchInput = (text: string): void => {
-    const originalState: string = window.location.search;
-    let state: string = changeQueryValues(originalState, 'page', 1);
-    state = changeQueryValues(state, 'search', text);
+    let state: string = changeQueryValues('page', 1);
+    state = changeQueryValues('search', text, state);
     window.history.replaceState(this, '', state);
     selectPage(1);
     setSearchInputState(text);
@@ -112,9 +110,8 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   // Show all, translated or no translated
   const selectLiterals = (event: any) => {
     const { value } = event.target;
-    const originalState: string = window.location.search;
-    let state: string = changeQueryValues(originalState, 'page', 1);
-    state = changeQueryValues(state, 'filter', value);
+    let state: string = changeQueryValues('page', 1);
+    state = changeQueryValues('filter', value, state);
     window.history.replaceState(this, '', state);
     selectPage(1);
     switch (value) {
@@ -176,6 +173,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           };
           setNewLiteralState(literalState);
           setIsThereNewLiteral(true);
+          changeQueryValues('update', 1)
           setErrorState(''); // Remove errors
         })
         .catch(e => {
@@ -226,7 +224,14 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           filter={filterState}
           searchValue={searchInputState}
           newLiteral={isThereNewLiteral}
-          newLiteralShow={() => setIsThereNewLiteral(false)}
+          newLiteralShow={() => {
+            setIsThereNewLiteral(false);
+            window.history.replaceState(
+              this,
+              '',
+              changeQueryValues('update', 0),
+            );
+          }}
         />
         <NewLiteralRow
           addNewLiteral={() => addNewLiteral(createTranslation)}
