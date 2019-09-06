@@ -2,5 +2,5 @@ node_modules/
 src/*.js
 src/*/*.js
 prisma/*.js
-prisma/generated/prisma-client/*
+prisma/generated/prisma-client/*.js
 .env
