@@ -1,15 +1,11 @@
 FROM node
 
-RUN npm install -g serve
-RUN git clone https://github.com/Bitbloq/Translations.git
+RUN git clone https://github.com/Bitbloq/Translations.git --branch develop
 
-WORKDIR Translations
-
-RUN git checkout develop
-
-WORKDIR frontend
+WORKDIR Translations/frontend
 
 RUN npm install
+RUN npm install -g serve
 RUN npm run build
 
 EXPOSE 5000
