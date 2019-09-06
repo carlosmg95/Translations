@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "prisma deploy && nodemon src/index.ts --exec 'tsc src/*.ts && babel-node src/index.js 2> /dev/null'",
-    "start:show-errors": "prisma deploy && nodemon src/index.ts --exec 'tsc src/*.ts && babel-node src/index.js'",
+    "start": "tsc src/*.ts && env-cmd -f ./config/prod.env babel-node src/index.js",
+    "start:dev": "prisma deploy -e ./config/dev.env && env-cmd -f ./config/dev.env nodemon src/index.ts --exec 'tsc src/*.ts && babel-node src/index.js 2> /dev/null'",
+    "start:show-errors": "prisma deploy -e ./config/dev.env && env-cmd -f ./config/dev.env nodemon src/index.ts --exec 'tsc src/*.ts && babel-node src/index.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,6 +17,7 @@
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
     "dotenv": "^8.1.0",
+    "env-cmd": "^10.0.1",
     "graphql-yoga": "^1.18.1",
     "prisma-binding": "^2.3.15",
     "shelljs": "^0.8.3",

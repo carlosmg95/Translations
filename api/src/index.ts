@@ -11,7 +11,7 @@ import log from './utils/log';
 
 const prisma = new Prisma({
   typeDefs: PrismaTypeDefs,
-  endpoint: 'http://localhost:4466',
+  endpoint: process.env.PRISMA_ENDPOINT,
 });
 
 const server: GraphQLServer = new GraphQLServer({
@@ -28,7 +28,7 @@ const server: GraphQLServer = new GraphQLServer({
   },
 });
 
-server.start(() => {
+server.start({ port: process.env.PORT || 4000 }, () => {
   const clear = require('clear');
   clear();
   log.greet('The server is up!');
