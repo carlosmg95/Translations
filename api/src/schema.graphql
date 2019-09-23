@@ -123,6 +123,7 @@ type Query {
   language(where: LanguageWhereUniqueInput!): Language
   languages(where: LanguageWhereInput): [Language]!
   literals(where: LiteralWhereInput, page: Int, filter: Int, search: String): [Literal]!
+  loggedUser: User
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput): [Project]!
   translations(where: TranslationWhereInput): [Translation]!
@@ -140,6 +141,7 @@ type Mutation {
   createUser(data: UserCreateInput!): User!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
   importLiterals(data: [I18nCreateInput!]!, overwrite: Boolean, project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
+  login(username: String!, password: String!): String!
   pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput): Boolean
   removeLanguageFromProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
   removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!

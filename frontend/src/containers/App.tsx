@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { User } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
@@ -29,70 +29,94 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         <Route
           exact
           path="/"
-          render={() => (
-            <Suspense fallback={<Loading />}>
-              <Login />
-            </Suspense>
-          )}
+          render={() =>
+            props.user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
+          }
         />
         <Route
           exact
           path="/login"
-          render={() => (
-            <Suspense fallback={<Loading />}>
-              <Login />
-            </Suspense>
-          )}
+          render={() =>
+            props.user ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Suspense fallback={<Loading />}>
+                <Login />
+              </Suspense>
+            )
+          }
         />
         <Route
           exact
           path="/signup"
-          render={() => (
-            <Suspense fallback={<Loading />}>
-              <Login signup={true} />
-            </Suspense>
-          )}
+          render={() =>
+            props.user ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Suspense fallback={<Loading />}>
+                <Login signup={true} />
+              </Suspense>
+            )
+          }
         />
         <Route
           exact
           path="/dashboard"
-          render={() => (
-            <Suspense fallback={<Loading />}>
-              <MainDashboard user={props.user} />
-            </Suspense>
-          )}
+          render={() =>
+            props.user ? (
+              <Suspense fallback={<Loading />}>
+                <MainDashboard user={props.user} />
+              </Suspense>
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
         />
         <Route
           exact
           path="/newproject"
-          render={() => {
-            return (
-              <Suspense fallback={<Loading />}>
-                <NewProject user={props.user} />
-              </Suspense>
-            );
-          }}
+          render={() =>
+            props.user ? (
+              props.user.admin ? (
+                <Suspense fallback={<Loading />}>
+                  <NewProject user={props.user} />
+                </Suspense>
+              ) : (
+                <Redirect to="/dashboard" />
+              )
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
         />
         <Route
           exact
           path="/admin"
-          render={() => {
-            return (
-              <Suspense fallback={<Loading />}>
-                <AdminDashboard user={props.user} />
-              </Suspense>
-            );
-          }}
+          render={() =>
+            props.user ? (
+              props.user.admin ? (
+                <Suspense fallback={<Loading />}>
+                  <AdminDashboard user={props.user} />
+                </Suspense>
+              ) : (
+                <Redirect to="/dashboard" />
+              )
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
         />
         <Route
           exact
           path="/project/:projectName"
           render={routeProps => {
             const { projectName } = routeProps.match.params;
-            return (
+            return props.user ? (
               <Suspense fallback={<Loading />}>
                 <ProjectDashboard user={props.user} projectName={projectName} />
               </Suspense>
+            ) : (
+              <Redirect to="/login" />
             );
           }}
         />
@@ -108,7 +132,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
               query.match(/filter=(\d+)/) && query.match(/filter=(\d+)/)[1];
             const search: string =
               query.match(/search=(\w+)/) && query.match(/search=(\w+)/)[1];
-            return (
+            return props.user ? (
               <Suspense fallback={<Loading />}>
                 <Translate
                   user={props.user}
@@ -119,6 +143,8 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                   search={search || ''}
                 />
               </Suspense>
+            ) : (
+              <Redirect to="/login" />
             );
           }}
         />

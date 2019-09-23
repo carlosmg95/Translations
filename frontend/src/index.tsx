@@ -15,14 +15,22 @@ import { UserResponse } from './types-res';
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
   cache: new InMemoryCache(),
+  request: (operation) => {
+    const token = window.localStorage.getItem('authToken')
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  }
 });
 
 client
   .query({
-    query: gql`{ user(where: { name: "admin" }) ${UserResponse} }`,
+    query: gql`{ loggedUser ${UserResponse} }`,
   })
   .then(response => {
-    let user: User = response.data.user;
+    let user: User = response.data.loggedUser;
 
     ReactDOM.render(
       <ApolloProvider client={client}>

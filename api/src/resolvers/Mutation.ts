@@ -1,6 +1,7 @@
 import * as simplegit from 'simple-git/promise';
 import * as shell from 'shelljs';
 import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 import log from '../utils/log';
 import {
   ProjectResponse,
@@ -229,10 +230,8 @@ const Mutation = {
       throwError("The passwords don't match.");
     else log.mutation('Mutation: createUser');
 
-    const hashPassword: string = await bcrypt.hash(
-      data.password,
-      process.env.salt || 10,
-    );
+    const salt: string = await bcrypt.genSalt(+process.env.SALT || 10);
+    const hashPassword: string = await bcrypt.hash(data.password, salt);
 
     return await prisma.mutation.createUser(
       {
@@ -299,6 +298,31 @@ const Mutation = {
       log.mutation('importLiterals');
       return true;
     });
+  },
+  async login(parent, { username, password }, { prisma, headers }, info) {
+    const user = await prisma.query.user(
+      { where: { name: username } },
+      '{ id password }',
+    );
+
+    if (!user) {
+      throwError('Incorrect username or password.');
+    }
+
+    const correctPassword: boolean = await bcrypt.compare(
+      password,
+      user.password,
+    );
+
+    if (!correctPassword) {
+      throwError('Incorrect username or password.');
+    }
+
+    log.mutation('Mutation: login');
+
+    const token: string = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
+
+    return token;
   },
   async pushTranslations(parent, { project, language }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({

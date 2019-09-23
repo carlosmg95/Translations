@@ -20,8 +20,11 @@ const server: GraphQLServer = new GraphQLServer({
     Query,
     Mutation,
   },
-  context: {
-    prisma,
+  context(req) {
+    return {
+      prisma,
+      headers: req.request.headers,
+    };
   },
   resolverValidationOptions: {
     requireResolversForResolveType: false,

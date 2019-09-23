@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import bcrypt from 'bcryptjs';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import PillButton from '../../components/PillButton/PillButton';
@@ -58,7 +57,14 @@ const Login: React.FC<Login> = (props: Login) => {
     }
   `;
 
+  const Login = gql`
+    mutation login($username: String!, $password: String!) {
+      login(username: $username, password: $password)
+    }
+  `;
+
   const [createUserMutation] = useMutation(CREATE_USER);
+  const [loginMutation] = useMutation(Login);
 
   const passwordError = (): boolean => {
     if (passwordState === repeatedPasswordState) {
@@ -102,24 +108,41 @@ const Login: React.FC<Login> = (props: Login) => {
       return;
     }
 
-    const hashPassword: string = await bcrypt.hash(
-      passwordState,
-      process.env.salt || 10,
-    );
-
     createUserMutation({
       variables: {
         name: usernameState,
-        password: hashPassword,
-        repeatedPassword: hashPassword,
+        password: passwordState,
+        repeatedPassword: passwordState,
       },
     })
       .then(result => {
-        window.location.href = '/dashboard';
+        login();
       })
       .catch(e => {
         const errorMessage: string = e.message.replace(/^.+:\s(.+)$/, '$1');
         setUsernameErrorState(errorMessage);
+      });
+  };
+
+  const login = async () => {
+    if (usernameError() || passwordError()) {
+      return;
+    }
+
+    loginMutation({
+      variables: {
+        username: usernameState,
+        password: passwordState,
+      },
+    })
+      .then(result => {
+        const token: string = result.data.login;
+        window.localStorage.setItem('authToken', token);
+        window.location.href = '/dashboard';
+      })
+      .catch(e => {
+        const errorMessage: string = e.message.replace(/^.+:\s(.+)$/, '$1');
+        setPasswordErrorState(errorMessage);
       });
   };
 
@@ -221,9 +244,7 @@ const Login: React.FC<Login> = (props: Login) => {
                   <PillButton
                     className="btn login-btn"
                     text="Sign in"
-                    onClick={() => {
-                      window.location.href = '/dashboard';
-                    }}
+                    onClick={login}
                   />
                 </div>
               </>
