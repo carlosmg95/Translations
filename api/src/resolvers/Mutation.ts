@@ -1,5 +1,6 @@
 import * as simplegit from 'simple-git/promise';
 import * as shell from 'shelljs';
+import * as bcrypt from 'bcryptjs';
 import log from '../utils/log';
 import {
   ProjectResponse,
@@ -212,6 +213,29 @@ const Mutation = {
     return await prisma.mutation.createProject(
       { data: newProject },
       ProjectResponse,
+    );
+  },
+  async createUser(parent, { data }, { prisma }, info) {
+    const userExists: boolean = await prisma.exists.User({
+      name: data.name,
+    });
+
+    if (userExists) throwError('The name cannot be repeated.');
+    else if (!data.name) throwError('The name cannot be empty.');
+    else if (!data.password) throwError('The password cannot be empty.');
+    else log.mutation('Mutation: createUser');
+
+    const hashPassword: string = await bcrypt.hash(data.password, process.env.salt || 10);
+    console.log(hashPassword)
+
+    return await prisma.mutation.createUser(
+      {
+        data: {
+          name: data.name,
+          password: hashPassword
+        },
+      },
+      UserResponse,
     );
   },
   async createLiteralTranslation(parent, { data }, { prisma }, info) {

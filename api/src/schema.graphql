@@ -92,6 +92,12 @@ input ProjectCreateInput {
   literals: [LiteralWhereUniqueInput!]
 }
 
+input UserCreateInput {
+  id: ID
+  name: String!
+  password: String!
+}
+
 input TranslationCreateInput {
   id: ID
   language: LanguageWhereUniqueInput!
@@ -130,6 +136,7 @@ type Mutation {
   addLanguageToUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   createProject(data: ProjectCreateInput!): Project!
+  createUser(data: UserCreateInput!): User!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
   importLiterals(data: [I18nCreateInput!]!, overwrite: Boolean, project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
   pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput): Boolean
@@ -188,6 +195,7 @@ type Translation {
 type User {
   id: ID!
   name: String!
+  password: String!
   admin: Boolean!
   projects: [Project!]!
   languages: [Language!]!
