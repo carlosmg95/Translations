@@ -26,6 +26,10 @@ export const ProjectResponse = `
     code
     name
   }
+  users {
+    id
+    name
+  }
   translations {
     id
     translation
