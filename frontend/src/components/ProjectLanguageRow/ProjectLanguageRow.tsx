@@ -7,7 +7,6 @@ import Loading from '../Loading/Loading';
 import LanguageFlag from '../LanguageFlag/LanguageFlag';
 import { Language, Project, User } from '../../types';
 import { LiteralResponse } from '../../types-res';
-import { changeQueryValues } from '../../utils/functions';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -16,8 +15,6 @@ interface ProjectLanguageRowProps {
   project: Project;
   language: Language;
   allowed: boolean;
-  updateInfo: boolean;
-  literalsImported(): void;
   pushFunction(pushResult: Promise<any>): void;
 }
 
@@ -110,7 +107,9 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 
   const [push] = useMutation(PUSH_TRANSLATIONS);
   const [addLiterals] = useMutation(IMPORT_NEW_LITERALS);
-  const { data, error, loading, refetch } = useQuery(GET_DATA);
+  const { data, error, loading, refetch } = useQuery(GET_DATA, {
+    fetchPolicy: 'network-only',
+  });
 
   if (loading || error) {
     return <Loading errorMessage={error && error.message} errorCode={500} />;
@@ -129,12 +128,6 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 
   if (totalLiteralsState === -1) {
     setInfoValues(data);
-  }
-
-  if (props.updateInfo) {
-    refetch().then(result => {
-      setInfoValues(result.data);
-    });
   }
 
   return (
@@ -169,16 +162,10 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
                 project: { name: props.project.name },
               },
             }).then(() => {
-              props.literalsImported();
               refetch().then(result => {
                 setInfoValues(result.data);
               });
             });
-            window.history.replaceState(
-              this,
-              '',
-              changeQueryValues('update', 1),
-            );
             setUploadFileState(false);
           }}
           cancelFunction={() => {

@@ -27,9 +27,6 @@ interface TranslateProps {
   page?: number;
   filter?: Filter;
   search?: string;
-  update?: boolean;
-  dataUpdated(): void;
-  updateData(): void;
 }
 
 const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
@@ -73,7 +70,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
     // True when there is a new literal but it isn't on the display and false when it has been displayed
     boolean,
     Dispatch<SetStateAction<boolean>>,
-  ] = useState(props.update || false);
+  ] = useState(false);
 
   const ADD_NEW_LITERAL = gql`
     mutation CreateTranslation($translation: TranslationCreateInput!) {
@@ -177,8 +174,6 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           };
           setNewLiteralState(literalState);
           setIsThereNewLiteral(true);
-          props.updateData();
-          changeQueryValues('update', 1);
           setErrorState(''); // Remove errors
         })
         .catch(e => {
@@ -229,16 +224,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           filter={filterState}
           searchValue={searchInputState}
           newLiteral={isThereNewLiteral}
-          newLiteralShow={() => {
-            setIsThereNewLiteral(false);
-            props.dataUpdated();
-            window.history.replaceState(
-              this,
-              '',
-              removeQueryValue('update') || changeQueryValues('update', 0),
-            );
-          }}
-          updateData={props.updateData}
+          literalAdded={() => setIsThereNewLiteral(false)}
         />
         {props.user.admin ? (
           <NewLiteralRow

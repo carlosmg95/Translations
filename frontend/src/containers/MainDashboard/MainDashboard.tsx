@@ -9,8 +9,6 @@ import { gql } from 'apollo-boost';
 
 interface DashboardProps {
   user: User;
-  update: boolean;
-  dataUpdated(): void;
 }
 
 const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
@@ -18,20 +16,15 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
     projects(where: { users_some: { name: "${props.user.name}" } }) ${ProjectResponse}
   }`;
 
-  const { loading, error, data, refetch } = useQuery(GET_PROJECTS);
+  const { loading, error, data } = useQuery(GET_PROJECTS, {
+    fetchPolicy: 'network-only',
+  });
 
   if (loading || error) {
     return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
   let projects: Project[] = data.projects;
-
-  if (props.update) {
-    refetch().then(result => {
-      projects = result.data.projects;
-      props.dataUpdated();
-    });
-  }
 
   return (
     <div className="MainDashboard">

@@ -19,11 +19,10 @@ interface TranslationsProps {
   filter: Filter;
   searchValue: string;
   newLiteral: boolean;
-  newLiteralShow(): void;
+  literalAdded(): void;
   selectLiterals(event: any): void;
   selectPage(page: number): void;
   selectSearch(text: string): void;
-  updateData(): void;
 }
 
 const Translations: React.FC<TranslationsProps> = (
@@ -89,6 +88,7 @@ const Translations: React.FC<TranslationsProps> = (
       filter: props.filter,
       search: props.searchValue,
     },
+    fetchPolicy: 'network-only',
   });
 
   if (loading || error) {
@@ -177,7 +177,6 @@ const Translations: React.FC<TranslationsProps> = (
       translationText && // If there is text
       translationText !== originalTranslationText // and the text is different to the saved data
     ) {
-      props.updateData();
       upsert({
         variables: {
           where: {
@@ -213,9 +212,9 @@ const Translations: React.FC<TranslationsProps> = (
   };
 
   if (props.newLiteral) {
-    props.newLiteralShow();
+    props.literalAdded();
     refetch().then(result => {
-      if (loading || !result.data) return;
+      if (!result.data) return;
       const { literals, translations } = result.data;
       const lt: LiteralTranslation[] = createLiteralTranslations(
         literals,
@@ -263,7 +262,7 @@ const Translations: React.FC<TranslationsProps> = (
               filter: +event.target.value,
               search: props.searchValue,
             }).then(result => {
-              if (loading || !result.data) return;
+              if (!result.data) return;
               const { literals, translations } = result.data;
               const lt: LiteralTranslation[] = createLiteralTranslations(
                 literals,
