@@ -4,7 +4,9 @@ import './App.css';
 import { User } from '../types';
 import MainHeader from '../components/MainHeader/MainHeader';
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
+import Loading from '../components/Loading/Loading';
 
+const Login = React.lazy(() => import('./Login/Login'));
 const NewProject = React.lazy(() => import('./NewProject/NewProject'));
 const MainDashboard = React.lazy(() => import('./MainDashboard/MainDashboard'));
 const ProjectDashboard = React.lazy(() =>
@@ -28,8 +30,26 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           exact
           path="/"
           render={() => (
-            <Suspense fallback={<div>Loading...</div>}>
-              <MainDashboard user={props.user} />
+            <Suspense fallback={<Loading />}>
+              <Login />
+            </Suspense>
+          )}
+        />
+        <Route
+          exact
+          path="/login"
+          render={() => (
+            <Suspense fallback={<Loading />}>
+              <Login />
+            </Suspense>
+          )}
+        />
+        <Route
+          exact
+          path="/signup"
+          render={() => (
+            <Suspense fallback={<Loading />}>
+              <Login signup={true} />
             </Suspense>
           )}
         />
@@ -37,7 +57,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           exact
           path="/dashboard"
           render={() => (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading />}>
               <MainDashboard user={props.user} />
             </Suspense>
           )}
@@ -47,7 +67,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/newproject"
           render={() => {
             return (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <NewProject user={props.user} />
               </Suspense>
             );
@@ -58,7 +78,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           path="/admin"
           render={() => {
             return (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <AdminDashboard user={props.user} />
               </Suspense>
             );
@@ -70,7 +90,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
           render={routeProps => {
             const { projectName } = routeProps.match.params;
             return (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <ProjectDashboard user={props.user} projectName={projectName} />
               </Suspense>
             );
@@ -89,7 +109,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
             const search: string =
               query.match(/search=(\w+)/) && query.match(/search=(\w+)/)[1];
             return (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <Translate
                   user={props.user}
                   languageIso={languageIso}

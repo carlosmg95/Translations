@@ -223,16 +223,22 @@ const Mutation = {
     if (userExists) throwError('The name cannot be repeated.');
     else if (!data.name) throwError('The name cannot be empty.');
     else if (!data.password) throwError('The password cannot be empty.');
+    else if (!data.repeatedPassword)
+      throwError('The second password cannot be empty.');
+    else if (data.password !== data.repeatedPassword)
+      throwError("The passwords don't match.");
     else log.mutation('Mutation: createUser');
 
-    const hashPassword: string = await bcrypt.hash(data.password, process.env.salt || 10);
-    console.log(hashPassword)
+    const hashPassword: string = await bcrypt.hash(
+      data.password,
+      process.env.salt || 10,
+    );
 
     return await prisma.mutation.createUser(
       {
         data: {
           name: data.name,
-          password: hashPassword
+          password: hashPassword,
         },
       },
       UserResponse,

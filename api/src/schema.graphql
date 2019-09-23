@@ -96,6 +96,7 @@ input UserCreateInput {
   id: ID
   name: String!
   password: String!
+  repeatedPassword: String!
 }
 
 input TranslationCreateInput {
