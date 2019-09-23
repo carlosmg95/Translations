@@ -240,14 +240,18 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           }}
           updateData={props.updateData}
         />
-        <NewLiteralRow
-          addNewLiteral={() => addNewLiteral(createTranslation)}
-          changeLiteral={changeLiteral}
-          errorMessage={errorState}
-          literal={newLiteralState.literal}
-          translation={newLiteralState.translation}
-          as_in={newLiteralState.as_in}
-        />
+        {props.user.admin ? (
+          <NewLiteralRow
+            addNewLiteral={() => addNewLiteral(createTranslation)}
+            changeLiteral={changeLiteral}
+            errorMessage={errorState}
+            literal={newLiteralState.literal}
+            translation={newLiteralState.translation}
+            as_in={newLiteralState.as_in}
+          />
+        ) : (
+          <></>
+        )}
       </DashboardBody>
     </Dashboard>
   );
