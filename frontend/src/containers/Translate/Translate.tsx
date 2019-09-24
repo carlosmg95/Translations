@@ -225,6 +225,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
           searchValue={searchInputState}
           newLiteral={isThereNewLiteral}
           literalAdded={() => setIsThereNewLiteral(false)}
+          user={props.user}
         />
         {props.user.admin ? (
           <NewLiteralRow

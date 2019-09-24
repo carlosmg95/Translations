@@ -1,5 +1,6 @@
 import React from 'react';
 import './TranslationRow.css';
+import { User } from '../../../types';
 
 interface TranslationRowProps {
   translationId: string;
@@ -7,8 +8,15 @@ interface TranslationRowProps {
   literal: string;
   as_in: string;
   translation: string | undefined;
-  change(event: any, translationId: string): void;
-  blur(translationId: string, literalId: string, translationText: string): void;
+  user: User;
+  changeTranslation(event: any, translationId: string): void;
+  changeAsIn(event: any, translationId: string): void;
+  saveTranslation(
+    translationId: string,
+    literalId: string,
+    translationText: string,
+  ): void;
+  saveLiterals(literalId: string, as_in: string): void;
 }
 
 const translationRow: React.FC<TranslationRowProps> = (
@@ -17,15 +25,34 @@ const translationRow: React.FC<TranslationRowProps> = (
   return (
     <div className="translation-row">
       <p className="translation-row__item literal">{props.literal}</p>
-      <p className="translation-row__item as-in">{props.as_in}</p>
+      <p className="translation-row__item as-in">
+        {props.user.admin ? (
+          <textarea
+            className="translation-input"
+            onBlur={() => {
+              props.saveLiterals(props.literalId, props.as_in);
+            }}
+            onChange={event => {
+              props.changeAsIn(event, props.literalId);
+            }}
+            value={props.as_in}
+          />
+        ) : (
+          props.as_in
+        )}
+      </p>
       <p className="translation-row__item translation-text">
         <textarea
           className="translation-input"
           onBlur={() => {
-            props.blur(props.translationId, props.literalId, props.translation);
+            props.saveTranslation(
+              props.translationId,
+              props.literalId,
+              props.translation,
+            );
           }}
           onChange={event => {
-            props.change(event, props.literalId);
+            props.changeTranslation(event, props.literalId);
           }}
           value={props.translation}
         />
