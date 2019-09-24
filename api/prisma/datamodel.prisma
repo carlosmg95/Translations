@@ -1,6 +1,7 @@
 type User {
   id: ID! @id
   name: String! @unique
+  password: String!
   admin: Boolean! @default(value: false)
   projects: [Project!]! @relation(name: "ProjectToUser", onDelete: SET_NULL)
   languages: [Language!]! @relation(name: "LanguageToUser", onDelete: SET_NULL)

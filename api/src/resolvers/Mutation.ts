@@ -1,5 +1,7 @@
 import * as simplegit from 'simple-git/promise';
 import * as shell from 'shelljs';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 import log from '../utils/log';
 import {
   ProjectResponse,
@@ -214,6 +216,33 @@ const Mutation = {
       ProjectResponse,
     );
   },
+  async createUser(parent, { data }, { prisma }, info) {
+    const userExists: boolean = await prisma.exists.User({
+      name: data.name,
+    });
+
+    if (userExists) throwError('The name cannot be repeated.');
+    else if (!data.name) throwError('The name cannot be empty.');
+    else if (!data.password) throwError('The password cannot be empty.');
+    else if (!data.repeatedPassword)
+      throwError('The second password cannot be empty.');
+    else if (data.password !== data.repeatedPassword)
+      throwError("The passwords don't match.");
+    else log.mutation('Mutation: createUser');
+
+    const salt: string = await bcrypt.genSalt(+process.env.SALT || 10);
+    const hashPassword: string = await bcrypt.hash(data.password, salt);
+
+    return await prisma.mutation.createUser(
+      {
+        data: {
+          name: data.name,
+          password: hashPassword,
+        },
+      },
+      UserResponse,
+    );
+  },
   async createLiteralTranslation(parent, { data }, { prisma }, info) {
     const literal: string = data.literal.literal;
     const projectName: string = data.project.name;
@@ -269,6 +298,31 @@ const Mutation = {
       log.mutation('importLiterals');
       return true;
     });
+  },
+  async login(parent, { username, password }, { prisma, headers }, info) {
+    const user = await prisma.query.user(
+      { where: { name: username } },
+      '{ id password }',
+    );
+
+    if (!user) {
+      throwError('Incorrect username or password.');
+    }
+
+    const correctPassword: boolean = await bcrypt.compare(
+      password,
+      user.password,
+    );
+
+    if (!correctPassword) {
+      throwError('Incorrect username or password.');
+    }
+
+    log.mutation('Mutation: login');
+
+    const token: string = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
+
+    return token;
   },
   async pushTranslations(parent, { project, language }, { prisma }, info) {
     const projectExists: boolean = await prisma.exists.Project({

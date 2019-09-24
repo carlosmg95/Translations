@@ -92,6 +92,13 @@ input ProjectCreateInput {
   literals: [LiteralWhereUniqueInput!]
 }
 
+input UserCreateInput {
+  id: ID
+  name: String!
+  password: String!
+  repeatedPassword: String!
+}
+
 input TranslationCreateInput {
   id: ID
   language: LanguageWhereUniqueInput!
@@ -116,6 +123,7 @@ type Query {
   language(where: LanguageWhereUniqueInput!): Language
   languages(where: LanguageWhereInput): [Language]!
   literals(where: LiteralWhereInput, page: Int, filter: Int, search: String): [Literal]!
+  loggedUser: User
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput): [Project]!
   translations(where: TranslationWhereInput): [Translation]!
@@ -130,8 +138,10 @@ type Mutation {
   addLanguageToUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   createProject(data: ProjectCreateInput!): Project!
+  createUser(data: UserCreateInput!): User!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
   importLiterals(data: [I18nCreateInput!]!, overwrite: Boolean, project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
+  login(username: String!, password: String!): String!
   pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput): Boolean
   removeLanguageFromProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
   removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
@@ -188,6 +198,7 @@ type Translation {
 type User {
   id: ID!
   name: String!
+  password: String!
   admin: Boolean!
   projects: [Project!]!
   languages: [Language!]!
