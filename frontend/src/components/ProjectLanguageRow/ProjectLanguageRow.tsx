@@ -16,6 +16,8 @@ interface ProjectLanguageRowProps {
   language: Language;
   allowed: boolean;
   pushFunction(pushResult: Promise<any>): void;
+  updateAllLanguages(): void;
+  update: boolean;
 }
 
 const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
@@ -38,24 +40,6 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
     boolean,
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
-
-  const [totalLiteralsState, setTotalLiteralsState]: [
-    // Number literals
-    number,
-    Dispatch<SetStateAction<number>>,
-  ] = useState(-1);
-
-  const [translatedLiteralsState, setTranslatedLiteralsState]: [
-    // Number of translated literals
-    number,
-    Dispatch<SetStateAction<number>>,
-  ] = useState(-1);
-
-  const [porcentajeState, setPorcentajeState]: [
-    // Porcentaje of translated literals
-    number,
-    Dispatch<SetStateAction<number>>,
-  ] = useState(-1);
 
   const PUSH_TRANSLATIONS = gql`
     mutation PushTranslations(
@@ -105,6 +89,17 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
     }
   `;
 
+  let totalLiterals: number;
+  let translatedLiterals: number;
+  let porcentaje: number;
+
+  const setInfoValues = (data): void => {
+    totalLiterals = data.all.length;
+    translatedLiterals = data.translated.length;
+    porcentaje =
+      totalLiterals && Math.round((translatedLiterals / totalLiterals) * 100);
+  };
+
   const [push] = useMutation(PUSH_TRANSLATIONS);
   const [addLiterals] = useMutation(IMPORT_NEW_LITERALS);
   const { data, error, loading, refetch } = useQuery(GET_DATA, {
@@ -115,20 +110,9 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
     return <Loading errorMessage={error && error.message} errorCode={500} />;
   }
 
-  const setInfoValues = (data): void => {
-    const totalLiterals: number = data.all.length;
-    const translatedLiterals: number = data.translated.length;
-    const porcentaje: number =
-      totalLiterals && Math.round((translatedLiterals / totalLiterals) * 100);
+  if (props.update) refetch();
 
-    setTotalLiteralsState(totalLiterals);
-    setTranslatedLiteralsState(translatedLiterals);
-    setPorcentajeState(porcentaje);
-  };
-
-  if (totalLiteralsState === -1) {
-    setInfoValues(data);
-  }
+  setInfoValues(data);
 
   return (
     <>
@@ -162,9 +146,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
                 project: { name: props.project.name },
               },
             }).then(() => {
-              refetch().then(result => {
-                setInfoValues(result.data);
-              });
+              props.updateAllLanguages();
             });
             setUploadFileState(false);
           }}
@@ -213,17 +195,17 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
           />
         </div>
         <div className="info">
-          {porcentajeState !== 100
-            ? `${translatedLiteralsState} of ${totalLiteralsState}`
+          {porcentaje !== 100
+            ? `${translatedLiterals} of ${totalLiterals}`
             : ''}
           <span
             className={
               'porcentaje' +
-              (porcentajeState >= 50 ? ' half' : '') +
-              (porcentajeState === 100 ? ' complete' : '')
+              (porcentaje >= 50 ? ' half' : '') +
+              (porcentaje === 100 ? ' complete' : '')
             }
           >
-            {porcentajeState}%
+            {porcentaje}%
           </span>
         </div>
         {props.user.admin ? (
