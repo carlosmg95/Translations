@@ -4,3 +4,4 @@ src/*/*.js
 prisma/*.js
 prisma/generated/prisma-client/*.js
 .env
+config/prod.env

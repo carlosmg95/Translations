@@ -1,8 +1,8 @@
 FROM node
 
-RUN git clone https://github.com/Bitbloq/Translations.git --branch develop
+COPY . ./translations-frontend
 
-WORKDIR Translations/frontend
+WORKDIR translations-frontend
 
 RUN npm install
 RUN npm install -g serve
