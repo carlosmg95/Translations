@@ -3,7 +3,9 @@ Bitbloq Translations
 
 ## How to use
 
-### Start
+### Terminal
+
+#### Start
 
 _*It has been tested in Ubuntu 19.04_
 
@@ -15,7 +17,7 @@ _*It has been tested in Ubuntu 19.04_
 
 4. If the page didn't appear, you would open the browser and enter in `localhost:3000`.
 
-### Database
+#### Database
 
 There are some ways:
 
@@ -24,3 +26,8 @@ There are some ways:
   - Use a MySQL workbench.
 
 _*The last two won't work if you have commented ports lines._
+
+### Docker
+
+1. Run `docker-compose up -d`.
+2. Open the browser and enter in `localhost:5000`.
