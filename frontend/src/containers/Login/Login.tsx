@@ -1,15 +1,9 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Link } from 'react-router-dom';
 import './Login.css';
 import PillButton from '../../components/PillButton/PillButton';
-import Loading from '../../components/Loading/Loading';
-import Dashboard, {
-  DashboardBody,
-  DashboardHeader,
-} from '../../components/Dashboard/Dashboard';
-import { User, Language } from '../../types';
+import Dashboard, { DashboardBody } from '../../components/Dashboard/Dashboard';
 import { UserResponse } from '../../types-res';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 interface Login {
@@ -169,86 +163,90 @@ const Login: React.FC<Login> = (props: Login) => {
       <DashboardBody>
         <div className="Login">
           <div className="block">
-            {props.signup ? (
-              <>
-                <h1>Sign up</h1>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    value={usernameState}
-                    onChange={event => setUsernameState(event.target.value)}
-                  />
-                  <small className="error-message-sm">
-                    {usernameErrorState}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={passwordState}
-                    onChange={event => setPasswordState(event.target.value)}
-                  />
-                  <small className="error-message-sm">
-                    {passwordErrorState}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    placeholder="Repeate password"
-                    value={repeatedPasswordState}
-                    onChange={event =>
-                      setRepeatedPasswordState(event.target.value)
-                    }
-                  />
-                  <small className="error-message-sm">
-                    {repeatedPasswordErrorState}
-                  </small>
-                </div>
-                <div className="buttons">
-                  <PillButton
-                    className="btn new-user-btn"
-                    text="Create new user"
-                    onClick={createUser}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <h1>Sign in</h1>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    value={usernameState}
-                    onChange={event => setUsernameState(event.target.value)}
-                  />
-                  <small className="error-message-sm">
-                    {usernameErrorState}
-                  </small>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={passwordState}
-                    onChange={event => setPasswordState(event.target.value)}
-                  />
-                  <small className="error-message-sm">
-                    {passwordErrorState}
-                  </small>
-                </div>
-                <div className="buttons">
-                  <PillButton
-                    className="btn login-btn"
-                    text="Sign in"
-                    onClick={login}
-                  />
-                </div>
-              </>
-            )}
+            <form onSubmit={event => event.preventDefault()}>
+              {props.signup ? (
+                <>
+                  <h1>Sign up</h1>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="Username"
+                      value={usernameState}
+                      onChange={event => setUsernameState(event.target.value)}
+                    />
+                    <small className="error-message-sm">
+                      {usernameErrorState}
+                    </small>
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      value={passwordState}
+                      onChange={event => setPasswordState(event.target.value)}
+                    />
+                    <small className="error-message-sm">
+                      {passwordErrorState}
+                    </small>
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="password"
+                      placeholder="Repeate password"
+                      value={repeatedPasswordState}
+                      onChange={event =>
+                        setRepeatedPasswordState(event.target.value)
+                      }
+                    />
+                    <small className="error-message-sm">
+                      {repeatedPasswordErrorState}
+                    </small>
+                  </div>
+                  <div className="buttons">
+                    <PillButton
+                      type="submit"
+                      className="btn new-user-btn"
+                      text="Create new user"
+                      onClick={createUser}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h1>Sign in</h1>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="Username"
+                      value={usernameState}
+                      onChange={event => setUsernameState(event.target.value)}
+                    />
+                    <small className="error-message-sm">
+                      {usernameErrorState}
+                    </small>
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      value={passwordState}
+                      onChange={event => setPasswordState(event.target.value)}
+                    />
+                    <small className="error-message-sm">
+                      {passwordErrorState}
+                    </small>
+                  </div>
+                  <div className="buttons">
+                    <PillButton
+                      type="submit"
+                      className="btn login-btn"
+                      text="Sign in"
+                      onClick={login}
+                    />
+                  </div>
+                </>
+              )}
+            </form>
           </div>
         </div>
       </DashboardBody>
