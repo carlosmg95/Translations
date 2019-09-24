@@ -109,6 +109,11 @@ input TranslationCreateInput {
 
 ## UPDATE
 
+input LiteralUpdateInput {
+  as_in: String
+  literal: String
+}
+
 input TranslationUpdateInput {
   translation: String
 }
@@ -147,6 +152,7 @@ type Mutation {
   removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!
+  updateLiteral(where: LiteralWhereUniqueInput!, data: LiteralUpdateInput!): Literal!
 }
 
 ## OBJECTS
