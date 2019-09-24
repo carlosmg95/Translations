@@ -3,6 +3,7 @@ import * as shell from 'shelljs';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import log from '../utils/log';
+import { userIsAdmin, userIsAllowed } from '../utils/getUserData';
 import {
   ProjectResponse,
   TranslationResponse,
@@ -22,7 +23,8 @@ const addLiteral = (
   overwrite: boolean,
   projectName: string,
   languageId: string,
-  prisma,
+  prisma: any,
+  headers: any
 ) => {
   return new Promise(async (resolve, reject) => {
     const [literalObj] = await prisma.query.literals({
@@ -46,7 +48,7 @@ const addLiteral = (
             },
           },
         },
-        { prisma },
+        { prisma, headers },
         undefined,
       );
     } else if (literalObj && overwrite) {
@@ -100,7 +102,7 @@ const createLangJSON = (project, languageIso): i18n => {
 };
 
 const Mutation = {
-  async addLanguageToProject(parent, { project, language }, { prisma }, info) {
+  async addLanguageToProject(parent, { project, language }, { prisma, headers }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
@@ -108,7 +110,7 @@ const Mutation = {
       id: language.id,
     });
 
-    if (!projectExists || !languageExists)
+    if (!projectExists || !languageExists || !userIsAdmin(headers))
       throwError('The language cannot be added to the project.');
     else log.mutation('Mutation: addLanguageToProject');
 
@@ -126,7 +128,7 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async addLanguageToUser(parent, { user, language }, { prisma }, info) {
+  async addLanguageToUser(parent, { user, language }, { prisma, headers }, info) {
     const userExists: boolean = await prisma.exists.User({
       name: user.name,
     });
@@ -134,7 +136,7 @@ const Mutation = {
       id: language.id,
     });
 
-    if (!userExists || !languageExists)
+    if (!userExists || !languageExists || !userIsAdmin(headers))
       throwError('The language cannot be added to the user.');
     else log.mutation('Mutation: addLanguageToUser');
 
@@ -152,7 +154,7 @@ const Mutation = {
       UserResponse,
     );
   },
-  async addUserToProject(parent, { project, user }, { prisma }, info) {
+  async addUserToProject(parent, { project, user }, { prisma, headers }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
@@ -160,7 +162,7 @@ const Mutation = {
       id: user.id,
     });
 
-    if (!projectExists || !userExists)
+    if (!projectExists || !userExists || !userIsAdmin(headers))
       throwError('The user cannot be added to the project.');
     else log.mutation('Mutation: addUserToProject');
 
@@ -191,7 +193,11 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async createProject(parent, { data }, { prisma }, info) {
+  async createProject(parent, { data }, { prisma, headers }, info) {
+    if (!userIsAdmin(headers)) {
+      throwError('You have to be an admin user.');
+    }
+
     const projectExists: boolean = await prisma.exists.Project({
       name: data.name,
     });
@@ -243,7 +249,11 @@ const Mutation = {
       UserResponse,
     );
   },
-  async createLiteralTranslation(parent, { data }, { prisma }, info) {
+  async createLiteralTranslation(parent, { data }, { prisma, headers }, info) {
+    if (!userIsAdmin(headers)) {
+      throwError('You have to be an admin user.');
+    }
+
     const literal: string = data.literal.literal;
     const projectName: string = data.project.name;
     const existsLiteral: boolean = await prisma.exists.Literal({
@@ -280,9 +290,13 @@ const Mutation = {
   async importLiterals(
     parent,
     { data, overwrite, project, language },
-    { prisma },
+    { prisma, headers },
     info,
   ) {
+    if (!userIsAdmin(headers)) {
+      throwError('You have to be an admin user.');
+    }
+
     return Promise.all(
       data.map(item =>
         addLiteral(
@@ -292,6 +306,7 @@ const Mutation = {
           project.name,
           language.id,
           prisma,
+          headers
         ),
       ),
     ).then(() => {
@@ -302,7 +317,7 @@ const Mutation = {
   async login(parent, { username, password }, { prisma, headers }, info) {
     const user = await prisma.query.user(
       { where: { name: username } },
-      '{ id password }',
+      '{ admin id password }',
     );
 
     if (!user) {
@@ -320,11 +335,18 @@ const Mutation = {
 
     log.mutation('Mutation: login');
 
-    const token: string = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
+    const token: string = jwt.sign(
+      { id: user.id, admin: user.admin },
+      process.env.TOKEN_SECRET,
+    );
 
     return token;
   },
-  async pushTranslations(parent, { project, language }, { prisma }, info) {
+  async pushTranslations(parent, { project, language }, { prisma, headers }, info) {
+    if (!userIsAdmin(headers)) {
+      throwError('You have to be an admin user.');
+    }
+
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
@@ -380,7 +402,7 @@ const Mutation = {
   async removeLanguageFromProject(
     parent,
     { project, language },
-    { prisma },
+    { prisma, headers },
     info,
   ) {
     const projectExists: boolean = await prisma.exists.Project({
@@ -390,8 +412,8 @@ const Mutation = {
       id: language.id,
     });
 
-    if (!projectExists || !languageExists)
-      throwError('The language cannot be removeed from the project.');
+    if (!projectExists || !languageExists || !userIsAdmin(headers))
+      throwError('The language cannot be removed from the project.');
     else log.mutation('Mutation: removeLanguageFromProject');
 
     prisma.mutation.deleteManyTranslations({
@@ -419,7 +441,7 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async removeLanguageFromUser(parent, { user, language }, { prisma }, info) {
+  async removeLanguageFromUser(parent, { user, language }, { prisma, headers }, info) {
     const userExists: boolean = await prisma.exists.User({
       name: user.name,
     });
@@ -427,7 +449,7 @@ const Mutation = {
       id: language.id,
     });
 
-    if (!userExists || !languageExists)
+    if (!userExists || !languageExists || !userIsAdmin(headers))
       throwError('The language cannot be removeed from the user.');
     else log.mutation('Mutation: removeLanguageFromUser');
 
@@ -445,7 +467,7 @@ const Mutation = {
       UserResponse,
     );
   },
-  async removeUserFromProject(parent, { project, user }, { prisma }, info) {
+  async removeUserFromProject(parent, { project, user }, { prisma, headers }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
@@ -453,7 +475,7 @@ const Mutation = {
       id: user.id,
     });
 
-    if (!projectExists || !userExists)
+    if (!projectExists || !userExists || !userIsAdmin(headers))
       throwError('The user cannot be removeed from the project.');
     else log.mutation('Mutation: removeUserFromProject');
 
@@ -484,13 +506,20 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async upsertTranslation(parent, { where, create, update }, { prisma }, info) {
-    const translationExists: boolean = await prisma.exists.Translation(where);
-    if (!translationExists) {
-      const languageId: string = create.language.id;
-      const literalId: string = create.literal.id;
-      const projectName: string = create.project.name;
+  async upsertTranslation(parent, { where, create, update }, { prisma, headers }, info) {
+    const languageId: string = create.language.id;
+    const literalId: string = create.literal.id;
+    const projectName: string = create.project.name;
 
+    const projectAllowed: boolean = await userIsAllowed(prisma, headers, 'projects', 'name', projectName);
+    const languagesAllowed: boolean = await userIsAllowed(prisma, headers, 'languages', 'id', languageId);
+    const translationExists: boolean = await prisma.exists.Translation(where);
+
+    if (!projectAllowed || !languagesAllowed) {
+      throwError("You don't have permissions.");
+    }
+
+    if (!translationExists) {
       const languageExists: boolean = await prisma.exists.Language({
         id: languageId,
       });
@@ -527,7 +556,11 @@ const Mutation = {
       update,
     });
   },
-  async updateLiteral(parent, { data, where }, { prisma }, info) {
+  async updateLiteral(parent, { data, where }, { prisma, headers }, info) {
+    if (!userIsAdmin(headers)) {
+      throwError('You have to be an admin user.');
+    }
+
     const literalExists: boolean = prisma.exists.Literal(where);
 
     if (!literalExists) {
