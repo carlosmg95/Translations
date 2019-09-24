@@ -21,18 +21,41 @@ const header: React.FC<HeaderProps> = (props: HeaderProps) => {
 
       <nav className="main-nav">
         <ul className="main-nav__items">
-          <li className="main-nav__item">
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li className="main-nav__item">
-            {props.user ? (
-              <Link to={props.user.admin ? '/admin' : ''}>
-                {props.user.name}
-              </Link>
-            ) : (
-              <Link to="login">Login</Link>
-            )}
-          </li>
+          {props.user ? (
+            <>
+              <li className="main-nav__item">
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              {props.user.admin ? (
+                <li className="main-nav__item">
+                  <Link to="/admin">Admin panel</Link>
+                </li>
+              ) : (
+                ''
+              )}
+              <li className="main-nav__item">
+                <p>{props.user.name}</p>
+              </li>
+              <li
+                className="main-nav__item"
+                onClick={() => {
+                  window.localStorage.removeItem('authToken');
+                  window.location.reload();
+                }}
+              >
+                <Link to="">Logout</Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="main-nav__item">
+                <Link to="signup">Create new user</Link>
+              </li>
+              <li className="main-nav__item">
+                <Link to="login">Login</Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </header>
