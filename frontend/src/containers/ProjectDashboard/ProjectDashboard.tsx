@@ -27,6 +27,11 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
 
+  const [updateState, setUpdateState]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(false);
+
   const pushTranslations = (pushResult: Promise<any>): void => {
     setBlockedState(true);
     pushResult
@@ -47,7 +52,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     project(where: { name: "${props.projectName}" }) ${ProjectResponse}
   }`;
 
-  const { loading, error, data } = useQuery(GET_PROJECT);
+  const { loading, error, data, refetch } = useQuery(GET_PROJECT);
   const [push] = useMutation(PUSH_TRANSLATIONS);
 
   if (loading || error) {
@@ -112,6 +117,15 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
                 project={project}
                 allowed={allowed}
                 pushFunction={pushTranslations}
+                updateAllLanguages={() => {
+                  setBlockedState(true);
+                  setUpdateState(true);
+                  refetch().then(() => {
+                    setBlockedState(false);
+                    setUpdateState(false);
+                  });
+                }}
+                update={updateState}
               />
             );
           })}
