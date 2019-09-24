@@ -3,7 +3,13 @@ import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
 import Loading from '../Loading/Loading';
 import Pagination from '../../components/Pagination/Pagination';
-import { Filter, Literal, LiteralTranslation, Translation } from '../../types';
+import {
+  Filter,
+  Literal,
+  LiteralTranslation,
+  Translation,
+  User,
+} from '../../types';
 import {
   LiteralResponse,
   PagesResponse,
@@ -23,6 +29,7 @@ interface TranslationsProps {
   selectLiterals(event: any): void;
   selectPage(page: number): void;
   selectSearch(text: string): void;
+  user: User;
 }
 
 const Translations: React.FC<TranslationsProps> = (
@@ -52,7 +59,19 @@ const Translations: React.FC<TranslationsProps> = (
     }
   `;
 
+  const UPDATE_lITERAL = gql`
+    mutation UpdateLiteral(
+      $where: LiteralWhereUniqueInput!
+      $data: LiteralUpdateInput!
+    ) {
+      updateLiteral(where: $where, data: $data) {
+        id
+      }
+    }
+  `;
+
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
+  const [updateLiteralMutation] = useMutation(UPDATE_lITERAL);
 
   const GET_DATA = gql`
     query GetData($page: Int, $filter: Int, $search: String) {
@@ -159,7 +178,48 @@ const Translations: React.FC<TranslationsProps> = (
     setTranslationsState(translations);
   };
 
-  // Save data when onBlur
+  // Change the current value of a literal when onChange
+  const changeAsInValue = (event: any, literalId: string): void => {
+    const translations: LiteralTranslation[] = translationsState.map(
+      (translation: LiteralTranslation) => {
+        if (translation.literalId === literalId)
+          translation.as_in = event.target.value;
+        return translation;
+      },
+    );
+    setTranslationsState(translations);
+  };
+
+  // Save literal data when onBlur
+  const updateLiteral = (literalId: string, as_in: string): void => {
+    const originalLiteral: Literal = literals.find(
+      (literal: Literal) => literal.id === literalId,
+    ) as Literal;
+
+    if (as_in && as_in !== originalLiteral.as_in) {
+      updateLiteralMutation({
+        variables: {
+          where: {
+            id: literalId,
+          },
+          data: {
+            as_in,
+          },
+        },
+      }).then(() => {
+        refetch().then(result => {
+          const { literals, translations } = result.data;
+          const lt: LiteralTranslation[] = createLiteralTranslations(
+            literals,
+            translations,
+          );
+          setTranslationsState(lt);
+        });
+      });
+    }
+  };
+
+  // Save translation data when onBlur
   const upsertTranslations = (
     translationId: string,
     literalId: string,
@@ -291,8 +351,13 @@ const Translations: React.FC<TranslationsProps> = (
           literal={translation.literal}
           as_in={translation.as_in}
           translation={translation.translation}
-          change={changeTranslationValue}
-          blur={(translationId, literalId, translationText) => {
+          changeTranslation={changeTranslationValue}
+          changeAsIn={changeAsInValue}
+          saveTranslation={(
+            translationId: string,
+            literalId: string,
+            translationText: string,
+          ) => {
             upsertTranslations(
               translationId,
               literalId,
@@ -300,6 +365,10 @@ const Translations: React.FC<TranslationsProps> = (
               translationText,
             );
           }}
+          saveLiterals={(literalId: string, as_in: string) => {
+            updateLiteral(literalId, as_in);
+          }}
+          user={props.user}
         />
       ))}
       <Pagination

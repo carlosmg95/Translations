@@ -170,7 +170,7 @@ const Mutation = {
       },
       data: {
         projects: {
-          connects: {
+          connect: {
             name: project.name,
           },
         },
@@ -526,6 +526,17 @@ const Mutation = {
       create: newTranslation,
       update,
     });
+  },
+  async updateLiteral(parent, { data, where }, { prisma }, info) {
+    const literalExists: boolean = prisma.exists.Literal(where);
+
+    if (!literalExists) {
+      throwError("The literal doesn't exist.");
+    }
+
+    log.mutation('Mutation: updateLiteral');
+
+    return await prisma.mutation.updateLiteral({ where, data });
   },
 };
 
