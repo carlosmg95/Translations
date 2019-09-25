@@ -1,16 +1,22 @@
 {
+  "nombre": "Traducciones",
   "landing": {
-    "button": {
-      "send": "Enviar",
-      "cancel": {
-        "no": "No cancelar",
-        "si": "Cancelar"
-      }
-    },
     "text": {
-      "welcome": "¡Hola!",
-      "description": "En esta página podrás traducir tu propia página"
+      "presentation": "Bienvenido al proyecto para traducciones de BQ",
+      "funcionamiento": "Crea tus literales y traducelos"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "send": "Enviar"
     }
   },
-  "otro": "otro"
+  "projects": {
+    "text": {
+      "dashboard": "Dashboard con tus proyectos"
+    },
+    "buttons": {
+      "send": "Enviar",
+      "cancel": "Cancelar"
+    }
+  }
 }
