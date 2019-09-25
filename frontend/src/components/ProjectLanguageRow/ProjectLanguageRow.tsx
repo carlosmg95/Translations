@@ -123,20 +123,30 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
             const contentFile = contentFileState
               ? JSON.parse(contentFileState)
               : {};
-            const isValid: boolean = Object.keys(contentFile).some(
-              key =>
-                !(contentFile[key] && typeof contentFile[key] !== 'string'),
-            );
 
-            if (!isValid) return;
-
-            const data: {
-              literal: string;
+            let data: {
+              literal: Object | string;
               translation: string;
-            }[] = Object.keys(contentFile).map(key => ({
-              literal: key,
-              translation: contentFile[key],
-            }));
+            }[] = [];
+
+            const plainJSON = (object: object, prevKey?: string) => {
+              Object.keys(object).forEach((key: string) => {
+                const completeKey: string = prevKey ? `${prevKey}.${key}` : key;
+                if (typeof object[key] === 'string') {
+                  data = [
+                    ...data,
+                    {
+                      literal: completeKey,
+                      translation: object[key],
+                    },
+                  ];
+                } else if (typeof object[key] === 'object') {
+                  plainJSON(object[key], completeKey);
+                }
+              });
+            };
+
+            plainJSON(contentFile);
 
             addLiterals({
               variables: {
