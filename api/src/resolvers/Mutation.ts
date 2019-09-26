@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import log from '../utils/log';
 import { userIsAdmin, userIsAllowed } from '../utils/getUserData';
 import {
+  LiteralResponse,
   ProjectResponse,
   TranslationResponse,
   UserResponse,
@@ -495,7 +496,7 @@ const Mutation = {
     });
 
     if (!userExists || !languageExists || !userIsAdmin(headers))
-      throwError('The language cannot be removeed from the user.');
+      throwError('The language cannot be removed from the user.');
     else log.mutation('Mutation: removeLanguageFromUser');
 
     return await prisma.mutation.updateUser(
@@ -511,13 +512,19 @@ const Mutation = {
       },
       UserResponse,
     );
+  
+  async removeLiteral(parent, where, { prisma, headers }, info) {
+    const literalExists: boolean = await prisma.exists.Literal({
+      id: where.id,
+    });
+
+    if (!literalExists || !userIsAdmin(headers))
+      throwError('The literal cannot be removed.');
+    else log.mutation('Mutation: removeLanguageFromUser');
+
+    return await prisma.mutation.deleteLiteral(where, LiteralResponse);
   },
-  async removeUserFromProject(
-    parent,
-    { project, user },
-    { prisma, headers },
-    info,
-  ) {
+  async removeUserFromProject(parent, { project, user }, { prisma, headers }, info) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
@@ -526,7 +533,7 @@ const Mutation = {
     });
 
     if (!projectExists || !userExists || !userIsAdmin(headers))
-      throwError('The user cannot be removeed from the project.');
+      throwError('The user cannot be removed from the project.');
     else log.mutation('Mutation: removeUserFromProject');
 
     prisma.mutation.updateUser({
