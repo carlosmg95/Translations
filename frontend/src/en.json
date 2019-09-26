@@ -3,7 +3,7 @@
     "text": {
       "center": "School",
       "cancel": "Cancel",
-      "pollSent": "WeAAve sent you an email with the codes (licences) for accessing the projects. If you havenAAt received these, please write to us at <span class=\"user-can-select\">{{supportEmail}}</span>",
+      "pollSent": "Weqwertyuiopve sent you an email with the codes (licences) for accessing the projects. If you havenqwertyuiopt received these, please write to us at <span class=\"user-can-select\">{{supportEmail}}</span>",
       "province": "Province",
       "location": "Town/city of school",
       "job": "What is your position in the school?",
@@ -12,9 +12,9 @@
       "fullname": "Name and surname(s)",
       "comments": "Comment",
       "fillPoll": "Please complete this form so that we can get to know you better",
-      "fillPolll": "Do you want to discover how bMaker works? Complete the form and receive two free trial licences. YouAAll have access to two projects for three months, with no commitment.",
+      "fillPolll": "Do you want to discover how bMaker works? Complete the form and receive two free trial licences. Youqwertyuiopll have access to two projects for three months, with no commitment.",
       "requiredFields": "(*) Mandatory fields",
-      "pollFinishedOk": "You can now use these codes (licences) to gain free access to the projects. WeAAve also emailed the codes to {{email}}",
+      "pollFinishedOk": "You can now use these codes (licences) to gain free access to the projects. Weqwertyuiopve also emailed the codes to {{email}}",
       "interested": "What attracts you to bMaker? You can select more than one option"
     },
     "title": {
@@ -52,7 +52,7 @@
       "position": "You must select one of the above options",
       "location": "Town/city is a mandatory field",
       "province": "Province is a mandatory field",
-      "textEmpty": "You must complete this field if you have selected AAOtherAA",
+      "textEmpty": "You must complete this field if you have selected qwertyuiopOtherqwertyuiop",
       "interested": "You must select one of the above options"
     },
     "placeholder": {
@@ -720,14 +720,14 @@ You can object to the use of your personal data for direct marketing at any time
       "back": "Back to the website"
     },
     "text": {
-      "writeEmail": "Enter the email address that you provided when you registered. WeAAll send you an email with a link for creating a new password.",
+      "writeEmail": "Enter the email address that you provided when you registered. Weqwertyuiopll send you an email with a link for creating a new password.",
       "sentEmail": "If the account exists, they will receive an email with instructions.",
-      "checkEmail": "Please check your email inbox. If you canAAt see the email, it may be in your Spam folder.",
+      "checkEmail": "Please check your email inbox. If you canqwertyuiopt see the email, it may be in your Spam folder.",
       "newPassword": " You can now enter a new password",
       "changedPassword": "Your password has been changed successfully. You can no longer access your account with your old password.",
-      "invalidLink": "Sorry, this link is either not valid or has expired. Check if you have a more recent link. If you donAAt have one, request a new one."
+      "invalidLink": "Sorry, this link is either not valid or has expired. Check if you have a more recent link. If you donqwertyuiopt have one, request a new one."
     },
-    "remindUsername": "If you canAAt remember your username, enter your email address and weAAll send it to you.",
+    "remindUsername": "If you canqwertyuiopt remember your username, enter your email address and weqwertyuiopll send it to you.",
     "button": {
       "sendAgain": "Send again",
       "changePassword": " Change password "
@@ -937,7 +937,7 @@ You can object to the use of your personal data for direct marketing at any time
       },
       "date": {
         "invalidFormat": "Date of birth not valid.",
-        "required": "UserAAs date of birth is a mandatory field.",
+        "required": "Userqwertyuiops date of birth is a mandatory field.",
         "mustBeUnderaged": "The user must be under 14 years old."
       },
       "cannotRecover": "The account has not been validated and we cannot recover it. Please contact the helpdesk.",
@@ -1070,8 +1070,8 @@ You can object to the use of your personal data for direct marketing at any time
       "tutorName": " Name of parent/guardian ",
       "birthdate": "Date of birth",
       "tutorEmail": " Email address of parent/guardian ",
-      "underagedLastName": " ChildAAs surname(s) ",
-      "underagedFirstName": " ChildAAs name ",
+      "underagedLastName": " Childqwertyuiops surname(s) ",
+      "underagedFirstName": " Childqwertyuiops name ",
       "acceptNewsletter": "I agree to receive news and updates by email.",
       "repeatPassword": "Enter password again"
     },
@@ -1108,8 +1108,8 @@ You can object to the use of your personal data for direct marketing at any time
       "tutorName": "Enter their name",
       "tutorEmail": "Enter email address",
       "repeatPassword": "Enter your password again",
-      "underagedLastName": "Enter the childAAs surname(s)",
-      "underagedFirstName": "Enter the childAAs name"
+      "underagedLastName": "Enter the childqwertyuiops surname(s)",
+      "underagedFirstName": "Enter the childqwertyuiops name"
     },
     "button": {
       "createAccount": "Create account",
@@ -1166,8 +1166,8 @@ You can object to the use of your personal data for direct marketing at any time
       "tutorDNI": "NIF or NIE of parent/guardian",
       "tutorEmail": " Email address of parent/guardian ",
       "tutorName": " Name of parent/guardian ",
-      "underagedName": " ChildAAs name ",
-      "underagedLastName": " ChildAAs surname(s) "
+      "underagedName": " Childqwertyuiops name ",
+      "underagedLastName": " Childqwertyuiops surname(s) "
     },
     "button": {
       "authorize": "Authorise",
@@ -1176,9 +1176,9 @@ You can object to the use of your personal data for direct marketing at any time
     "placeholder": {
       "tutorDNI": "Enter their ID number",
       "tutorName": "Enter their name",
-      "underagedName": "Enter the childAAs name",
+      "underagedName": "Enter the childqwertyuiops name",
       "tutorEmail": "Enter email address",
-      "underagedLastName": "Enter the childAAs surname(s)"
+      "underagedLastName": "Enter the childqwertyuiops surname(s)"
     },
     "text": {
       "validateAccount3": "Please complete the following data so that the child can use bMaker. If you wish to delete the account, click on \"Delete account\"",
@@ -1347,17 +1347,17 @@ You can object to the use of your personal data for direct marketing at any time
       "changePassword": " Change password "
     },
     "text": {
-      "rejected": "The childAAs account is no longer accessible and said account will be removed from our database.",
+      "rejected": "The childqwertyuiops account is no longer accessible and said account will be removed from our database.",
       "sentEmail1": "If the account exists, you will receive an email with instructions.",
       "validated": "The child now has unrestricted access to their bMaker account.",
       "expiredTime": "The 45-day deadline for validating this username has expired.",
-      "sentEmail2": "Please check your email inbox. If you canAAt see the email, it may be in your Spam folder.",
-      "invalidLink": "Sorry, this link is not valid. Check to see if they have a more recent one. If they donAAt have one, ask the child to send a new validation link.",
+      "sentEmail2": "Please check your email inbox. If you canqwertyuiopt see the email, it may be in your Spam folder.",
+      "invalidLink": "Sorry, this link is not valid. Check to see if they have a more recent one. If they donqwertyuiopt have one, ask the child to send a new validation link.",
       "sendLicense": "Before deleting all the information, we have sent you an email with the licence that you used with this account.",
       "newPassword": "You can now enter a new password",
       "welcomeEmail": "We have sent an <i>email</i> to the email address you have given us. The email contains information about your new account.",
       "changedPassword": "Your password has been changed successfully. You can no longer access your account with your old password.",
-      "rememberPassword": " Enter the email address that you provided when you registered. WeAAll send you an email with a link for creating a new password.",
+      "rememberPassword": " Enter the email address that you provided when you registered. Weqwertyuiopll send you an email with a link for creating a new password.",
       "alreadyAuthorized": "Sorry, this username has already been authorised.",
       "studentAccountCreated": "However, we have noticed that you are not at least 14 years old. Later on, you will have to ask a parent or guardian to authorise this account so that you have full access to bMaker."
     },
@@ -1377,7 +1377,7 @@ You can object to the use of your personal data for direct marketing at any time
     },
     "text": {
       "invalidLink": "Sorry, this link is either not valid or has expired. Check if you have
-        a more recent link. If you donAAt have one, request a new one."
+        a more recent link. If you donqwertyuiopt have one, request a new one."
     },
     "title": {
       "invalidLink": "Link not valid"
@@ -1465,7 +1465,7 @@ You can object to the use of your personal data for direct marketing at any time
   },
   "changeEmail": {
     "text": {
-      "invalidLink": "Sorry, this link is either not valid or has expired. Check if you have a more recent link. If you donAAt have one, request a new one.",
+      "invalidLink": "Sorry, this link is either not valid or has expired. Check if you have a more recent link. If you donqwertyuiopt have one, request a new one.",
       "success": "Your email address has been changed successfully. Your old email address is no longer linked to your account.",
       "confirmPassword": "Enter your password to confirm the change of email address "
     },
@@ -1505,10 +1505,10 @@ You can object to the use of your personal data for direct marketing at any time
   },
   "wikiDetails": {
     "text": {
-      "teacher": "TeachersAA article"
+      "teacher": "Teachersqwertyuiop article"
     },
     "label": {
-      "teacherArticle": "TeachersAA article"
+      "teacherArticle": "Teachersqwertyuiop article"
     }
   },
   "modalLabInfo": {
@@ -1526,7 +1526,7 @@ You can object to the use of your personal data for direct marketing at any time
       "comment": "Write your comment here"
     },
     "title": {
-      "teacherRemarks": "TeacherAAs notes"
+      "teacherRemarks": "Teacherqwertyuiops notes"
     },
     "button": {
       "shareInLogbook": "Share in the logbook",
@@ -1539,7 +1539,7 @@ You can object to the use of your personal data for direct marketing at any time
       "madeBy": "Created by",
       "finalDelivery": "Final submission",
       "logbookDetails": "Details of final submission",
-      "teacherComments": "TeacherAAs notes",
+      "teacherComments": "Teacherqwertyuiops notes",
       "madeInClassroom": "Done in class"
     },
     "text": {
@@ -1552,7 +1552,7 @@ You can object to the use of your personal data for direct marketing at any time
   },
   "cookiesBanner": {
     "button": {
-      "deny": "I donAAt",
+      "deny": "I donqwertyuiopt",
       "accept": "I agree"
     },
     "text": {
@@ -1724,8 +1724,8 @@ You can object to the use of your personal data for direct marketing at any time
       "cancel": "Cancel"
     },
     "text": {
-      "checkMail": "Check your inbox. If you canAAt find the <em>email</em>, it may be in the <em>Spam</em> folder.",
-      "changeEmail": "Enter a new email address and weAAll send you an email.",
+      "checkMail": "Check your inbox. If you canqwertyuiopt find the <em>email</em>, it may be in the <em>Spam</em> folder.",
+      "changeEmail": "Enter a new email address and weqwertyuiopll send you an email.",
       "instructions": "We have sent an <em>email</em> with instructions to "
     },
     "label": {
@@ -1801,7 +1801,7 @@ You can object to the use of your personal data for direct marketing at any time
       "textLicenseDetails": "Check that you want to add the content below to the class.",
       "canCreateClassrooms": "You can now access these projects and add them to your classes.",
       "selectProjectsToReset": "
-              Only select those projects that you wish to restart. If you donAAt select any projects, none of them will be restarted.",
+              Only select those projects that you wish to restart. If you donqwertyuiopt select any projects, none of them will be restarted.",
       "textFullLicenseDetails": "The licence you have entered is a \"Customised\" licence. You can assign 6 projects to your class:"
     },
     "title": {
@@ -1874,7 +1874,7 @@ You can object to the use of your personal data for direct marketing at any time
       "intro2": "Please tell us their email address and we will send them an email with instructions.",
       "intro1": "Because you are under 14 years old, a parent or guardian must authorise this account within {{daysToValidate}} days or the account will be deleted.",
       "emailSent": "Inform your parent or guardian. If the email address that you have entered is correct,
-        they will receive en email. Ask them to check their Spam folder if they canAAt find it."
+        they will receive en email. Ask them to check their Spam folder if they canqwertyuiopt find it."
     },
     "label": {
       "tutorName": " Name of your parent or guardian ",
@@ -1882,7 +1882,7 @@ You can object to the use of your personal data for direct marketing at any time
     },
     "title": {
       "emailSent": "Email sent",
-      "dontForget": "DonAAt forget. There are {{daysToValidate}} days left",
+      "dontForget": "Donqwertyuiopt forget. There are {{daysToValidate}} days left",
       "authorizationRequest": "Authorisation request"
     },
     "placeholder": {
@@ -1893,16 +1893,16 @@ You can object to the use of your personal data for direct marketing at any time
   "modalJoinClassroom": {
     "text": {
       "cannotJoin": "Before you can join this class, you need the following projects.
-           You either donAAt have them or you are using them in another class.",
+           You either donqwertyuiopt have them or you are using them in another class.",
       "askCode": "Ask your teacher for the class code and enter it below.",
-      "noProjects": "You canAAt join a class yet because you havenAAt added
+      "noProjects": "You canqwertyuiopt join a class yet because you havenqwertyuiopt added
         any projects that you can use in the class.",
       "invalidCode": "The code you have entered is not linked to any classes.
            Check the code and try again.",
       "noMoreStudents": "Class full. Talk to your
 teacher so that
            they can allow more students to join the class.",
-      "alreadyJoined": "You canAAt join this class because you are already in it.",
+      "alreadyJoined": "You canqwertyuiopt join this class because you are already in it.",
       "checkClassroom": "Check that you want to join this class:",
       "titleClassroomName": "The class is:",
       "joinedClassroom": "you must wait for your teacher to accept your request before you can access the class."
@@ -2033,7 +2033,7 @@ teacher so that
   "language": {
     "text": {
       "dev": "Development",
-      "es": "SpaAAnish",
+      "es": "Spaqwertyuiopnish",
       "en": "English"
     }
   }
