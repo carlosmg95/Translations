@@ -7,6 +7,7 @@ interface modalProps {
   children: JSX.Element | JSX.Element[] | string;
   acceptFunction(): void;
   cancelFunction(): void;
+  acceptButtonText?: string;
 }
 
 const modal: React.FC<modalProps> = (props: modalProps) => {
@@ -21,7 +22,10 @@ const modal: React.FC<modalProps> = (props: modalProps) => {
             text="Cancel"
             onClick={props.cancelFunction}
           />
-          <PillButton text="Upload" onClick={props.acceptFunction} />
+          <PillButton
+            text={props.acceptButtonText || 'Upload'}
+            onClick={props.acceptFunction}
+          />
         </div>
       </div>
     </div>

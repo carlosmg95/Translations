@@ -2,6 +2,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
 import Loading from '../Loading/Loading';
+import Modal from '../../components/Modal/Modal';
 import Pagination from '../../components/Pagination/Pagination';
 import {
   Filter,
@@ -46,6 +47,22 @@ const Translations: React.FC<TranslationsProps> = (
     string,
     Dispatch<SetStateAction<string>>,
   ] = useState(props.searchValue);
+
+  const [removeLiteralModal, setRemoveLiteralModal]: [
+    // If the remove modal is open
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(false);
+
+  const [literalToRemoveStatus, setLiteralToRemoveStatus]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const [literalIdToRemoveStatus, setLiteralIdToRemoveStatus]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
 
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
@@ -286,6 +303,22 @@ const Translations: React.FC<TranslationsProps> = (
 
   return (
     <div className="Translations">
+      {removeLiteralModal ? (
+        <Modal
+          acceptButtonText="Remove"
+          title="Remove literal"
+          acceptFunction={() => {}}
+          cancelFunction={() => {
+            setRemoveLiteralModal(false);
+          }}
+        >
+          <p>
+            Are you sure you want to remove "{literalToRemoveStatus}" literal?
+          </p>
+        </Modal>
+      ) : (
+        <></>
+      )}
       <div className="filter">
         <input
           value={searchInputState}
@@ -368,9 +401,11 @@ const Translations: React.FC<TranslationsProps> = (
           saveLiterals={(literalId: string, as_in: string) => {
             updateLiteral(literalId, as_in);
           }}
-          removeLiteral={(literalId, literal) =>
-            console.log(literalId, literal)
-          }
+          removeLiteral={(literalId, literal) => {
+            setLiteralIdToRemoveStatus(literalId);
+            setLiteralToRemoveStatus(literal);
+            setRemoveLiteralModal(true);
+          }}
           user={props.user}
         />
       ))}
