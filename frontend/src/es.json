@@ -1,22 +1,2104 @@
 {
-  "nombre": "Traducciones",
-  "landing": {
+  "demo": {
     "text": {
-      "presentation": "Bienvenido al proyecto para traducciones de BQ",
-      "funcionamiento": "Crea tus literales y traducelos"
-    },
-    "buttons": {
+      "center": "Centro",
       "cancel": "Cancelar",
-      "send": "Enviar"
+      "pollSent": "Ya hemos enviado a tu dirección de email los códigos (licencias) con las que puedes acceder a los proyectos. Si no los has recibido, por favor, escríbenos a <span class=\"user-can-select\">{{supportEmail}}</span>",
+      "province": "Provincia",
+      "location": "Localidad del centro",
+      "job": "¿Cuál es tu cargo en el centro?",
+      "next": "Siguiente",
+      "known": "¿Cómo has conocido bMaker? Puedes marcar más de una opción",
+      "fullname": "Nombre y apellidos",
+      "comments": "Comentario",
+      "fillPoll": "Rellena este formulario para que podamos conocerte un poquito mejor",
+      "fillPolll": "¿Quieres descubrir cómo funciona bMaker? Completa el formulario para conseguir dos licencias gratuitas de prueba. Tendrás acceso a dos proyectos durante tres meses sin compromiso.",
+      "requiredFields": "(*) Campos obligatorios",
+      "pollFinishedOk": "Ya puedes acceder de forma gratuita a los proyectos con los siguientes códigos (licencias). También te los hemos enviado a tu dirección {{email}}",
+      "interested": "¿Qué te atrae de bMaker? Puedes marcar más de una opción"
+    },
+    "title": {
+      "poll": "Formulario",
+      "pollFinished": "¡Vaya! El formulario ya ha sido completado",
+      "demoLicenses": "Prueba gratuita",
+      "demoLicensesOk": "¡Enhorabuena!"
+    },
+    "option": {
+      "other": "Otro",
+      "teacher": "Profesor/a",
+      "others": "Otros",
+      "head": "Jefe/a de estudios",
+      "contents": "Contenidos",
+      "internet": "Navegando por Internet",
+      "director": "Director/a",
+      "platform": "Plataforma",
+      "commercial": "A través de un comercial",
+      "methodology": "Metodología",
+      "advertising": "Publicidad",
+      "coordinator": "Coordinador/a TIC",
+      "roboticsKits": "Kits de robótica",
+      "socialNetworks": "En redes sociales",
+      "throughAnAcquaintance": "A través de un conocido/a"
+    },
+    "button": {
+      "back": "Volver",
+      "poll": "Ir al formulario"
+    },
+    "error": {
+      "known": "Es necesario escoger una de las anteriores opciones",
+      "center": "Es necesario escribir un centro",
+      "checkbox": "Es obligatorio aceptar las condiciones de uso y la política de privacidad",
+      "fullname": "Es necesario escribir el nombre y apellidos",
+      "position": "Es necesario escoger una de las anteriores opciones",
+      "location": "Es necesario escribir la localidad",
+      "province": "Es necesario escribir la provincia",
+      "textEmpty": "Es necesario rellenar el campo al seleccionar la opción \"Otro\"",
+      "interested": "Es necesario escoger una de las anteriores opciones"
+    },
+    "placeholder": {
+      "comment": "Escriba aquí su comentario"
     }
   },
-  "projects": {
+  "project": "proyecto",
+  "home": {
     "text": {
-      "dashboard": "Dashboard con tus proyectos"
+      "contest": "Participa en el viaje Odisea bMaker, consigue un aula maker para tu centro y contribuye a la igualdad de oportunidades en la educación.",
+      "kits": "Los Zum Kit está desarrollados para su uso en Primaria y Secundaria e incluyen todos los componentes que los alumnos necesitan para crear sus proyectos y dar vida a sus inventos.",
+      "contents": "Los contenidos están organizados por retos, proyectos y sesiones, con un orden didáctico que garantiza un aprendizaje secuenciado. Progresivamente, descubren cómo resolver retos mediante el uso de la tecnología.",
+      "tools": "bMaker emplea las mejores aplicaciones de programación",
+      "solution": "bMaker lleva al aula las principales competencias tecnológicas de Primaria y Secundaria de forma sencilla, flexible y divertida: programación, robótica, diseño 3D, diseño de apps Android o desarrollo web.",
+      "technology": "Con bMaker, pasan de usuarios a creadores de tecnología mientras potencian su creatividad y desarrollan habilidades como el pensamiento crítico, la resolución de problemas o el trabajo en equipo.",
+      "tryItfree": "*Crea tu cuenta de profesor para disfrutar de dos proyectos gratis",
+      "platformOnline": "En ella, los alumnos trabajan sus proyectos y consultan su progreso, logros y calificaciones. Además, los docentes cuentan con un completo e intuitivo sistema de gestión del aula y con información adicional que facilita su labor."
     },
-    "buttons": {
+    "title": {
+      "kits": "Kits de robótica",
+      "tools": "Las mejores tecnologías",
+      "contest": "I Edición del concurso ODISEA bMaker",
+      "contents": "Contenidos",
+      "contactUs": "Contacta con nosotros en el 91 524 94 20",
+      "solution": "La solución más fácil y divertida para aprender programación, 3D y robótica",
+      "tryItfree": "Pruébalo gratis*",
+      "technology": "Robótica educativa, STEAM y mucho más",
+      "platformOnline": "Plataforma online",
+      "platformOnlineSolution": "Una solución 360º: plataforma, contenidos y herramientas"
+    },
+    "button": {
+      "learnMore": "Conocer más"
+    },
+    "altImage": {
+      "section3": "Plataforma online de bMaker",
+      "section4": "Contenidos de bMaker",
+      "section6": "Logos de Scratch, App Inventor y Bitbloq en bMaker",
+      "logoPanel": "bmaker-logo--panel",
+      "section5": "Kits de robótica de bMaker"
+    }
+  },
+  "aboutUs": {
+    "text": {
+      "us": "Sobre nosotros",
+      "part1": "El 65% de los niños de primaria tendrá empleos que aún no existen, según el Foro Económico Mundial. La innovación nunca había avanzado tan rápido y el futuro, que será apasionante, será en clave tecnológica. Por eso, nuestro objetivo con bMaker es preparar a los niños de hoy para que se conviertan en adultos capaces de crearla y aplicarla en su vida.",
+      "part2": "En bMaker hemos unido el conocimiento de Macmillan (líder en contenidos educativos) y BQ Educación (pionera en educación tecnológica en España). El resultado es una herramienta que transmite nuestra cultura tecnológica a los más jóvenes y a la sociedad.",
+      "usSection": "sobre-nosotros"
+    }
+  },
+  "downloadables": {
+    "title": "Descargables",
+    "text": {
+      "section1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin vehicula, diam vitae efficitur vestibulum, nunc justo fringilla libero, non pharetra sapien dolor in eros cras libero magna, imperdiet quis turpis sed, semper lacinia tortor. Aenean tincidunt hendrerit posuere."
+    },
+    "listItem": {
+      "name1": "Nombre del descargable",
+      "description2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin vehicula, diam vitae efficitur vestibulum.",
+      "name3": "Lorem ipsum dolor sit amet consectetur",
+      "name2": "Lorem ipsum",
+      "description1": "Breve descripción",
+      "description3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin vehicula, diam vitae efficitur vestibulum, nunc justo fringilla libero, non pharetra sapien dolor in eros cras libero"
+    },
+    "button": {
+      "download": "Descargar"
+    }
+  },
+  "common": {
+    "text": {
+      "day": "Día",
+      "add": "Añadir",
+      "date": "Fecha",
+      "send": " Enviar",
+      "save": "Guardar",
+      "help": "Ayuda",
+      "edit": "Editar",
+      "year": "Año",
+      "enter": "Entrar",
+      "file": "Archivo",
+      "start": "Comenzar",
+      "level": "Nivel",
+      "month": "Mes",
+      "title": "Título",
+      "error": "Error",
+      "create": "Crear",
+      "state": "Estado",
+      "search": "Buscar",
+      "review": "Revisar",
+      "reason": "Motivo",
+      "reject": " Rechazar",
+      "accept": "Aceptar",
+      "cancel": "Cancelar",
+      "session": "Sesión",
+      "student": "Alumno",
+      "project": "Proyecto",
+      "teacher": "Profesor",
+      "progress": "Progreso",
+      "license": "Licencia",
+      "attempt": "intento",
+      "password": "Contraseña",
+      "oldClass": "Clase antigua",
+      "location": "Ubicación",
+      "download": "Descargar",
+      "continue": "Continuar",
+      "attempts": "intentos",
+      "activity": "Actividad",
+      "completed": "Completado",
+      "selectAll": "Seleccionar todos",
+      "visualize": "Visualizar",
+      "classroom": "Clase",
+      "completada": "Completada",
+      "achievement": "logro",
+      "customClass": "Clase personalizada",
+      "demoClass": "Clase de demostración",
+      "levelLabels": "Nivel {{levelNumber}}",
+      "description": "Descripción",
+      "achievements": "logros",
+      "statement": "Enunciado"
+    }
+  },
+  "faqs": {
+    "title": {
+      "faqs": "Preguntas frecuentes"
+    },
+    "text": {
+      "notFound": "No se han encontrado preguntas frecuentes"
+    }
+  },
+  "projectFullTitle": "Proyecto {{projectNumber}}: {{projectTitle}}",
+  "login": {
+    "link": {
+      "forgot": "¿Has olvidado tus datos?",
+      "login": " Entrar ",
+      "register": "Crear una cuenta"
+    },
+    "label": {
+      "username": "Usuario:",
+      "password": "Contraseña"
+    },
+    "placeholder": {
+      "username": "Usuario",
+      "password": "Contraseña"
+    }
+  },
+  "terms": {
+    "title": {
+      "date": "Fecha: Mayo 2018",
+      "part1": "Sobre nosotros",
+      "part2": "Cómo ponerse en contacto con nosotros",
+      "part5": "Utilización del sitio",
+      "part6": "Enlaces",
+      "part4": "Finalidad el Sitio",
+      "part7": "Su contenido",
+      "part9": "Derechos de Propiedad Intelectual",
+      "part8": "Contenido de Terceros",
+      "part3": "Aceptación de las condiciones de uso",
+      "part15": "Modificaciones de las Condiciones",
+      "part14": "Validez Parcial",
+      "part13": "Modificaciones y actualizaciones del servicio",
+      "part11": "Responsabilidad",
+      "part12": "Mantenimiento del Sitio Web",
+      "legalTerms": "AVISO LEGAL Y CONDICIONES DE USO",
+      "part10": "Su información personal",
+      "part16": "Jurisdicción y legislación aplicable"
+    },
+    "text": {
+      "part9P1": "MACMILLAN es el propietario o el licenciatario de todos los derechos de propiedad intelectual del Sitio Web y de cualquier servicio, producto o aplicaciones puesto a su disposición a través del mismo. Todos los derechos están reservados. Nuestro derecho, y el de cualquier colaborador identificado, como autores del contenido de nuestro Sitio Web debe ser siempre reconocido.",
+      "part7P9": "El Usuario nos indemnizará a requerimiento nuestro y nos mantendrá indemne contra todas las responsabilidades, pérdidas, daños, costes, reclamaciones y gastos (incluyendo los costes y gastos profesionales) sufridos o incurridos por nosotros que surjan o que tengan conexión con cualquier incumplimiento o supuesto incumplimiento por su parte de esta cláusula 7.",
+      "part8P1": "Macmillan no es responsable por los contenidos de terceros en el Sitio Web. El contenido de terceros incluye, a título enunciativo no limitativo, comentarios, blogs y artículos publicados por cualquier tercero, Contenido, contenido publicitario, aplicaciones publicadas por terceros, así como contenidos accesibles a través de las aplicaciones.",
+      "part7P8": "A menos que tenga nuestro permiso expreso para hacerlo, el Usuario no debe volver a presentar o publicar cualquier Contenido u otro material o aplicaciones que previamente hayan sido rechazados o retirados por Macmillan.",
+      "part7P6": "Al cargar o enviar Contenido al Sitio, el Usuario manifiesta y garantiza que, siguiendo lo contenido a continuación, es el único autor y propietario de todos los derechos de propiedad del Contenido. Si el Contenido incluye cualquier material propiedad de un tercero, el Usuario garantiza que ha obtenido el permiso de dichos terceros titulares para utilizar su material de acuerdo con las disposiciones de estas Condiciones, incluyendo su publicación en el Sitio Web y el derecho de los visitantes del Sitio Web a descargar el Contenido, incluyendo dicho material de terceros. En este sentido el Usuario garantiza, además, que dispone de todos los derechos de autor de terceros o avisos de propiedad que esté obligado a disponer.",
+      "part7P7": "Asimismo el Usuario manifiesta y garantiza que su Contenido, y el contenido de cualquier sitio web desde el que se incluye un enlace al Sitio Web, o para el que incluye un enlace desde el Sitio Web, no será inapropiado. A título enunciativo, sin limitación, el Contenido, y el contenido de los sitios web de terceras partes, se puede considerar inapropiado si:",
+      "introP1": "Gracias por visitar este sitio web (en adelante, el \"Sitio Web\"). Estas Condiciones de Uso (en adelante, las \"Condiciones\") se aplican a la utilización, por parte del usuario (en adelante, el “Usuario”)
+        del Sitio Web y de cualquier servicio, producto o aplicaciones puesto a su disposición por Macmillan Iberia, S.A.U., a través del Sitio Web.
+      ",
+      "part7P5": "El Usuario reconoce que no somos responsables de la comprobación, supervisión o moderación de cualquier Contenido y que es el único responsable de todo el Contenido que suba o envíe al Sitio Web.",
+      "part7P3": "Es a nuestra única discreción si decidimos o no publicar o poner a su disposición de cualquier manera el Contenido en el Sitio Web.",
+      "part7P4": "Para evitar cualquier duda, el Usuario reconoce y acepta que podemos:",
+      "introP2": "Al utilizar el Sitio Web, el Usuario indica que ha leído estas Condiciones y acepta cumplir y estar obligado por las mismas.
+        Si no acepta todos las Condiciones aplicables, el Usuario debe abstenerse de utilizar el Sitio Web
+      ",
+      "part2P1": "Todas las notificaciones y comunicaciones por parte del Usuario a MACMILLAN se considerarán eficaces, a todos los efectos, cuando se remiten de alguna de las siguientes formas:
+      ",
+      "part7P2": "El Usuario nos otorga una licencia gratuita, no exclusiva, perpetua, irrevocable para utilizar, copiar, modificar, adaptar, publicar, reproducir, traducir, sub-licenciar, crear obras derivadas, poner a disposición del público, comunicar, mostrar, almacenar y distribuir su Contenido, en su totalidad o en parte, y/o para incorporarlo en otras obras en cualquier forma, formato, medio o tecnología, incluyendo, sin limitación, en forma impresa, digital y en formato electrónico, en todo el mundo, de conformidad con lo dispuesto en las presentes Condiciones. Al enviar su Contenido el Usuario garantiza que tiene el derecho de conceder esta licencia. En la medida permitida por la ley aplicable, el Usuario renuncia a todos los derechos morales sobre su Contenido. En la medida en que no sea posible renunciar a alguno de dichos derechos morales, se compromete a no reclamar los mismos.",
+      "part1P1": "El Sitio Web está operado por MACMILLAN IBERIA S.A. Sociedad Unipersonal, (en adelante “MACMILLAN”, \"nosotros \",\" nos \" o\" nuestro\") con domicilio social en Calle Rosario Pino 14-16, Planta 4, 28020 Madrid,
+        Teléfono 91 5249420, e-mail: es.registros@macmillaneducation.com; constituida por tiempo indefinido, en escritura otorgada el día 4 de Diciembre de 1.987, ante el Notario de Madrid, Don Jose Luis Álvarez Álvarez, bajo el número 3.381 de su protocolo; inscrita en el Registro Mercantil de Madrid, en el tomo 8.124,
+          7.050 de la sección 3ª del Libro de Sociedades, folio 45, hoja numero 78.010, inscripción 1ª.) y con número de identificación fiscal A78603479.
+      ",
+      "part2P2": "Todas las notificaciones por parte de MACMILLAN al Usuario se considerarán eficaces, cuando se realicen de alguna de las siguientes maneras:
+      ",
+      "part2P3": "En este sentido, todas las notificaciones que efectúe MACMILLAN al Usuario se considerarán válidamente efectuadas si se han realizado empleando los datos y a través de los medios anteriormente señalados. A estos efectos, el usuario manifiesta que todos los datos facilitados por él son ciertos y correctos,
+          y se compromete a comunicar a MACMILLAN todos los cambios relativos a los datos de notificación.",
+      "part2P4": "En el caso de que cualquier Usuario o un tercero considere que existen hechos o circunstancias que revelen el carácter ilícito de la utilización de cualquier contenido y/o de la realización de cualquier actividad en las páginas web  incluidas o accesibles a través de este Sitio Web, y, que pudieran constituir una infracción de los derechos de propiedad intelectual o industrial u otros derechos de MACMILLAN, el Usuario o terceros,
+        tiene la obligación de enviar una notificación que cumpla con los siguientes requisitos:",
+      "part3P1": "Condiciones generales",
+      "part3P2": "Al utilizar el Sitio Web, el Usuario indica que ha leído estas Condiciones y acepta cumplir y estar obligado por las mismas. Si no acepta todos las Condiciones aplicables, el Usuario debe abstenerse de utilizar el Sitio Web. ",
+      "part7P1": "El Sitio Web puede ofrecer al Usuario la posibilidad de presentar, publicar, exhibir, transmitir, difundir, realizar, distribuir o emitir contenido y materiales, incluyendo, a título enunciativo, no limitativo, artículos, comentarios, fotografías, textos, música, vídeos, grabaciones de audio, gráficos por ordenador, imágenes, datos, preguntas, sugerencias o información personal identificable (en adelante, el \"Contenido\"). El Usuario conserva la propiedad de los derechos de propiedad intelectual que ostente su Contenido.",
+      "part3P4": "El Usuario debe tener en cuenta que podemos cambiar estas Condiciones en cualquier momento sin previo aviso por lo que las debe revisar cada vez que visite el Sitio Web para asegurarse de que entiende los términos que se aplicarán en ese momento. Se recomienda imprimir una copia de las Condiciones para referencia futura.
+      ",
+      "part3P3": "Si el Usuario es menor de 14 años de edad, debe asegurarse de leer estas Condiciones con su padre, madre, tutor o representante legal. Si usted es padre, madre, tutor o representante legal y proporciona su consentimiento para el acceso de su hijo en el Sitio Web, acepta estar obligado por estas Condiciones en relación con la utilización del Sitio Web por su hijo. Nos reservamos el derecho a requerir cualquier tipo de consentimiento paterno verificable si consideramos que fuera apropiado en cualquier momento.",
+      "part6P8": "Cuando el Sitio Web y/o aplicaciones contengan enlaces a otros sitios web, páginas web, recursos o servicios móviles, que sean propiedad de terceros, otros usuarios, anunciantes o patrocinadores, dichos sitios web, páginas web, recursos y servicios móviles
+          se proporcionan únicamente para la información del Usuario, y el Usuario accede a ellos a su propio riesgo. Nosotros no somos responsables por el contenido o la operación de sitios web de terceros, páginas web, recursos o servicios móviles. El Usuario debe leer los términos y condiciones aplicables y políticas de privacidad en cada caso.",
+      "part6P6": "Podemos retirar al Usuario el derecho a enlazar con el Sitio Web sin previo aviso y en cualquier momento actuando a nuestra discreción.",
+      "part3P5": "Condiciones particulares",
+      "part6P7": "Según lo establecido en estas Condiciones el Usuario solo puede incluir enlaces en el Sitio Web a sitios web de terceros o páginas web si:",
+      "part6P5": "Encuadrar o incrustar el Sitio Web en cualquier otro sitio web no está permitido y el Usuario no debe proporcionar acceso al Sitio Web o parte del mismo en cualquier otra URL.",
+      "part3P6": "Alguno de los servicios, productos y aplicaciones ofertados en el Sitio Web pueden tener condiciones particulares, que pueden sustituir o complementar estas Condiciones. Por lo tanto, recomendamos al Usuario leer con atención las condiciones particulares antes de utilizar nuestros servicios, productos o aplicaciones.",
+      "part4P1": "MACMILLAN, busca satisfacer las necesidades de los Usuarios, facilitándoles el acceso a la utilización de sus servicios, productos y aplicaciones.
+        ",
+      "part6P4": "El Usuario puede establecer un enlace con el Sitio Web, siempre que:",
+      "part6P3": "El establecimiento de enlaces entre este Sitio Web con otros portales o páginas web no implica en ningún caso la existencia de relaciones entre MACMILLAN y el propietario de la página web en la que se establezca el enlace, ni la aceptación y aprobación por parte de MACMILLAN, de sus contenidos o servicios.",
+      "part6P2": "MACMILLAN, no se hace responsable de la información, contenidos, productos o servicios facilitados por sitios web de terceros, ni asume ningún tipo de responsabilidad por cualquier aspecto relativo a estas páginas webs.",
+      "part6P1": "Los enlaces incluidos en este Sitio Web y que dirigen a otros sitios web, pueden ser gestionados por terceros.",
+      "part5P9": "El Usuario es responsable de todo lo realizado utilizando sus datos de registro y no debe revelar sus datos de acceso a cualquier otra persona. Si cree que otra persona puede tener acceso, o estar utilizando, sus datos de registro, debe informarnos inmediatamente.",
+      "part5P8": "Su registro en el Sitio Web debe realizarse con su propio nombre real, no bajo un nombre falso o pseudónimo ni con la identidad de otra persona. El Usuario debe proporcionar una dirección de correo electrónico válida cuando se registre en el Sitio. Si nos proporciona una dirección de correo electrónico el Usuario garantiza que tiene derecho a recibir correo electrónico en dicha dirección.",
+      "part5P7": "A menos que se indique lo contrario, cada registro es únicamente para un solo Usuario y no para múltiples Usuarios. El Usuario debe mantener sus datos de registro de manera confidencial y será el único responsable de cualquier pérdida o daño que pueda sufrir como resultado de su fallo en la custodia de los datos de registro.",
+      "part5P2": "Quienes accedan a este Sitio Web, están obligados a utilizarlo de acuerdo a la buena fe, el ordenamiento jurídico y las obligaciones contenidas en las presentes Condiciones, las condiciones particulares de ciertos servicios y demás instrucciones que MACMILLAN considere necesarias para el buen uso del Sitio Web.
+      ",
+      "part5P3": "Queda totalmente prohibido el acceso al Sitio Web, con fines ilícitos o dañinos y que afecten directa o indirectamente a MACMILLAN o a terceros. En particular, a título enunciativo y no limitativo, queda prohibido por parte del Usuario:",
+      "part5P4": "Registro",
+      "part5P1": "Utilización del sitio",
+      "part5P5": "El acceso al Sitio Web exige registro previo de Usuario.",
+      "part5P6": "Cuando a un Usuario se le requiera registrarse para usar el Sitio Web o parte del mismo, es su responsabilidad proporcionar detalles veraces, precisos y completos de registro y mantener dichos datos actualizados.",
+      "part10P1": "Además de estas Condiciones, el Usuario debe leer la Política de Privacidad y la Política de Cookies detenidamente, ya que rige nuestra recogida y uso de información sobre el Usuario, y establece cómo recopilamos su información. Al utilizar nuestro Sitio Web, el Usuario consiente la obtención, posesión, procesamiento y transferencia de sus datos según lo establecido en la Política de Privacidad y Política de Cookies.",
+      "part5P16": "Si el Usuario es menor de 14 años, primero debe obtener el consentimiento de su padre, madre, tutor o representante legal para utilizar o registrarse en el Sitio Web. Nos reservamos el derecho a requerir cualquier tipo de consentimiento paterno verificable si consideramos que fuera apropiado en cualquier momento.",
+      "part5P17": "Los menores de 14 años no pueden registrarse por sí solos en el Sitio Web. El registro de menores de 14 años requerirá que la solicitud de apertura de una cuenta a nombre del menor sea aceptada por parte de su padre, madre, representante legal o centro educativo autorizado para ello vía email.",
+      "part5P15": "Menores de edad",
+      "part5P14": "El Usuario puede cancelar su registro en cualquier momento enviando un correo electrónico a la dirección referida en el apartado dos. ",
+      "part5P13": "Podemos suspender, interrumpir o impedir su registro y/o su acceso a cualquier parte o totalidad del Sitio Web a nuestra discreción. Si suspendemos, interrumpimos o impedimos su registro, el Usuario no debe intentar volver a registrarse o enviar cualquier contenido, material o aplicaciones sin nuestro consentimiento previo por escrito.",
+      "part5P12": "MACMILLAN tampoco se responsabiliza por los daños y perjuicios que puedan deberse por las actividades maliciosa en las que un tercero suplante la identidad de otra persona.",
+      "part5P11": "MACMILLAN no se responsabiliza por los daños y perjuicios que pudieran deberse por la falta de veracidad, vigencia, y autenticidad de la información proporcionada por otros Usuarios acerca de ellos mismos o por las declaraciones,  manifestaciones, explicaciones o ideologías vertidos por ellos.",
+      "part5P10": "El Usuario, o su padre, madre, tutor o su representante legal en su caso, será el responsable de las manifestaciones falsas o inexactas que realice de su información o de la aportada respecto de otra persona y responderá por los perjuicios que por estas inexactitudes cause a MACMILLAN o a terceros. ",
+      "part7P10": "El Usuario se compromete a defendernos de y contra cualquier reclamación o acción por un tercero derivada del uso o posesión de cualquier Contenido enviado o subido al Sitio Web por él mismo que viole la propiedad intelectual de dicho tercero ( En adelante, la \"Reclamación PI\"). Asimismo el Usuario deberá indemnizarnos a nuestro requerimiento y mantenernos indemnes de cualquier responsabilidad, pérdidas, daños, costes, reclamaciones y gastos (incluyendo los costes y gastos profesionales) sufridos o incurridos por nosotros que surjan de o en relación con cualquier Reclamación de PI.",
+      "part16P1": "El presente Aviso Legal se rige en todos y cada uno de sus extremos por la normativa vigente Española.",
+      "part16P2": "Las partes acuerdan que en caso de existir algún conflicto de carácter legal se verán sometidos a los Juzgados y Tribunales de Madrid capital.",
+      "part15P1": "Podemos revisar las Condiciones en cualquier momento mediante la modificación de la página en la que aparecen las Condiciones correspondientes. Debe comprobar la página del Sitio Web donde aparecen las Condiciones cada vez que acceda al Sitio Web para conocer cualquier cambio que hagamos, ya que son vinculantes para el Usuario. Algunas de las disposiciones contenidas en las Condiciones también pueden ser reemplazadas por disposiciones o avisos publicados en otros lugares en el Sitio Web.",
+      "part13P3": "En cualquier momento podemos restringir el acceso a una parte o a la totalidad del Sitio a los Usuarios que se hayan registrado con nosotros. El Usuario no debe alterar, adaptar o realizar ingeniería inversa sobre cualquier parte del Sitio Web.",
+      "part13P4": "El Usuario debe tener en cuenta que el contenido, los productos, aplicaciones, servicios y cualquier otro recurso pueden ser retirados del Sitio Web con o sin previo aviso en cualquier momento y que no aceptamos ninguna responsabilidad por su confianza en la continua disponibilidad de cualquier contenido, producto, aplicaciones, servicios o recursos en el Sitio Web.",
+      "part14P1": "Si un tribunal o autoridad competente considera que alguna cláusula de las Condiciones (o parte de cualquier disposición) es inválida, ilegal o no ejecutable, dicha disposición o parte de la disposición será, en la medida requerida considerada eliminada, y la validez y aplicabilidad de las demás disposiciones de las Condiciones no se verá afectada.",
+      "part13P2": "Podemos actualizar el Sitio Web en cualquier momento, y puede cambiar el contenido en cualquier momento. Tenga en cuenta que cualquiera de los contenidos en el Sitio Web pueden no estar actualizados en cualquier momento, y que no tenemos ninguna obligación de actualizarlo",
+      "part12P1": "El Usuario reconoce y acepta que en cualquier momento es posible que tengamos que suspender el acceso a la totalidad o a parte del Sitio Web o cualquier servicio, producto o aplicaciones disponibles a través del mismo, mientras que:",
+      "part13P1": "Se permite el acceso al Sitio Web de forma temporal y nos reservamos el derecho a retirar o modificar el servicio, producto y/o aplicaciones que ofrecemos en el Sitio Web o en parte del mismo sin previo aviso. Nosotros no asumimos ninguna responsabilidad si por alguna razón una parte o la totalidad del Sitio Web no están disponibles en cualquier momento o por cualquier período de tiempo.",
+      "part11P8": "Mientras que supervisamos el Sitio Web con el fin de localizar y corregir defectos, el Usuario reconoce y acepta que no podemos y no garantizamos que el Sitio Web o los servicios, productos o aplicaciones disponibles a través del Sitio Web o de cualquier otra característica individual del mismo estén libre de errores, estén disponibles en todo momento y o estén libre de virus y defectos. Nosotros no seremos responsables por cualquier pérdida o daño causado por un virus, ataques distribuidos de denegación de servicio, u otro material tecnológicamente dañino que pueda infectar su equipo informático, programas de ordenador, datos u otro material exclusivo debido a su uso del Sitio o la descarga de cualquier contenido o software en él o puesto a disposición a través del Sitio Web, o en cualquier sitio web vinculado al Sitio Web.",
+      "part11P7": "No tendremos ninguna responsabilidad hacia el Usuario por cualquier pérdida, daño o inconveniente sufridos debido a la falta de disponibilidad, retiro, corrupción o pérdida de cualquier Contenido, materiales u otra información o datos puestos a disposición a través del Sitio, o de cualquier uso o dependencia de cualquier Contenido en el Sitio.",
+      "part11P6": "Sin perjuicio de la generalidad de las exclusiones de responsabilidad contenida en esta cláusula 12, no seremos responsables si no se puede acceder al Sitio Web total o parcialmente, o si algunos de sus productos, servicios, aplicaciones u otro características no están disponibles para el Usuario debido a eventos fuera de nuestro control, incluyendo, sin limitación, la realización de trabajos de cualquier proveedor de servicios de Internet, la de cualquier navegador de Internet, las limitaciones del dispositivo que el Usuario utiliza para acceder al sitio y/o cualquier daño malicioso o no intencional realizada por el Usuario u otros.",
+      "part11P4": "Nada en las Condiciones excluye o limita nuestra responsabilidad:",
+      "part11P5": "En la medida en que lo permita la ley, nosotros, otros miembros de nuestro grupo de empresas y terceros relacionados con nosotros, excluimos expresamente cualquier responsabilidad por:",
+      "part11P2": "La información y material contenido en el Sitio Web es solo para fines informativos y no constituye asesoramiento. Dicha información y materiales pueden ser incorrectos o estar desactualizados y no deben ser considerados como una declaración definitiva o completa. El Usuario debe verificar cualquier información y material en el Sitio Web y utilizar su propio juicio antes de hacer o no hacer nada sobre la base de dicha información o material. No otorgamos ninguna garantía en cuanto a la exactitud o integridad de la información o material proporcionado en el Sitio Web o cualquier sitio o página Web que está vinculada.",
+      "part11P3": "Salvo que se establezca expresamente en estas Condiciones, no otorgamos ninguna garantía con respecto al Sitio Web o su contenido o cualquier producto o software que esté disponible a través del mismo. Todas las garantías, expresas o implícitas, quedan excluidas en la medida en que lo permita la ley.",
+      "part11P1": "Las disposiciones de esta cláusula 12 exponen toda nuestra responsabilidad financiera, incluyendo cualquier responsabilidad por los actos u omisiones de nuestros empleados, agentes y subcontratistas, con respecto a todas las pérdidas, reclamaciones o responsabilidades derivadas de, o en conexión con, las Condiciones o la utilización del Sitio Web en general, ya sea por contrato, agravio (incluyendo negligencia), incumplimiento de obligaciones legales, o de cualquier otra manera.",
+      "part7P11": "No tenemos obligación alguna de supervisar, controlar o moderar cualquier Contenido publicado en el Sitio Web, y se excluye expresamente nuestra responsabilidad por cualquier pérdida o daño causado por el uso de cualquier Servicio Interactivo por un Usuario contraviniendo estas Condiciones, sea el servicio moderado o no.",
+      "part5P18": "Si el padre, madre, tutor legal no acepta la apertura de la cuenta en el plazo de 45 días Macmillan procederá a la eliminación de la cuenta."
+    },
+    "listItem": {
+      "part6P8": "El sitio web de terceros no promueva puntos de vista políticos o religiosos, o promueva o representa intolerancia, odio, discriminación, violencia, pornografía o actividad ilegal;",
+      "part7Li": "Se encuentra en incumplimiento de estas Condiciones.",
+      "part6P9": "El contenido o el enlace a sitios web de terceros o páginas web no viola ninguna de las disposiciones establecidas en la cláusula 7 Su Contenido.",
+      "introLi1": "Sobre nosotros.",
+      "introLi2": "Cómo ponerse en contacto con nosotros.",
+      "introLi3": "Aceptación de las condiciones de uso.",
+      "introLi5": "Utilización del Sitio.",
+      "introLi4": "Finalidad el Sitio.",
+      "introLi6": "Enlaces.",
+      "introLi7": "Su contenido.",
+      "introLi8": "Contenido de Terceros.",
+      "introLi9": "Derechos de Propiedad Intelectual.",
+      "part2Li1": "Envío por correo postal a la siguiente dirección  Macmillan  Iberia, S.A.U.  Att. Protección de datos, Calle Rosario Pino 14-16, Planta 4, 28020 Madrid.",
+      "part2Li2": "Envío por correo electrónico a la siguiente dirección es.registros@macmillaneducation.com.",
+      "part2Li4": "Envío por correo electrónico a cualquiera de los buzones que el usuario  haya puesto en conocimiento previamente de MACMILLAN.",
+      "part2Li5": "Comunicación por medio de una llamada telefónica  al número de teléfono del Usuario, cuando éste haya sido previamente puesto en conocimiento de MACMILLAN.",
+      "part2Li3": "Envío por correo postal al domicilio del Usuario cuando éste haya sido previamente puesto en conocimiento de MACMILLAN. ",
+      "part2Li6": "Mediante mensajes emergentes enviados durante la prestación de los servicios por parte de MACMILLAN al Usuario.",
+      "part2Li9": "Hechos o circunstancias que revelan el carácter ilícito de dicha actividad. ",
+      "part2Li8": "Especificación de la supuesta actividad ilícita llevada a cabo en el Sitio Web y, en particular, cuando se trate de una supuesta violación de derechos, indicación precisa y concreta de los contenidos protegidos",
+      "part2Li7": "Nombre, dirección, número de teléfono y dirección de correo electrónico de la persona reclamante",
+      "part5Li1": "Copiar o reproducir, distribuir, transmitir, transformar, vender, ofrecer o poner a disposición de terceros, por cualquier medio, todo o parte del Sitio Web, o el contenido, mensajes, archivos, imágenes, o datos del Sitio Web, estén o no disponibles públicamente, a menos que esté específicamente permitido por el Sitio Web, o se cuente con la autorización del titular de los correspondientes derechos o ello resulte legalmente permitido;",
+      "part5Li3": "Introducir o difundir en la red virus informáticos o cualesquiera otros sistemas físicos o lógicos que sean susceptibles de provocar daños en los sistemas físicos o lógicos de MACMILLAN",
+      "part5Li4": "Intentar obtener acceso no autorizado al Sitio Web, al servidor donde se encuentra alojado el Sitio Web o a cualquier servidor, ordenador o base de datos conectados con el Sitio Web o atacar el mismo a través de un ataque de denegación de servicio o por cualquier otro medio distinto de un navegador web normal, en la forma generalmente aceptada, y de acuerdo con estas Condiciones.",
+      "part5Li5": "Recabar datos en el Sitio Web con finalidad publicitaria y remitir publicidad de cualquier clase y comunicaciones con fines de venta u otras de naturaleza comercial sin que medie una previa solicitud y consentimiento de terceros, Usuarios o de Macmillan.",
+      "part5Li6": "Incluir a Macmillan en ficheros o poner nuestra información a disposición de terceros con fines publicitarios, cadenas de mensajes electrónicos, o remitirnos cualquier tipo de mensajes no solicitados o consentidos previamente por la mercantil MACMILLAN.",
+      "part6Li1": "El enlace sea legal y no sea perjudicial o dañino y no obtenga indebidamente ventaja de nuestra reputación o nuestro negocio;",
+      "part6Li3": "El enlace no provenga de ningún sitio web que promueva puntos de vista políticos o religiosos, o promueva o representa intolerancia, odio, discriminación,  violencia, pornografía o actividad ilegal;",
+      "part6Li2": "El enlace no tenga fines publicitarios o promocionales, a menos que lo hayamos aceptado expresamente;",
+      "part6Li4": "El enlace no implique ni sugiera, falsa o engañosamente, que estemos de acuerdo, aprobemos o estemos asociados con el sitio web vinculado, sus páginas web o cualquiera de sus contenidos.",
+      "part6P10": "Las condiciones de uso de dichos sitios web o páginas web permiten esa vinculación;",
+      "part6P11": "Los enlaces están marcados de manera clara y visible como tales;",
+      "part6P13": "El enlace no dará lugar a ninguna descarga automática.",
+      "part6P12": "El contenido de cualquier sitio web o página web vinculada es relevante y claramente relacionado con el Contenido (tal como se define en la cláusula 7) al que esté vinculado;",
+      "part7Li2": "Eliminar su Contenido a nuestra discreción, incluso si el Usuario no ha infringido las Condiciones;",
+      "part7Li1": "Continuar publicando la totalidad o parte de su Contenido, incluso si cambia de opinión y desea que lo eliminemos y/o el Usuario ya no está registrado en el Sitio Web;",
+      "part7Li3": "Utilizar la totalidad o parte de su Contenido en la promoción de nuestros productos y servicios;",
+      "part7Li4": "Reproducir sus marcas comerciales, nombres comerciales, marcas de servicio, logotipos, nombres de dominio u otras señales o imágenes identificativas;",
+      "part7Li5": "Publicar y/o distribuir su Contenido bajo nuestra imagen corporativa o logotipo o la de otro Usuario sin que el Usuario tenga ningún tipo de responsabilidad;",
+      "part7Li6": "Modificar su contenido de cualquier manera a nuestra propia discreción.",
+      "part7Li7": "Es engañoso de cualquier manera, y/o da una impresión falsa en cuanto a sus orígenes o aprobaciones;",
+      "introLi15": "Modificaciones de las Condiciones.",
+      "introLi14": "Validez Parcial.",
+      "introLi16": "Jurisdicción y legislación aplicable.",
+      "part7Li10": "Perjudica cualquier procedimiento legal en curso o pendiente del que el Usuario tenga conocimiento;",
+      "part7Li8": "Es difamatorio, plagiado (incluyendo el plagio de su propio trabajo), abusivo, dañino, amenazante, falso, engañoso, ofensivo, insultante, discriminatorio, profano, de carácter acosador, racista, sexista, indecente, obsceno, pornográfico, detestable o promueve la violencia;",
+      "introLi13": "Modificaciones y actualizaciones del servicio.",
+      "part5Li2": "Evitar, debilitar, dañar o suprimir las protecciones físicas o lógicas de las que disponemos para la seguridad y el funcionamiento del Sitio Web.",
+      "part7Li9": "Viola la confidencialidad o privacidad u otros derechos de un tercero, o de cualquier obligación contraída por el Usuario;",
+      "introLi12": "Mantenimiento del Sitio Web.",
+      "introLi10": "Su información personal.",
+      "part2Li12": "Declaración expresa, clara y bajo la responsabilidad del reclamante de que la información proporcionada en la notificación es exacta y se indique el carácter ilícito de la utilización de los contenidos o de la realización de las actividades descritas.",
+      "part2Li11": "En el supuesto de infracción de derechos, firma manuscrita o equivalente, con los datos personales del titular de los derechos supuestamente infringidos o de la persona autorizada para actuar en nombre y por cuenta de ésta.",
+      "part2Li10": "Una descripción de dónde se encuentra en el Sitio Web el material que el Usuario considera que infringe;",
+      "part12Li3": "Llevamos a cabo mantenimiento urgente y/o suspensión del acceso a los servidores, y que, como resultado de lo cual el Sitio o dichos servicios, productos o aplicaciones pueden ser menos accesibles o no están disponibles para el Usuario en algún momento.",
+      "part7Li18": "Se encuentra en incumplimiento de estas Condiciones.",
+      "part7Li17": "Sea considerado un delito penal o infracción legal en cualquier jurisdicción, o da lugar a responsabilidad civil, o sea de otra manera ilegal;",
+      "part12Li2": "Instalamos actualizaciones y llevamos a cabo el diagnóstico y el mantenimiento del Sitio Web o de dichos servicios, productos o aplicaciones generales;",
+      "part12Li1": "Corregimos los defectos y errores en el Sitio Web o los servicios, productos o aplicaciones;",
+      "part11Li9": "Pérdida de oportunidad;",
+      "part11Li8": "Pérdida de negocio;",
+      "part11Li7": "Pérdida de ingresos previstos;",
+      "part7Li15": "Se trate de spam o contenido basura;",
+      "part7Li16": "Se haga pasar por otra persona o falsifique su identidad, afiliación o estado;",
+      "part11Li6": "Pérdida de ahorros previstos;",
+      "part11Li5": "Pérdida de beneficios;",
+      "part11Li4": "Pérdida o corrupción de datos;",
+      "part11Li3": "Por cualquier otra responsabilidad que no pueda ser limitada por la ley aplicable.",
+      "part11Li1": "Por muerte o daños personales causados ​​por nuestra negligencia;",
+      "part11Li2": "Por fraude o tergiversación fraudulenta;",
+      "part7Li14": "Que anuncie o promueva cualquier producto o servicio o haga cualquier solicitud de donaciones o apoyo financiero;",
+      "part7Li12": "Infrinja cualquier derecho de propiedad intelectual de nuestra propiedad o de cualquier tercero;",
+      "part7Li13": "Sea técnicamente dañino, incluyendo, pero limitando, Contenido que contenga virus informáticos, bombas lógicas, troyanos, gusanos, componentes dañinos, datos corruptos u otro software malicioso, datos dañados o que conduce y/o contiene cualquier otro elemento que pretenda hacernos daño a nosotros o a cualquier tercero, o para llevar a cabo o facilitar cualquier transacción fraudulenta o deshonesta;",
+      "introLi11": "Responsabilidad.",
+      "part7Li11": "Contenga acusaciones de irregularidades o de crítica personal de nuestros empleados, directivos o terceros;",
+      "part11Li10": "Efecto adverso sobre la reputación y/o de buena voluntad;",
+      "part11Li11": "Cualquier pérdida o daño indirecto o consecuencial excepto las pérdidas que surjan como resultado de multas reglamentarias y daños a la propiedad que, en la medida en que surjan como una consecuencia natural de la infracción de que se trate, no serán considerados como indirectos o consecuenciales."
+    }
+  },
+  "rubric": {
+    "text": {
+      "mark": "Calificación de los estándares de aprendizaje del proyecto",
+      "noMark": "
+                        Sin valoración
+                      ",
+      "project": "rubric.text.project",
+      "comingSoon": "Próximamente",
+      "notAvailable": "Aún no se encuentra disponible la rúbica para este proyecto"
+    },
+    "button": {
+      "edit": "Editar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "download": "Descargar"
+    },
+    "tableHeader": {
+      "performance": "NIVEL DE DESEMPEÑO",
+      "learningStandards": "ESTÁNDAR DE APRENDIZAJE",
+      "evaluationCriteria": "CRITERIOS DE EVALUACIÓN"
+    }
+  },
+  "support": {
+    "title": {
+      "so": "Sistema operativo",
+      "chrome": "Cualquier sistema operativo que tenga soporte para el navegador Google Chrome.",
+      "devices": "Dispositivos de sobremesa o portátiles. No se recomienda utilizar tablets o smartphones.",
+      "require": "Requisitos técnicos",
+      "platform": "Plataforma",
+      "contactUs": "Contacta con nosotros",
+      "needToUse": "Es recomendable utilizar Google Chrome con la versión 68.0 o superior.",
+      "navigator": "Navegador",
+      "toUseBmaker": "Para usar bMaker, es aconsejable que tu ordenador cumpla los siguientes requisitos:",
+      "technicalService": "Soporte"
+    }
+  },
+  "header": {
+    "link": {
+      "kits": "Kits",
+      "help": "Ayuda",
+      "exit": "Salir",
+      "login": "Entrar",
+      "logbook": "Bitácora virtual",
+      "contents": "Contenidos",
+      "platform": "Plataforma",
+      "myProfile": "Mi Perfil",
+      "myProjects": "Mis proyectos",
+      "register": "Crear una cuenta",
+      "methodology": "Metodología",
+      "myClassrooms": "Mis clases"
+    },
+    "button": {
+      "exit": "
+            
+              
+            
+            Salir
+          "
+    },
+    "breadcrumb": {
+      "myProjects": "Mis Proyectos",
+      "help": "Ayuda",
+      "myClasses": "Mis Clases",
+      "projectName": "Proyecto {{itemNumber}}: {{itemName}}",
+      "sessionName": "Sesión {{itemNumber}}: {{itemName}}"
+    }
+  },
+  "wiki": {
+    "title": {
+      "noResults": "No se han encontrado resultados"
+    },
+    "tabTitle": {
+      "all": "Todas"
+    }
+  },
+  "helpers": {
+    "text": {
+      "hint": "Pista",
+      "group": "Técnica Cooperativa",
+      "recall": "Recuerda",
+      "suggestion": "Información"
+    },
+    "title": {
+      "hint": "Pista",
+      "group": "Técnica de aprendizaje cooperativo recomendada",
+      "recall": "Recuerda",
+      "suggestion": "Información"
+    }
+  },
+  "results": {
+    "text": {
+      "done": "realizada",
+      "pending": "sin hacer",
+      "attempts": "{{numAttempts}} intentos",
+      "inProgress": "empezada",
+      "activity": "
+            Sesión {{sessionNumber}} - Actividad {{activityNumber}}
+          ",
+      "evaluation": "Evaluación",
+      "comingSoon": "Próximamente",
+      "finalDelivery": "
+            Entrega final
+          "
+    },
+    "tableHeader": {
+      "state": "ESTADO",
+      "location": "TIPO Y UBICACIÓN",
+      "attempts": "Nº INTENTOS",
+      "achievements": "LOGROS"
+    }
+  },
+  "contact": {
+    "label": {
+      "job": "Cargo",
+      "name": "Nombre",
+      "city": "Localidad",
+      "email": "Email",
+      "center": "Centro",
+      "comment": "Comentario",
+      "contact": "Contacto",
+      "province": "Provincia",
+      "mandatoryFields": "(*) Campos obligatorios"
+    },
+    "text": {
+      "help": "Contacta con nuestro Servicio Técnico en {{supportEmail}} o en el {{supportPhone}}.",
+      "knowmore": "Escríbenos a {{knowEmail}}. Estaremos encantados de solucionar tus dudas.",
+      "sent": "El mensaje se ha enviado correctamente. ¡Gracias por contactarnos!"
+    },
+    "title": {
+      "help": "¿Necesitas ayuda?",
+      "knowmore": "¿Quieres saber más?"
+    },
+    "link": {
+      "legal2": "y ",
+      "legal1": "He leído y acepto las ",
+      "legalTerms": "condiciones generales ",
+      "privacyPolicy": "políticas de privacidad"
+    },
+    "button": {
       "send": "Enviar",
+      "sending": "Enviando..."
+    },
+    "error": {
+      "needCity": "Es necesario escribir la localidad.",
+      "needName": "Es necesario escribir un nombre.",
+      "needEmail": "Es necesario escribir un email.",
+      "needCenter": "Es necesario escribir el centro.",
+      "needProvince": "Es necesario escribir la provincia.",
+      "unexpected": "
+        
+          
+         Ha ocurrido un error inesperado, inténtalo de nuevo.
+      ",
+      "needLegalTerms": "Es obligatorio aceptar las condiciones de uso y la política de privacidad.",
+      "incorrectEmail": "Es necesario escribir un email correcto."
+    },
+    "placeholder": {
+      "name": "Escriba aquí su nombre completo",
+      "city": "Escriba aquí la localidad del centro",
+      "job": "Escriba aquí su cargo",
+      "center": "Escriba aquí el centro en el que trabaja",
+      "email": "Escriba aquí su email",
+      "comment": "Escriba aquí su comentario",
+      "province": "Escriba aquí la provincia del centro"
+    }
+  },
+  "progress": {
+    "text": {
+      "send": "Enviado",
+      "noSend": "Sin enviar",
+      "comingSoon": "Próximamente",
+      "slideCount": "{{slidesLength}} de {{totalSlides}}",
+      "projectTotal": "Total del proyecto",
+      "progressCount": "{{itemsLength}} de {{totalItems}}",
+      "projectEvaluation": "Evaluación del proyecto"
+    },
+    "title": {
+      "help": "¿Necesitas ayuda?",
+      "knowmore": "¿Quieres saber más?"
+    },
+    "tooltip": {
+      "session": "Sesión {{sessionNumber}} - {{sessionTitle}}"
+    },
+    "button": {
+      "send": "Enviar",
+      "sending": "Enviando..."
+    },
+    "link": {
+      "legal2": "y ",
+      "legal1": "He leído y acepto las ",
+      "legalTerms": "condiciones generales ",
+      "privacyPolicy": "políticas de privacidad"
+    },
+    "error": {
+      "needEmail": "Es necesario escribir un email.",
+      "needName": "Es necesario escribir un nombre.",
+      "needCity": "Es necesario escribir la localidad.",
+      "unexpected": "
+        
+          
+         Ha ocurrido un error inesperado, inténtalo de nuevo.
+      ",
+      "needCenter": "Es necesario escribir el centro.",
+      "needLegalTerms": "Es obligatorio aceptar las condiciones de uso y la política de privacidad.",
+      "needProvince": "Es necesario escribir la provincia.",
+      "incorrectEmail": "Es necesario escribir un email correcto."
+    },
+    "placeholder": {
+      "job": "Escriba aquí su cargo",
+      "name": "Escriba aquí su nombre completo",
+      "email": "Escriba aquí su email",
+      "city": "Escriba aquí la localidad del centro",
+      "center": "Escriba aquí el centro en el que trabaja",
+      "comment": "Escriba aquí su comentario",
+      "province": "Escriba aquí la provincia del centro"
+    },
+    "tableHeader": {
+      "progress": "PROGRESO",
+      "content": "CONTENIDO"
+    }
+  },
+  "privacy": {
+    "title": {
+      "date": "Fecha: Mayo 2018",
+      "part1": "Resumen de nuestras actividades de tratamiento",
+      "part2": "Definiciones",
+      "part3": "Uso informativo del Sitio Web",
+      "part4": "Registro en nuestros servicios ",
+      "part5": "Toma de decisiones automatizadas",
+      "part6": "Análisis",
+      "part9": "Comunicación de información ",
+      "part8": "Enlaces a sitios web de terceros ",
+      "part7": "Cookies y almacenamiento local ",
+      "part10": "Seguridad",
+      "part11": "Conservación de datos",
+      "part12": "Sus derechos",
+      "part13": "Contacte con nosotros",
+      "part14": "Modificaciones a esta política",
+      "privacyPolicy": "POLÍTICA DE PRIVACIDAD"
+    },
+    "text": {
+      "intro1": "Esta es la política de privacidad (en adelante, la \"Política\") para este Sitio Web cuya titularidad pertenece a Macmillan Iberia S.A.U.",
+      "intro2": "Solo usaremos los datos personales recabados a través de este Sitio Web (en adelante, el “Sitio Web”) de conformidad con lo establecido en esta política. A continuación encontrará información relativa a cómo usamos sus datos personales, para qué fines se usan, con quién se comparten y qué derechos puede tener en relación con los mismos.",
+      "part3P1": " Cuando visita nuestro Sitio Web por razones informativas, es decir, sin registrarse para ninguno de nuestros servicios enumerados en la sección IV y sin proporcionarnos datos personales de ninguna otra forma, podemos recabar automáticamente información adicional sobre usted que contendrá datos personales únicamente en casos limitados que nuestro servidor reconoce automáticamente, como por ejemplo:",
+      "part1P1": "El siguiente resumen le proporciona una descripción general rápida de las actividades de tratamiento que se llevan a cabo en nuestro Sitio Web. Encontrará información más detallada en las secciones indicadas a continuación.",
+      "part3P2": "
+      Utilizamos dicha información solo para proporcionar un servicio eficaz (por ejemplo, para adaptar nuestro Sitio Web a las necesidades de su dispositivo o para permitirle iniciar sesión en nuestro Sitio Web), y para recabar información demográfica amplia de manera anónima y agregada.
+      Los datos personales recabados automáticamente son necesarios para que proporcionemos el Sitio Web, Artículo 6. 1. b) GDPR, y para nuestro interés legítimo de garantizar la estabilidad y seguridad del Sitio Web, el artículo 6 .1.1 f) GDPR.
+      ",
+      "part4P2": "
+        La información que es necesaria para la prestación del servicio está señalada como tal. Toda la información adicional se proporciona de manera voluntaria.
+      ",
+      "part4P1": "Nuestro Sitio Web ofrece una plataforma educativa. Para utilizar el servicio debe crear una cuenta. Con respecto al registro de una cuenta y su uso posterior, tratamos los siguientes datos personales:",
+      "part4P3": "Trataremos los datos personales que nos proporcione para:",
+      "part4P4": " La base legal de estos tratamientos es el Artículo 6.1. b) GDPR. ",
+      "part5P1": " No utilizamos sus datos personales para la toma de decisiones automatizadas que produzcan efectos legales sobre usted o que puedan afectarle significativamente de manera similar.",
+      "part6P1": " Para los análisis estadísticos, utilizamos una herramienta llamada Google Analytics, un servicio de análisis web proporcionado por Google, para recopilar información sobre el uso de este Sitio Web.",
+      "part4P5": "Usamos los datos personales y los datos de contacto que proporciona a través el registro para informarle directamente sobre nuestros productos y servicios adicionales. El uso de sus datos personales para la publicidad directa de productos y servicios relacionados se basa en nuestro interés legítimo como titular de este Sitio Web, Artículo 6 .1. f) GDPR.
+        Puede oponerse al uso de sus datos personales para marketing directo en cualquier momento. Una vez haya manifestado su oposición, nos abstendremos de cualquier tratamiento en la medida en que esté relacionado con dichas finalidades. Puede informarnos sobre su oposición comunicándose con nosotros a través de es.registros@macmillaneducation.com.",
+      "part6P2": "Usamos la información que obtenemos de Google solo para determinar la información más útil en relación con la que está buscando y para mejorar y optimizar este Sitio Web. No combinamos la información recopilada mediante el uso de Google Analytics con datos personales.",
+      "part6P4": "La base legal para este tratamiento es el art. 6.1. f) GDPR y se basa en nuestro interés legítimo de analizar el tráfico de nuestro Sitio Web para mejorar la experiencia del usuario y optimizar el Sitio Web en general. Google conservará los datos personales que se recaben para análisis estadísticos durante [6] mes(es).",
+      "part7P1": "Por almacenamiento local entendemos cualquier fichero creado por la web en tu dispositivo de navegación. Las cookies son una forma de almacenamiento local y puedes consultar toda la información en la política de cookies de este Sitio Web. ",
+      "part6P3": " La información generada sobre su uso del Sitio Web será transmitida y almacenada por Google en sus servidores en Europa. Google Analytics recopila solo la dirección IP asignada en la fecha en que visita este Sitio Web, en lugar de su nombre o cualquier otra información de identificación. El proveedor utilizará esta información para evaluar su uso del Sitio Web, para recopilar informes sobre las actividades del Sitio Web y para proporcionarnos otros servicios relacionados con el uso del Sitio Web y de Internet.",
+      "part7P2": "Existen otras formas de almacenamiento local, diferentes a las cookies, que utiliza el Sitio Web, y son las siguientes:",
+      "part8P1": "Este Sitio Web puede contener enlaces a sitios web de terceros. No somos responsables del contenido y la obtención de datos a través de los sitios web de dichos terceros; verifique la política de privacidad de estos sitios web para obtener información sobre el tratamiento de datos que se lleva a cabo en dichos sitios web.",
+      "part7P5": " El almacenamiento local es necesario para la correcta prestación del servicio. En caso de bloquear esta funcionalidad no podrá prestarse el servicio.",
+      "part7P3": "La finalidad del almacenamiento local en el Sitio Web es mejorar la experiencia del usuario.",
+      "part7P4": "El listado de datos que almacenamos en el navegador es el siguiente:",
+      "part9P1span1": "Sus datos pueden ser comunicados a las empresas del grupo Springer Nature al que pertenece Macmillan, y que puede encontrar en el siguiente link",
+      "part9P2": "Podemos comunicar estadísticas con información agregada y anónima sobre los usuarios del Sitio Web para describir nuestros servicios a posibles socios, anunciantes y otros terceros de buena reputación, así como para otras finalidades legales, sin embargo, estas estadísticas no incluirán datos personales.",
+      "part9P1span2": "La base jurídica que legitima la comunicación de sus datos es el interés legítimo de Macmillan para cumplir con fines administrativos.",
+      "part9P3": "Podemos divulgar sus datos personales a los siguientes prestadores de servicios que nos ayudan a prestar los servicios que ofrecemos a través del Sitio Web: Mundo Reader, S.L. e Inmediastudio Comunicación, S.L., ambos ubicados en España. Dicha divulgación se basará en acuerdos de encargado del tratamiento. Por lo tanto, nuestros prestadores de servicios únicamente usarán sus datos personales en la medida necesaria para prestar sus servicios y estarán obligados por contrato a tratar sus datos personales solo en nuestro nombre y de conformidad con nuestras solicitudes.",
+      "part9P4": "En el caso de que se produzca una reorganización o nos adquiera un tercero, cualquier información personal que tengamos sobre usted podrá ser transferida a la entidad reorganizada o a dicho tercero en cumplimiento de la normativa aplicable.",
+      "part9P5": "Podemos comunicar sus datos personales en caso de tener el derecho o la obligación legal de hacerlo (por ejemplo, si así lo exige una ley u orden judicial).",
+      "part10P1": "Contamos con medidas de seguridad razonables y de última generación para proteger los datos personales de la pérdida, el uso indebido y la alteración de los mismos. Por ejemplo, nuestras políticas de seguridad y privacidad se revisan y mejoran periódicamente en la medida en que sea necesario y solo el personal autorizado tiene acceso a los datos personales. Si bien no podemos garantizar que la pérdida, el uso indebido o la alteración de la información se produzcan, hacemos todos los esfuerzos razonables para evitarlo.",
+      "part14P1": "Nos reservamos el derecho de modificar esta política periódicamente mediante la actualización de nuestro Sitio Web. Visite el Sitio Web regularmente y consulte nuestra política de privacidad actual. Esta política se actualizó por última vez el en mayo de 2018.",
+      "part13P2": "
+        Puede ponerse en contacto con nuestro Delegado de Protección de Datos del Grupo a través de dataprotection@springernature.com.
+      ",
+      "part13P3": "La información que proporcione cuando se comunique con nosotros (por ejemplo, nombre o dirección de correo electrónico) se tratará para gestionar su solicitud y se eliminará cuando se solicite. Alternativamente, restringiremos el tratamiento de dicha información de conformidad con los requisitos de conservación establecidos en la normativa.",
+      "part13P1": "Envíe cualquier pregunta, inquietud o comentario que tenga sobre este aviso o cualquier solicitud relacionada con sus datos personales por correo electrónico a es.registros@macmillaneducation.com.",
+      "part12P1": "De conformidad con la normativa aplicable, usted puede tener derecho a ejercer algunos o todos los siguientes derechos:",
+      "part11P1": "Nos esforzamos por limitar nuestras actividades de tratamiento con respecto a sus datos personales lo máximo posible. En caso de que no haya períodos de conservación específicos en este aviso, sus datos personales se conservarán únicamente durante el tiempo necesario para cumplir con la finalidad para la que los hemos recabado y, en su caso, siempre que lo exijan las obligaciones de conservación establecidas en la normativa que resulte de aplicación. ",
+      "part10P2": "Debe tener en cuenta que la transmisión de información a través de Internet nunca es del todo segura. No podemos garantizar la seguridad de la información que envía a través de nuestro Sitio Web mientras está en tránsito a través de Internet y cualquier envío se realiza bajo su propio riesgo."
+    },
+    "listItem": {
+      "part7Li9": "ItemsActivity: Guarda el estado de los elementos de la actividad que estás realizando. Colocación de los elementos de la actividad del usuario.",
+      "part7Li4": "Identity: Datos del usuario",
+      "part7Li7": "ShowWelcomeModal: Si hay que mostrar el modal de bienvenida porque se acaba de registrar.",
+      "part7Li8": " Session Storage:
+      
+        ItemsActivity: Guarda el estado de los elementos de la actividad que estás realizando. Colocación de los elementos de la actividad del usuario.
+        ActivityPending: Guarda el estado de la actividad que estás realizando.
+      
+    ",
+      "part7Li6": "ShowModal: Si hay que mostrar el modal de autorizacion para usuario menor de 14 años.",
+      "part7Li5": "Token: sesión activa del usuario",
+      "part7Li3": " Local Storage:
+      
+        Identity: Datos del usuario
+        Token: sesión activa del usuario
+        ShowModal: Si hay que mostrar el modal de autorizacion para usuario menor de 14 años.
+        ShowWelcomeModal: Si hay que mostrar el modal de bienvenida porque se acaba de registrar.
+      
+    ",
+      "part7Li2": "localStorage: hace lo mismo que el anterior, pero persiste incluso cuando el navegador se cierre y se reabra.",
+      "part7Li1": "sessionStorage: mantiene un área de almacenamiento separada para cada origen que está disponible mientras dure la sesión de la página (mientras el navegador esté abierto, incluyendo recargas de página y restablecimientos).",
+      "part4Li4": "Comunicarnos con usted;",
+      "part3Li5": "información sobre su sistema operativo, incluida la configuración de idioma. ",
+      "part3Li6": "Localidad desde la que realiza la conexión",
+      "part4Li2": "Proporcionarle los servicios e información ofrecidos a través del Sitio Web o solicitados por usted; ",
+      "part3Li3": "el contenido de sus solicitudes;  ",
+      "part4Li1": "Identificarle cuando accede;",
+      "part3Li2": "la fecha y hora de sus solicitudes; ",
+      "part3Li4": "información en su versión del navegador;",
+      "part4Li3": "Administrar su cuenta;",
+      "part3Li1": "su tipo de dispositivo (pc o móvil), modelo de dispositivo; ",
+      "part2Li2": "Tratamiento: hace referencia a cualquier operación que se lleve a cabo con datos personales, como obtención, registro, organización, estructuración, almacenamiento, adaptación, cualquier tipo de divulgación u otro uso.",
+      "part1Li5": "De conformidad con la normativa aplicable, usted puede tener derecho a ejercer ciertos derechos con respecto a sus datos personales (ver sección 12).",
+      "part1Li7": "Cuando visite nuestro Sitio Web por razones informativas sin abrir una cuenta, solo se tratarán los datos personales limitados para proporcionarle acceso al Sitio Web (ver sección 3).",
+      "part2Li1": "Datos personales: hace referencia a cualquier información relacionada con una persona física que pueda identificarse, directa o indirectamente, en particular por referencia a un identificador, como un nombre, un número de identificación, datos de ubicación o un identificador en línea.",
+      "part1Li4": "Hemos implementado medidas de seguridad adecuadas para proteger sus datos personales (ver sección 10) y conservaremos sus datos personales solo durante el tiempo que sea necesario (ver sección 11).",
+      "part1Li6": "Nuestra política de privacidad se adecua a los establecido por el nuevo reglamento (UE 2016/679), general de protección de datos, (en adelante GDPR.)",
+      "part1Li3": "Sus datos personales pueden divulgarse a terceros (ver sección 9).",
+      "part1Li2": "Además, sus datos personales se utilizarán para para el análisis estadístico que nos ayuda a mejorar nuestro Sitio Web (ver sección 6). Además, mejoramos su experiencia del Sitio Web mediante contenido de terceros (ver sección 8).",
+      "part1Li1": "En caso de que se registre para uno de nuestros servicios (por ejemplo, web educativa) o se suscriba a nuestro boletín, se tratarán más datos personales en el marco de la prestación de dichos servicios (ver secciones 4, 5).",
+      "introLi9": "Comunicación de información.",
+      "introLi8": "Enlaces a sitios web de terceros.",
+      "introLi7": "Cookies y almacenamiento local.",
+      "introLi5": "Toma de decisiones automatizadas.",
+      "introLi6": "Análisis.",
+      "introLi4": "Registro en nuestros servicios.",
+      "introLi3": "Uso informativo del Sitio Web.",
+      "introLi2": "Definiciones.",
+      "introLi1": "Resumen de nuestras actividades de tratamiento.",
+      "part12Li2": "Solicitar la rectificación, borrado o limitación del tratamiento de sus datos personales, e.g. porque (i) son incompletos o inexactos, (ii) ya no son necesarios para los fines para los cuales fueron recabados, o (iii) el consentimiento sobre el cual se basó el tratamiento ha sido revocado, o (iv) usted ha ejercido su derecho de limitación del tratamiento; en caso de que los datos personales sean tratados por terceros, su solicitud de rectificación, borrado o limitación del tratamiento también se enviará a dichos terceros a menos que esto resulte imposible o implique un esfuerzo desproporcionado;",
+      "part7Li10": "ActivityPending: Guarda el estado de la actividad que estás realizando.",
+      "introLi10": "Seguridad.",
+      "introLi11": "Conservación de datos.",
+      "introLi13": "Contacte con nosotros.",
+      "introLi14": "Modificaciones a esta política.",
+      "introLi12": "Sus derechos.",
+      "part12Li1": "Solicitar (i) el acceso y / o duplicados de sus datos personales, (ii) recibir los datos personales que le conciernen, en un formato estructurado, comúnmente utilizado y legible por una máquina, y (iii) transmitir esos datos a otro responsable sin obstáculos por nuestra parte; cuando sea técnicamente posible, usted tendrá derecho a que transmitamos los datos personales directamente a otro responsable;",
+      "part12Li3": "Negarse a otorgar así como, sin que esto afecte a las actividades de tratamiento que hayan tenido lugar antes de dicha retirada o a cualquier otra justificación legal existente del tratamiento en cuestión, retirar su consentimiento para el tratamiento de sus datos personales en cualquier momento;",
+      "part12Li5": "Emprender acciones legales en relación con cualquier posible vulneración de sus derechos con respecto al tratamiento de sus datos personales, así como presentar quejas ante las autoridades de protección de datos competentes; y / o",
+      "part12Li4": "Oponerse en cualquier momento a que sus datos personales se utilicen con fines de marketing directo, o -debido a motivos relacionados con su situación particular- que sus datos personales se traten para otros fines;",
+      "part12Li6": "No estar sujeto a ninguna toma de decisiones automatizada, incluida la elaboración de perfiles (decisiones automatizadas basadas en el tratamiento de datos por medios automatizados, con el fin de evaluar distintos aspectos personales) que produzcan efectos legales sobre usted o le afecten de un modo similar.",
+      "part12Li7": "Puede (i) ejercer los derechos anteriormente mencionados, (ii) plantear alguna pregunta o (iii) presentar una reclamación con respecto al tratamiento de datos poniéndose en contacto con nosotros a través de los datos de contacto que se detallan a continuación."
+    }
+  },
+  "recovery": {
+    "title": {
+      "sentEmail": "Email enviado",
+      "forgot": "¿Has olvidado tus datos?",
+      "invalidLink": "Enlace no válido",
+      "newPassword": " Nueva contraseña para \"{{username}}\"",
+      "changedPassword": "Contraseña cambiada"
+    },
+    "link": {
+      "back": "Volver a la web"
+    },
+    "text": {
+      "writeEmail": "Escribe el email que pusiste en el registro y te enviaremos un correo electrónico con un enlace
+        para que puedas crear una nueva contraseña.",
+      "sentEmail": "Si la cuenta existe, recibirá un correo electrónico con las instrucciones para seguir.",
+      "checkEmail": "Revisa la bandeja de entrada de tu correo electrónico y si no lo encuentras, es posible que esté en la carpeta
+        de Spam.",
+      "newPassword": " Ahora ya puedes escribir una nueva contraseña.
+        ",
+      "changedPassword": "Tu contraseña se ha cambiado con éxito. A partir de ahora ya no podrás entrar con la anterior contraseña.",
+      "invalidLink": "Lo sentimos, este enlace no es válido o ha caducado. Comprueba si tienes
+          uno más reciente, y si no es así, vuelve a solicitar uno nuevo."
+    },
+    "remindUsername": "Si no te acuerdas de tu nombre de usuario, escribe tu email y te lo recordaremos.",
+    "button": {
+      "sendAgain": "Volver a enviar",
+      "changePassword": " Cambiar contraseña "
+    },
+    "label": {
+      "emailOrUsername": " Email o nombre de usuario ",
+      "repeatPassword": "Repetir contraseña"
+    },
+    "placeholder": {
+      "newPassword": "Escribe aquí tu contraseña",
+      "repeatPassword": "Repite aquí tu contraseña",
+      "emailOrUsername": "Escribe aquí el email o el nombre de usuario"
+    }
+  },
+  "cookies": {
+    "title": {
+      "date": "Fecha: Mayo 2018",
+      "part2": "Cookies en el sitio web",
+      "part1": "Acerca de las Cookies",
+      "part3": "Cómo utilizamos Cookies",
+      "part4": "Gestión de cookies",
+      "part6": "Bloqueo de cookies",
+      "part7": "Eliminar cookies",
+      "part5": "Cookies de terceros",
+      "cookiePolicy": "POLÍTICA DE COOKIES",
+      "part8": "Contacta con nosotros"
+    },
+    "text": {
+      "intro": "Macmillan Iberia, S.A.U. (en adelante, “Macmillan”), le informa que este sitio web utiliza cookies. Utilizando este sitio web y aceptando esta política de cookies
+        (en adelante, la “Política”), usted consiente el uso de cookies de acuerdo con los términos de esta política que ponemos a su disposición.
+      ",
+      "part7P2": "Obviamente, hacer esto puede tener un impacto negativo en la usabilidad de muchos sitios web.",
+      "part8P1": "Si tiene cualquier pregunta o comentario sobre esta política, o si desea realizar una actualización sobre la información de la que disponemos sobre sus preferencias, por favor, contacte con nosotros:
+      ",
+      "part1P1": "Las Cookies son archivos, a menudo incluyen identificadores únicos, que son enviados por servidores web hacia navegadores web, los cuales son enviados de nuevo al
+          servidor cada vez que el buscador solicita una página desde el servidor.
+      ",
+      "part1P2": "Las Cookies pueden ser usadas por los servidores web para identificar y rastrear usuarios como navegadores de diferentes páginas en un sitio web e
+        identificar usuarios que retornan al sitio web.
+      ",
+      "part1P3": "Para poder utilizar en su totalidad el sitio web en el ordenador, teléfono móvil o tableta cuando, el usuario debe aceptar las cookies, ya que muchas funciones en línea han sido
+          diseñadas para funcionar mediante el uso de estas.
+      ",
+      "part1P4": "Las Cookies según el plazo de tiempo que permanecen activadas en el equipo terminal pueden ser “permanentes” o “de sesión”. Una cookie permanente consiste en un archivo en el que los datos
+        siguen almacenados en el terminal y pueden ser accedidos y tratados durante un periodo definido por el responsable de la cookie, y que puede ir de unos minutos a varios años. Una cookie de sesión, por el otro lado,  es un tipo de cookies diseñadas para recabar y almacenar datos mientras el usuario accede a una página web.
+      ",
+      "part1P5": "Se suelen emplear para almacenar información que solo interesa conservar para la prestación del servicio solicitado por el usuario en una sola ocasión.
+      ",
+      "part2P2": "Esta aplicación ha sido desarrollada por Google, que nos presta el servicio de análisis de la audiencia de nuestra página. Esta empresa puede utilizar estos datos para mejorar sus propios servicios y para ofrecer servicios a otras empresas. Puede conocer esos otros usos desde los enlaces indicados.
+      ",
+      "part2P1": "Las cookies que usamos en esta web son de dos tipos:
+      ",
+      "part2P3": "Esta herramienta no obtiene datos de los nombres o apellidos de los usuarios ni de la dirección postal desde donde se conectan. La información que obtiene está relacionada por ejemplo con el número de páginas vistas, el idioma, red social en la que se publican nuestras noticias, la ciudad a la que está asignada la dirección IP desde la que acceden los usuarios, el número de usuarios que nos visitan, la frecuencia y reincidencia de las visitas, el tiempo de visita, el navegador que usan, el operador o tipo de terminal desde el que se realiza la visita.
+      ",
+      "part2P4": "Esta información la utilizamos para mejorar nuestra página, detectar nuevas necesidades y valorar las mejoras a introducir con la finalidad de prestar un mejor servicio a los usuarios que nos visitan.",
+      "part3P1": "Estas Cookies no contienen información que le identifique personalmente pero la información personal que usted pueda facilitarnos a través de este sitio web y que  nosotros almacenamos sobre usted puede estar relacionada con las cookies. Las cookies utilizadas en este sitio web incluyen aquellas estrictamente necesarias para el acceso y la navegación, cookies para el seguimiento del uso (cookies de rendimiento), recuerdan tus elecciones (cookies funcionales), y cookies que te proporcionan contenido y publicidad personalizada.",
+      "part3P2": "Esta información es utilizada con los siguientes fines:",
+      "part4P1": "Al navegar y permanecer en el sitio web, el usuario acepta el uso de cookies en las condiciones que figuran en esta Política. Macmillan proporciona acceso a esta Política de Cookies en el momento del acceso al sitio web para informar al usuario, a pesar de que el usuario puede ejercer su derecho a bloquear, eliminar y rechazar el uso de cookies en todo momento.",
+      "part5P1": "Cuando usted utilice nuestro sitio web, puede acceder a páginas de terceros e incluso puede recibir cookies de terceros. Ellos utilizarán la información que obtengan de tu uso de sus Cookies para:
+      ",
+      "part5P2": "Además de la información proporcionada en esta política de cookies, el usuario puede encontrar más información sobre las opciones de navegación en:",
+      "part4P2": "De todos modos, como las cookies no son necesarias para el uso de nuestro sitio web, el usuario puede bloquear o deshabilitar las cookies activando la configuración de las mismas, lo que permite rechazar la instalación de cada cookie o de algunas de ellas.
+        ",
+      "part6P1": "El usuario tiene la posibilidad de configurar su navegador para ser avisado en pantalla de la recepción de cookies y para impedir la instalación de cookies en su disco duro.
+      ",
+      "part6P2": "Por favor, consulte las instrucciones y manuales de su navegador para ampliar ésta información. No obstante le proporcionamos los siguientes ejemplos:",
+      "part7P1": "Usted también puede borrar cookies almacenadas en su ordenador:
+      ",
+      "listIntro": "Haga clic en cualquiera de los enlaces siguientes para acceder a la sección correspondiente:
+      "
+    },
+    "listItem": {
+      "part8Li4": "Calle Rosario Pino 14-16, Planta cuarta, 28020 Madrid",
+      "part8Li3": "Escribiendo a: Macmillan Iberia S.A.U.",
+      "part8Li2": "Mandando un correo electrónico:  es.registros@macmillaneducation.com",
+      "part8Li1": "Llamando: +34 91 524 94 20",
+      "part7Li3": "En Google Chrome usted puede ajustar sus permisos de cookies haciendo clic en “Opciones”, “Avanzada”, Configuración de contenido en la sección “Privacidad”. Haga clic en la pestaña Cookies en la Configuración del Contenido.",
+      "part7Li2": "En Firefox, puede borrar cookies primero, asegurándose que las cookies se eliminen cuando usted “Limpie la información privada” (este ajuste se puede cambiar haciendo clic en “Herramientas”, “Opciones” y “Configuración” en la ventana “Datos privados”) y luego haciendo clic en “Borrar datos privados” en el menú “Herramientas”.",
+      "part7Li1": "En Internet Explorer, usted debe eliminar manualmente los archivos de cookies.",
+      "part6Li3": "En Google Chrome puede ajustar sus permisos de cookies haciendo clic en “Opciones”, “Avanzada”, Configuración de contenido en la sección “Privacidad”. Haga clic en la pestaña Cookies en la configuración del contenido.",
+      "part5Li3": "Para personalizar publicidad que puede ser particularmente de su interés",
+      "part6Li1": "En el explorador de Internet puede rechazar todas las cookies haciendo clic en “Herramientas”, “Opciones de Internet”, “Privacidad”, y seleccionar “Bloquear todas las cookies” usando el selector deslizante.",
+      "part6Li2": "En Firefox puede bloquear todas las cookies haciendo clic en “Herramientas”, “Opciones” y desmarcar “Aceptar cookies de las webs” en la ventana de “Privacidad”.",
+      "part5Li2": "Construir un perfil de tu navegación en Internet",
+      "part5Li1": "Para seguir tu navegación mediante múltiples websites",
+      "part3Li6": "Para personalizar nuestro sitio web para usted, incluyendo anuncios dirigidos que pueden ser particularmente de su interés",
+      "part2Li1": "Cookies técnicas y de personalización: Son propias y resultan necesarias para navegar por el sitio web. Estas cookies no almacenan datos personales y pueden ser de sesión (en cuyo caso se mantendrán activas mientras te encuentres en la página y uses el navegador, eliminándose automáticamente una vez abandones el navegador) o cookies con una duración determinada definido por el propietario de la cookie,  y que puede ir de unos minutos a varios años.",
+      "part3Li1": "Para reconocer su ordenador cuando usted visita nuestro sitio web",
+      "part2Li2": "Cookies de análisis estadístico y publicidad: Son de terceros ya que la aplicación que utilizamos para obtener y analizar la información estadística de la navegación en nuestra web es Google Analytics:",
+      "part3Li2": "Para seguirlo mientras navega nuestro sitio web y para permitir el uso de facilidades de comercio electrónico.",
+      "part3Li3": "Para mejorar la usabilidad de nuestro sitio web",
+      "part3Li5": "En la administración de este sitio web.",
+      "webCookies": "Cookies en el sitio web.",
+      "part3Li4": "Para analizar el uso de nuestro sitio web",
+      "contactUs": "Contacta con nosotros.",
+      "cookieUsage": "Cómo utilizamos Cookies.",
+      "aboutCookies": "Acerca de las cookies.",
+      "manageCookies": "Gestión de cookies.",
+      "deleteCookies": "Eliminar cookies.",
+      "cookieBlocking": "Bloqueo de cookies.",
+      "thirdPartyCookies": "Cookies de terceros."
+    }
+  },
+  "licenses": {
+    "text": {
+      "unused": "Aún no has usado ninguna licencia",
+      "demo": "Demostración",
+      "standard": "Normal",
+      "custom": "Personalizada",
+      "expiresOn": "Caduca el {{expireAt}}",
+      "blockedOn": "Bloqueada el {{deactivatedAt}}",
+      "expiredOn": "Caducada el {{expiredAt}}",
+      "expiresOnWithoutTime": "Caduca el:",
+      "blockedOnWithoutTime": "Bloqueada el:",
+      "expiredOnWithoutTime": "Caducada el:"
+    },
+    "title": {
+      "class": "Asignada a la clase",
+      "type": "Tipo",
+      "licenseContent": "Contenido de la licencia"
+    }
+  },
+  "validation": {
+    "text": {
+      "day": "día",
+      "introEmail": "Para ello tendrás que decirnos qué correo electrónico usa y le enviaremos un mensaje con las instrucciones.",
+      "days": "días",
+      "message": "Como tienes menos de 14 años, necesitamos que tu madre, padre o tutor autoricen esta cuenta antes de que pasen
+    <strong>{{daysToValidate}} {{textDays}}</strong>, o la cuenta se eliminará."
+    },
+    "button": {
+      "back": "Volver a la web",
+      "validate": "Validar mi cuenta"
+    },
+    "alt": {
+      "deleteAccount": "delete-account"
+    },
+    "title": {
+      "alert": "Tu cuenta se va a eliminar"
+    }
+  },
+  "notFound": {
+    "alt": {
+      "notFound": "NotFound"
+    },
+    "text": {
+      "intro": "¡Vaya! La página web a la que intentas acceder no existe."
+    }
+  },
+  "userData": {
+    "text": {
+      "email": "Email",
+      "username": "Nombre de usuario",
+      "noEmail": "Sin email",
+      "lastName": "Apellidos",
+      "birthdate": "Fecha de nacimiento",
+      "noLastName": "Sin apellidos",
+      "firstName": "Nombre",
+      "noFirstName": "Sin nombre",
+      "accountType": "Cuenta de {{roleUser}}"
+    },
+    "title": {
+      "yourPicture": "Tu Foto",
+      "changeEmail": "Cambiar email",
+      "accountType": "Tipo de cuenta",
+      "language": "Idioma de la plataforma",
+      "changePassword": "Cambiar contraseña",
+      "personalData": "Datos personales"
+    },
+    "placeholder": {
+      "email": "Escribe aquí tu email",
+      "username": "Escribe aquí tu nombre de usuario",
+      "lastName": "Escribe aquí tus apellidos",
+      "firstName": "Escribe aquí tu nombre",
+      "birthdate": "Escribe aquí tu fecha de nacimiento"
+    },
+    "button": {
+      "changeEmail": "Cambiar email",
+      "changePassword": "Cambiar contraseña"
+    },
+    "tooltip": {
+      "cannotModifyUnderaged": "No puedes editar tus datos por ser menor de 14 años",
+      "mustChangeEmail": "Ahora que eres mayor de 14 años, tienes que cambiar tu email"
+    }
+  },
+  "warning": {
+    "alt": {
+      "noResponsive": "no_responsive",
+      "incompatibleBrowser": "incompatible_browser"
+    },
+    "button": {
+      "continue": "Continuar de todos modos",
+      "back": "Volver a la web"
+    },
+    "text": {
+      "noResponsive": "Mejora tu experiencia de navegación en bMaker. Te recomendamos utilizar un dispositivo con una pantalla más grande para que puedas visualizar e interactuar correctamente con todo el contenido.",
+      "incompatibleBrowser": "Mejora tu experiencia de navegación en bMaker. Estás usando un navegador que no permite aprovechar al máximo la plataforma. Te recomendamos el uso de Google Chrome con la versión 68.0 o superior."
+    }
+  },
+  "errors": {
+    "upload": {
+      "noLab": "Tu grupo no ha subido ningún proyecto.",
+      "noGroup": "Debes estar registrado en algún grupo para subir una actividad.",
+      "onUpload": "Ha ocurrido un error en la subida de archivo. Por favor, inténtalo de nuevo.",
+      "onDelete": "Ha ocurrido un error al borrar el archivo. Por favor, inténtalo de nuevo.",
+      "onRequest": "Ha ocurrido un error en la petición al servidor. Por favor, inténtalo de nuevo.",
+      "invalidFormat": "Formato de archivo no válido.",
+      "exceedFileSize": "Archivo demasiado grande.",
+      "fileNotSelected": "No hay archivo seleccionado"
+    },
+    "license": {
+      "required": "La licencia es obligatoria.",
+      "invalidRole": "La licencia es incompatible con tu cuenta.",
+      "invalidFormat": "La licencia no es válida."
+    },
+    "general": {
+      "internalError": "Se ha producido un error, inténtalo de nuevo.",
+      "notFound": "No se ha encontrado el recurso o no está disponible."
+    },
+    "userForm": {
+      "invalidLink": "El enlace ha caducado. Por favor, vuelva a solicitarlo.",
+      "loginError": "Usuario o contraseña no válidos.",
+      "nif": {
+        "invalidFormat": "El formato no es válido.",
+        "required": "El NIF o NIE es obligatorio."
+      },
+      "date": {
+        "invalidFormat": "La fecha de nacimiento no es válida.",
+        "required": "La fecha de nacimiento del usuario es obligatoria.",
+        "mustBeUnderaged": "El usuario debe ser menor de 14 años."
+      },
+      "cannotRecover": "La cuenta no está validada y no podemos recuperarla. Contacta con soporte.",
+      "username": {
+        "required": "El nombre de usuario es obligatorio.",
+        "inUse": "El nombre de usuario ya está siendo usado.",
+        "invalidFormat": "Usa solo letras y números, pero no todo números.",
+        "invalidLength": "Mínimo 3 caracteres y máximo 24 caracteres."
+      },
+      "terms": {
+        "required": "Aceptar los términos legales es obligatorio."
+      },
+      "email": {
+        "sameEmail": "Escribe un email diferente al que usas ahora.",
+        "required": "El email es obligatorio.",
+        "tutorEmail": "Si quiere recuperar la licencia necesitamos su email.",
+        "invalidFormat": "El formato del email no es válido."
+      },
+      "recoveryRequired": "Email o nombre de usuario es obligatorio",
+      "lastName": {
+        "required": "Los apellidos son obligatorios.",
+        "invalidFormat": "Usa solo letras y/o números."
+      },
+      "password": {
+        "notEqual": "Las dos contraseñas de usuario no coinciden.",
+        "invalidLength": "Mínimo 6 caracteres y máximo 36 caracteres.",
+        "required": "La contraseña es obligatoria.",
+        "repeatRequired": "Repetir la contraseña de usuario es obligatorio.",
+        "incorrect": "La contraseña actual es incorrecta.",
+        "invalidFormat": "La contraseña no puede tener espacios."
+      },
+      "firstName": {
+        "invalidFormat": "Usa solo letras y/o números.",
+        "required": "El nombre es obligatorio."
+      }
+    },
+    "classroomForm": {
+      "required": "Este campo es obligatorio.",
+      "invalidLength": "Los códigos de clase tienen al menos 6 caracteres.",
+      "requiredUsername": "El nombre de la clase es obligatorio."
+    },
+    "grantAchievement": {
+      "required": "Debes escribir algún motivo para dar logros."
+    }
+  },
+  "modalInfo": {
+    "button": {
+      "yes": "Sí quiero",
+      "no": "No quiero"
+    },
+    "text": {
+      "stopSharingEnd": "?",
+      "exitClass": "Has dejado de formar parte de la clase ",
+      "contactSupport": "La cuenta ha sido anulada. Ya han pasado los 45 días disponibles para validar a este usuario.",
+      "rejectAuthorizationEnd": "?",
+      "stopSharingStart": "¿Seguro que quieres dejar de compartir esta entrega ",
+      "rejectAuthorizationStart": "¿Está seguro de que desea anular la cuenta de "
+    },
+    "title": {
+      "exitClass": "Saliste de una clase",
+      "cancelAccount": "Anulada",
+      "stopSharing": "Dejar de compartir",
+      "stopSharingEnd": "?",
+      "rejectAuthorization": "Anular cuenta",
+      "stopSharingStart": "¿Seguro que quieres dejar de compartir esta entrega "
+    }
+  },
+  "footer": {
+    "link": {
+      "aboutUs": "Sobre nosotros",
+      "contact": "Contacto",
+      "cookies": "Cookies",
+      "privacy": "Privacidad",
+      "downloadables": "Descargables",
+      "support": "Soporte",
+      "cookiePolicy": "Política de cookies",
+      "generalTerms": "Condiciones generales",
+      "privacyPolicy": "Política de privacidad"
+    }
+  },
+  "kits": {
+    "text": {
+      "zumJunior": "Un kit sencillo y seguro desarrollado para niños de 8 a 12 años. Los componentes son resistentes a golpes y caídas gracias a sus carcasas protectoras, los cables se conectan y desconectan fácilmente con sus cabezales telefónicos y las cintas de contacto por cierre permiten unir los sensores y actuadores como él quiera. A diferencia de otros kits, con Zum Kit Junior pueden crear cientos de soluciones diferentes: su creatividad es el límite.",
+      "zumAdvanced1": "Orientado a niños a partir de 11 años, es un kit fácil de utilizar, resistente y seguro. Mantiene los componentes de la placa y la electrónica a la vista para ofrecer un conocimiento técnico más profundo. No es un juguete, ¡es electrónica 100% real! Incluye 10 componentes programables compatibles con cualquier placa Arduino.",
+      "zumAdvanced2": "*Compatible con cualquier placa tipo Arduino.",
+      "learningTools": "Para los centros que impartan esta materia, bMaker incluye kits diferenciados para Primaria y Secundaria con todos los componentes que los alumnos necesitan para crear sus proyectos."
+    },
+    "title": {
+      "zumAdvanced": "Zum Kit Advanced",
+      "zumJunior": "Zum Kit Junior",
+      "learningTools": "Kits de robótica"
+    }
+  },
+  "classroom": {
+    "text": {
+      "closed": "Inscripciones cerradas",
+      "open": "Inscripciones abiertas",
+      "teacher": "Profesor:"
+    },
+    "projects": {
+      "open": "Proyecto abierto para tus alumnos",
+      "closed": "Proyecto cerrado para tus alumnos"
+    },
+    "tabTitle": {
+      "logbook": "Bitácora de la clase",
+      "projects": "Proyectos de clase",
+      "classmates": "Tus compañeros",
+      "students": "Tus alumnos"
+    },
+    "flipSwitch": {
+      "blocked": "La clase está cerrada"
+    }
+  },
+  "freeBanner": {
+    "title": {
+      "free": "Disfruta de una prueba gratuita"
+    },
+    "text": {
+      "free": "¿Quieres descubrir cómo funciona bMaker? Crea tu <strong>cuenta de profesor</strong> y completa el formulario para tener acceso a dos proyectos."
+    },
+    "button": {
+      "createAccount": "Crear una cuenta de profesor"
+    }
+  },
+  "register": {
+    "label": {
+      "email": "Email",
+      "username": "Nombre de usuario",
+      "tutorNIF": " NIF o NIE del tutor ",
+      "tutorName": " Nombre del tutor ",
+      "birthdate": "Fecha de nacimiento",
+      "tutorEmail": " Email del tutor ",
+      "underagedLastName": " Apellidos del menor ",
+      "underagedFirstName": " Nombre del menor ",
+      "acceptNewsletter": "Acepto recibir noticias y novedades en mi email.",
+      "repeatPassword": "Repetir contraseña"
+    },
+    "link": {
+      "legal1": "He leído y acepto las ",
+      "legal2": "y ",
+      "iHaveAccount": "Ya tengo una cuenta",
+      "generalTerms": "condiciones generales ",
+      "privacyPolicy": "política de privacidad",
+      "privacyPolicies": "políticas de privacidad"
+    },
+    "text": {
+      "legal2": "Le recordamos que puede ejercer sus derechos de acceso, rectificación, supresión y oposición, limitación, portabilidad ante Macmillan a través de comunicación por escrito a su domicilio social o a través de correo electrónico en la dirección es.registros@macmillaneducation.com, aportando fotocopia de su DNI o documento equivalente e identificando el derecho que se solicita. Para más información consulte la ",
+      "legal1": "MACMILLAN IBERIA S.A.U., con domicilio en calle Rosario Pino 14-16, planta cuarta, 28020, Madrid y C.I.F. A78603479, le informa de que sus datos
+          personales recabados a través de este formulario serán tratados para la correcta prestación del servicio. La base jurídica que legitima este
+          tratamiento es el interés legítimo de Macmillan y su consentimiento. Sus datos podrán ser comunicados a las matrices del Grupo Springer Nature
+          ubicadas en Inglaterra y Alemania, y otras empresas del Grupo, así como a nuestros prestadores de servicios.",
+      "legal3": " completa.",
+      "selectAccountType": "¿Qué tipo de cuenta quieres crear?"
+    },
+    "title": {
+      "tutorData": "Datos del tutor",
+      "createAccount": "Crear una cuenta de {{roleSelected}}",
+      "recoverAccount": "Recuperar una cuenta de {{roleSelected}}"
+    },
+    "placeholder": {
+      "day": "DD",
+      "year": "AAAA",
+      "email": "Escribe aquí tu email",
+      "month": "MM",
+      "username": "Escribe aquí tu nombre de usuario",
+      "password": "Escribe aquí tu contraseña",
+      "tutorNIF": "Escriba aquí au número de identificación",
+      "tutorName": "Escriba aquí su nombre",
+      "tutorEmail": "Escriba aquí su email",
+      "repeatPassword": "Repite aquí tu contraseña",
+      "underagedLastName": "Escribe aquí los apellidos del menor",
+      "underagedFirstName": "Escribe aquí el nombre del menor"
+    },
+    "button": {
+      "createAccount": "Crear cuenta",
+      "recoverAccount": "Recuperar cuenta"
+    }
+  },
+  "contents": {
+    "text": {
+      "levels": "bMaker está dividido en 3 niveles de destreza, que se adquieren progresivamente al superar los diferentes retos. En cada uno de ellos, se trabajan diferentes herramientas y programas.",
+      "projects": "Cada reto está compuesto por seis proyectos, que son flexibles (para adaptarse a las necesidades de cada aula y centro) y que siguen una historia en la que los alumnos son los protagonistas.",
+      "contents": "Los contenidos se estructuran en niveles de destreza, retos, proyectos y sesiones, con un orden didáctico que garantiza un aprendizaje secuenciado y enseña a los alumnos a resolver retos con la tecnología.",
+      "sessionOne": "Sesión 1: ",
+      "sessions": "Los proyectos se dividen en cinco sesiones de unos 50 minutos cada una, que estructuran el proceso de aprendizaje y su puesta en práctica.",
+      "challenge2": "Crearán una máquina del tiempo que les llevará al Jurásico (donde desarrollarán un videojuego y un robot dinosaurio) y al Alto Egipto (donde construirán una pirámide llena de puertas secretas, trampas y laberintos).",
+      "challenge1": "En su nave espacial, llegarán a un planeta desconocido. Allí, entre otros inventos, construirán la maqueta de una ciudad futurista para vivir en armonía con sus habitantes y el medio ambiente.",
+      "challenge3": "En un futuro próximo, la población imprime sus propios objetos en casa y los edificios se diseñan directamente en 3D. El problema es que el repositorio en que se guardaban todos los objetos ha desaparecido. Deberán aprender a diseñar e imprimir sus propias construcciones y contribuir a crear un nuevo repositorio.",
+      "challenge4": "Crearán una pequeña empresa tecnológica que recibirá varios encargos, como robotizar un pasaje del terror, desarrollar un robot teledirigido para la recogida de residuos o diseñar un brazalete robótico y una app móvil capaz de controlarlo.",
+      "challenge5": "Fundarán una nueva startup y crearán la página web de un proyecto tecnológico ideado para solventar alguno de los objetivos de desarrollo sostenible fijados por la ONU.",
+      "skillLevel1": "Nivel de destreza inicial",
+      "sessionFive": "Sesión 5: ",
+      "skillLevel2": "Nivel de destreza intermedio",
+      "sessionTwoThreeFour": "Sesiones 2, 3 y 4: ",
+      "skillLevel3": "Nivel de destreza avanzado "
+    },
+    "title": {
+      "levels": "Niveles de destreza y retos",
+      "projects": "Proyectos ",
+      "sessions": "Sesiones",
+      "contents": "Un itinerario que se adapta a cada aula",
+      "adventures": "Cada nivel, ¡una aventura!",
+      "challenge1": "Más allá del sistema solar",
+      "challenge2": "A través del tiempo",
+      "challenge4": "Hacia el éxito tecnológico",
+      "challenge3": "Diseñar el futuro",
+      "challenge5": "Un mundo sostenible"
+    },
+    "alt": {
+      "levelExample": "Ejemplo de un nivel en bMaker",
+      "projectExample": "Ejemplo de un proyecto en bMaker",
+      "sessionExample": "Ejemplo de un sesión en bMaker"
+    },
+    "listItem": {
+      "sessionOne": "introducción al proyecto y presentación del reto.",
+      "sessionFive": "mejoras y presentación del proyecto final.",
+      "sessionTwoThreeFour": "desarrollo del proyecto partiendo de las sesiones anteriores."
+    }
+  },
+  "authorize": {
+    "link": {
+      "terms": "condiciones generales",
+      "privacy": "políticas de privacidad"
+    },
+    "label": {
+      "tutorDNI": " NIF o NIE del tutor ",
+      "tutorEmail": " Email del tutor ",
+      "tutorName": " Nombre del tutor ",
+      "underagedName": " Nombre del menor ",
+      "underagedLastName": " Apellidos del menor "
+    },
+    "button": {
+      "authorize": "Autorizar",
+      "cancelAccount": "Anular cuenta"
+    },
+    "placeholder": {
+      "tutorDNI": "Escribe aquí su número de identificación",
+      "tutorName": "Escriba aquí su nombre",
+      "underagedName": "Escriba aquí el nombre del menor",
+      "tutorEmail": "Escriba aquí su email",
+      "underagedLastName": "Escriba aquí los apellidos del menor"
+    },
+    "text": {
+      "validateAccount3": "Rellene los siguientes datos para que el menor pueda disfrutar completamente de la plataforma bMaker, o hacer clic en “Anular cuenta” si desea eliminar la cuenta",
+      "validateAccount2": ".",
+      "validateAccount1": "Va a validar la cuenta de "
+    },
+    "title": {
+      "validateAccount": " Validar cuenta"
+    }
+  },
+  "platform": {
+    "alt": {
+      "teaching": "Evaluación de un alumno en bMaker",
+      "classroom": "Creación y gestión de una clase en bMaker",
+      "motivation": "Progresión de un alumno en bMaker"
+    },
+    "text": {
+      "classroom": "bMaker incluye todas las herramientas que el profesor necesita para gestionar las clases de forma sencilla y ágil: puede crear aulas y grupos, comprobar y corregir actividades, evaluar por rúbricas, ver los proyectos y el avance de cada alumno y su grupo, otorgar o quitar logros, etc.",
+      "complete": "La plataforma de bMaker es una potente herramienta de gestión del aula que facilita la acción formativa a los docentes y fomenta el aprendizaje y la motivación de los alumnos.",
+      "motivation": "Dentro de la plataforma, los alumnos no solo trabajan sus proyectos, también pueden consultar su estado, sus calificaciones y logros o las anotaciones del profesor. El objetivo de este ecosistema es aumentar su motivación y su afán de superación.",
+      "teaching": "La plataforma incluye información y contenidos adicionales que facilitan la labor del profesor, como los objetivos, índice de contenidos y materiales necesarios para cada proyecto o el mapa de competencias y los objetivos para cada sesión. Además, cuentan con otros recursos como criterios de evaluación, estándares de aprendizaje, sugerencias metodológicas o guías y solucionarios."
+    },
+    "title": {
+      "teaching": "Contenidos que facilitan la labor docente",
+      "classroom": "Herramientas para organizar el aula de forma ágil y sencilla",
+      "complete": "El sistema de gestión del aula más completo",
+      "motivation": "Un ecosistema motivador"
+    }
+  },
+  "forbidden": {
+    "text": {
+      "intro": "Lo sentimos, no tienes permisos para poder continuar por este camino..."
+    },
+    "alt": {
+      "forbidden": "Forbidden"
+    }
+  },
+  "rolePipe": {
+    "text": {
+      "student": "alumno",
+      "teacher": "profesor"
+    }
+  },
+  "listStudents": {
+    "text": {
+      "you": " (Tu usuario)",
+      "giveStars": "Dar logros",
+      "confirmRemoval": "¿Seguro que quieres eliminar a <span>{{studentFullName}}</span> de la clase?",
+      "shareCode": "Comparte con tus alumnos el código de clase para que puedan unirse a ella.",
+      "blockedFromClass": "Bloquear alumno",
+      "unLockedFromClass": "Desbloquear alumno",
+      "requestedPlaces": "PLAZAS SOLICITADAS ",
+      "acceptedPlaces": "PLAZAS ACEPTADAS ",
+      "activeStudents": "Alumnos activos ",
+      "requests": "Solicitudes de alumnos ",
+      "blockedStudents": "Alumnos bloqueados "
+    },
+    "button": {
+      "noIDont": "No quiero",
+      "yesIDo": "Sí quiero"
+    },
+    "option": {
+      "nameAsc": "Nombre A-Z",
+      "starsAsc": "Menos logros",
+      "nameDesc": "Nombre Z-A",
+      "starsDesc": "Más logros"
+    },
+    "title": {
+      "noStudents": "No hay ningún alumno en la clase",
+      "removeStudent": "Eliminar alumno de la clase"
+    },
+    "label": {
+      "initLabel": "Orden"
+    },
+    "tableHeader": {
+      "student": "ALUMNO",
+      "classroomStars": "LOGROS OBTENIDOS EN CLASE",
+      "totalStars": "LOGROS TOTALES"
+    },
+    "link": {
+      "studentDetails": "Ver alumno"
+    }
+  },
+  "myClassrooms": {
+    "text": {
+      "all": "Todos",
+      "archived": "Clase archivada",
+      "blocked": "Clase bloqueada",
+      "waitList": "Esperando confirmación",
+      "oneStudent": "1 alumno",
+      "editClassroom": "Editar clase",
+      "needClassroom": "Para poder empezar a trabajar con tus proyectos deberías unirte a una clase.",
+      "manyStudents": "{{totalStudents}} alumnos",
+      "zeroStudents": "0 alumnos",
+      "createClassroom": "Crea una clase con los proyectos que quieras para que tus alumnos puedan añadirse a ella.",
+      "confirmRemoval": "¿Seguro que quieres eliminar la clase <span>{{classroomName}}</span>?",
+      "removeClassroom": "Eliminar clase"
+    },
+    "state": {
+      "active": "Activas",
+      "blocked": "Bloqueadas",
+      "waiting": "Solicitadas",
+      "withoutArchived": "Sin archivar",
+      "archived": "Archivadas"
+    },
+    "button": {
+      "yesIDo": "Sí quiero",
+      "noIDont": "No quiero",
+      "joinClassroom": "
+          
+            
+           Unirme a una clase
+        ",
+      "newClassroom": "
+          
+            
+           Nueva Clase
+        "
+    },
+    "option": {
+      "recent": "Reciente",
+      "nameAsc": "Nombre A-Z",
+      "nameDesc": "Nombre Z-A"
+    },
+    "title": {
+      "noClassroom": "Aún no te has unido a ninguna clase.",
+      "noClassrooms": "No se han encontrado resultados",
+      "myClassrooms": "Mis Clases",
+      "removeClass": "Eliminar clase",
+      "noCreatedClassrooms": "Aún no tienes creada ninguna clase."
+    },
+    "label": {
+      "initOrderLabel": "Orden",
+      "initStateLabel": "Estado"
+    }
+  },
+  "logbook": {
+    "title": {
+      "logbook": "Bitácora virtual"
+    }
+  },
+  "modalsAccess": {
+    "link": {
+      "back": "Volver a la web",
+      "access": "Entrar",
+      "sendAgain": "Volver a enviar"
+    },
+    "title": {
+      "validated": "Validada",
+      "done": " ¡Hecho! ",
+      "rejected": "Anulada",
+      "sentEmail": "Email enviado",
+      "authorized": "Usuario autorizado",
+      "newPassword": " Nueva contraseña",
+      "invalidLink": "Enlace caducado",
+      "accountCreated": "Tu cuenta de {{roleUser}} ya ha sido creada.",
+      "rememberPassword": " Recordar contaseña",
+      "studentAccountCreated": "Tu cuenta de alumno ya ha sido creada.",
+      "changedPassword": "Contraseña cambiada"
+    },
+    "label": {
+      "email": " Email ",
+      "newPassword": " Nueva contraseña ",
+      "repeatPassword": " Repetir nueva contraseña "
+    },
+    "button": {
+      "send": " Enviar ",
+      "changePassword": " Cambiar contraseña "
+    },
+    "text": {
+      "rejected": "A partir de este momento no se podrá acceder a la cuenta del menor y se eliminará de nuestra base
+        de datos.",
+      "sentEmail1": "Si la cuenta existe, recibirá un correo electrónico con las instrucciones a seguir.",
+      "validated": "A partir de este momento el menor podrá acceder sin nigún tipo de restricción a su cuenta de bMaker.",
+      "expiredTime": "Ya han pasado los 45 días disponibles para validar a este usuario.",
+      "sentEmail2": "Revisa la bandeja de tu correo electrónico y si no encuentras el correo, es posible que esté en la carpeta
+        de Spam.",
+      "invalidLink": "Lo sentimos, este enlace ya no es válido. Compruebe que no tiene uno más reciente. Si no lo tiene, solicite
+        al menor que le vuelva a enviar un nuevo enlace de validación.",
+      "sendLicense": "Antes de eliminar los datos por completo, hemos enviado un email a su cuenta con la licencia que usó en
+        esta cuenta.",
+      "newPassword": "Ahora ya puedes escribir una nueva contraseña.
+        ",
+      "welcomeEmail": "Hemos enviado un <i>email</i> al correo que nos has dado con los detalles de tu nueva cuenta.",
+      "changedPassword": "Tu contraseña se ha cambiado con éxito, a partir de ahora ya no podrás entrar con la anterior contraseña.",
+      "rememberPassword": " Escribe el email que pusiste en el registro y te enviaremos un correo electrónico con un enlace para que puedas crear una nueva contraseña.
+        ",
+      "alreadyAuthorized": "Lo sentimos, este usuario ya ha sido autorizado.",
+      "studentAccountCreated": "Sin embargo, hemos visto que aún no tienes 14 años, por lo que más adelante deberás pedirle a tu madre, padre o tutor que autoricen esta cuenta para poder utilizar bMaker completamente."
+    },
+    "subtitle": {
+      "rejected": "La cuenta ha sido anulada",
+      "validated": "La cuenta ya ha sido validada"
+    },
+    "placeholder": {
+      "email": "Escribe aquí el email",
+      "newPassword": "Escribe aquí la nueva contraseña",
+      "repeatPassword": "Repite aquí la nueva contraseña"
+    }
+  },
+  "recoveryAuth": {
+    "link": {
+      "back": "Volver a la web"
+    },
+    "text": {
+      "invalidLink": "Lo sentimos, este enlace no es válido o ha caducado. Comprueba si tienes
+        uno más reciente, y si no es así, vuelve a solicitar uno nuevo."
+    },
+    "title": {
+      "invalidLink": "Enlace no válido"
+    }
+  },
+  "dropdown": {
+    "label": {
+      "default": "Estado"
+    }
+  },
+  "modalSession": {
+    "text": {
+      "pity": "Lástima, esta actividad ya no dará estrellas.",
+      "result": " Resultado: ",
+      "finished": " Sesión finalizada ",
+      "totalEarned": "Has conseguido en total:",
+      "earned": "Has conseguido:",
+      "endOfSession": "Has llegado al final de la sesión.",
+      "oneAttemptLeft": "Te queda <strong>{{numAttempts}} intento</strong> para conseguir estrellas.",
+      "sessionSuccess": "Has terminado la sesión con éxito",
+      "fewAttemptsLeft": "Te quedan <strong>{{numAttempts}} intentos</strong> para conseguir estrellas.",
+      "finishedProject": "Proyecto finalizado",
+      "watchFinalAnimation": "A continuación puedes ver la animación final.",
+      "finishedWithProject": "Has terminado el proyecto"
+    },
+    "title": {
+      "veryGood": "¡Muy bien!",
+      "goodWork": "¡Enhorabuena!",
+      "congratulations": "¡Felicidades!",
+      "tryAgain": "¡Inténtalo de nuevo!"
+    },
+    "button": {
+      "leaveSession": "Salir de la sesión",
+      "stayInSession": "Quedarme en la sesión",
+      "watchFinalAnimation": "Ver animación final"
+    }
+  },
+  "labsQuery": {
+    "option": {
+      "recent": "Reciente",
+      "nameAsc": "Nombre A-Z",
+      "nameDesc": "Nombre Z-A"
+    },
+    "button": {
+      "yesIDo": "Sí quiero",
+      "noIDont": "No quiero",
+      "stopSharing": "Dejar de compartir"
+    },
+    "title": {
+      "stopSharing": "Dejar de compartir",
+      "noResults": "No se han encontrado resultados",
+      "noSharedLabs": "No hay entregas finales compartidas.",
+      "labNotCompleted": "Aún no has hecho ninguna entrega final."
+    },
+    "text": {
+      "noSharedLabs": "Tu profesor aún no ha compartido ninguna entrega final.",
+      "stopSharing": "¿Seguro que quieres dejar de compartir esta entrega <span>{{labTitle}}</span>?",
+      "shareLabsHere": "Comparte con tus alumnos aquí, las entregas finales que quieras que vean todos.",
+      "labNotCompleted": "Aquí verás las entregas finales que vayas haciendo en tus proyectos."
+    }
+  },
+  "profile": {
+    "tabTitle": {
+      "userData": "Datos de usuario",
+      "licenses": "Licencias",
+      "achievements": "Logros"
+    },
+    "title": {
+      "myProfile": "Mi perfil"
+    }
+  },
+  "browseFile": {
+    "text": {
+      "maxSize": "(máximo 10 MB)."
+    },
+    "label": {
+      "selectFile": "Seleccionar archivo",
+      "selectImage": "Seleccionar imagen"
+    }
+  },
+  "previewFile": {
+    "text": {
+      "noFile": "Entrega sin archivo"
+    }
+  },
+  "changeEmail": {
+    "text": {
+      "invalidLink": "Lo sentimos, este enlace no es válido o ha caducado. Comprueba que no tienes uno más reciente, y si no es así, vuelve a solicitar uno nuevo.",
+      "success": "Tu email se ha cambiado con éxito, a partir de ahora el anterior email deja de formar parte de tu usuario.",
+      "confirmPassword": "Escribe tu contraseña para confirmar el cambio de email del usuario "
+    },
+    "button": {
+      "access": "Entrar",
+      "return": "Volver a la web",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "title": {
+      "invalidLink": "Enlace no válido",
+      "confirmChange": "Confirmar cambio",
+      "changed": "Email cambiado"
+    },
+    "label": {
+      "password": "Contraseña"
+    },
+    "placeholder": {
+      "password": "Escribe aquí la contraseña"
+    }
+  },
+  "construction": {
+    "title": {
+      "underConstruction": "Aún estamos picando código."
+    },
+    "text": {
+      "intro": "Primera solución 100% digital para aprender robótica y programación en el aula."
+    }
+  },
+  "internalError": {
+    "text": {
+      "intro": "¡Uy! Parece que ha ocurrido un error, vuelve a cargar la página."
+    },
+    "alt": {
+      "internalError": "InternalError"
+    }
+  },
+  "wikiDetails": {
+    "text": {
+      "teacher": "Artículo para el profesor"
+    },
+    "label": {
+      "teacherArticle": "Artículo para el profesor"
+    }
+  },
+  "modalLabInfo": {
+    "text": {
+      "noFile": "No hay archivo para esta entrega.",
+      "notDelivered": "No se ha encontrado la entrega final",
+      "noDescription": "No hay descripción para esta entrega",
+      "cannotBeEmpty": "No puedes dejar el campo vacío.",
+      "noRemarks": "No hay ningúna anotación para esta entrega final",
+      "projectFullTitle": "Nivel {{levelNumber}} - Proyecto {{projectNumber}}: {{projectTitle}}"
+    },
+    "placeholder": {
+      "remark": "Escribe aquí alguna anotación que quieras hacerle a los alumnos sobre el entregable",
+      "labTitle": "Escribe aquí el título de tu actividad",
+      "comment": "Escribe aquí lo que quieras"
+    },
+    "title": {
+      "teacherRemarks": "Anotaciones del profesor"
+    },
+    "button": {
+      "shareInLogbook": "Compartir en la bitácora",
+      "stopSharingInLogbook": "Dejar de compartir en la bitácora",
+      "updateInLogbook": "Actualizar en la bitácora"
+    }
+  },
+  "modalLogbook": {
+    "title": {
+      "madeBy": "Realizada por",
+      "finalDelivery": "Entrega final",
+      "logbookDetails": "Detalles de la entrega final",
+      "teacherComments": "Anotaciones del profesor",
+      "madeInClassroom": "Realizada en la clase"
+    },
+    "text": {
+      "noComments": "No tienes ninguna anotación"
+    },
+    "link": {
+      "downloadFile": "
+            Descargar archivo
+          "
+    }
+  },
+  "cookiesBanner": {
+    "button": {
+      "deny": "No acepto",
+      "accept": "Acepto"
+    },
+    "text": {
+      "cookies": "Este sitio web utiliza cookies propias y de terceros para optimizar la navegación, adaptando la información y los servicios ofrecidos a los intereses del usuario. Si continua navegando entenderemos que acepta su uso conforme a nuestra "
+    },
+    "link": {
+      "cookies": "política de cookies"
+    }
+  },
+  "slideComponent": {
+    "labels": {
+      "css3": "CSS3",
+      "craft": "Manualidad",
+      "scratch": "Scratch",
+      "html5": "HTML5",
+      "appinventor": "App Inventor",
+      "bitbloq": "Bitbloq",
+      "interactive": "Interactiva",
+      "javascript": "Javascript",
+      "3d": "Diseño 3D"
+    }
+  },
+  "listedProject": {
+    "content": {
+      "soon": "Próximamente",
+      "expired": "Licencia caducada"
+    },
+    "text": {
+      "noClassroom": "No está en ninguna clase",
+      "totalSessions": "{{numSessions}} sesiones",
+      "isInClassroom": "ESTÁ EN LA CLASE:"
+    }
+  },
+  "methodology": {
+    "text": {
+      "designThinking": "Los alumnos desarrollan sus proyectos por fases, buscando que la solución esté estrechamente relacionada con las necesidades de los potenciales usuarios del invento. Esta metodología fomenta su creatividad y su capacidad de trabajar en equipo para la construcción colectiva de soluciones.",
+      "gamification": "La gamificación lleva las dinámicas del juego al aprendizaje y lo convierte en una experiencia positiva: aumenta su motivación, entusiasmo y afán de superación mientras refuerza sus conocimientos.",
+      "innovation": "bMaker es una solución 100% digital basada en el aprendizaje cooperativo y por resolución de proyectos con una filosofía STEAM. Su metodología es práctica, creativa y muy divertida.",
+      "projectLearning": "Cada proyecto parte de un desafío abierto para el que no hay una única solución: cada equipo debe resolverlo en base a sus intereses e inquietudes. Esta metodología les permite desarrollar competencias como el pensamiento crítico, la comunicación o la resolución de problemas.",
+      "cooperativeLearning": "Los alumnos construyen activamente su propio aprendizaje trabajando en pequeños equipos, en los que cada miembro solo alcanza sus objetivos si los demás también lo logran."
+    },
+    "title": {
+      "innovation": "Una metodología a la vanguardia",
+      "projectLearning": "Aprendizaje por proyectos",
+      "gamification": "Gamificación",
+      "designThinking": "Design Thinking",
+      "cooperativeLearning": "Aprendizaje cooperativo"
+    },
+    "alt": {
+      "projectLearning": "Ilustración del aprendizaje por proyectos en bMaker",
+      "gamification": "Ilustración de la gamificación en bMaker",
+      "cooperativeLearning": "Ilustración del aprendizaje cooperativo en bMaker",
+      "designThinking": "Ilustración del proceso Design thinking en bMaker"
+    }
+  },
+  "centerDropdown": {
+    "text": {
+      "center": "Centro: {{name}}"
+    }
+  },
+  "modalWelcome": {
+    "title": {
+      "discover": "Descubre lo que puedes hacer con bMaker"
+    }
+  },
+  "uploadComponent": {
+    "text": {
+      "noFile": "Si no envías ningún archivo, escribe <strong>en observaciones</strong> una descripción de tu actividad, o una dirección web donde tu profesor pueda verla.",
+      "alreadySent": "Esta actividad ya ha sido enviada antes. <br>¿Seguro que quieres enviar esta actividad de nuevo? <b>Sobrescribirás la anterior.</b>",
+      "needGroup": "Recuerda que <strong>debes pertenecer a un grupo</strong> en tu clase para poder enviar la actividad.",
+      "mustJoinClass": "Para poder subir la entrega final debes unirte a una clase con este proyecto.",
+      "missingTitle": "No te olvides de ponerle el título a la actividad.",
+      "internalError": "Lo sentimos, ha ocurrido un error inesperado. Intenta enviar la actividad más tarde.",
+      "finishedProject": "Ya has terminado el proyecto",
+      "teacherCantUpload": "Los profesores no suben la entrega final",
+      "cantEditWithoutClass": "Sin clase no puedes editar el trabajo",
+      "download": "Descargar"
+    },
+    "title": {
+      "notYet": "Aún no...",
+      "uploadedBy": "Subida por:",
+      "missingTitle": "Falta el título",
+      "warning": "¡Cuidado!",
+      "mustJoinClass": "No te has unido a una clase con este proyecto.",
+      "activitySummary": "Resumen de la actividad"
+    },
+    "button": {
+      "yesIDo": "Sí quiero",
+      "noIDont": "No quiero",
+      "sending": "Enviando..."
+    },
+    "placeholder": {
+      "title": "Escribe aquí el título del proyecto.",
+      "description": "Escribe aquí una breve descripción del proyecto."
+    },
+    "label": {
+      "selectActivity": "Selecciona la actividad"
+    }
+  },
+  "projectComponent": {
+    "title": {
+      "tips": "Algunos consejos",
+      "example": "Ejemplo",
+      "warning": "¡Cuidado!",
+      "contents": "Contenidos",
+      "standards": "Estándares de aprendizaje",
+      "nextSteps": "¿Qué vamos a hacer?",
+      "objectives": "Objetivos",
+      "previewMode": "Modo visualización",
+      "description": "Descripción del proyecto",
+      "competences": "Competencias",
+      "whatDoWeNeed": "¿Qué necesitamos?",
+      "gettingReady": "Preparación del proyecto",
+      "projectContents": "Contenidos del proyecto",
+      "projectDetails": "Detalles del proyecto",
+      "sessionProgress": "Progreso de la sesión",
+      "projectEvaluation": "Evaluación del proyecto",
+      "evaluationCriteria": "Criterios de evaluación",
+      "contentsAndStandards": "Contenidos, Criterios de evaluación y Estándares de aprendizaje",
+      "competencesAndObjectives": "Competencias y Objetivos"
+    },
+    "button": {
+      "yesIDo": "Sí quiero",
+      "noIDont": "No quiero"
+    },
+    "text": {
+      "noProgress": "El profesor no guarda el progreso de una sesión.",
+      "confirmSubmit": "¿Seguro que quieres enviar tus respuestas?",
+      "slideProgressCount": "{{seenSlides}} de {{totalSlides}}"
+    }
+  },
+  "modalRemoveStudent": {
+    "button": {
+      "no": "No quiero",
+      "yes": "Sí quiero"
+    },
+    "title": {
+      "removeStudent": "Eliminar alumno de la clase"
+    }
+  },
+  "projectsQuery": {
+    "option": {
+      "nameDesc": "Nombre Z-A",
+      "nameAsc": "Nombre A-Z",
+      "levelAsc": "Nivel Asc.",
+      "levelDesc": "Nivel Desc."
+    },
+    "title": {
+      "noResults": "No se han encontrado resultados"
+    },
+    "label": {
+      "initOrderLabel": "Orden",
+      "initLevelLabel": "Nivel"
+    }
+  },
+  "modalEvaluationInfo": {
+    "text": {
+      "q&a": "Preguntas y respuestas",
+      "noAnswer": "Sin respuesta"
+    },
+    "title": {
+      "evaluationInfo": "Datos de la entrega",
+      "evaluationDetails": "Detalles de la evaluación"
+    }
+  },
+  "modalUpdateUser": {
+    "button": {
+      "changeEmail": "Cambiar email",
       "cancel": "Cancelar"
+    },
+    "text": {
+      "checkMail": "Revisa la bandeja de tu correo electrónico y si no encuentras el <em>email</em>, es posible que esté en la carpeta de <em>Spam</em>.",
+      "changeEmail": "Escribe un nuevo email y te enviaremos un correo electrónico.",
+      "instructions": "Hemos enviado un <em>email</em> con las instrucciones a seguir a "
+    },
+    "label": {
+      "newEmail": "Nuevo email"
+    },
+    "title": {
+      "sentEmail": "Email enviado",
+      "changeEmail": "Cambiar email"
+    },
+    "placeholder": {
+      "newEmail": "Escribe aquí el nuevo email"
+    }
+  },
+  "contentLabels": {
+    "text": {
+      "customized": "Personalizada"
+    }
+  },
+  "modalNewClassroom": {
+    "button": {
+      "next": "Siguiente",
+      "finish": "Finalizar",
+      "cancel": "Cancelar",
+      "previous": "Anterior",
+      "createClassroom": "Crear Clase"
+    },
+    "text": {
+      "headerPin": "Este es el código que usarán tus alumnos para acceder a esta clase hasta que se ocupen todas las plazas",
+      "selectAll": "Seleccionar todos",
+      "shareCode": "Comparte con tus alumnos el código de clase para que puedan unirse a ella.",
+      "levelProjects": "Proyectos de Nivel {{levelNumber}}",
+      "needOneProject": "Es necesario seleccionar al menos un proyecto.",
+      "mustAddProjects": "Para crear tu primera clase asegúrate de haber añadido algún proyecto antes <strong>en la sección Mis proyectos</strong> ya que no puedes crear clases sin proyectos.",
+      "selectedProjects": "{{selectedProjects}} de {{totalProjects}} seleccionados",
+      "incompleteLicense": "Debes seleccionar los 6 proyectos antes de continuar.",
+      "headerIntroLicense": "Para poder crear una nueva clase necesitas asignarle primero un contenido utilizando una licencia.",
+      "headerNewClassroom": "Para finalizar, pon un nombre, y si lo deseas también una imagen, para identificar tu clase."
+    },
+    "title": {
+      "noProjects": "Aún no tienes proyectos",
+      "classroomCode": "Código de clase",
+      "selectProjects": "Selecciona los proyectos para la clase",
+      "newClassroom": "Nueva Clase"
+    },
+    "fullAccess": {
+      "project": "Proyecto {{number}}: {{title}}",
+      "selectProject": "Seleccionar proyecto"
+    },
+    "label": {
+      "classroomName": "Nombre de la clase",
+      "optionalImage": "Imagen (opcional)"
+    },
+    "placeholder": {
+      "classroomName": "Escribe aquí el nombre"
+    }
+  },
+  "modalsNewProject": {
+    "text": {
+      "project": "modalNewProject.text.project",
+      "newSpace": "
+          ¿Quieres añadir este centro a tu listado de centros? Si lo haces, se creará un espacio
+          nuevo para ese centro.
+        ",
+      "centerName": "Nombre del centro",
+      "selectProject": "Ahora selecciona el proyecto:",
+      "levelNumber": "Nivel {{levelNumber}}",
+      "newCenter": "
+            La licencia que has introducido pertenece a un nuevo centro.
+          ",
+      "selectChallenge": "Elige el reto del proyecto que quieres incluir:",
+      "repeatedProjects": "
+            Ya tenías uno o varios de los proyectos que vas a añadir. ¿Quieres reiniciarlos para poder hacerlos de nuevo?
+            Si lo haces se borrará el progreso de cada uno, incluyendo los logros que hayas obtenido.
+          ",
+      "canJoinClassrooms": "Ya tienes estos proyectos disponibles; recuerda que debes unirte a una clase para poder trabajarlos con tus compañeros.",
+      "textLicenseDetails": "Comprueba que el contenido que aparece a continuación es el que quieres asignar a la clase.",
+      "canCreateClassrooms": "A partir de ahora ya puedes acceder y añadir a tus clases estos proyectos.",
+      "selectProjectsToReset": "
+              Selecciona solo los proyectos que quieras reiniciar, si no seleccionas nada no se reiniciará ninguno.
+          ",
+      "textFullLicenseDetails": "La licencia introducida es una licencia de tipo “Personalizada” y te permite elegir 6 proyectos para asignar a tu clase:"
+    },
+    "title": {
+      "addProjects": "Añadir proyectos",
+      "addedProjects": "¡Proyectos añadidos!",
+      "licenseDetails": "Contenido de esta licencia",
+      "centerDetails": "Detalles del centro",
+      "licenseProjects": "Proyectos de esta licencia",
+      "repeatedProjects": "Proyectos que puedes reiniciar",
+      "licenseCenterDetails": "Detalles del centro de la licencia"
+    },
+    "label": {
+      "insertLicense": "Inserta la licencia"
+    },
+    "placeholder": {
+      "insertLicense": "Escríbe tu licencia aquí"
+    }
+  },
+  "modalEditClassroom": {
+    "button": {
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "label": {
+      "classroomName": "Nombre de la clase",
+      "optionalImage": "Imagen (opcional)"
+    },
+    "text": {
+      "editClassromm": "Editar clase"
+    },
+    "placeholder": {
+      "classroomName": "Escribe aquí el nombre"
+    }
+  },
+  "modalUpdatePassword": {
+    "text": {
+      "intro": "Escribe tu contraseña actual y la nueva contraseña que quieres utilizar.",
+      "passwordChanged": "Tu contraseña se ha cambiado con éxito. A partir de ahora ya no podrás entrar con la anterior contraseña."
+    },
+    "button": {
+      "cancel": "Cancelar",
+      "changePassword": "Cambiar contraseña"
+    },
+    "title": {
+      "newPassword": "Nueva contraseña",
+      "passwordChanged": "Contraseña cambiada"
+    },
+    "label": {
+      "newPassword": "Nueva contraseña",
+      "repeatPassword": "Repetir nueva contraseña",
+      "currentPassword": "Contraseña actual"
+    },
+    "placeholder": {
+      "newPassword": "Escribe aquí la nueva contraseña",
+      "repeatPassword": "Repite aquí la nueva contraseña",
+      "currentPassword": "Escribe aquí la contraseña actual"
+    }
+  },
+  "modalAuthorization": {
+    "button": {
+      "cancel": "Cancelar",
+      "sending": "Enviando...",
+      "send": "Enviar",
+      "rememberLater": "
+      Recuérdamelo más tarde
+    ",
+      "validateMyAccount": "
+      Validar mi cuenta
+    "
+    },
+    "text": {
+      "intro2": "Para ello tendrás que decirnos qué correo electrónico usa y le enviaremos un mensaje con las instrucciones.",
+      "intro1": "Como tienes menos de 14 años, necesitamos que tu madre, padre o tutor autoricen esta cuenta antes de que pasen {{daysToValidate}} días, o la cuenta se eliminará.",
+      "emailSent": "Avisa a tu madre, padre o tutor. Si la dirección de correo electrónico que has escrito es correcta le
+        llegará un correo electrónico. Si no lo encuentra, es posible que esté en la carpeta de correo no deseado."
+    },
+    "label": {
+      "tutorName": " Nombre de tu madre, padre o tutor ",
+      "tutorEmail": " Correo electrónico de tu madre, padre o tutor "
+    },
+    "title": {
+      "emailSent": "Email enviado",
+      "dontForget": "No te olvides, faltan {{daysToValidate}} días",
+      "authorizationRequest": "Solicitud de autorización"
+    },
+    "placeholder": {
+      "tutorName": "Escribe aquí su nombre",
+      "tutorEmail": "Escribe aquí su correo electrónico"
+    }
+  },
+  "modalJoinClassroom": {
+    "text": {
+      "cannotJoin": "Para unirte a esta clase necesitas los siguientes proyectos que,
+           o no tienes o los estás usando en otra clase.",
+      "askCode": "Pide a tu profesor el código de clase y escríbelo abajo.",
+      "noProjects": "Aún no puedes unirte a una clase porque todavía no has añadido
+        ningún proyecto que puedas usar en ella.",
+      "invalidCode": "El código que has insertado no pertenece a ninguna clase.
+           Comprueba que el código es correcto e inténtalo de nuevo.",
+      "noMoreStudents": "Esta clase no admite más alumnos por ahora. Habla con tu profesor para
+           que active la opción de poder añadir más alumnos.",
+      "alreadyJoined": "No puedes unirte a esta clase porque ya formas parte de ella.",
+      "checkClassroom": "Comprueba que esta es la clase a la que te quieres unir:",
+      "titleClassroomName": "La clase es:",
+      "joinedClassroom": "pero debes esperar a que el profesor acepte tu solicitud para poder entrar en ella."
+    },
+    "title": {
+      "noProjects": "No tienes proyectos",
+      "cannotJoin": "No puedes unirte",
+      "invalidCode": "Código no válido",
+      "classDetails": "Detalles de la clase",
+      "joinClassroom": "Unirse a una clase",
+      "alreadyJoined": "Ya estás en esta clase",
+      "noMoreStudents": "No admite alumnos",
+      "joinedClassroom": "Has solicitado unirte a la clase"
+    },
+    "button": {
+      "cancel": "Cancelar",
+      "accept": "Aceptar"
+    },
+    "subtitle": {
+      "classroomName": "NOMBRE DE LA CLASE",
+      "classroomProjects": "PROYECTOS QUE SE USAN EN LA CLASE"
+    },
+    "label": {
+      "insertCode": "Inserta el código de clase"
+    },
+    "placeholder": {
+      "insertCode": "Escríbe tu código de clase aquí"
+    }
+  },
+  "modalGiveAchievement": {
+    "text": {
+      "other": "Otro",
+      "chooseReason": "Elige un motivo",
+      "achievementsGranted": "Se han aplicado los logros con éxito."
+    },
+    "label": {
+      "reason": "Motivo",
+      "achievement": "Vas a dar logros a",
+      "chooseReason": "Escribe el motivo",
+      "amountOfAchievements": "Cantidad de logros"
+    },
+    "button": {
+      "cancel": "Cancelar",
+      "give": "Otorgar"
+    },
+    "reason": {
+      "other": "Otro",
+      "teamwork": "Trabajo en equipo",
+      "goodBehavior": "Buen comportamiento"
+    },
+    "title": {
+      "giveAchievements": "Dar logros",
+      "achievementsGranted": "Logros otorgados"
+    },
+    "placeholder": {
+      "chooseReason": "Escribe aquí el motivo para dar los logros"
+    }
+  },
+  "validationBanner": {
+    "text": {
+      "underaged": "Como tienes menos de 14 años, necesitamos que tu madre, padre o tutor autoricen esta cuenta antes de que pasen {{daysToValidate}} días, o la cuenta se eliminará."
+    },
+    "button": {
+      "validateMyAccount": "Validar mi cuenta"
+    }
+  },
+  "progressBar": {
+    "text": {
+      "completedItems": "{{completedItems}} de {{totalItems}}"
+    }
+  },
+  "labelChallenge": {
+    "difficulty": {
+      "medium": "Intermedio",
+      "initial": "Inicial",
+      "advanced": "Avanzado"
+    }
+  },
+  "achievements": {
+    "text": {
+      "noAchievements": "Aún no has conseguido ningún logro"
+    }
+  },
+  "classroomStudent": {
+    "tabTitle": {
+      "results": "Resultados",
+      "rubrics": "Rúbricas",
+      "progress": "Progreso"
+    },
+    "tableHeader": {
+      "classStars": "LOGROS EN ESTA CLASE",
+      "totalStars": "LOGROS TOTALES"
+    }
+  },
+  "modalActivityInfo": {
+    "title": {
+      "activityDetails": "Detalles de la actividad",
+      "activityInfo": "Datos de la actividad"
+    },
+    "text": {
+      "numberOfAttempts": "Número de intentos",
+      "activityNumber": "Sesión {{session.number}} - Actividad {{progress.activity.number}}"
+    }
+  },
+  "sessionComponent": {
+    "button": {
+      "leaveSession": "Salir de la sesión",
+      "stayInSession": "Quedarme en la sesión"
+    },
+    "title": {
+      "beforeYouLeave": "Antes de irte..."
+    },
+    "text": {
+      "pendingActivities": "Tienes una o varias actividades sin terminar. Si sales<br>ahora, <strong>perderás el progreso en esas actividades.</strong>"
+    }
+  },
+  "modalResultsStudent": {
+    "title": {
+      "activityDetails": "Detalles de la actividad",
+      "deliveryInfo": "Datos de la entrega"
+    }
+  },
+  "activityComponent": {
+    "text": {
+      "finishedActivity": "Actividad finalizada"
+    }
+  },
+  "language": {
+    "text": {
+      "dev": "Desarrollo",
+      "es": "Castellano",
+      "en": "English"
     }
   }
 }
