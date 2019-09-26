@@ -512,7 +512,7 @@ const Mutation = {
       },
       UserResponse,
     );
-  
+  },
   async removeLiteral(parent, where, { prisma, headers }, info) {
     const literalExists: boolean = await prisma.exists.Literal({
       id: where.id,
