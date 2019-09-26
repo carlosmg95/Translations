@@ -1,7 +1,7 @@
 import * as simplegit from 'simple-git/promise';
-import * as shell from 'shelljs';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
 import log from '../utils/log';
 import { userIsAdmin, userIsAllowed } from '../utils/getUserData';
 import {
@@ -15,7 +15,7 @@ const GIT_USER: string = process.env.GIT_USER;
 const GIT_PASS: string = process.env.GIT_PASS;
 
 type i18n = {
-  [key: string]: string;
+  [key: string]: string | i18n;
 };
 
 const addLiteral = (
@@ -25,7 +25,7 @@ const addLiteral = (
   projectName: string,
   languageId: string,
   prisma: any,
-  headers: any
+  headers: any,
 ) => {
   return new Promise(async (resolve, reject) => {
     const [literalObj] = await prisma.query.literals({
@@ -99,11 +99,45 @@ const createLangJSON = (project, languageIso): i18n => {
         : literal.literal;
     i18n = { ...i18n, [literal.literal]: translationText };
   });
-  return i18n;
+  return hierarchyJSON(i18n);
+};
+
+const hierarchyJSON = (plainFile: i18n): i18n => {
+  let file: i18n = {};
+
+  for (let key in plainFile) {
+    if (key.match(/\./)) {
+      const keysArray: string[] = key.split('.');
+
+      keysArray.forEach((partialKey: string, index: number) => {
+        if (file[partialKey]) {
+          file[partialKey] = {
+            ...(file[partialKey] as i18n),
+            ...hierarchyJSON({
+              ...(file[partialKey] as i18n),
+              [keysArray.splice(1).join('.')]: plainFile[key],
+            }),
+          };
+        } else {
+          file[partialKey] = hierarchyJSON({
+            [keysArray.splice(1).join('.')]: plainFile[key],
+          });
+        }
+      });
+    } else {
+      file[key] = plainFile[key];
+    }
+  }
+  return file;
 };
 
 const Mutation = {
-  async addLanguageToProject(parent, { project, language }, { prisma, headers }, info) {
+  async addLanguageToProject(
+    parent,
+    { project, language },
+    { prisma, headers },
+    info,
+  ) {
     const projectExists: boolean = await prisma.exists.Project({
       name: project.name,
     });
@@ -129,7 +163,12 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async addLanguageToUser(parent, { user, language }, { prisma, headers }, info) {
+  async addLanguageToUser(
+    parent,
+    { user, language },
+    { prisma, headers },
+    info,
+  ) {
     const userExists: boolean = await prisma.exists.User({
       name: user.name,
     });
@@ -307,7 +346,7 @@ const Mutation = {
           project.name,
           language.id,
           prisma,
-          headers
+          headers,
         ),
       ),
     ).then(() => {
@@ -343,7 +382,12 @@ const Mutation = {
 
     return token;
   },
-  async pushTranslations(parent, { project, language }, { prisma, headers }, info) {
+  async pushTranslations(
+    parent,
+    { project, language },
+    { prisma, headers },
+    info,
+  ) {
     if (!userIsAdmin(headers)) {
       throwError('You have to be an admin user.');
     }
@@ -366,7 +410,9 @@ const Mutation = {
     const path: string = `/tmp/${git_name}`;
     const remote: string = `https://${GIT_USER}:${GIT_PASS}@${git_repo}`;
 
-    shell.rm('-Rf', path);
+    if (fs.existsSync(path)) {
+      fs.rmdirSync(path);
+    }
 
     try {
       await git.clone(remote, path, [
@@ -383,20 +429,14 @@ const Mutation = {
     await git.cwd(path);
 
     languages.forEach(async lang => {
-      shell.exec(
-        `echo '${JSON.stringify(
-          createLangJSON(project, lang.iso),
-          null,
-          2,
-        )}' > ${path}/${git_path}/${lang.iso}.json`,
-      );
+      fs.writeFileSync(`${path}/${git_path}/${lang.iso}.json`, JSON.stringify(createLangJSON(project, lang.iso), null, 2));
       await git.add(`${git_path}/${lang.iso}.json`);
     });
 
     await git.commit(`Adds new ${language ? language.iso : ''} translations`);
     await git.push('origin', git_branch);
 
-    shell.rm('-Rf', path);
+    fs.rmdirSync(path);
 
     return true;
   },
@@ -442,7 +482,12 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async removeLanguageFromUser(parent, { user, language }, { prisma, headers }, info) {
+  async removeLanguageFromUser(
+    parent,
+    { user, language },
+    { prisma, headers },
+    info,
+  ) {
     const userExists: boolean = await prisma.exists.User({
       name: user.name,
     });
@@ -467,7 +512,7 @@ const Mutation = {
       },
       UserResponse,
     );
-  },
+  
   async removeLiteral(parent, where, { prisma, headers }, info) {
     const literalExists: boolean = await prisma.exists.Literal({
       id: where.id,
@@ -518,13 +563,30 @@ const Mutation = {
       ProjectResponse,
     );
   },
-  async upsertTranslation(parent, { where, create, update }, { prisma, headers }, info) {
+  async upsertTranslation(
+    parent,
+    { where, create, update },
+    { prisma, headers },
+    info,
+  ) {
     const languageId: string = create.language.id;
     const literalId: string = create.literal.id;
     const projectName: string = create.project.name;
 
-    const projectAllowed: boolean = await userIsAllowed(prisma, headers, 'projects', 'name', projectName);
-    const languagesAllowed: boolean = await userIsAllowed(prisma, headers, 'languages', 'id', languageId);
+    const projectAllowed: boolean = await userIsAllowed(
+      prisma,
+      headers,
+      'projects',
+      'name',
+      projectName,
+    );
+    const languagesAllowed: boolean = await userIsAllowed(
+      prisma,
+      headers,
+      'languages',
+      'id',
+      languageId,
+    );
     const translationExists: boolean = await prisma.exists.Translation(where);
 
     if (!projectAllowed || !languagesAllowed) {

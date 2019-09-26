@@ -142,7 +142,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
 
     as_in = as_in || literal;
 
-    if (literal && !literal.match(/\s|\.|\//gi)) {
+    if (literal && !literal.match(/\s|\//gi)) {
       createTranslation({
         variables: {
           translation: {
