@@ -368,6 +368,9 @@ const Translations: React.FC<TranslationsProps> = (
           saveLiterals={(literalId: string, as_in: string) => {
             updateLiteral(literalId, as_in);
           }}
+          removeLiteral={(literalId, literal) =>
+            console.log(literalId, literal)
+          }
           user={props.user}
         />
       ))}

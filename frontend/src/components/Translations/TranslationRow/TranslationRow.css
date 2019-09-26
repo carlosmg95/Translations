@@ -1,3 +1,18 @@
+.translation-row {
+  position: relative;
+}
+
+.translation-row .delete-btn {
+  color: #eb3c10;
+  cursor: pointer;
+  position: absolute;
+  left: -30px;
+}
+
+.translation-row .delete-btn:hover {
+  color: #8c2e17;
+}
+
 .translation-input {
   max-width: 100%;
   min-width: 100%;
