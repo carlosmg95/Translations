@@ -1,4 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
+import HashLoader from 'react-spinners/HashLoader';
 import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
 import PillButton from '../PillButton/PillButton';
@@ -25,6 +26,12 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 ) => {
   const [uploadFileState, setUploadFileState]: [
     // If the modal is open
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(false);
+
+  const [importingLiteralsState, setImportingLiteralsState]: [
+    // If the literals are been imported
     boolean,
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
@@ -119,7 +126,9 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
       {uploadFileState && props.user.admin ? (
         <Modal
           title="Upload JSON"
-          acceptFunction={() => {
+          acceptFunction={async () => {
+            setImportingLiteralsState(true);
+
             const contentFile = contentFileState
               ? JSON.parse(contentFileState)
               : {};
@@ -148,22 +157,35 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 
             plainJSON(contentFile);
 
-            addLiterals({
-              variables: {
-                data,
-                overwrite: overwriteState,
-                language: { id: props.language.id },
-                project: { name: props.project.name },
-              },
-            }).then(() => {
-              props.updateAllLanguages();
-            });
+            const rowForReq: number = 500;
+            const loopReq: number = Math.ceil(data.length / rowForReq);
+
+            for (let i = 0; i < loopReq; i++) {
+              await addLiterals({
+                variables: {
+                  data: data.splice(0, rowForReq),
+                  overwrite: overwriteState,
+                  language: { id: props.language.id },
+                  project: { name: props.project.name },
+                },
+              });
+            }
+
+            setImportingLiteralsState(false);
+            props.updateAllLanguages();
             setUploadFileState(false);
           }}
           cancelFunction={() => {
             setUploadFileState(false);
           }}
         >
+          {importingLiteralsState ? (
+            <div className="modal-blocked">
+              <HashLoader size={50} color={'#36d7b7'} />
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="json-file">
             <input
               type="file"
