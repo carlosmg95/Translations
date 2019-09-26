@@ -64,6 +64,14 @@ const Translations: React.FC<TranslationsProps> = (
     Dispatch<SetStateAction<string>>,
   ] = useState('');
 
+  const REMOVE_LITERAL = gql`
+    mutation RemoveLiteral($where: LiteralWhereUniqueInput!) {
+      removeLiteral(where: $where) {
+        id
+      }
+    }
+  `;
+
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
       $where: TranslationWhereUniqueInput!
@@ -87,6 +95,7 @@ const Translations: React.FC<TranslationsProps> = (
     }
   `;
 
+  const [removeLiteralMutation] = useMutation(REMOVE_LITERAL);
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
   const [updateLiteralMutation] = useMutation(UPDATE_lITERAL);
 
@@ -307,7 +316,26 @@ const Translations: React.FC<TranslationsProps> = (
         <Modal
           acceptButtonText="Remove"
           title="Remove literal"
-          acceptFunction={() => {}}
+          acceptFunction={() => {
+            removeLiteralMutation({
+              variables: {
+                where: {
+                  id: literalIdToRemoveStatus,
+                },
+              },
+            }).then(() => {
+              refetch().then(result => {
+                if (!result.data) return;
+                const { literals, translations } = result.data;
+                const lt: LiteralTranslation[] = createLiteralTranslations(
+                  literals,
+                  translations,
+                );
+                setTranslationsState(lt);
+                setRemoveLiteralModal(false);
+              });
+            });
+          }}
           cancelFunction={() => {
             setRemoveLiteralModal(false);
           }}
