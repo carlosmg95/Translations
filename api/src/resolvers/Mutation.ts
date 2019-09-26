@@ -1,7 +1,7 @@
 import * as simplegit from 'simple-git/promise';
-import * as shell from 'shelljs';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
 import log from '../utils/log';
 import { userIsAdmin, userIsAllowed } from '../utils/getUserData';
 import {
@@ -409,7 +409,9 @@ const Mutation = {
     const path: string = `/tmp/${git_name}`;
     const remote: string = `https://${GIT_USER}:${GIT_PASS}@${git_repo}`;
 
-    shell.rm('-Rf', path);
+    if (fs.existsSync(path)) {
+      fs.rmdirSync(path);
+    }
 
     try {
       await git.clone(remote, path, [
@@ -426,20 +428,14 @@ const Mutation = {
     await git.cwd(path);
 
     languages.forEach(async lang => {
-      shell.exec(
-        `echo '${JSON.stringify(
-          createLangJSON(project, lang.iso),
-          null,
-          2,
-        )}' > ${path}/${git_path}/${lang.iso}.json`,
-      );
+      fs.writeFileSync(`${path}/${git_path}/${lang.iso}.json`, JSON.stringify(createLangJSON(project, lang.iso), null, 2));
       await git.add(`${git_path}/${lang.iso}.json`);
     });
 
     await git.commit(`Adds new ${language ? language.iso : ''} translations`);
     await git.push('origin', git_branch);
 
-    shell.rm('-Rf', path);
+    fs.rmdirSync(path);
 
     return true;
   },
