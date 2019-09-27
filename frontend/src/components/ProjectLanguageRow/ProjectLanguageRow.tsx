@@ -218,6 +218,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
       <div
         className={'projectLanguageRow ' + (props.allowed ? '' : 'disabled')}
       >
+        <div className="main"></div>
         <div className="language-project">
           <LanguageFlag
             key={props.language.id}

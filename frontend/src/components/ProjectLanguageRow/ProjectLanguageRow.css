@@ -5,6 +5,22 @@
   border: 1px solid rgba(3, 84, 55, 0.1);
   display: flex;
   flex-flow: row nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.projectLanguageRow .main {
+  display: none;
+}
+
+.projectLanguageRow:first-of-type .main {
+  background-color: yellow;
+  display: block;
+  height: 30px;
+  left: -100px;
+  position: absolute;
+  transform: rotate(-45deg);
+  width: 250px;
 }
 
 .projectLanguageRow.disabled {
