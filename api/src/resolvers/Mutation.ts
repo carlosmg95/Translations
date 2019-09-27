@@ -44,7 +44,7 @@ const addLiteral = (
             translation,
             literal: {
               literal,
-              as_in: literal,
+              as_in: translation || literal,
               project: { name: projectName },
             },
           },
@@ -132,6 +132,31 @@ const hierarchyJSON = (plainFile: i18n): i18n => {
 };
 
 const Mutation = {
+  async addMainLanguage(parent, { project, main_language }, { prisma, headers }, info) {
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+    const languageExists: boolean = await prisma.exists.Language({
+      id: main_language,
+    });
+
+    if (!projectExists || !languageExists || !userIsAdmin(headers))
+      throwError('The language cannot be added to the project.');
+    else log.mutation('Mutation: addMainLanguage');
+
+    return await prisma.mutation.updateProject(
+      {
+        where: {
+          name: project.name,
+        },
+        data: {
+          main_language
+        },
+      },
+      ProjectResponse,
+    );
+
+  },
   async addLanguageToProject(
     parent,
     { project, language },
@@ -252,6 +277,7 @@ const Mutation = {
       languages: {
         connect: data.languages,
       },
+      main_project: data.languages[0].id,
     };
 
     if (projectExists) throwError('The name cannot be repeated.');

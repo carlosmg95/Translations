@@ -13,35 +13,48 @@ interface AdminOptionsProps {
   languages: Language[];
 }
 
+const createMutation = (
+  mutationName: string,
+  containerItem: 'project' | 'user',
+  contentItem: 'language' | 'user',
+) => {
+  const upperName =
+    mutationName.charAt(0).toUpperCase() + mutationName.slice(1);
+  const upperContentItem =
+    contentItem.charAt(0).toUpperCase() + contentItem.slice(1);
+  const upperContainerItem =
+    containerItem.charAt(0).toUpperCase() + containerItem.slice(1);
+
+  const MUTATION = gql`
+    mutation ${upperName}(
+      $${containerItem}: ${upperContainerItem}WhereUniqueInput!
+      $${contentItem}: ${upperContentItem}WhereUniqueInput!
+    ) {
+      ${mutationName}(${containerItem}: $${containerItem}, ${contentItem}: $${contentItem}) ${
+    containerItem === 'project' ? ProjectResponse : UserResponse
+  }
+    }
+  `;
+
+  return MUTATION;
+};
+
+const ADD_MAIN_LANGUAGE = gql`
+  mutation AddMainLanguage(
+    $project: ProjectWhereUniqueInput!
+    $main_language: String!
+  ) {
+    addMainLanguage(
+      project: $project
+      main_language: $main_language
+    ) ${ProjectResponse}
+  }
+`;
+
 const AdminOptions: React.FC<AdminOptionsProps> = (
   props: AdminOptionsProps,
 ) => {
-  const createMutation = (
-    mutationName: string,
-    containerItem: 'project' | 'user',
-    contentItem: 'language' | 'user',
-  ) => {
-    const upperName =
-      mutationName.charAt(0).toUpperCase() + mutationName.slice(1);
-    const upperContentItem =
-      contentItem.charAt(0).toUpperCase() + contentItem.slice(1);
-    const upperContainerItem =
-      containerItem.charAt(0).toUpperCase() + containerItem.slice(1);
-
-    const MUTATION = gql`
-      mutation ${upperName}(
-        $${containerItem}: ${upperContainerItem}WhereUniqueInput!
-        $${contentItem}: ${upperContentItem}WhereUniqueInput!
-      ) {
-        ${mutationName}(${containerItem}: $${containerItem}, ${contentItem}: $${contentItem}) ${
-      containerItem === 'project' ? ProjectResponse : UserResponse
-    }
-      }
-    `;
-
-    return MUTATION;
-  };
-
+  const [addMainLanguage] = useMutation(ADD_MAIN_LANGUAGE);
   const [addUserToProject] = useMutation(
     createMutation('addUserToProject', 'project', 'user'),
   );
@@ -80,9 +93,6 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                   id: userId,
                 },
               },
-            }).then(result => {
-              /*const project: Project = result.data.addUserToProject;
-              props.updateProject('id', project.id, project);*/
             });
           }}
           addLanguage={(languageId: string) => {
@@ -95,9 +105,6 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                   id: languageId,
                 },
               },
-            }).then(result => {
-              /*const project: Project = result.data.addLanguageToProject;
-              props.updateProject('id', project.id, project);*/
             });
           }}
           removeUser={(userId: string) => {
@@ -110,9 +117,6 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                   id: userId,
                 },
               },
-            }).then(result => {
-              /*const project: Project = result.data.removeUserFromProject;
-              props.updateProject('id', project.id, project);*/
             });
           }}
           removeLanguage={(languageId: string) => {
@@ -125,9 +129,16 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                   id: languageId,
                 },
               },
-            }).then(result => {
-              /*const project: Project = result.data.removeLanguageFromProject;
-              props.updateProject('id', project.id, project);*/
+            });
+          }}
+          selectMainLanguage={(mainLanguageId: string) => {
+            addMainLanguage({
+              variables: {
+                project: {
+                  name: project.name,
+                },
+                main_language: mainLanguageId,
+              },
             });
           }}
         />
@@ -149,9 +160,6 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                   id: languageId,
                 },
               },
-            }).then(result => {
-              /*const user: User = result.data.addLanguageToUser;
-              props.updateUserLanguages(user.languages);*/
             });
           }}
           removeLanguage={(languageId: string) => {
@@ -164,9 +172,6 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                   id: languageId,
                 },
               },
-            }).then(result => {
-              /*const user: User = result.data.removeLanguageFromUser;
-              props.updateUserLanguages(user.languages);*/
             });
           }}
         />

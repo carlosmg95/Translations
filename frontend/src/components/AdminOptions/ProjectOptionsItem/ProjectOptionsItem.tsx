@@ -11,6 +11,7 @@ interface ProjectOptionsItemProps {
   addLanguage?(languageId: string): void;
   removeUser?(userId: string): void;
   removeLanguage?(languageId: string): void;
+  selectMainLanguage?(languageId: string): void;
 }
 
 const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
@@ -43,15 +44,26 @@ const projectOptionsItem: React.FC<ProjectOptionsItemProps> = (
         {props.header
           ? 'Project languages'
           : projectLanguages.map((lang: Language) => (
-              <p
-                key={lang.id}
-                className="item-name"
-                onClick={() => {
-                  props.removeLanguage(lang.id);
-                }}
-              >
-                {lang.name}
-              </p>
+              <div className="lang" key={lang.id}>
+                <input
+                  className="select_main-lang"
+                  type="radio"
+                  checked={props.project.main_language === lang.id}
+                  onChange={() => props.selectMainLanguage(lang.id)}
+                />
+                <p
+                  className={
+                    'item-name' +
+                    (props.project.main_language === lang.id ? ' main' : '')
+                  }
+                  onClick={() => {
+                    if (props.project.main_language !== lang.id)
+                      props.removeLanguage(lang.id);
+                  }}
+                >
+                  {lang.name}
+                </p>
+              </div>
             ))}
       </div>
       <div className="column project-out">

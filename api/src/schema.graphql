@@ -139,6 +139,7 @@ type Query {
 ## MUTATION
 
 type Mutation {
+  addMainLanguage(project: ProjectWhereUniqueInput!, main_language: String!): Project!
   addLanguageToProject(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Project!
   addLanguageToUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   addUserToProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
@@ -192,6 +193,7 @@ type Project {
   languages: [Language!]
   translations: [Translation!]
   literals: [Literal!]
+  main_language: String
 }
 
 type Translation {
