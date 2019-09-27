@@ -140,7 +140,7 @@ const Translate: React.FC<TranslateProps> = (props: TranslateProps) => {
   const addNewLiteral = (createTranslation): void => {
     let { literal, as_in, translation } = newLiteralState;
 
-    as_in = as_in || literal;
+    as_in = as_in || translation || literal;
 
     if (literal && !literal.match(/\s|\//gi)) {
       createTranslation({

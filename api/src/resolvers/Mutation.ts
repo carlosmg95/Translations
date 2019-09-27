@@ -44,7 +44,7 @@ const addLiteral = (
             translation,
             literal: {
               literal,
-              as_in: literal,
+              as_in: translation || literal,
               project: { name: projectName },
             },
           },
