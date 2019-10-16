@@ -45,7 +45,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
     // List of allowed users
     Set<string>,
     Dispatch<SetStateAction<Set<string>>>,
-  ] = useState(new Set());
+  ] = useState(new Set([props.user.id]));
 
   const [languagesState, setLanguagesState]: [
     // List of languages in the project
@@ -181,8 +181,18 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
 
     setErrorMessageState(errorMessage);
 
-    if (errorMessage.languages || errorMessage.users || errorMessage.name)
+    if (
+      errorMessage.languages ||
+      errorMessage.users ||
+      errorMessage.name ||
+      errorMessage.repo ||
+      errorMessage.branch ||
+      errorMessage.path
+    )
       return;
+
+    const users: Set<string> = usersState;
+    users.add(props.user.id);
 
     mutation({
       variables: {
@@ -192,7 +202,7 @@ const NewProject: React.FC<NewProjectProps> = (props: NewProjectProps) => {
           git_repo: repoState,
           git_branch: branchState,
           git_path: pathState,
-          users: Array.from(usersState).map((userId: string) => {
+          users: Array.from(users).map((userId: string) => {
             return { id: userId };
           }),
           languages: Array.from(languagesState).map((languageId: string) => {

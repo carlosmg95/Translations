@@ -2,6 +2,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import './Translations.css';
 import TranslationRow from './TranslationRow/TranslationRow';
 import Loading from '../Loading/Loading';
+import Modal from '../../components/Modal/Modal';
 import Pagination from '../../components/Pagination/Pagination';
 import {
   Filter,
@@ -47,6 +48,30 @@ const Translations: React.FC<TranslationsProps> = (
     Dispatch<SetStateAction<string>>,
   ] = useState(props.searchValue);
 
+  const [removeLiteralModal, setRemoveLiteralModal]: [
+    // If the remove modal is open
+    boolean,
+    Dispatch<SetStateAction<boolean>>,
+  ] = useState(false);
+
+  const [literalToRemoveStatus, setLiteralToRemoveStatus]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const [literalIdToRemoveStatus, setLiteralIdToRemoveStatus]: [
+    string,
+    Dispatch<SetStateAction<string>>,
+  ] = useState('');
+
+  const REMOVE_LITERAL = gql`
+    mutation RemoveLiteral($where: LiteralWhereUniqueInput!) {
+      removeLiteral(where: $where) {
+        id
+      }
+    }
+  `;
+
   const UPSERT_TRANSLATIONS = gql`
     mutation UpsertTranslation(
       $where: TranslationWhereUniqueInput!
@@ -70,6 +95,7 @@ const Translations: React.FC<TranslationsProps> = (
     }
   `;
 
+  const [removeLiteralMutation] = useMutation(REMOVE_LITERAL);
   const [upsert] = useMutation(UPSERT_TRANSLATIONS);
   const [updateLiteralMutation] = useMutation(UPDATE_lITERAL);
 
@@ -286,6 +312,41 @@ const Translations: React.FC<TranslationsProps> = (
 
   return (
     <div className="Translations">
+      {removeLiteralModal ? (
+        <Modal
+          acceptButtonText="Remove"
+          title="Remove literal"
+          acceptFunction={() => {
+            removeLiteralMutation({
+              variables: {
+                where: {
+                  id: literalIdToRemoveStatus,
+                },
+              },
+            }).then(() => {
+              refetch().then(result => {
+                if (!result.data) return;
+                const { literals, translations } = result.data;
+                const lt: LiteralTranslation[] = createLiteralTranslations(
+                  literals,
+                  translations,
+                );
+                setTranslationsState(lt);
+                setRemoveLiteralModal(false);
+              });
+            });
+          }}
+          cancelFunction={() => {
+            setRemoveLiteralModal(false);
+          }}
+        >
+          <p>
+            Are you sure you want to remove "{literalToRemoveStatus}" literal?
+          </p>
+        </Modal>
+      ) : (
+        <></>
+      )}
       <div className="filter">
         <input
           value={searchInputState}
@@ -367,6 +428,11 @@ const Translations: React.FC<TranslationsProps> = (
           }}
           saveLiterals={(literalId: string, as_in: string) => {
             updateLiteral(literalId, as_in);
+          }}
+          removeLiteral={(literalId, literal) => {
+            setLiteralIdToRemoveStatus(literalId);
+            setLiteralToRemoveStatus(literal);
+            setRemoveLiteralModal(true);
           }}
           user={props.user}
         />

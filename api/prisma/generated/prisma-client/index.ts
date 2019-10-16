@@ -289,7 +289,9 @@ export type ProjectOrderByInput =
   | "git_branch_ASC"
   | "git_branch_DESC"
   | "git_path_ASC"
-  | "git_path_DESC";
+  | "git_path_DESC"
+  | "main_language_ASC"
+  | "main_language_DESC";
 
 export type LanguageOrderByInput =
   | "id_ASC"
@@ -531,6 +533,20 @@ export interface ProjectWhereInput {
   literals_every?: Maybe<LiteralWhereInput>;
   literals_some?: Maybe<LiteralWhereInput>;
   literals_none?: Maybe<LiteralWhereInput>;
+  main_language?: Maybe<String>;
+  main_language_not?: Maybe<String>;
+  main_language_in?: Maybe<String[] | String>;
+  main_language_not_in?: Maybe<String[] | String>;
+  main_language_lt?: Maybe<String>;
+  main_language_lte?: Maybe<String>;
+  main_language_gt?: Maybe<String>;
+  main_language_gte?: Maybe<String>;
+  main_language_contains?: Maybe<String>;
+  main_language_not_contains?: Maybe<String>;
+  main_language_starts_with?: Maybe<String>;
+  main_language_not_starts_with?: Maybe<String>;
+  main_language_ends_with?: Maybe<String>;
+  main_language_not_ends_with?: Maybe<String>;
   AND?: Maybe<ProjectWhereInput[] | ProjectWhereInput>;
   OR?: Maybe<ProjectWhereInput[] | ProjectWhereInput>;
   NOT?: Maybe<ProjectWhereInput[] | ProjectWhereInput>;
@@ -717,6 +733,7 @@ export interface ProjectUpdateWithoutLiteralsDataInput {
   users?: Maybe<UserUpdateManyWithoutProjectsInput>;
   languages?: Maybe<LanguageUpdateManyInput>;
   translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface LanguageSubscriptionWhereInput {
@@ -762,6 +779,7 @@ export interface ProjectUpdateManyDataInput {
   git_name?: Maybe<String>;
   git_branch?: Maybe<String>;
   git_path?: Maybe<String>;
+  main_language?: Maybe<String>;
 }
 
 export interface UserUpdateWithWhereUniqueWithoutProjectsInput {
@@ -817,6 +835,7 @@ export interface ProjectUpdateWithoutUsersDataInput {
   languages?: Maybe<LanguageUpdateManyInput>;
   translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
   literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface LanguageUpdateWithWhereUniqueNestedInput {
@@ -980,6 +999,7 @@ export interface ProjectUpdateManyMutationInput {
   git_name?: Maybe<String>;
   git_branch?: Maybe<String>;
   git_path?: Maybe<String>;
+  main_language?: Maybe<String>;
 }
 
 export interface TranslationCreateWithoutLanguageInput {
@@ -999,6 +1019,7 @@ export interface ProjectUpdateInput {
   languages?: Maybe<LanguageUpdateManyInput>;
   translations?: Maybe<TranslationUpdateManyWithoutProjectInput>;
   literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface LiteralCreateWithoutTranslationsInput {
@@ -1019,6 +1040,7 @@ export interface ProjectCreateInput {
   languages?: Maybe<LanguageCreateManyInput>;
   translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
   literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface ProjectCreateWithoutLiteralsInput {
@@ -1031,6 +1053,7 @@ export interface ProjectCreateWithoutLiteralsInput {
   users?: Maybe<UserCreateManyWithoutProjectsInput>;
   languages?: Maybe<LanguageCreateManyInput>;
   translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface UserUpdateManyDataInput {
@@ -1332,6 +1355,20 @@ export interface ProjectScalarWhereInput {
   git_path_not_starts_with?: Maybe<String>;
   git_path_ends_with?: Maybe<String>;
   git_path_not_ends_with?: Maybe<String>;
+  main_language?: Maybe<String>;
+  main_language_not?: Maybe<String>;
+  main_language_in?: Maybe<String[] | String>;
+  main_language_not_in?: Maybe<String[] | String>;
+  main_language_lt?: Maybe<String>;
+  main_language_lte?: Maybe<String>;
+  main_language_gt?: Maybe<String>;
+  main_language_gte?: Maybe<String>;
+  main_language_contains?: Maybe<String>;
+  main_language_not_contains?: Maybe<String>;
+  main_language_starts_with?: Maybe<String>;
+  main_language_not_starts_with?: Maybe<String>;
+  main_language_ends_with?: Maybe<String>;
+  main_language_not_ends_with?: Maybe<String>;
   AND?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
   OR?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
   NOT?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
@@ -1362,6 +1399,7 @@ export interface ProjectCreateWithoutUsersInput {
   languages?: Maybe<LanguageCreateManyInput>;
   translations?: Maybe<TranslationCreateManyWithoutProjectInput>;
   literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface ProjectUpdateOneRequiredWithoutTranslationsInput {
@@ -1384,6 +1422,7 @@ export interface ProjectUpdateWithoutTranslationsDataInput {
   users?: Maybe<UserUpdateManyWithoutProjectsInput>;
   languages?: Maybe<LanguageUpdateManyInput>;
   literals?: Maybe<LiteralUpdateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface TranslationCreateManyWithoutLanguageInput {
@@ -1700,6 +1739,7 @@ export interface ProjectCreateWithoutTranslationsInput {
   users?: Maybe<UserCreateManyWithoutProjectsInput>;
   languages?: Maybe<LanguageCreateManyInput>;
   literals?: Maybe<LiteralCreateManyWithoutProjectInput>;
+  main_language?: Maybe<String>;
 }
 
 export interface NodeNode {
@@ -1953,6 +1993,7 @@ export interface Project {
   git_name: String;
   git_branch: String;
   git_path: String;
+  main_language?: String;
 }
 
 export interface ProjectPromise extends Promise<Project>, Fragmentable {
@@ -1998,6 +2039,7 @@ export interface ProjectPromise extends Promise<Project>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  main_language: () => Promise<String>;
 }
 
 export interface ProjectSubscription
@@ -2045,6 +2087,7 @@ export interface ProjectSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  main_language: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProjectNullablePromise
@@ -2092,6 +2135,7 @@ export interface ProjectNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  main_language: () => Promise<String>;
 }
 
 export interface UserEdge {
@@ -2469,6 +2513,7 @@ export interface ProjectPreviousValues {
   git_name: String;
   git_branch: String;
   git_path: String;
+  main_language?: String;
 }
 
 export interface ProjectPreviousValuesPromise
@@ -2480,6 +2525,7 @@ export interface ProjectPreviousValuesPromise
   git_name: () => Promise<String>;
   git_branch: () => Promise<String>;
   git_path: () => Promise<String>;
+  main_language: () => Promise<String>;
 }
 
 export interface ProjectPreviousValuesSubscription
@@ -2491,6 +2537,7 @@ export interface ProjectPreviousValuesSubscription
   git_name: () => Promise<AsyncIterator<String>>;
   git_branch: () => Promise<AsyncIterator<String>>;
   git_path: () => Promise<AsyncIterator<String>>;
+  main_language: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProjectSubscriptionPayload {

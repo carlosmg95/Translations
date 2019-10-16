@@ -630,6 +630,7 @@ type Project {
   languages(where: LanguageWhereInput, orderBy: LanguageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Language!]
   translations(where: TranslationWhereInput, orderBy: TranslationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Translation!]
   literals(where: LiteralWhereInput, orderBy: LiteralOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Literal!]
+  main_language: String
 }
 
 type ProjectConnection {
@@ -649,6 +650,7 @@ input ProjectCreateInput {
   languages: LanguageCreateManyInput
   translations: TranslationCreateManyWithoutProjectInput
   literals: LiteralCreateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectCreateManyWithoutUsersInput {
@@ -676,6 +678,7 @@ input ProjectCreateWithoutLiteralsInput {
   users: UserCreateManyWithoutProjectsInput
   languages: LanguageCreateManyInput
   translations: TranslationCreateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectCreateWithoutTranslationsInput {
@@ -688,6 +691,7 @@ input ProjectCreateWithoutTranslationsInput {
   users: UserCreateManyWithoutProjectsInput
   languages: LanguageCreateManyInput
   literals: LiteralCreateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectCreateWithoutUsersInput {
@@ -700,6 +704,7 @@ input ProjectCreateWithoutUsersInput {
   languages: LanguageCreateManyInput
   translations: TranslationCreateManyWithoutProjectInput
   literals: LiteralCreateManyWithoutProjectInput
+  main_language: String
 }
 
 type ProjectEdge {
@@ -720,6 +725,8 @@ enum ProjectOrderByInput {
   git_branch_DESC
   git_path_ASC
   git_path_DESC
+  main_language_ASC
+  main_language_DESC
 }
 
 type ProjectPreviousValues {
@@ -729,6 +736,7 @@ type ProjectPreviousValues {
   git_name: String!
   git_branch: String!
   git_path: String!
+  main_language: String
 }
 
 input ProjectScalarWhereInput {
@@ -816,6 +824,20 @@ input ProjectScalarWhereInput {
   git_path_not_starts_with: String
   git_path_ends_with: String
   git_path_not_ends_with: String
+  main_language: String
+  main_language_not: String
+  main_language_in: [String!]
+  main_language_not_in: [String!]
+  main_language_lt: String
+  main_language_lte: String
+  main_language_gt: String
+  main_language_gte: String
+  main_language_contains: String
+  main_language_not_contains: String
+  main_language_starts_with: String
+  main_language_not_starts_with: String
+  main_language_ends_with: String
+  main_language_not_ends_with: String
   AND: [ProjectScalarWhereInput!]
   OR: [ProjectScalarWhereInput!]
   NOT: [ProjectScalarWhereInput!]
@@ -849,6 +871,7 @@ input ProjectUpdateInput {
   languages: LanguageUpdateManyInput
   translations: TranslationUpdateManyWithoutProjectInput
   literals: LiteralUpdateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectUpdateManyDataInput {
@@ -857,6 +880,7 @@ input ProjectUpdateManyDataInput {
   git_name: String
   git_branch: String
   git_path: String
+  main_language: String
 }
 
 input ProjectUpdateManyMutationInput {
@@ -865,6 +889,7 @@ input ProjectUpdateManyMutationInput {
   git_name: String
   git_branch: String
   git_path: String
+  main_language: String
 }
 
 input ProjectUpdateManyWithoutUsersInput {
@@ -907,6 +932,7 @@ input ProjectUpdateWithoutLiteralsDataInput {
   users: UserUpdateManyWithoutProjectsInput
   languages: LanguageUpdateManyInput
   translations: TranslationUpdateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectUpdateWithoutTranslationsDataInput {
@@ -918,6 +944,7 @@ input ProjectUpdateWithoutTranslationsDataInput {
   users: UserUpdateManyWithoutProjectsInput
   languages: LanguageUpdateManyInput
   literals: LiteralUpdateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectUpdateWithoutUsersDataInput {
@@ -929,6 +956,7 @@ input ProjectUpdateWithoutUsersDataInput {
   languages: LanguageUpdateManyInput
   translations: TranslationUpdateManyWithoutProjectInput
   literals: LiteralUpdateManyWithoutProjectInput
+  main_language: String
 }
 
 input ProjectUpdateWithWhereUniqueWithoutUsersInput {
@@ -1049,6 +1077,20 @@ input ProjectWhereInput {
   literals_every: LiteralWhereInput
   literals_some: LiteralWhereInput
   literals_none: LiteralWhereInput
+  main_language: String
+  main_language_not: String
+  main_language_in: [String!]
+  main_language_not_in: [String!]
+  main_language_lt: String
+  main_language_lte: String
+  main_language_gt: String
+  main_language_gte: String
+  main_language_contains: String
+  main_language_not_contains: String
+  main_language_starts_with: String
+  main_language_not_starts_with: String
+  main_language_ends_with: String
+  main_language_not_ends_with: String
   AND: [ProjectWhereInput!]
   OR: [ProjectWhereInput!]
   NOT: [ProjectWhereInput!]

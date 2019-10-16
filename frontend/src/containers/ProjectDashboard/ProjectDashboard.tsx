@@ -104,31 +104,36 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
           ) : (
             ''
           )}
-          {project.languages.map((language: Language) => {
-            const allowed: boolean =
-              props.user.languages
-                .map((lang: Language) => lang.id)
-                .indexOf(language.id) !== -1;
-            return (
-              <ProjectLanguageRow
-                key={language.id}
-                user={props.user}
-                language={language}
-                project={project}
-                allowed={allowed}
-                pushFunction={pushTranslations}
-                updateAllLanguages={() => {
-                  setBlockedState(true);
-                  setUpdateState(true);
-                  refetch().then(() => {
-                    setBlockedState(false);
-                    setUpdateState(false);
-                  });
-                }}
-                update={updateState}
-              />
-            );
-          })}
+          {project.languages
+            .sort((prev: Language, curr: Language) => {
+              if (curr.id === project.main_language) return 1;
+              return 0;
+            })
+            .map((language: Language) => {
+              const allowed: boolean =
+                props.user.languages
+                  .map((lang: Language) => lang.id)
+                  .indexOf(language.id) !== -1;
+              return (
+                <ProjectLanguageRow
+                  key={language.id}
+                  user={props.user}
+                  language={language}
+                  project={project}
+                  allowed={allowed}
+                  pushFunction={pushTranslations}
+                  updateAllLanguages={() => {
+                    setBlockedState(true);
+                    setUpdateState(true);
+                    refetch().then(() => {
+                      setBlockedState(false);
+                      setUpdateState(false);
+                    });
+                  }}
+                  update={updateState}
+                />
+              );
+            })}
         </>
       </DashboardBody>
     </Dashboard>

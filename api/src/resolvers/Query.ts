@@ -1,5 +1,5 @@
-import * as jwt from 'jsonwebtoken';
 import log from '../utils/log';
+import { getUserId } from '../utils/getUserData';
 
 const LITERAL_PER_PAGE: number = 10;
 
@@ -66,12 +66,9 @@ const Query = {
     return prisma.query.literals(args, info);
   },
   async loggedUser(parent, data, { prisma, headers }, info) {
-    const token: string = headers.authorization.replace('Bearer ', '');
-    let id;
-    if (token) id = await jwt.verify(token, process.env.TOKEN_SECRET);
-    id = id ? id.id : '0';
-
     log.query('Query: loggedUser');
+
+    const id: string = getUserId(headers);
 
     return prisma.query.user({ where: { id } }, info);
   },
