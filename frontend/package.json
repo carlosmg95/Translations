@@ -9,6 +9,7 @@
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "apollo-boost": "^0.4.4",
+    "env-cmd": "^10.0.1",
     "graphql": "^14.4.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -21,6 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:local": "env-cmd -f ../config/.env.development npm run start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
