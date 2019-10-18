@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc src/*.ts && babel-node src/index.js 2> /dev/null",
+    "start": "tsc src/*.ts && babel-node src/index.js",
     "start:dev": "prisma deploy -e ../config/.env.development && env-cmd -f ../config/.env.development nodemon src/index.ts --exec 'tsc src/*.ts && babel-node src/index.js 2> /dev/null'",
     "start:show-errors": "prisma deploy -e ../config/.env.development && env-cmd -f ../config/.env.development nodemon src/index.ts --exec 'tsc src/*.ts && babel-node src/index.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
