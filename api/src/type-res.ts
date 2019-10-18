@@ -20,6 +20,7 @@ export const ProjectResponse = `
   git_name
   git_branch
   git_path
+  main_language
   languages {
     id
     iso

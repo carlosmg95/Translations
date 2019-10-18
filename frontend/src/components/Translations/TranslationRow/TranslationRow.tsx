@@ -17,6 +17,7 @@ interface TranslationRowProps {
     translationText: string,
   ): void;
   saveLiterals(literalId: string, as_in: string): void;
+  removeLiteral(literalId: string, literal: string): void;
 }
 
 const translationRow: React.FC<TranslationRowProps> = (
@@ -24,6 +25,18 @@ const translationRow: React.FC<TranslationRowProps> = (
 ) => {
   return (
     <div className="translation-row">
+      {props.user.admin ? (
+        <p
+          className="delete-btn"
+          onClick={() => {
+            props.removeLiteral(props.literalId, props.literal);
+          }}
+        >
+          X
+        </p>
+      ) : (
+        <></>
+      )}
       <p className="translation-row__item literal">{props.literal}</p>
       <p className="translation-row__item as-in">
         {props.user.admin ? (

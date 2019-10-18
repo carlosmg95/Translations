@@ -17,6 +17,7 @@ export type Project = {
   languages: Language[];
   translations: Translation[];
   literals: Literal[];
+  main_language?: String;
 };
 
 export type Language = {

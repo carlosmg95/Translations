@@ -18,6 +18,7 @@ type Project {
   languages: [Language!]! @relation(name: "LanguageToProject", onDelete: SET_NULL)
   translations: [Translation!]! @relation(name: "TranslationToProject", onDelete: CASCADE)
   literals: [Literal!]! @relation(name: "LiteralToProject", onDelete: CASCADE)
+  main_language: String
 }
 
 type Language {
