@@ -1,35 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import './index.css';
-import App from './containers/App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import App from "./containers/App";
+import * as serviceWorker from "./serviceWorker";
 
-import { ApolloProvider } from '@apollo/react-hooks';
-import ApolloClient, { gql } from 'apollo-boost';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from "@apollo/react-hooks";
+import ApolloClient, { gql } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
 
-import { User } from './types';
-import { UserResponse } from './types-res';
+import { User } from "./types";
+import { UserResponse } from "./types-res";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_ENDPOINT,
   cache: new InMemoryCache(),
-  request: (operation) => {
-    const token = window.localStorage.getItem('authToken')
+  request: operation => {
+    const token = window.localStorage.getItem("authToken");
     operation.setContext({
       headers: {
-        authorization: token ? `Bearer ${token}` : ''
+        authorization: token ? `Bearer ${token}` : ""
       }
-    })
+    });
   }
 });
 
-console.log(process.env)
+console.log(`Endpoint: ${process.env.REACT_APP_API_ENDPOINT}`);
 
 client
   .query({
-    query: gql`{ loggedUser ${UserResponse} }`,
+    query: gql`{ loggedUser ${UserResponse} }`
   })
   .then(response => {
     let user: User = response.data.loggedUser;
@@ -40,7 +40,7 @@ client
           <App user={user} />
         </BrowserRouter>
       </ApolloProvider>,
-      document.getElementById('root'),
+      document.getElementById("root")
     );
 
     // If you want your app to work offline and load faster, you can change
