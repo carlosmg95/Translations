@@ -1,11 +1,11 @@
 FROM node:10.15.3 as node
 
 RUN mkdir -p /usr/src/app
-RUN mkdir -p /usr/src/app/src
 WORKDIR /usr/src/app
 
+COPY . ./
 
-RUN npm install --yes
+RUN npm install --yes  --production
 RUN npm install -g \
   prisma \
   typescript
