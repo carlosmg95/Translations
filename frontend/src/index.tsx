@@ -12,6 +12,8 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { User } from "./types";
 import { UserResponse } from "./types-res";
 
+console.log(`Endpoint: ${process.env.REACT_APP_API_ENDPOINT}`);
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_ENDPOINT,
   cache: new InMemoryCache(),
@@ -24,8 +26,6 @@ const client = new ApolloClient({
     });
   }
 });
-
-console.log(`Endpoint: ${process.env.REACT_APP_API_ENDPOINT}`);
 
 client
   .query({
