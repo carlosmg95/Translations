@@ -1,13 +1,16 @@
-FROM node
+FROM node:10.15.3 as node
 
-COPY . ./translations-frontend
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/src
+WORKDIR /usr/src/app
 
-WORKDIR translations-frontend
+COPY . ./
 
-RUN npm install
-RUN npm install -g serve
+RUN npm install --production
 RUN npm run build
+
+RUN chmod +x /usr/src/app/docker-entrypoint.sh
 
 EXPOSE 5000
 
-CMD serve -s build
+ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
