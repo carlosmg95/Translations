@@ -1,14 +1,15 @@
-FROM node
+FROM node:10.15.3 as node
 
-COPY . ./translations-api
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/src
+WORKDIR /usr/src/app
 
-WORKDIR translations-api
 
-RUN npm install
+RUN npm install --yes
 RUN npm install -g \
   prisma \
   typescript
 
 EXPOSE 4000
 
-CMD npm start
+ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
