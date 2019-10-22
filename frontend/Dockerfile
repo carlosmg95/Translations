@@ -14,7 +14,7 @@ FROM nginx:1.13
 
 COPY --from=node /usr/src/app/frontend/public/ /usr/share/nginx/html
 COPY /packages/frontend/nginx-config.conf /etc/nginx/conf.d/default.conf
-
-CMD /bin/bash -c "nginx -g 'daemon off;'"
+EXPOSE 80
+CMD 
 
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
