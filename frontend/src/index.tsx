@@ -25,6 +25,8 @@ const client = new ApolloClient({
   }
 });
 
+console.log(process.env)
+
 client
   .query({
     query: gql`{ loggedUser ${UserResponse} }`,
