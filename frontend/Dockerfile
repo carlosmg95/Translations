@@ -9,11 +9,11 @@ ENV NODE_ENV=production
 
 RUN npm install -g serve
 RUN npm install --production
+ENV REACT_APP_API_ENDPOINT=http://translations-api.bitbloq.cc
 RUN npm run build
 
 EXPOSE 5000
 
-RUN ls
 RUN chmod +x /usr/src/app/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
