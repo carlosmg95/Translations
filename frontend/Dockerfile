@@ -13,4 +13,6 @@ RUN npm run build
 
 EXPOSE 5000
 
+RUN chmod a+x /usr/src/app/docker-entrypoint.sh
+
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
