@@ -90,6 +90,7 @@ input ProjectCreateInput {
   languages: [LanguageWhereUniqueInput!]
   translations: [TranslationWhereUniqueInput!]
   literals: [LiteralWhereUniqueInput!]
+  main_language: String
 }
 
 input UserCreateInput {
