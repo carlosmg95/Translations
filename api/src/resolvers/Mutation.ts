@@ -277,7 +277,7 @@ const Mutation = {
       languages: {
         connect: data.languages,
       },
-      main_project: data.languages[0].id,
+      main_language: data.languages[0].id,
     };
 
     if (projectExists) throwError('The name cannot be repeated.');
