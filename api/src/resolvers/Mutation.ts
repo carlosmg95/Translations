@@ -444,7 +444,7 @@ const Mutation = {
       await git.clone(remote, path, [
         '--single-branch',
         '--branch',
-        'pruebaPush',
+        git_branch,
       ]);
     } catch (e) {
       throwError('Clone error');
