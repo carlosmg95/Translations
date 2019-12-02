@@ -147,6 +147,7 @@ type Mutation {
   createProject(data: ProjectCreateInput!): Project!
   createUser(data: UserCreateInput!): User!
   createLiteralTranslation(data: TranslationCreateInput!): Translation!
+  downloadJSON(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput): String
   importLiterals(data: [I18nCreateInput!]!, overwrite: Boolean, project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput!): Boolean
   login(username: String!, password: String!): String!
   pushTranslations(project: ProjectWhereUniqueInput!, language: LanguageWhereUniqueInput): Boolean

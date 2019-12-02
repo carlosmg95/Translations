@@ -353,6 +353,30 @@ const Mutation = {
       TranslationResponse,
     );
   },
+  async downloadJSON(
+    parent,
+    { project, language },
+    { prisma, headers },
+    info,
+  ) {
+    if (!userIsAdmin(headers)) {
+      throwError('You have to be an admin user.');
+    }
+
+    const projectExists: boolean = await prisma.exists.Project({
+      name: project.name,
+    });
+
+    if (!projectExists) throwError("The project doesn't exist.");
+    else log.mutation('Mutation: pushTranslations');
+
+    project = await prisma.query.project(
+      { where: { name: project.name } },
+      ProjectResponse,
+    );
+
+    return JSON.stringify(createLangJSON(project, language.iso));
+  },
   async importLiterals(
     parent,
     { data, overwrite, project, language },
