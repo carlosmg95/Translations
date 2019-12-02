@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useRef, useState, Dispatch, SetStateAction } from 'react';
 import HashLoader from 'react-spinners/HashLoader';
 import { Link } from 'react-router-dom';
 import './ProjectLanguageRow.css';
@@ -24,6 +24,7 @@ interface ProjectLanguageRowProps {
 const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
   props: ProjectLanguageRowProps,
 ) => {
+  const buttonRef = useRef<HTMLAnchorElement | null>(null);
   const [uploadFileState, setUploadFileState]: [
     // If the modal is open
     boolean,
@@ -47,6 +48,15 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
     boolean,
     Dispatch<SetStateAction<boolean>>,
   ] = useState(false);
+
+  const DOWNLOAD_JSON = gql`
+    mutation DownloadJSON(
+      $project: ProjectWhereUniqueInput!
+      $language: LanguageWhereUniqueInput
+    ) {
+      downloadJSON(project: $project, language: $language)
+    }
+  `;
 
   const PUSH_TRANSLATIONS = gql`
     mutation PushTranslations(
@@ -109,6 +119,7 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
 
   const [push] = useMutation(PUSH_TRANSLATIONS);
   const [addLiterals] = useMutation(IMPORT_NEW_LITERALS);
+  const [downloadJSON] = useMutation(DOWNLOAD_JSON);
   const { data, error, loading, refetch } = useQuery(GET_DATA, {
     fetchPolicy: 'network-only',
   });
@@ -243,6 +254,32 @@ const ProjectLanguageRow: React.FC<ProjectLanguageRowProps> = (
         </div>
         {props.user.admin ? (
           <>
+            <div className="download-json">
+              <a
+                download={`${props.language.iso}.json`}
+                ref={buttonRef}
+                style={{ display: "none" }}
+              />
+              <PillButton
+                text="Download JSON"
+                disabled={!props.allowed}
+                onClick={() => {
+                  downloadJSON({
+                    variables: {
+                      project: { name: props.project.name },
+                      language: { iso: props.language.iso },
+                    }
+                  }).then(result => {
+                    const { downloadJSON } = result.data;
+                    const dataStr = `data:text/json;charset=utf-8,${
+                      JSON.stringify(JSON.parse(downloadJSON), null, 2)
+                    }`;
+                    buttonRef.current.href = dataStr;
+                    buttonRef.current.click();
+                  });
+                }}
+              />
+            </div>
             <div className="import-json">
               <PillButton
                 text="Import JSON"
