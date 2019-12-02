@@ -51,6 +51,18 @@ const ADD_MAIN_LANGUAGE = gql`
   }
 `;
 
+const SET_ADMIN_USER = gql`
+  mutation SetAdminUser(
+    $admin: Boolean!
+    $userId: String!
+  ) {
+    setAdminUser(
+      admin: $admin
+      userId: $userId
+    ) ${UserResponse}
+  }
+`;
+
 const AdminOptions: React.FC<AdminOptionsProps> = (
   props: AdminOptionsProps,
 ) => {
@@ -73,6 +85,7 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
   const [removeLanguageFromUser] = useMutation(
     createMutation('removeLanguageFromUser', 'user', 'language'),
   );
+  const [setAdminUser] = useMutation(SET_ADMIN_USER);
 
   return (
     <div className="AdminOptions">
@@ -173,6 +186,14 @@ const AdminOptions: React.FC<AdminOptionsProps> = (
                 },
               },
             });
+          }}
+          setAdmin={(userId: string, admin: boolean) => {
+            setAdminUser({
+              variables: {
+                admin,
+                userId
+              }
+            })
           }}
         />
       ))}

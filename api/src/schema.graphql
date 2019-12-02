@@ -154,6 +154,7 @@ type Mutation {
   removeLanguageFromUser(user: UserWhereUniqueInput!, language: LanguageWhereUniqueInput!): User!
   removeLiteral(where: LiteralWhereUniqueInput!): Literal!
   removeUserFromProject(project: ProjectWhereUniqueInput!, user: UserWhereUniqueInput!): Project!
+  setAdminUser(admin: Boolean!, userId: String!): User!
   upsertTranslation(where: TranslationWhereUniqueInput!, create: TranslationCreateInput!, update: TranslationUpdateInput!): Translation!
   updateLiteral(where: LiteralWhereUniqueInput!, data: LiteralUpdateInput!): Literal!
 }
