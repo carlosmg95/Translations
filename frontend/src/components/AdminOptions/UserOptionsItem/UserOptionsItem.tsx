@@ -8,6 +8,7 @@ interface UserOptionsItemProps {
   header?: boolean;
   addLanguage?(languageId: string): void;
   removeLanguage?(languageId: string): void;
+  setAdmin?(userId: string, admin: boolean);
 }
 
 const userOptionsItem: React.FC<UserOptionsItemProps> = (
@@ -27,7 +28,24 @@ const userOptionsItem: React.FC<UserOptionsItemProps> = (
   return (
     <div className={'UserOptionsItem' + (props.header ? ' header' : '')}>
       <div className="column">
-        {props.header ? 'User name' : <h2>{props.user.name}</h2>}
+        {props.header
+          ? (
+            'User name'
+          ) : ( 
+            <>
+              <h2>{props.user.name}</h2>
+              <p>Admin:
+                <input
+                  className="select_set-admin"
+                  type="checkbox"
+                  checked={props.user.admin as boolean}
+                  onChange={() => {
+                    props.setAdmin(props.user.id, !props.user.admin);
+                  }}
+                />
+              </p>
+            </>
+          )}
       </div>
       <div className="column project-in">
         {props.header

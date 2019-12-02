@@ -589,6 +589,31 @@ const Mutation = {
       ProjectResponse,
     );
   },
+  async setAdminUser(
+    parent,
+    { userId, admin },
+    { prisma, headers },
+    info
+  ) {
+    const userExists: boolean = await prisma.exists.User({
+      id: userId,
+    });
+    if (!userExists && !userIsAdmin(headers))
+      throwError('The user can be admin.');
+    else log.mutation('Mutation: setAdminUser');
+
+    return await prisma.mutation.updateUser(
+      {
+        where: {
+          id: userId,
+        },
+        data: {
+          admin
+        },
+      },
+      UserResponse,
+    );
+  },
   async upsertTranslation(
     parent,
     { where, create, update },
