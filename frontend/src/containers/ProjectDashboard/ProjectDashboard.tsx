@@ -70,6 +70,11 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
     return <ErrorMessage code={401} message="You shouldn't be here!" />;
   }
 
+  const orderedProjects = [
+    project.languages.find(lang => lang.id === project.main_language),
+    ...project.languages.filter(lang => lang.id !== project.main_language)
+  ]
+
   return (
     <Dashboard>
       <DashboardHeader
@@ -104,11 +109,7 @@ const ProjectDashboard: React.FC<ProjectDashboardProps> = (
           ) : (
             ''
           )}
-          {project.languages
-            .sort((prev: Language, curr: Language) => {
-              if (curr.id === project.main_language) return 1;
-              return 0;
-            })
+          {orderedProjects
             .map((language: Language) => {
               const allowed: boolean =
                 props.user.languages
