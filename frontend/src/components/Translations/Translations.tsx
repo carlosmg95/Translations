@@ -260,8 +260,7 @@ const Translations: React.FC<TranslationsProps> = (
       ? originalTranslation.translation
       : '';
     if (
-      translationText && // If there is text
-      translationText !== originalTranslationText // and the text is different to the saved data
+      translationText !== originalTranslationText // if the text is different to the saved data
     ) {
       upsert({
         variables: {
